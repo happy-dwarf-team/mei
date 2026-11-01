@@ -6,8 +6,9 @@ by VulonLok (MIT) from its EU4DLL-style `VERSION.dll` loader to Anvil, so that C
 Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)).
 
-**Status: draft, not built yet.** Nothing here has been compiled or run; see
-[State](#state). Not affiliated with Paradox Interactive.
+**Status: draft, not usable yet.** It builds and its unit tests pass, but in the game the
+ported search makes the province finder worse, so `search` is off by default (see
+[State](#state)). Not affiliated with Paradox Interactive.
 
 ## Where it lives and why
 
@@ -62,16 +63,42 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
 | `symbols.toml` with all 286 symbols | `anvil check --exe` OK |
-| Search: 2 hooks, 19 byte patches | written, **not compiled** |
-| The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML) and `tests/port_tests.cpp` | wired in `CMakeLists.txt`, **not run** |
-| In-game test | not done |
+| Search: 2 hooks, 19 byte patches | builds; `anvil check` of the built plugin folder OK |
+| The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML) and `tests/port_tests.cpp` | `ctest` 9/9 (Release, MSVC 2022) |
+| In-game test (1.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | **search regresses**, see below |
 | The rest of the original (localisation import and lexer, fonts and atlases, layout blocks, map labels, editor and IME, dates, Rich Presence, save names) | not started |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
-The build is the next step: it compiles the original's sources from `upstream/` and runs
-its pinyin table generator (`upstream/tools/generate-pinyin-data.py`). The agent that
-wrote this draft was not allowed to build or run third-party code on the lab machine, so
-it stopped before the build.
+### In-game test of the search
+
+The province finder (`minimap_panel/button_goto`, "Exact matches only" off), the same queries
+with and without the plugin; screenshots and `anvil.log` in the EU4 engine lab:
+
+| Query | Without the plugin (top of the list) | With the plugin |
+| --- | --- | --- |
+| `ostergotland` | Östergötland, Gotland, Easter Island, Shetland, Östra Götaland | Gotland, Easter Island, Shetland, Ingermanland…: no Östergötland or Östra Götaland in the first 8 |
+| `MOSKV` | Moskva, Mosul, Moshi | Tukholma, Kalmar, Tammerfors…: no Moskva in the first 8 |
+| `MOSKV`, hooks only (the 19 NOPs left out) | — | Tukholma, Kalmar, Värmland…: the same |
+
+What the diagnosis found:
+
+- The plugin loads (286 symbols verified, 21 changes) and both detours run. The province
+  finder calls `find_province_distance` from `0x1142192` and `0x11421B2`, and
+  `find_country_name` from `0x11420E2`, the callers the original changes, so
+  `_ReturnAddress()` under Anvil gives the game's call site.
+- The original's distance is right for what it gets (`'Michoacan' 'M'`: 1, the game 8).
+- `find_country_name(0x11420E2, 'Moskva', 'MOSKV')` reaches the original's matching, but
+  `find_province_distance` is then never called for Moskva with that query. The list is
+  decided between the two calls.
+- With the NOPs left out the result is the same, so the NOPs alone do not cause it.
+
+Open: why a name the original's matching accepts drops out of the finder. Next: read the
+caller around `0x11420E2` in Ghidra (what it does with the find's result: the original
+returns 0 or `UINT64_MAX` and assumes the caller tests only found/not found), and run the
+original patch itself on the same save for comparison.
+
+The original's code is built as C++17, as in its own build (`u8""` literals are `char`
+there); the plugin itself is C++20.
 
 ## Build
 
