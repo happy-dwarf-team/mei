@@ -71,6 +71,10 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 
 ### In-game test of the search
 
+Preliminary: the PC's monitor was asleep during these runs, in which the game draws slowly
+and may drop input; input did arrive (typed text and changing lists are on the screenshots),
+but the runs have to be repeated with the monitor on.
+
 The province finder (`minimap_panel/button_goto`, "Exact matches only" off), the same queries
 with and without the plugin; screenshots and `anvil.log` in the EU4 engine lab:
 
