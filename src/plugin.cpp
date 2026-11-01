@@ -85,7 +85,7 @@ struct UnicodePatch : anvil::Plugin {
     void load_search(anvil::Host& host) {
         try {
             const bool custom = eu4unicode::load_search_resources(host.plugin_dir());
-            host.info(custom ? "custom pinyin dictionary loaded (pinyin.txt)" : "built-in pinyin dictionary");
+            host.info("{}", custom ? "custom pinyin dictionary loaded (pinyin.txt)" : "built-in pinyin dictionary");
         } catch (const std::exception& e) {
             host.warn("pinyin.txt not read, the built-in dictionary is used: {}", e.what());
         }

@@ -47,8 +47,9 @@ target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE 
 add_library(legacy_text STATIC ${UPSTREAM}/src/legacy_text.cpp ${UPSTREAM}/src/native_legacy_import.cpp)
 target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
 
+# C++17 as in the original: its u8"" literals are char there, char8_t in C++20.
 foreach(target unicode_text unicode_services unicode_search native_script_bom legacy_text)
-    target_compile_features(${target} PUBLIC cxx_std_20)
+    set_target_properties(${target} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
 endforeach()
 
@@ -64,7 +65,8 @@ enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
              legacy_text)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
-    target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc)
+    set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+    target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
     add_test(NAME ${test} COMMAND ${test}_tests WORKING_DIRECTORY ${UPSTREAM})
 endforeach()
 target_link_libraries(unicode_text_tests PRIVATE unicode_text)
@@ -77,6 +79,7 @@ endforeach()
 
 # This plugin's own glue: the detours pick the same callers as the original.
 add_executable(port_tests tests/port_tests.cpp)
+target_compile_features(port_tests PRIVATE cxx_std_20)
 target_link_libraries(port_tests PRIVATE unicode_search)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
 add_test(NAME port COMMAND port_tests)
