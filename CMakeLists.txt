@@ -1,0 +1,82 @@
+cmake_minimum_required(VERSION 3.25)
+project(unicode_patch LANGUAGES CXX)
+
+include(FetchContent)
+
+# The Anvil SDK: the AnvilPlugin CMake package (anvil_add_plugin) and anvil.exe,
+# from the SDK archive of an Anvil release. URL_HASH is the archive's line in
+# the release's SHA256SUMS.txt.
+FetchContent_Declare(anvil_sdk
+    URL https://github.com/happy-dwarf-team/anvil/releases/download/v1.5.2/anvil-sdk-windows-x64.zip
+    URL_HASH SHA256=a229d0a0edc57aaa5529784447be8750d518315cf93c98b8de23bdc97e4a6762)
+FetchContent_MakeAvailable(anvil_sdk)
+
+# The original's text logic, built from the upstream/ submodule as its own
+# cmake/shared-core.cmake and cmake/windows.cmake build it (same sources, the
+# static CRT the plugin uses). Nothing of it is copied into this repository.
+set(UPSTREAM "${CMAKE_CURRENT_SOURCE_DIR}/upstream")
+if(NOT EXISTS "${UPSTREAM}/src/unicode_search.cpp" OR NOT EXISTS "${UPSTREAM}/vendor/utfcpp/source/utf8.h")
+    message(FATAL_ERROR "upstream/ is missing: git submodule update --init upstream && "
+            "git -C upstream submodule update --init vendor/utfcpp")
+endif()
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+add_library(unicode_text STATIC
+    ${UPSTREAM}/src/unicode_text.cpp ${UPSTREAM}/src/native_text_event.cpp ${UPSTREAM}/src/yaml_input.cpp)
+target_include_directories(unicode_text PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
+add_library(unicode_services STATIC ${UPSTREAM}/src/unicode_services.cpp)
+# icu.dll of Windows 10 1903 and later, as in the original.
+target_link_libraries(unicode_services PUBLIC unicode_text icu)
+
+set(PINYIN_DATA "${CMAKE_CURRENT_BINARY_DIR}/generated/pinyin_data.inc")
+add_custom_command(OUTPUT "${PINYIN_DATA}"
+    COMMAND "${Python3_EXECUTABLE}" -I "${UPSTREAM}/tools/generate-pinyin-data.py"
+        "${UPSTREAM}/vendor/phrase-pinyin-data" "${PINYIN_DATA}"
+    DEPENDS "${UPSTREAM}/tools/generate-pinyin-data.py" "${UPSTREAM}/vendor/phrase-pinyin-data/pinyin.txt"
+    VERBATIM)
+add_library(unicode_search STATIC
+    ${UPSTREAM}/src/unicode_search.cpp ${UPSTREAM}/src/unicode_search_fuzzy.cpp ${UPSTREAM}/src/unicode_pinyin.cpp
+    ${UPSTREAM}/src/search_resources.cpp ${UPSTREAM}/src/native_search.cpp "${PINYIN_DATA}")
+target_include_directories(unicode_search PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated" ${UPSTREAM}/vendor/utfcpp/source)
+target_link_libraries(unicode_search PUBLIC unicode_services)
+set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPILE_OPTIONS /bigobj)
+
+add_library(native_script_bom STATIC ${UPSTREAM}/src/native_script_bom.cpp)
+target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
+add_library(legacy_text STATIC ${UPSTREAM}/src/legacy_text.cpp ${UPSTREAM}/src/native_legacy_import.cpp)
+target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
+
+foreach(target unicode_text unicode_services unicode_search native_script_bom legacy_text)
+    target_compile_features(${target} PUBLIC cxx_std_20)
+    target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
+endforeach()
+
+# Reads plugin.toml, runs `anvil gen` on symbols.toml and settings.toml, builds
+# the DLL and lays out build/plugin/<id>/. Adds unicode_patch-check and, with
+# -DEU4_DIR=<game folder>, unicode_patch-deploy.
+anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp)
+target_link_libraries(unicode_patch PRIVATE unicode_search)
+
+# The original's own unit tests of the parts this plugin uses: UTF-8 text, the
+# EU4DLL escape conversion, search and pinyin. They run on this build of them.
+enable_testing()
+foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
+             legacy_text)
+    add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
+    target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc)
+    add_test(NAME ${test} COMMAND ${test}_tests WORKING_DIRECTORY ${UPSTREAM})
+endforeach()
+target_link_libraries(unicode_text_tests PRIVATE unicode_text)
+target_link_libraries(unicode_services_tests PRIVATE unicode_services)
+target_link_libraries(yaml_input_tests PRIVATE unicode_text)
+target_link_libraries(legacy_text_tests PRIVATE legacy_text)
+foreach(test unicode_search native_search pinyin_fuzzy search_resources)
+    target_link_libraries(${test}_tests PRIVATE unicode_search)
+endforeach()
+
+# This plugin's own glue: the detours pick the same callers as the original.
+add_executable(port_tests tests/port_tests.cpp)
+target_link_libraries(port_tests PRIVATE unicode_search)
+target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
+add_test(NAME port COMMAND port_tests)

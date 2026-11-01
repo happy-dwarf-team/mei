@@ -1,0 +1,24 @@
+# Unicode Patch's settings. The player's values live in
+# anvil/data/unicode-patch/settings.toml; the overlay's panel edits them.
+# They replace the original's plugins/eu4_unicode_patch/config.ini.
+
+[setting.search]
+type = "bool"
+default = true
+label = "Chinese and pinyin search"
+description = "The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input."
+restart = true
+
+[setting.typo_tolerance]
+type = "bool"
+default = true
+label = "Allow one typo in long pinyin"
+description = "Full pinyin of 5 or more letters still matches with one letter inserted, deleted, replaced or two neighbours swapped."
+restart = true
+
+[setting.fuzzy_pinyin]
+type = "bool"
+default = false
+label = "Fuzzy pinyin"
+description = "zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other."
+restart = true

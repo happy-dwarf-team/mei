@@ -1,0 +1,44 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Only the submodules the build uses: the original at its pinned commit and
+      # its utfcpp (MinHook and SafetyHook stay out).
+      - name: Submodules
+        run: |
+          git submodule update --init upstream
+          git -C upstream submodule update --init vendor/utfcpp
+
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Tests
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      # CI has no eu4.exe, so `anvil check` checks the schemas and that
+      # symbols.lock matches symbols.toml with result = "ok".
+      - name: anvil check
+        shell: pwsh
+        run: |
+          $anvil = 'build/_deps/anvil_sdk-src/bin/anvil.exe'
+          if (-not (Test-Path $anvil)) { Write-Output "::error::$anvil not found"; exit 1 }
+          & $anvil --version
+          & $anvil check . --format github
+          exit $LASTEXITCODE
