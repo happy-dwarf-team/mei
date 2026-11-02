@@ -1,5 +1,5 @@
-# Unicode Patch's settings. The player's values live in
-# anvil/data/unicode-patch/settings.toml; the overlay's panel edits them.
+# Mei's settings. The player's values live in anvil/data/mei/settings.toml;
+# the overlay's panel edits them.
 # They replace the original's plugins/eu4_unicode_patch/config.ini.
 
 [setting.search]

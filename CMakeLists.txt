@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(unicode_patch LANGUAGES CXX)
+project(mei LANGUAGES CXX)
 
 include(FetchContent)
 
@@ -7,8 +7,8 @@ include(FetchContent)
 # from the SDK archive of an Anvil release. URL_HASH is the archive's line in
 # the release's SHA256SUMS.txt.
 FetchContent_Declare(anvil_sdk
-    URL https://github.com/happy-dwarf-team/anvil/releases/download/v1.5.2/anvil-sdk-windows-x64.zip
-    URL_HASH SHA256=a229d0a0edc57aaa5529784447be8750d518315cf93c98b8de23bdc97e4a6762)
+    URL https://github.com/happy-dwarf-team/anvil/releases/download/v1.8.0/anvil-sdk-windows-x64.zip
+    URL_HASH SHA256=1c407a71acd211797dbb2f70cba3c16efbb50c767735dcd1ef3acf7bdc98b765)
 FetchContent_MakeAvailable(anvil_sdk)
 
 # The original's text logic, built from the upstream/ submodule as its own
@@ -79,8 +79,8 @@ foreach(target unicode_text unicode_services unicode_search formatted_text unico
 endforeach()
 
 # Reads plugin.toml, runs `anvil gen` on symbols.toml and settings.toml, builds
-# the DLL and lays out build/plugin/<id>/. Adds unicode_patch-check and, with
-# -DEU4_DIR=<game folder>, unicode_patch-deploy.
+# the DLL and lays out build/plugin/<id>/. Adds mei-check and, with
+# -DEU4_DIR=<game folder>, mei-deploy.
 # The plugin's glue to the original's search, shared with port_tests.
 add_library(port_search STATIC src/game_text.cpp)
 target_include_directories(port_search PUBLIC src)
@@ -101,8 +101,16 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp)
-target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
+anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp)
+target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
+
+# The release package (`cmake --install build --component plugin --prefix dist/package`):
+# mei/ as Anvil loads it, with the licences of the code it holds. Mei's fonts are built
+# apart (tools/build-fonts.ps1) and go to the Workshop mod's gfx/fonts/mei/.
+install(TARGETS mei RUNTIME DESTINATION mei COMPONENT plugin)
+install(FILES plugin.toml symbols.toml settings.toml LICENSE DESTINATION mei COMPONENT plugin)
+install(FILES ${UPSTREAM}/THIRD_PARTY_NOTICES.md DESTINATION mei/third-party COMPONENT plugin)
+install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENAME utfcpp-LICENSE.txt COMPONENT plugin)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
 # EU4DLL escape conversion, search, pinyin and the glyph registry. They run on this build of them.

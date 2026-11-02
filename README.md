@@ -1,10 +1,16 @@
-# Unicode Patch for Anvil
+# Mei 銘
 
-An [Anvil](https://github.com/happy-dwarf-team/anvil) plugin for Europa Universalis IV
-1.37.5 (Steam, Windows x64): a port of [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)
+**Chinese, Japanese and Korean text in Europa Universalis IV, without the old DLL patch.**
+Mei does not translate the game: it lets the game show, wrap, search and type the text of
+a translation mod. An [Anvil](https://anvil.happydwarf.dev/) plugin for EU4 1.37.5
+(Steam, Windows x64), and a port of [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)
 by VulonLok (MIT) from its EU4DLL-style `VERSION.dll` loader to Anvil, so that Chinese,
 Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)).
+
+銘 (*mei* in Japanese) is the signature a swordsmith cuts into the tang of a blade; the
+same character, 铭 (*míng*) in Chinese and 銘 (*myeong*) in Korean, means "inscription",
+one character that all three languages share. The team's names come from the forge.
 
 **Status: works with translation mods.** With its default settings a translation mod's
 text shows in the interface and on the map, wraps, and can be searched and typed: tested
@@ -14,6 +20,34 @@ game's text in UTF-8, as the original does, and decodes the escapes of EU4DLL
 translation packs; the ported text blocks draw it with the translation mod's fonts, or
 with [Mei's own fonts](#cjk-fonts) where the game would use its own. Not affiliated with
 Paradox Interactive.
+
+## Install
+
+- [Anvil](https://anvil.happydwarf.dev/) 1.8 or newer in the game folder, and EU4 1.37.5
+  (Steam). Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the
+  `plugins` folder of EU4DLL or the original): it and Anvil both use `version.dll`.
+- **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3832685486):** subscribe to Mei and a translation mod, enable both in the playset,
+  approve Mei in Anvil (Ctrl+Shift+F12, Mods) and restart. The Workshop item carries the
+  plugin (`anvil/mei/`) and Mei's fonts (`gfx/fonts/mei/`).
+- **GitHub release:** `mei-windows-x64.zip` holds the plugin folder `mei/` for
+  `anvil/plugins/`; `mei-fonts.zip` holds the fonts, which the game reads from a mod's
+  `gfx/fonts/mei/` only (a local mod with them, or the Workshop item). Without them the
+  game's own fonts stay and a translation mod's fonts still work.
+
+The settings are set for translation mods; nothing needs configuring
+([Settings](#text-input-utf8_input)).
+
+## Steam Workshop
+
+[`workshop.toml`](workshop.toml) publishes `workshop/` with
+[paradox-workshop-publish](https://github.com/happy-dwarf-team/paradox-workshop-publish):
+the descriptor, the thumbnail, the plugin folder and the fonts of a release, which
+`workshop-publish.yml` takes from the published GitHub release after checking their
+attestation. The descriptions are `workshop/description.md` (English),
+`description.schinese.md` and `description.tchinese.md`, with the Chinese titles in
+`workshop.toml`. Steam takes the Chinese titles and descriptions only from client mode
+(`pdx-ws publish --mode client` on a PC with Steam signed in as the item's owner); CI's
+steamcmd publish keeps them as they are.
 
 ## Where it lives and why
 

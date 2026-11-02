@@ -1,0 +1,103 @@
+name: workshop-publish
+
+# Publishes Mei as a Steam Workshop mod when a release is published: release.yml
+# creates a draft release with mei-windows-x64.zip and mei-fonts.zip, and publishing
+# that draft on GitHub starts this workflow. The mod gets exactly the plugin folder and
+# the font atlases of that release, checked against their build attestation, so the
+# Workshop and GitHub serve the same build. The release notes become the Workshop
+# change note, and workshop/description.md the item's description. The Chinese titles
+# and descriptions (workshop.toml) need client mode, which this steamcmd run cannot
+# use: it keeps the ones on Steam (README, "Steam Workshop").
+#
+# Run by hand (workflow_dispatch, from main only), it publishes the given release
+# again with main's workshop/ folder: the way to update the Workshop page between
+# releases. The release must be the one in workshop/descriptor.mod, that is the
+# latest. The steam-workshop environment must then allow the branch main next to the
+# tags v*.
+#
+# Opt-in: it runs only when the repository variable WORKSHOP_PUBLISH is `true`. It also
+# needs remote_file_id in workshop/descriptor.mod (`pdx-ws init`), the organization
+# secrets STEAM_USERNAME and STEAM_SESSION with this repository selected, and the
+# `steam-workshop` environment that gates the job.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The release to publish again with main's description, e.g. v0.1.0
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  publish:
+    if: vars.WORKSHOP_PUBLISH == 'true' && (github.event_name == 'release' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-24.04
+    environment: steam-workshop
+    concurrency:
+      group: steam-workshop
+      cancel-in-progress: false
+    permissions:
+      attestations: read
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      # The release event checks out the release's tag, a manual run main.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download and verify the release
+        env:
+          PRIVATE: ${{ github.event.repository.private }}
+        run: |
+          set -euo pipefail
+          version=${TAG#v}
+          # pdx-ws takes the version (and the item ID) from the descriptor.
+          descriptor=$(sed -n 's/^version="\([^"]*\)".*/\1/p' workshop/descriptor.mod)
+          [ "$descriptor" = "$version" ] || {
+            echo "::error file=workshop/descriptor.mod::version is '$descriptor', but the release is $TAG"
+            exit 1
+          }
+
+          dir="$RUNNER_TEMP/release"
+          gh release download "$TAG" --pattern mei-windows-x64.zip --pattern mei-fonts.zip --pattern SHA256SUMS.txt --dir "$dir"
+          for zip in mei-windows-x64.zip mei-fonts.zip; do
+            if [ "$PRIVATE" = true ]; then
+              # release.yml attests public repositories only.
+              echo "::warning::private repository: $zip has no build attestation; only its line in SHA256SUMS.txt is checked"
+              (cd "$dir" && awk -v f="$zip" '$2 == f' SHA256SUMS.txt | sha256sum -c -)
+            else
+              gh attestation verify "$dir/$zip" --repo "$GITHUB_REPOSITORY" \
+                --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release.yml"
+              echo "$zip: attestation verified"
+            fi
+          done
+
+          # The plugin zip holds mei/ (and the package's SHA256SUMS.txt, which stays
+          # out of the mod); the fonts zip holds the atlases and OFL.txt.
+          unzip -q "$dir/mei-windows-x64.zip" -d "$dir/package"
+          [ -f "$dir/package/mei/plugin.toml" ] || { echo "::error::mei-windows-x64.zip holds no mei/plugin.toml"; exit 1; }
+          rm -rf workshop/anvil workshop/gfx
+          mkdir -p workshop/anvil workshop/gfx/fonts/mei
+          mv "$dir/package/mei" workshop/anvil/mei
+          unzip -q "$dir/mei-fonts.zip" -d workshop/gfx/fonts/mei
+          [ -f workshop/gfx/fonts/mei/ui-16.fnt ] || { echo "::error::mei-fonts.zip holds no ui-16.fnt"; exit 1; }
+          find workshop -type f | sort
+
+      - uses: happy-dwarf-team/paradox-workshop-publish@v0.3.0
+        id: workshop
+        with:
+          steam-username: ${{ secrets.STEAM_USERNAME }}
+          steam-session: ${{ secrets.STEAM_SESSION }}
+          change-note: ${{ github.event_name == 'workflow_dispatch' && 'Updated the Workshop page.' || github.event.release.body }}
+
+      - name: Link the Workshop item
+        env:
+          ITEM_URL: ${{ steps.workshop.outputs.item-url }}
+        run: echo "Published to $ITEM_URL"
