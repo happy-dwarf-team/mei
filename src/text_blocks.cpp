@@ -1,4 +1,5 @@
-// The original's per-glyph text blocks (text_hooks.asm, layout_hooks.asm) as
+// The original's per-glyph text blocks (text_hooks.asm, layout_hooks.asm,
+// popup_hooks.asm) as
 // Anvil block replacements. Each callback does what the original's MASM stub
 // does with the registers, flags and continuation, with the decoding of
 // text_drawing.cpp. Offsets like [rsp+138h] in a stub address its own frame,
@@ -82,7 +83,8 @@ struct Natives {
     char* (*repeat_text)(void* target, std::uint64_t count, std::uint8_t character);
     void* (*append_text)(void* target, const char* text, std::uint64_t size);
     std::uintptr_t main_measure_entry, main_plain_entry, button_plain_entry, button_draw_plain_entry,
-        bitmap_plain_entry, button_loop, button_end, alternate_end, alternate_plain_entry;
+        bitmap_plain_entry, button_loop, button_end, alternate_end, alternate_plain_entry, popup_plain_entry,
+        popup_draw_plain_entry;
 } g;
 
 // --- the main text routine (0x15988E0) ---
@@ -355,6 +357,84 @@ void alternate_advance(Cpu& c) noexcept {
     c.rbx = next;
 }
 
+// --- the tooltip routine (0x159C600) ---
+
+// copy_popup_scalar: the character at `source` as a new string at `target`.
+Glyph copy_popup_glyph(std::uintptr_t target, const char* source) noexcept {
+    auto& s = at<EngineString>(target);
+    s = {};
+    s.capacity = 15;
+    const auto d = decode_glyph(source);
+    const std::uint64_t size = d.extra + 1;
+    char* destination = g.repeat_text(&s, size, static_cast<std::uint8_t>(*source));
+    std::memcpy(destination, source, size);
+    return d;
+}
+
+void popup_copy(Cpu& c) noexcept { copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi)); }
+
+void popup_color_copy(Cpu& c) noexcept {
+    const auto d = copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi));
+    c.rdi = low(c.rdi + d.extra);
+}
+
+void popup_icon_copy(Cpu& c) noexcept {
+    const auto d = copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi));
+    c.rbx = d.index;
+    c.rdi = low(c.rdi + d.extra);
+}
+
+void popup_format(Cpu& c) noexcept {
+    c.rax = at<std::uint64_t>(c.rsi + 0x18) >= 0x10 ? at<std::uintptr_t>(c.rsi) : c.rsi;
+    const auto f = format_glyph(text(c.rax + c.rdi));
+    if (f.index > 0xFF) {
+        c.rip = g.popup_plain_entry;
+        return;
+    }
+    c.rdi = low(c.rdi + f.extra);
+    c.rcx = c.rsi;
+    compare_flags<std::uint8_t>(c, at<std::uint8_t>(c.rax + c.rdi), 0xA7);
+}
+
+void popup_measure(Cpu& c) noexcept {
+    const auto d = decode_glyph(text(c.rax + c.rdi));
+    c.rdi = low(c.rdi + d.extra);
+    c.rax = d.index;
+    c.r12 = glyph(c.r15 + 0x120, d.index);
+    test_flags(c, c.r12);
+}
+
+void popup_advance(Cpu& c) noexcept {
+    c.rdi = low(next_glyph(engine_text(c.rsi), static_cast<std::uint32_t>(c.rdi)));
+    compare_flags<std::uint32_t>(c, static_cast<std::uint32_t>(c.rdi), at<std::uint32_t>(c.rsi + 0x10));
+}
+
+void popup_draw_format(Cpu& c) noexcept {
+    c.rax = c.r8 >= 0x10 ? c.r9 : c.rsp + 0x60;
+    const auto f = format_glyph(text(c.rax + c.rsi));
+    if (f.index > 0xFF) {
+        c.rip = g.popup_draw_plain_entry;
+        return;
+    }
+    c.rsi = low(c.rsi + f.extra);
+    compare_flags<std::uint8_t>(c, at<std::uint8_t>(c.rax + c.rsi), 0xA7);
+    c.rax = c.rsp + 0x60;
+}
+
+void popup_draw(Cpu& c) noexcept {
+    const auto d = decode_glyph(text(c.rax + c.rsi));
+    c.rsi = low(c.rsi + d.extra);
+    c.rax = d.index;
+    c.r13 = glyph(c.r15 + 0x120, d.index);
+    test_flags(c, c.r13);
+}
+
+void popup_icon_end(Cpu& c) noexcept {
+    c.rax = c.r8 >= 0x10 ? c.r9 : c.rsp + 0x60;
+    if (icon_tail(c.rax + c.rsi)) c.rsi = low(c.rsi + 1);
+    at<std::uint8_t>(c.rbp + c.rdx - 0x70) = 0;
+}
+
 }  // namespace
 
 std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& changes) {
@@ -371,6 +451,8 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     g.button_end = address(sym::button_end);
     g.alternate_end = address(sym::alternate_end);
     g.alternate_plain_entry = address(sym::alternate_plain_entry);
+    g.popup_plain_entry = address(sym::popup_plain_entry);
+    g.popup_draw_plain_entry = address(sym::popup_draw_plain_entry);
 
     const auto start = changes.size();
     const auto replace = [&](const auto& block, void (*callback)(Cpu&) noexcept) {
@@ -403,6 +485,15 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     replace(sym::alternate_format_block, alternate_format);
     replace(sym::alternate_measure_block, alternate_measure);
     replace(sym::alternate_advance_block, alternate_advance);
+    replace(sym::popup_copy_block, popup_copy);
+    replace(sym::popup_color_copy_block, popup_color_copy);
+    replace(sym::popup_icon_copy_block, popup_icon_copy);
+    replace(sym::popup_format_block, popup_format);
+    replace(sym::popup_measure_block, popup_measure);
+    replace(sym::popup_advance_block, popup_advance);
+    replace(sym::popup_draw_format_block, popup_draw_format);
+    replace(sym::popup_draw_block, popup_draw);
+    replace(sym::popup_icon_end_block, popup_icon_end);
     return changes.size() - start;
 }
 

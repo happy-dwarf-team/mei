@@ -992,7 +992,7 @@ rva = 0x90320
 memory = "code"
 bytes = "48 89 5C 24 18 55 56 57 41 54 41 56 48 83 EC 20"
 signature = "char* (void* target, uint64_t count, uint8_t character)"
-note = "the game's std::string assign of count copies of a character, which button_copy_block calls"
+note = "the game's std::string assign of count copies of a character, which the copy blocks call"
 
 [symbol.append_text]
 rva = 0x932F0

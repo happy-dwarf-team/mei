@@ -54,7 +54,7 @@ CALLS = {
     "register_imported_text": ("void (void* collection, const char* key, const char* value, int line, int version, bool replace)",
                                "the game's registration of one localisation value, which import_legacy_localization calls"),
     "repeat_text": ("char* (void* target, uint64_t count, uint8_t character)",
-                    "the game's std::string assign of count copies of a character, which button_copy_block calls"),
+                    "the game's std::string assign of count copies of a character, which the copy blocks call"),
     "append_text": ("void* (void* target, const char* text, uint64_t size)",
                     "the game's std::string append, which button_icon_copy_block calls"),
 }
