@@ -14,6 +14,9 @@ namespace unicode_patch {
 // Replaces the blocks; returns how many.
 std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& changes);
 
+// The map label blocks; returns how many.
+std::size_t load_map_blocks(anvil::Host& host, std::vector<anvil::Change>& changes);
+
 // The font loader keeps glyphs above U+00FF (limit, 3 blocks, the font
 // destructor hook); returns how many changes.
 std::size_t load_font_loader(anvil::Host& host, std::vector<anvil::Change>& changes);

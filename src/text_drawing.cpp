@@ -137,8 +137,8 @@ std::size_t next_glyph(std::string_view text, std::size_t offset) noexcept {
     return offset + native_glyph(text.substr(offset)).bytes;
 }
 
-std::size_t bounded_text_length(std::string_view text) noexcept {
-    constexpr std::size_t limit = 32000;
+// eu4unicode::scalar_prefix: the longest prefix within `limit` bytes that cuts no character.
+static std::size_t scalar_prefix(std::string_view text, std::size_t limit) noexcept {
     if (text.size() <= limit) return text.size();
     std::size_t end = limit;
     // A character occupies at most four bytes: find its possible first byte and
@@ -146,6 +146,23 @@ std::size_t bounded_text_length(std::string_view text) noexcept {
     while (end && limit - end < 3 && (static_cast<unsigned char>(text[end]) & 0xC0) == 0x80) --end;
     const auto d = decode_utf8(text.substr(end));
     return d.valid && end + d.bytes > limit ? end : limit;
+}
+
+std::size_t bounded_text_length(std::string_view text) noexcept { return scalar_prefix(text, 32000); }
+
+std::size_t glyph_size(std::string_view text, std::size_t offset) noexcept {
+    if (offset >= text.size()) return 1;
+    return native_glyph(text.substr(offset)).bytes;
+}
+
+std::size_t glyph_count(std::string_view text) noexcept {
+    std::size_t count = 0;
+    for (std::size_t offset = 0; offset < text.size(); offset += native_glyph(text.substr(offset)).bytes) ++count;
+    return count;
+}
+
+std::size_t last_glyph_offset(std::string_view text) noexcept {
+    return text.empty() ? 0 : scalar_prefix(text, text.size() - 1);
 }
 
 TextState& text_state() noexcept { return g_state; }
