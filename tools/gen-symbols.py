@@ -47,6 +47,7 @@ SIGNATURES = {
     "find_province_distance": "int64_t (const void* name, const void* query)",
     "import_legacy_localization": "void (const void* key, const void* value, int version, int unused, const void* context)",
     "parse_utf8_yaml": "void (void* file, const void* input, const char* name, void* language, void* key, void* context)",
+    "destroy_font_table": "void (void* table)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
@@ -61,6 +62,8 @@ CALLS = {
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
     "main_copy_block": ['values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }'],
+    # call rel32 to the game's operator new (the original's g_engine_new)
+    "font_allocate_block": ['values.engine_new = { at = 6, rip_relative = 10 }'],
 }
 # What the 26 byte patches change (Ghidra, EU4 engine lab docs/anvil-unicode-patch-research.md).
 CALL_TARGETS = {0x1705180: ("save_transliterate", "CP1252 transliteration of a save name"),

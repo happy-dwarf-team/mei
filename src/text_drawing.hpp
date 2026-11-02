@@ -6,13 +6,14 @@
 // index of its glyph, so localisation in UTF-8 draws as it does in
 // Windows-1252.
 //
-// The difference from the original: it gives a character above U+00FF its own
-// index and draws it from fonts it loads (glyph_registry.cpp, the font atlases).
-// Until those are ported, the index is the character's Windows-1252 byte
-// (U+2013 is 0x96, as the game's fonts hold it) and '?' for characters
-// Windows-1252 does not have, which the game itself shows for them. So no index
-// is above 0xFF and the game's code after a block (kerning, line breaks) sees the
-// values it knows.
+// A character above U+00FF is drawn from the font's glyph for it when the font
+// has one (the original's glyph registry, filled by the font loader blocks);
+// otherwise from the glyph at its Windows-1252 byte (U+2013 is 0x96, as the
+// game's fonts hold it), or '?' for characters Windows-1252 does not have,
+// which the game itself shows for them. The index the game's code sees after a
+// block (kerning, line breaks) is always that byte, never above 0xFF: the
+// original gives such a character its own index and ports the kerning, line
+// break and atlas blocks that handle it, which are not ported here.
 #pragma once
 
 #include <cstddef>
@@ -24,10 +25,13 @@ namespace unicode_patch {
 // The index of a character's glyph in the game's fonts.
 std::uint32_t glyph_index(std::uint32_t scalar) noexcept;
 
-// One character of text: the index of its glyph and its bytes after the first.
+// One character of text: the index of its glyph in the font's 256-entry table,
+// its bytes after the first, and the character (the byte itself for text that
+// is not UTF-8), whose glyph above U+00FF the font may hold apart.
 struct Glyph {
     std::uint32_t index;
     std::uint32_t extra;
+    std::uint32_t scalar = 0;
     std::uint64_t packed() const noexcept { return index | static_cast<std::uint64_t>(extra) << 32; }
 };
 
@@ -52,6 +56,7 @@ std::size_t bounded_text_length(std::string_view text) noexcept;
 // last_slot, last_scalar_bytes, button_slot, button_extra).
 struct TextState {
     std::uint32_t last_index = 0;
+    std::uint32_t last_scalar = 0;
     std::uint32_t button_extra = 0;
 };
 TextState& text_state() noexcept;

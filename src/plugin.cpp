@@ -109,7 +109,10 @@ struct UnicodePatch : anvil::Plugin {
         // The game walks text byte by byte; these blocks take a UTF-8 character
         // and its glyph instead, so the imported text draws as it reads.
         const auto blocks = unicode_patch::load_text_blocks(host, text_blocks);
-        host.info("localisation import: 2 hooks; text drawing: {} blocks", blocks);
+        // Fonts keep their glyphs above U+00FF, which the text blocks draw.
+        const auto loader = unicode_patch::load_font_loader(host, text_blocks);
+        host.subscribe("anvil-game.ready", [] { anvil::Host{}.info("{}", unicode_patch::font_loader_summary()); });
+        host.info("localisation import: 2 hooks; text drawing: {} blocks; font loader: {} changes", blocks, loader);
     }
 
     void load_search(anvil::Host& host) {

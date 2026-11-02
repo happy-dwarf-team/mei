@@ -14,10 +14,14 @@
 
 #include <cstdint>
 #include <cstring>
+#include <format>
+
+#include <windows.h>
 
 #include "symbols.gen.hpp"
 
 #include "engine_string.hpp"
+#include "glyph_registry.hpp"
 #include "text_drawing.hpp"
 
 namespace unicode_patch {
@@ -68,7 +72,15 @@ void load_float(AnvilXmm& xmm, std::uintptr_t address) noexcept {
     xmm.u32[0] = at<std::uint32_t>(address);
 }
 // The game's own glyph lookup: the font's table of 256 glyph pointers.
-std::uintptr_t glyph(std::uintptr_t table, std::uint32_t index) noexcept { return at<std::uintptr_t>(table + index * 8); }
+// The glyph of a character: the font's own record above U+00FF when the font
+// loader stored one (the original's find_supplementary_glyph, without its
+// paragraph and atlas glyphs), else the game's table of 256 glyph pointers.
+std::uintptr_t glyph(std::uintptr_t table, const Glyph& g) noexcept {
+    if (g.scalar > 0xFF)
+        if (void* own = eu4unicode::find_unicode_glyph(reinterpret_cast<void* const*>(table), g.scalar))
+            return reinterpret_cast<std::uintptr_t>(own);
+    return at<std::uintptr_t>(table + g.index * 8);
+}
 // A UTF-8 '£' (C2 A3), the icon delimiter.
 bool icon_tail(std::uintptr_t address) noexcept {
     return at<std::uint8_t>(address) == 0xC2 && at<std::uint8_t>(address + 1) == 0xA3;
@@ -84,7 +96,8 @@ struct Natives {
     void* (*append_text)(void* target, const char* text, std::uint64_t size);
     std::uintptr_t main_measure_entry, main_plain_entry, button_plain_entry, button_draw_plain_entry,
         bitmap_plain_entry, button_loop, button_end, alternate_end, alternate_plain_entry, popup_plain_entry,
-        popup_draw_plain_entry;
+        popup_draw_plain_entry, font_allocate, font_duplicate, font_initialize, font_skip;
+    void* (*engine_new)(std::uint64_t size);
 } g;
 
 // --- the main text routine (0x15988E0) ---
@@ -106,7 +119,7 @@ void main_copy(Cpu& c) noexcept {
 
 void main_measure(Cpu& c) noexcept {
     c.rax = text_state().last_index;
-    c.rcx = glyph(c.r14 + 0x120, static_cast<std::uint32_t>(c.rax));
+    c.rcx = glyph(c.r14 + 0x120, Glyph{text_state().last_index, 0, text_state().last_scalar});
     at<std::uintptr_t>(c.rbp) = c.rcx;
     test_flags(c, c.rcx);
 }
@@ -144,7 +157,7 @@ void main_draw(Cpu& c) noexcept {
     c.r15 = low(c.r15 + d.extra);
     c.r8 = d.index;
     load_float(c.xmm[3], c.r14 + 0x968);
-    c.rdx = glyph(c.r14 + 0x120, d.index);
+    c.rdx = glyph(c.r14 + 0x120, d);
     test_flags(c, c.rdx);
 }
 
@@ -189,7 +202,7 @@ void button_measure(Cpu& c) noexcept {
     const auto d = decode_glyph(text(c.r9 + c.rax));
     c.r9 += d.extra;
     c.rax = d.index;
-    c.r11 = glyph(c.rcx, d.index);
+    c.r11 = glyph(c.rcx, d);
     test_flags(c, c.r11);
 }
 
@@ -232,7 +245,7 @@ void button_draw(Cpu& c) noexcept {
     c.r15 = low(c.r15 + d.extra);
     c.rax = d.index;
     load_float(c.xmm[11], c.rdx + 0x848);
-    c.r8 = glyph(c.rdx, d.index);
+    c.r8 = glyph(c.rdx, d);
     at<std::uintptr_t>(c.rbp + 0x58) = c.r8;
     test_flags(c, c.r8);
 }
@@ -270,7 +283,7 @@ void bitmap_measure(Cpu& c) noexcept {
     c.rdi = low(c.rdi + d.extra);
     if (d.extra) c.xmm[6] = {};
     c.rax = d.index;
-    c.rcx = glyph(c.r14 + 0x120, d.index);
+    c.rcx = glyph(c.r14 + 0x120, d);
     test_flags(c, c.rcx);
 }
 
@@ -278,7 +291,7 @@ void bitmap_split(Cpu& c) noexcept {
     const auto d = decode_glyph(text(c.rdx + c.rax));
     c.rax = d.index;
     load_float(c.xmm[6], c.r14 + 0x848);
-    c.r15 = glyph(c.r14, d.index);
+    c.r15 = glyph(c.r14, d);
     test_flags(c, c.r15);
 }
 
@@ -310,7 +323,7 @@ void list_measure(Cpu& c) noexcept {
     c.rax = d.index;
     c.r8 = at<std::uintptr_t>(c.rbp - 0x48);
     load_float(c.xmm[6], c.r8 + 0x848);
-    c.r12 = glyph(c.r8, d.index);
+    c.r12 = glyph(c.r8, d);
     test_flags(c, c.r12);
 }
 
@@ -347,7 +360,7 @@ void alternate_measure(Cpu& c) noexcept {
     c.rdi = low(c.rdi + d.extra);
     c.rdx = d.index;
     c.rcx = c.r15 + 0x120;
-    c.r11 = glyph(c.rcx, d.index);
+    c.r11 = glyph(c.rcx, d);
     test_flags(c, c.r11);
 }
 
@@ -400,7 +413,7 @@ void popup_measure(Cpu& c) noexcept {
     const auto d = decode_glyph(text(c.rax + c.rdi));
     c.rdi = low(c.rdi + d.extra);
     c.rax = d.index;
-    c.r12 = glyph(c.r15 + 0x120, d.index);
+    c.r12 = glyph(c.r15 + 0x120, d);
     test_flags(c, c.r12);
 }
 
@@ -425,7 +438,7 @@ void popup_draw(Cpu& c) noexcept {
     const auto d = decode_glyph(text(c.rax + c.rsi));
     c.rsi = low(c.rsi + d.extra);
     c.rax = d.index;
-    c.r13 = glyph(c.r15 + 0x120, d.index);
+    c.r13 = glyph(c.r15 + 0x120, d);
     test_flags(c, c.r13);
 }
 
@@ -435,7 +448,82 @@ void popup_icon_end(Cpu& c) noexcept {
     at<std::uint8_t>(c.rbp + c.rdx - 0x70) = 0;
 }
 
+// --- the font loader (0x1595570) ---
+// It reads a font's glyph lines and keeps each glyph in a table of 256 pointers
+// at font+0x120, after `cmp edi, 0xFF` drops any glyph above it. The original
+// raises that limit to U+10FFFF and keeps the glyphs above 0xFF in its glyph
+// registry (glyph_registry.cpp), keyed by the table, where the text blocks find
+// them (font_hooks.asm).
+
+std::uintptr_t font_table(Cpu& c) noexcept { return at<std::uintptr_t>(c.rbp + 0x1130) + 0x120; }
+
+void font_lookup(Cpu& c) noexcept {
+    const auto id = static_cast<std::uint32_t>(c.rdi);
+    const auto table = font_table(c);
+    c.rax = id <= 0xFF ? at<std::uintptr_t>(table + id * 8)
+                       : reinterpret_cast<std::uintptr_t>(
+                             eu4unicode::find_unicode_glyph(reinterpret_cast<void* const*>(table), id));
+    test_flags(c, c.rax);
+    c.rip = c.rax ? g.font_duplicate : g.font_allocate;
+}
+
+void font_allocate(Cpu& c) noexcept {
+    const auto id = static_cast<std::uint32_t>(c.rdi);
+    if (id <= 0xFF) {
+        c.rcx = 0x10;
+        c.rax = reinterpret_cast<std::uintptr_t>(g.engine_new(0x10));
+        c.rip = g.font_initialize;
+        return;
+    }
+    c.rax = reinterpret_cast<std::uintptr_t>(
+        eu4unicode::allocate_unicode_glyph(reinterpret_cast<void* const*>(font_table(c)), id));
+    test_flags(c, c.rax);
+    c.rip = c.rax ? g.font_initialize : g.font_skip;
+}
+
+std::uint64_t g_failed_bindings = 0;
+
+void font_store(Cpu& c) noexcept {
+    c.r15 = at<std::uintptr_t>(c.rbp + 0x1130);
+    const auto table = c.r15 + 0x120;
+    const auto id = static_cast<std::uint32_t>(c.rdi);
+    if (id > 0xFF) return;  // the registry already holds it
+    at<std::uintptr_t>(table + id * 8) = c.rax;
+    // 'A' names the font for the glyphs read before it (bind_unicode_font).
+    if (id == 0x41 && !eu4unicode::bind_unicode_font(reinterpret_cast<void* const*>(table))) ++g_failed_bindings;
+}
+
+anvil::HookOf<sym::destroy_font_table> g_destroy_font;
+
+void destroy_font_table(void* table) noexcept {
+    eu4unicode::release_unicode_font(static_cast<void* const*>(table));
+    g_destroy_font.next(table);
+}
+
 }  // namespace
+
+std::size_t load_font_loader(anvil::Host& host, std::vector<anvil::Change>& changes) {
+    const auto address = [&](const auto& symbol) { return reinterpret_cast<std::uintptr_t>(host.address(symbol)); };
+    g.font_allocate = address(sym::font_allocate);
+    g.font_duplicate = address(sym::font_duplicate);
+    g.font_initialize = address(sym::font_initialize);
+    g.font_skip = address(sym::font_skip);
+    g.engine_new = reinterpret_cast<void* (*)(std::uint64_t)>(reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr)) +
+                                                           sym::font_allocate_block.engine_new);
+    const auto start = changes.size();
+    changes.push_back(host.patch(sym::font_codepoint_limit, {0xFF, 0xFF, 0x10, 0x00}));
+    changes.push_back(host.replace_block(sym::font_lookup_block, font_lookup));
+    changes.push_back(host.replace_block(sym::font_allocate_block, font_allocate));
+    changes.push_back(host.replace_block(sym::font_store_block, font_store));
+    host.hook(g_destroy_font, sym::destroy_font_table, destroy_font_table);
+    return changes.size() - start + 1;
+}
+
+std::string font_loader_summary() {
+    const auto usage = eu4unicode::unicode_glyph_usage();
+    return std::format("font loader: {} glyphs above U+00FF in {} fonts{}", usage.glyphs, usage.fonts,
+                       g_failed_bindings ? std::format(", {} fonts not bound", g_failed_bindings) : "");
+}
 
 std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& changes) {
     g.copy_buffer = host.data(sym::copy_buffer);

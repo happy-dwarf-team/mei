@@ -58,6 +58,10 @@ int text_drawing_tests() {
     check(same(decode_glyph(utf8(u8"中文").c_str()), '?', 2), "Chinese is '?' of three bytes");
     check(same(decode_glyph(utf8(u8"𠮷").c_str()), '?', 3), "a character outside the BMP is '?' of four bytes");
     check(same(decode_glyph("\xC3"), 0xC3, 0), "a cut sequence at the end of the text is one byte");
+    // The character itself, whose glyph a font may hold apart above U+00FF.
+    check(decode_glyph(utf8(u8"中文").c_str()).scalar == 0x4E2D && decode_glyph(ostra.c_str()).scalar == 0xD6 &&
+              decode_glyph("\xD6s").scalar == 0xD6 && format_glyph(utf8(u8"中").c_str()).scalar == 0x4E2D,
+          "the decoded character is kept with its glyph index");
 
     // The decoder agrees with the original's (utf8::next, which throws on bad
     // input) on every 2-byte prefix and on 3- and 4-byte forms around each limit.
@@ -107,6 +111,8 @@ int text_drawing_tests() {
     check(same(copy_glyph(ostra.data(), ostra.size(), buffer, sizeof buffer), 0xD6, 1) &&
               std::memcmp(buffer, ostra.data(), 2) == 0 && text_state().last_index == 0xD6,
           "a character is copied whole");
+    copy_glyph(utf8(u8"中").c_str(), 3, buffer, sizeof buffer);
+    check(text_state().last_index == '?' && text_state().last_scalar == 0x4E2D, "the measuring block gets the character");
     char small[1] = {'x'};
     check(same(copy_glyph(ostra.data(), ostra.size(), small, 1), 0xD6, 1) && small[0] == 'x',
           "a character that does not fit is not copied");

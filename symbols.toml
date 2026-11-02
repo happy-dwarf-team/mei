@@ -604,6 +604,7 @@ rva = 0x1595CAD
 memory = "code"
 bytes = "B9 10 00 00 00 E8 1D D6 49 00"
 resume = "font_initialize"
+values.engine_new = { at = 6, rip_relative = 10 }
 note = "font_hooks.asm font_allocate_hook; also continues at font_skip"
 
 [symbol.font_store_block]
@@ -737,6 +738,7 @@ note = "function hook of the original (find_province_distance)"
 rva = 0x1594360
 memory = "code"
 bytes = "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 48 8B F1"
+signature = "void (void* table)"
 note = "function hook of the original (destroy_font_table)"
 
 [symbol.format_localized_date]
