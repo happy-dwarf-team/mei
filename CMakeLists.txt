@@ -56,8 +56,15 @@ endforeach()
 # Reads plugin.toml, runs `anvil gen` on symbols.toml and settings.toml, builds
 # the DLL and lays out build/plugin/<id>/. Adds unicode_patch-check and, with
 # -DEU4_DIR=<game folder>, unicode_patch-deploy.
+# The plugin's glue to the original's search, shared with port_tests.
+add_library(port_search STATIC src/game_text.cpp)
+target_include_directories(port_search PUBLIC src)
+target_compile_features(port_search PUBLIC cxx_std_20)
+target_link_libraries(port_search PUBLIC unicode_search)
+target_compile_options(port_search PRIVATE /W4 /utf-8 /EHsc)
+
 anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp)
-target_link_libraries(unicode_patch PRIVATE unicode_search)
+target_link_libraries(unicode_patch PRIVATE port_search)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
 # EU4DLL escape conversion, search and pinyin. They run on this build of them.
@@ -80,6 +87,6 @@ endforeach()
 # This plugin's own glue: the detours pick the same callers as the original.
 add_executable(port_tests tests/port_tests.cpp)
 target_compile_features(port_tests PRIVATE cxx_std_20)
-target_link_libraries(port_tests PRIVATE unicode_search)
+target_link_libraries(port_tests PRIVATE port_search)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
 add_test(NAME port COMMAND port_tests)

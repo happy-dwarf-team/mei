@@ -19,6 +19,7 @@
 #include "settings.gen.hpp"
 #include "symbols.gen.hpp"
 
+#include "game_text.hpp"
 #include "native_search.hpp"
 #include "search_resources.hpp"
 #include "unicode_search.hpp"
@@ -45,12 +46,13 @@ std::uintptr_t caller_rva(void* return_address) { return reinterpret_cast<std::u
 // The detours are reached by a jump from the game's function, so the return
 // address is the game's call site, which picks the callers the original
 // changes (native_search.cpp); every other caller gets the game's function.
+// The game's text reaches the original's matching as UTF-8 (game_text.hpp).
 std::uint64_t on_find_country(const char* name, std::uint64_t length, std::uint64_t start, const char* query,
                               std::uint64_t query_length) noexcept {
     const std::uintptr_t caller = caller_rva(_ReturnAddress());
     if (!eu4unicode::display_find_caller(caller)) return g_find_country.next(name, length, start, query, query_length);
     try {
-        return eu4unicode::find_display_name(caller, name, length, start, query, query_length, &native_find);
+        return unicode_patch::find_game_name(caller, name, length, start, query, query_length, &native_find);
     } catch (...) {
         anvil::Host{}.warn("country search failed; the candidate is left out");
         return UINT64_MAX;
@@ -63,7 +65,7 @@ std::int64_t on_province_distance(const void* name, const void* query) noexcept 
     const auto* q = static_cast<const eu4unicode::EngineString*>(query);
     if (!eu4unicode::province_distance_caller(caller)) return g_province_distance.next(name, query);
     try {
-        return eu4unicode::province_search_distance(caller, n, q, &native_distance);
+        return unicode_patch::province_game_distance(caller, n, q, &native_distance);
     } catch (...) {
         anvil::Host{}.warn("province search failed; the candidate is ranked last");
         return INT32_MAX / 2;
