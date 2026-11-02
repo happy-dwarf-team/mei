@@ -12,8 +12,8 @@ restart = true
 
 [setting.utf8_localization]
 type = "bool"
-# Off until the map labels, the text editor and the original's own font atlases
-# are ported: the UI text blocks draw UTF-8, the rest still reads it as
+# Off until the text editor and the original's own font atlases are ported:
+# the interface and map blocks draw UTF-8, the editor still reads it as
 # Windows-1252, and without `search` the province finder loses accented names
 # (README.md "State").
 default = false
