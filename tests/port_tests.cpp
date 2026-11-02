@@ -24,6 +24,8 @@ void check(bool ok, const char* what) {
 
 }  // namespace
 
+int localisation_tests();  // localisation_tests.cpp: its failures
+
 int main() {
     using eu4unicode::display_search_contains;
     eu4unicode::set_search_options({true, false});
@@ -120,6 +122,7 @@ int main() {
     }
     check(!threw, "distance does not throw on the game's text");
 
+    g_failures += localisation_tests();
     std::printf("%s\n", g_failures == 0 ? "ok" : "failed");
     return g_failures == 0 ? 0 : 1;
 }

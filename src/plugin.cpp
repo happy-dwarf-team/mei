@@ -4,7 +4,8 @@
 // MinHook, MASM stubs and page protection.
 //
 // So far: Chinese and pinyin search in the diplomacy country list and the
-// province finder. Every symbol of the original is declared and verified in
+// province finder, and the localisation import that keeps the game's text in
+// UTF-8. Every symbol of the original is declared and verified in
 // symbols.toml, so later features only add changes here.
 #include <anvil/anvil.hpp>
 
@@ -20,6 +21,7 @@
 #include "symbols.gen.hpp"
 
 #include "game_text.hpp"
+#include "localisation.hpp"
 #include "native_search.hpp"
 #include "search_resources.hpp"
 #include "unicode_search.hpp"
@@ -31,6 +33,8 @@ namespace {
 std::uintptr_t g_image = 0;
 anvil::HookOf<sym::find_country_name> g_find_country;
 anvil::HookOf<sym::find_province_distance> g_province_distance;
+anvil::HookOf<sym::import_legacy_localization> g_import_localisation;
+anvil::HookOf<sym::parse_utf8_yaml> g_parse_yaml;
 
 // The game's own functions for the original's typed calls.
 std::uint64_t native_find(const char* name, std::uint64_t length, std::uint64_t start, const char* query,
@@ -40,6 +44,11 @@ std::uint64_t native_find(const char* name, std::uint64_t length, std::uint64_t 
 std::int64_t native_distance(const eu4unicode::EngineString* name, const eu4unicode::EngineString* query) {
     return g_province_distance.next(name, query);
 }
+
+void native_parse_yaml(void* file, const void* input, const char* name, void* language, void* key, void* context) {
+    g_parse_yaml.next(file, input, name, language, key, context);
+}
+void import_warning(const std::string& message) { anvil::Host{}.warn("{}", message); }
 
 std::uintptr_t caller_rva(void* return_address) { return reinterpret_cast<std::uintptr_t>(return_address) - g_image; }
 
@@ -80,8 +89,21 @@ struct UnicodePatch : anvil::Plugin {
 
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
+        if (cfg::utf8_localization.get()) load_localisation(host);
         if (cfg::search.get()) load_search(host);
-        host.info("search {}", cfg::search.get() ? "on" : "off");
+        host.info("UTF-8 localisation {}, search {}", cfg::utf8_localization.get() ? "on" : "off",
+                  cfg::search.get() ? "on" : "off");
+    }
+
+    // phase = "early": in place before the game reads its localisation.
+    void load_localisation(anvil::Host& host) {
+        unicode_patch::set_localisation_natives(host.function(sym::register_imported_text), &native_parse_yaml,
+                                                &import_warning);
+        host.hook(g_import_localisation, sym::import_legacy_localization, unicode_patch::import_localisation);
+        host.hook(g_parse_yaml, sym::parse_utf8_yaml, unicode_patch::parse_localisation_file);
+        // The main menu is up: the game has read its localisation.
+        host.subscribe("anvil-game.ready", [] { anvil::Host{}.info("{}", unicode_patch::localisation_summary()); });
+        host.info("localisation import: 2 hooks");
     }
 
     void load_search(anvil::Host& host) {
