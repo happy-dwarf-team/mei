@@ -5,3 +5,4 @@ tags={
 }
 name="Mei 銘 – Chinese, Japanese & Korean Text Support"
 supported_version="1.37.*"
+remote_file_id="3832685486"
