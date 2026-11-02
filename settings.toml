@@ -12,13 +12,13 @@ restart = true
 
 [setting.utf8_localization]
 type = "bool"
-# Off until the map labels, the text editor and the original's fonts are
-# ported: the UI text blocks draw UTF-8 with the game's fonts, the rest still
-# reads it as Windows-1252, and without `search` the province finder loses
-# accented names (README.md "State").
+# Off until the map labels, the text editor and the original's own font atlases
+# are ported: the UI text blocks draw UTF-8, the rest still reads it as
+# Windows-1252, and without `search` the province finder loses accented names
+# (README.md "State").
 default = false
 label = "UTF-8 localisation (experimental)"
-description = "The game keeps its localisation in UTF-8, as the original does, and draws it with its own fonts. Letters the game's fonts lack (Chinese, Japanese, Korean) show as '?' until the original's fonts are ported. Turn on the search with it: the game's own search misses accented names in UTF-8."
+description = "The game keeps its localisation in UTF-8, as the original does, and draws it. Chinese, Japanese and Korean need fonts that hold them (from a mod for now); without them those letters show as '?'. Turn on the search with it: the game's own search misses accented names in UTF-8."
 restart = true
 
 [setting.typo_tolerance]

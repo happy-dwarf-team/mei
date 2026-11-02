@@ -46,6 +46,17 @@ add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
 add_library(glyph_registry STATIC ${UPSTREAM}/src/glyph_registry.cpp)
 target_include_directories(glyph_registry PUBLIC ${UPSTREAM}/include)
+# The original's fontpack tool: font atlases (.fnt and .dds) of the characters of a
+# UTF-8 file, drawn by DirectWrite from the system's fonts (tools/make-font-mod.py).
+add_library(font_atlas_assets STATIC ${UPSTREAM}/src/unicode_layout.cpp ${UPSTREAM}/src/font_atlas_assets.cpp)
+target_link_libraries(font_atlas_assets PUBLIC unicode_services dwrite d2d1 windowscodecs ole32)
+target_compile_definitions(font_atlas_assets PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+add_executable(fontpack ${UPSTREAM}/tools/fontpack.cpp)
+target_link_libraries(fontpack PRIVATE font_atlas_assets)
+# Not /W4: unicode_layout.cpp hides a parameter (C4457), which is the original's to change.
+set_target_properties(font_atlas_assets fontpack PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_compile_options(font_atlas_assets PRIVATE /utf-8 /EHsc)
+target_compile_options(fontpack PRIVATE /utf-8 /EHsc)
 
 add_library(native_script_bom STATIC ${UPSTREAM}/src/native_script_bom.cpp)
 target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
