@@ -4,13 +4,14 @@
 # The mod is workshop/: descriptor.mod, thumbnail.png, anvil/mei/ (the plugin folder of a
 # release) and gfx/fonts/mei/ (Mei's font atlases, fonts/README.md), which CI unpacks
 # there (neither is in Git). The Workshop item ID is remote_file_id in
-# workshop/descriptor.mod, written once by `pdx-ws init`. Without `visibility`,
-# publishing never changes it on Steam.
+# workshop/descriptor.mod, written once by `pdx-ws init` (3832685486, created private on
+# 3.11.2026); `visibility` makes the release's publish turn it public.
 schema = 1
 
 [[mod]]
 game = "eu4"
 path = "workshop"
+visibility = "public"
 # The Workshop description: every publish replaces it with this file. The Chinese
 # descriptions and titles reach Steam only in client mode (`pdx-ws publish --mode
 # client` on a PC with Steam signed in as the item's owner); CI keeps them.

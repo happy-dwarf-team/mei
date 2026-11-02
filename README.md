@@ -26,7 +26,7 @@ Paradox Interactive.
 - [Anvil](https://anvil.happydwarf.dev/) 1.8 or newer in the game folder, and EU4 1.37.5
   (Steam). Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the
   `plugins` folder of EU4DLL or the original): it and Anvil both use `version.dll`.
-- **Steam Workshop:** subscribe to Mei and a translation mod, enable both in the playset,
+- **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3832685486):** subscribe to Mei and a translation mod, enable both in the playset,
   approve Mei in Anvil (Ctrl+Shift+F12, Mods) and restart. The Workshop item carries the
   plugin (`anvil/mei/`) and Mei's fonts (`gfx/fonts/mei/`).
 - **GitHub release:** `mei-windows-x64.zip` holds the plugin folder `mei/` for
