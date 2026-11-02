@@ -44,6 +44,8 @@ set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPIL
 
 add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
+add_library(glyph_registry STATIC ${UPSTREAM}/src/glyph_registry.cpp)
+target_include_directories(glyph_registry PUBLIC ${UPSTREAM}/include)
 
 add_library(native_script_bom STATIC ${UPSTREAM}/src/native_script_bom.cpp)
 target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
@@ -51,7 +53,7 @@ add_library(legacy_text STATIC ${UPSTREAM}/src/legacy_text.cpp ${UPSTREAM}/src/n
 target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
 
 # C++17 as in the original: its u8"" literals are char there, char8_t in C++20.
-foreach(target unicode_text unicode_services unicode_search formatted_text native_script_bom legacy_text)
+foreach(target unicode_text unicode_services unicode_search formatted_text glyph_registry native_script_bom legacy_text)
     set_target_properties(${target} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
 endforeach()
@@ -80,13 +82,13 @@ target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
 anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp)
-target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing)
+target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing glyph_registry)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
-# EU4DLL escape conversion, search and pinyin. They run on this build of them.
+# EU4DLL escape conversion, search, pinyin and the glyph registry. They run on this build of them.
 enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
-             legacy_text)
+             legacy_text glyph_registry)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
     set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
@@ -96,6 +98,7 @@ target_link_libraries(unicode_text_tests PRIVATE unicode_text)
 target_link_libraries(unicode_services_tests PRIVATE unicode_services)
 target_link_libraries(yaml_input_tests PRIVATE unicode_text)
 target_link_libraries(legacy_text_tests PRIVATE legacy_text)
+target_link_libraries(glyph_registry_tests PRIVATE glyph_registry)
 foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()

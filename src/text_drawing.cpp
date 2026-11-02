@@ -85,7 +85,7 @@ Glyph decode_glyph(const char* text) noexcept {
     // As decode_z: text that is not UTF-8 is the glyph of its first byte.
     const std::uint32_t index = d.valid ? glyph_index(d.value) : static_cast<unsigned char>(*text);
     const std::uint32_t consumed = d.bytes ? d.bytes : 1;
-    return {index, consumed - 1};
+    return {index, consumed - 1, d.valid ? d.value : static_cast<unsigned char>(*text)};
 }
 
 Glyph format_glyph(const char* text) noexcept {
@@ -93,7 +93,7 @@ Glyph format_glyph(const char* text) noexcept {
     // Only the game's format introducers advance before its parser; any other
     // character reaches the glyph blocks, which advance past it.
     if (glyph.index == 0xA7 || glyph.index == 0xA3 || glyph.index == 0xA4) return glyph;
-    return {glyph.index, 0};
+    return {glyph.index, 0, glyph.scalar};
 }
 
 bool layout_glyph(std::string_view text, Glyph& glyph) noexcept {
@@ -109,7 +109,7 @@ bool layout_glyph(std::string_view text, Glyph& glyph) noexcept {
         if (continuation) return false;
     }
     const auto d = native_glyph(text);
-    glyph = {d.valid ? glyph_index(d.value) : d.value, d.bytes - 1};
+    glyph = {d.valid ? glyph_index(d.value) : d.value, d.bytes - 1, d.value};
     return true;
 }
 
@@ -154,8 +154,9 @@ Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, s
     const auto d = decode_utf8({source, remaining});
     const std::uint32_t consumed = d.bytes ? d.bytes : 1;
     g_state.last_index = d.valid ? glyph_index(d.value) : static_cast<unsigned char>(*source);
+    g_state.last_scalar = d.valid ? d.value : static_cast<unsigned char>(*source);
     if (consumed <= available) std::memcpy(destination, source, consumed);
-    return {g_state.last_index, consumed - 1};
+    return {g_state.last_index, consumed - 1, g_state.last_scalar};
 }
 
 }  // namespace unicode_patch
