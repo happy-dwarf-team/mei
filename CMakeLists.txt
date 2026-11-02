@@ -42,13 +42,16 @@ target_include_directories(unicode_search PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/g
 target_link_libraries(unicode_search PUBLIC unicode_services)
 set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPILE_OPTIONS /bigobj)
 
+add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
+target_link_libraries(formatted_text PUBLIC unicode_services)
+
 add_library(native_script_bom STATIC ${UPSTREAM}/src/native_script_bom.cpp)
 target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
 add_library(legacy_text STATIC ${UPSTREAM}/src/legacy_text.cpp ${UPSTREAM}/src/native_legacy_import.cpp)
 target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
 
 # C++17 as in the original: its u8"" literals are char there, char8_t in C++20.
-foreach(target unicode_text unicode_services unicode_search native_script_bom legacy_text)
+foreach(target unicode_text unicode_services unicode_search formatted_text native_script_bom legacy_text)
     set_target_properties(${target} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
 endforeach()
@@ -69,8 +72,15 @@ target_compile_features(port_localisation PUBLIC cxx_std_20)
 target_link_libraries(port_localisation PUBLIC legacy_text)
 target_compile_options(port_localisation PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp)
-target_link_libraries(unicode_patch PRIVATE port_search port_localisation)
+# The decoding of the per-glyph text blocks, shared with port_tests.
+add_library(port_text_drawing STATIC src/text_drawing.cpp)
+target_include_directories(port_text_drawing PUBLIC src)
+target_compile_features(port_text_drawing PUBLIC cxx_std_20)
+target_link_libraries(port_text_drawing PUBLIC formatted_text)
+target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
+
+anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp)
+target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
 # EU4DLL escape conversion, search and pinyin. They run on this build of them.
@@ -90,10 +100,10 @@ foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()
 
-# This plugin's own glue: the detours pick the same callers as the original, and
-# the localisation import keeps the game's text in UTF-8.
-add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp)
+# This plugin's own glue: the detours pick the same callers as the original, the
+# localisation import keeps the game's text in UTF-8, and the text blocks decode it.
+add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp tests/text_drawing_tests.cpp)
 target_compile_features(port_tests PRIVATE cxx_std_20)
-target_link_libraries(port_tests PRIVATE port_search port_localisation)
+target_link_libraries(port_tests PRIVATE port_search port_localisation port_text_drawing)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
 add_test(NAME port COMMAND port_tests)
