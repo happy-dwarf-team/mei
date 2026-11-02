@@ -48,6 +48,8 @@ SIGNATURES = {
     "import_legacy_localization": "void (const void* key, const void* value, int version, int unused, const void* context)",
     "parse_utf8_yaml": "void (void* file, const void* input, const char* name, void* language, void* key, void* context)",
     "destroy_font_table": "void (void* table)",
+    "consume_editor_commit": "bool (void* callback, const char* character)",
+    "insert_editor_commit": "void (void* widget, const void* text)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
@@ -58,6 +60,14 @@ CALLS = {
                     "the game's std::string assign of count copies of a character, which the copy blocks call"),
     "append_text": ("void* (void* target, const char* text, uint64_t size)",
                     "the game's std::string append, which button_icon_copy_block calls"),
+}
+# Game functions and data the original reaches as image+0x... inside a function body
+# (plugin.cpp consume_editor_commit), with their C signatures or types.
+INLINE = {
+    "find_element": (0x14DB3C0, 'signature = "void* (void* set, const void* key)"',
+                     "the game's set lookup that consume_editor_commit calls for its seven-character restriction"),
+    "editor_restricted_characters": (0x1D91328, 'type = "char"',
+                                     "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
@@ -122,6 +132,12 @@ for name, (signature, note) in CALLS.items():
     rva = int(re.search(rf"\b{name}=reinterpret_cast<[\w:]+>\(address\(0x([0-9a-f]+)\)\)", plugin).group(1), 16)
     out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, FUNCTION_BYTES.get(rva, 16)))}"',
             f'signature = "{signature}"', f'note = "{note}"', ""]
+for name, (rva, kind, note) in INLINE.items():
+    if kind.startswith("signature"):
+        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, 16))}"', kind,
+                f'note = "{note}"', ""]
+    else:
+        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "read"', kind, f'note = "{note}"', ""]
 for c, name in sorted(continuations.items()):
     out += [f"[symbol.{name}]", f"rva = 0x{c:X}", 'memory = "code"', f'bytes = "{hexbytes(at(c, 4))}"',
             'note = "where a replaced block continues"', ""]

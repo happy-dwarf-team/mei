@@ -974,12 +974,14 @@ note = "function hook of the original (filter_editor_text)"
 rva = 0x15354E0
 memory = "code"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+signature = "bool (void* callback, const char* character)"
 note = "function hook of the original (consume_editor_commit)"
 
 [symbol.insert_editor_commit]
 rva = 0x1536B80
 memory = "code"
 bytes = "48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 4C 89 60 20"
+signature = "void (void* widget, const void* text)"
 note = "function hook of the original (insert_editor_commit)"
 
 [symbol.register_imported_text]
@@ -1002,6 +1004,19 @@ memory = "code"
 bytes = "48 89 5C 24 18 55 56 57 41 55 41 56 48 83 EC 20"
 signature = "void* (void* target, const char* text, uint64_t size)"
 note = "the game's std::string append, which button_icon_copy_block calls"
+
+[symbol.find_element]
+rva = 0x14DB3C0
+memory = "code"
+bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55"
+signature = "void* (void* set, const void* key)"
+note = "the game's set lookup that consume_editor_commit calls for its seven-character restriction"
+
+[symbol.editor_restricted_characters]
+rva = 0x1D91328
+memory = "read"
+type = "char"
+note = "the seven characters a restricted text field refuses (consume_editor_commit)"
 
 [symbol.generated_name_return]
 rva = 0x314301
