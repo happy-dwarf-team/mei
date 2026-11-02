@@ -21,6 +21,15 @@ label = "UTF-8 localisation (experimental)"
 description = "The game keeps its localisation in UTF-8, as the original does, and draws it. Chinese, Japanese and Korean need fonts that hold them (from a mod for now); without them those letters show as '?'. Turn on the search with it: the game's own search misses accented names in UTF-8."
 restart = true
 
+[setting.utf8_input]
+type = "bool"
+# Off until selection by character, undo and the IME's candidate window are
+# ported (README.md "State").
+default = false
+label = "UTF-8 text input (experimental)"
+description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Backspace, Delete and the arrow keys step by character; selections and undo do not yet."
+restart = true
+
 [setting.typo_tolerance]
 type = "bool"
 default = true

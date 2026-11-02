@@ -2,7 +2,7 @@ id = "unicode-patch"
 name = "Unicode Patch"
 version = "0.0.0"
 authors = ["VulonLok (EU4 Unicode Patch)", "Happy Dwarf Team (Anvil port)"]
-description = "UTF-8 text for EU4: a port of EU4 Unicode Patch by VulonLok. So far: Chinese and pinyin search, the localisation import in UTF-8, UTF-8 text drawing and fonts with Chinese, Japanese and Korean glyphs."
+description = "UTF-8 text for EU4: a port of EU4 Unicode Patch by VulonLok. So far: Chinese and pinyin search, the localisation import in UTF-8, UTF-8 text drawing on the interface and the map, fonts with Chinese, Japanese and Korean glyphs, and UTF-8 text input."
 api = 2
 entry = "unicode_patch.dll"
 # Early: the original's lexer and localisation hooks must be in place before the

@@ -44,6 +44,9 @@ set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPIL
 
 add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
+add_library(unicode_editor STATIC ${UPSTREAM}/src/unicode_editor.cpp ${UPSTREAM}/src/editor_document.cpp
+    ${UPSTREAM}/src/native_editor_text.cpp)
+target_link_libraries(unicode_editor PUBLIC unicode_services)
 add_library(glyph_registry STATIC ${UPSTREAM}/src/glyph_registry.cpp)
 target_include_directories(glyph_registry PUBLIC ${UPSTREAM}/include)
 # The original's fontpack tool: font atlases (.fnt and .dds) of the characters of a
@@ -64,7 +67,8 @@ add_library(legacy_text STATIC ${UPSTREAM}/src/legacy_text.cpp ${UPSTREAM}/src/n
 target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
 
 # C++17 as in the original: its u8"" literals are char there, char8_t in C++20.
-foreach(target unicode_text unicode_services unicode_search formatted_text glyph_registry native_script_bom legacy_text)
+foreach(target unicode_text unicode_services unicode_search formatted_text unicode_editor glyph_registry native_script_bom
+               legacy_text)
     set_target_properties(${target} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
 endforeach()
@@ -92,8 +96,8 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp)
-target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing glyph_registry)
+anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp)
+target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
 # EU4DLL escape conversion, search, pinyin and the glyph registry. They run on this build of them.

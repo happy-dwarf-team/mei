@@ -25,6 +25,7 @@
 #include "localisation.hpp"
 #include "native_search.hpp"
 #include "text_blocks.hpp"
+#include "text_input.hpp"
 #include "search_resources.hpp"
 #include "unicode_search.hpp"
 
@@ -94,6 +95,8 @@ struct UnicodePatch : anvil::Plugin {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
         if (cfg::utf8_localization.get()) load_localisation(host);
         if (cfg::search.get()) load_search(host);
+        if (cfg::utf8_input.get())
+            host.info("UTF-8 text input: {} changes", unicode_patch::load_text_input(host, text_blocks));
         host.info("UTF-8 localisation {}, search {}", cfg::utf8_localization.get() ? "on" : "off",
                   cfg::search.get() ? "on" : "off");
     }
