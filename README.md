@@ -272,7 +272,8 @@ from `fontpack` (339 characters, 22 UI fonts), laid out as `tools/make-font-mod.
   the lower-case block 46.2 million times: `0x15503F0` lowers strings byte by byte for more
   than the map (searches, string comparisons), so its block is the busiest of the plugin.
 - Clicking the lobby's Back ended that game: it exited by itself through `ExitProcess` (Anvil
-  wrote its call counts), with no crash report; not explained.
+  wrote its call counts), with no crash report. The build before the map blocks does the
+  same in this profile, so it is not the map blocks; why the game exits there is not known.
 - Without the plugin's changes the menu is in English: the game leaves out the probe file,
   which has no UTF-8 signature (the localisation import gives it one).
 - Cost at the main menu (165 frames per second): the text blocks ran about 0.2 times a frame
