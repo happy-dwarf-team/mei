@@ -4,6 +4,19 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Called by release.yml to build the packages of a new release; run by hand to build
+  # the font atlases of a branch too.
+  workflow_call:
+    inputs:
+      fonts:
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      fonts:
+        description: Build the font atlases too (about six minutes)
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -42,3 +55,74 @@ jobs:
           & $anvil --version
           & $anvil check . --format github
           exit $LASTEXITCODE
+
+      # mei/ as Anvil loads it, with the package's SHA256SUMS.txt.
+      - name: Package
+        shell: pwsh
+        run: |
+          cmake --install build --config Release --component plugin --prefix dist/package
+          $files = Get-ChildItem dist/package -Recurse -File
+          $files | ForEach-Object {
+            $relative = [IO.Path]::GetRelativePath('dist/package', $_.FullName).Replace('\', '/')
+            "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $relative
+          } | Set-Content dist/package/SHA256SUMS.txt
+          Compress-Archive -Path dist/package/* -DestinationPath dist/mei-${{ github.sha }}.zip
+
+      # Per-commit artifact; for a release, release.yml attaches it to the GitHub release.
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mei-${{ github.sha }}
+          path: dist/mei-${{ github.sha }}.zip
+
+      # The Steam Workshop mod of workshop.toml is workshop/ with the plugin folder in
+      # anvil/mei/ and the fonts in gfx/fonts/mei/, neither in Git. A dry run of
+      # paradox-workshop-publish writes to the job summary what a release would publish
+      # (files, descriptor, the rendered descriptions) and fails when the mod would change
+      # the EU4 checksum (checksum = "keep"). The fonts take six minutes to build, so the
+      # preview here has the plugin only; the fonts job below builds them. It needs no
+      # secrets and sends nothing to Steam.
+      - name: Stage the Workshop mod
+        shell: pwsh
+        run: |
+          Remove-Item workshop/anvil -Recurse -Force -ErrorAction Ignore
+          New-Item -ItemType Directory workshop/anvil -Force | Out-Null
+          Copy-Item dist/package/mei workshop/anvil/mei -Recurse
+
+      # Pinned to a release tag, not a commit: the action installs the pdx-ws
+      # release named by its own tag and verifies that release's attestation.
+      - name: Workshop preview
+        uses: happy-dwarf-team/paradox-workshop-publish@v0.3.0
+        with:
+          dry-run: true
+
+  # Mei's font atlases (fonts/README.md) from the pinned Source Han Sans release; for
+  # releases and by hand, not on every pull request.
+  fonts:
+    if: inputs.fonts
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Submodules
+        run: |
+          git submodule update --init upstream
+          git -C upstream submodule update --init vendor/utfcpp
+
+      - name: Build the atlas tool
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          cmake --build build --config Release --target meifonts
+
+      - name: Build the atlases
+        shell: pwsh
+        run: |
+          ./tools/build-fonts.ps1 -MeiFonts build/Release/meifonts.exe -Out dist/fonts | Set-Content dist/fonts-SHA256SUMS.txt
+          Get-Content dist/fonts-SHA256SUMS.txt
+          Compress-Archive -Path dist/fonts/* -DestinationPath dist/mei-fonts-${{ github.sha }}.zip
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mei-fonts-${{ github.sha }}
+          path: dist/mei-fonts-${{ github.sha }}.zip

@@ -1,0 +1,22 @@
+# Publishing Mei as a Steam Workshop mod with paradox-workshop-publish
+# (https://github.com/happy-dwarf-team/paradox-workshop-publish).
+#
+# The mod is workshop/: descriptor.mod, thumbnail.png, anvil/mei/ (the plugin folder of a
+# release) and gfx/fonts/mei/ (Mei's font atlases, fonts/README.md), which CI unpacks
+# there (neither is in Git). The Workshop item ID is remote_file_id in
+# workshop/descriptor.mod, written once by `pdx-ws init`. Without `visibility`,
+# publishing never changes it on Steam.
+schema = 1
+
+[[mod]]
+game = "eu4"
+path = "workshop"
+# The Workshop description: every publish replaces it with this file. The Chinese
+# descriptions and titles reach Steam only in client mode (`pdx-ws publish --mode
+# client` on a PC with Steam signed in as the item's owner); CI keeps them.
+description = "workshop/description.md"
+titles = { schinese = "铭 Mei – 中日韩文字支持", tchinese = "銘 Mei – 中日韓文字支援" }
+exclude = ["description.md", "description.*.md"]
+# Fonts (gfx/) and anvil/ are outside the files the EU4 checksum covers, so players
+# keep ironman achievements. A change that would break that fails the plan.
+checksum = "keep"

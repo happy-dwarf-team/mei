@@ -1,10 +1,11 @@
-id = "unicode-patch"
-name = "Unicode Patch"
+id = "mei"
+name = "Mei"
 version = "0.0.0"
-authors = ["VulonLok (EU4 Unicode Patch)", "Happy Dwarf Team (Anvil port)"]
-description = "UTF-8 text for EU4: a port of EU4 Unicode Patch by VulonLok. So far: Chinese and pinyin search, the localisation import in UTF-8, UTF-8 text drawing on the interface and the map, fonts with Chinese, Japanese and Korean glyphs, and UTF-8 text input."
+authors = ["VulonLok (EU4 Unicode Patch)", "Happy Dwarf Team"]
+description = "Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok."
 api = 2
-entry = "unicode_patch.dll"
+anvil = ">=1.8.0"
+entry = "mei.dll"
 # Early: the original's lexer and localisation hooks must be in place before the
 # game reads its data (later steps).
 phase = "early"
@@ -13,4 +14,5 @@ settings = "settings.toml"
 # Text, input and search only. Name order, which changes generated characters,
 # is planned as a separate plugin.
 affects_gameplay = false
-issues = "https://github.com/happy-dwarf-team/anvil/issues/104"
+issues = "https://github.com/happy-dwarf-team/mei/issues"
+repository = "https://github.com/happy-dwarf-team/mei"

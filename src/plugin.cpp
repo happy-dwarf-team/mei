@@ -1,12 +1,13 @@
-// Unicode Patch for Anvil: a port of EU4 Unicode Patch by VulonLok (MIT), one
+// Mei: a port of EU4 Unicode Patch by VulonLok (MIT) to Anvil, one
 // feature at a time (README.md). The text logic is the original's, built from
 // the upstream/ submodule; this file only puts it on Anvil's changes instead of
 // MinHook, MASM stubs and page protection.
 //
-// So far: Chinese and pinyin search in the diplomacy country list and the
-// province finder, and the localisation import that keeps the game's text in
-// UTF-8, with the per-glyph text blocks that draw it. Every symbol of the original is declared and verified in
-// symbols.toml, so later features only add changes here.
+// So far: the localisation import that keeps the game's text in UTF-8, the
+// per-glyph text and map blocks that draw and wrap it, the font loader with Mei's
+// bundled fonts, Chinese and pinyin search, and UTF-8 text input. Every symbol of
+// the original is declared and verified in symbols.toml, so later features only
+// add changes here.
 #include <anvil/anvil.hpp>
 
 #include <windows.h>
