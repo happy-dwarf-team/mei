@@ -23,11 +23,11 @@ restart = true
 
 [setting.utf8_input]
 type = "bool"
-# Off until the editor's steps by character (backspace, arrows, selection) and
-# the IME's candidate window are ported (README.md "State").
+# Off until selection by character, undo and the IME's candidate window are
+# ported (README.md "State").
 default = false
 label = "UTF-8 text input (experimental)"
-description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Backspace and the arrow keys still step by byte through such text."
+description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Backspace, Delete and the arrow keys step by character; selections and undo do not yet."
 restart = true
 
 [setting.typo_tolerance]

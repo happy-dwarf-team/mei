@@ -44,7 +44,8 @@ set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPIL
 
 add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
-add_library(unicode_editor STATIC ${UPSTREAM}/src/unicode_editor.cpp)
+add_library(unicode_editor STATIC ${UPSTREAM}/src/unicode_editor.cpp ${UPSTREAM}/src/editor_document.cpp
+    ${UPSTREAM}/src/native_editor_text.cpp)
 target_link_libraries(unicode_editor PUBLIC unicode_services)
 add_library(glyph_registry STATIC ${UPSTREAM}/src/glyph_registry.cpp)
 target_include_directories(glyph_registry PUBLIC ${UPSTREAM}/include)

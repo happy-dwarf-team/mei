@@ -5,10 +5,14 @@
 // event, lets the text field's character consumer take it in one piece and
 // inserts it as the field's text, so Chinese, Japanese and Korean reach the field.
 //
-// Not ported yet (README.md "Next steps"): the editor's own steps by character
-// (backspace, delete, arrows, selection, the width fit that drops the last
-// byte), undo, caret alignment after a commit, the IME's candidate window and
-// composition display. Until then those steps still work on bytes.
+// Backspace, Delete and the left and right arrows step by grapheme in a field
+// whose text is UTF-8 (the original's editor_key and editor_arrow without its
+// shaped paragraphs, undo or IME composition state; native_editor_text.cpp).
+//
+// Not ported yet (README.md "Next steps"): selection by grapheme, the width fit
+// that drops the last byte, word steps, up and down in multi-line fields, undo,
+// caret alignment after a commit, the IME's candidate window and composition
+// display.
 #include "text_input.hpp"
 
 #include <windows.h>
@@ -21,6 +25,7 @@
 #include "symbols.gen.hpp"
 
 #include "engine_string.hpp"
+#include "native_editor_text.hpp"
 #include "native_text_event.hpp"
 #include "unicode_editor.hpp"
 #include "unicode_text.hpp"
@@ -39,6 +44,9 @@ void* (*g_find_element)(void* set, const void* key) = nullptr;
 const char* g_restricted = nullptr;
 anvil::HookOf<sym::consume_editor_commit> g_consume;
 anvil::HookOf<sym::insert_editor_commit> g_insert;
+anvil::HookOf<sym::editor_key> g_key;
+anvil::HookOf<sym::editor_left> g_left;
+anvil::HookOf<sym::editor_right> g_right;
 
 // The commit being consumed: the field (its editor at -0x108 from the
 // consumer) and the whole text that its insertion takes instead of one byte.
@@ -121,6 +129,55 @@ void insert(void* widget, const void* text) noexcept {
     g_insert.next(widget, text);
 }
 
+// The game's key event for a text field: SDL key code and modifiers (1 Ctrl,
+// 4 Shift).
+struct KeyEvent {
+    std::uint32_t key, unused, modifiers;
+};
+
+void redraw(void* widget) {
+    reinterpret_cast<void (*)(void*)>((*static_cast<void***>(widget))[0x208 / 8])(widget);
+}
+
+// Backspace (8) and Delete (127) without modifiers remove one grapheme, or the
+// selection. A field whose text is not UTF-8 throws in native_edit_state and
+// keeps the game's own handling.
+bool key(void* widget, const void* raw) noexcept {
+    const auto* event = static_cast<const KeyEvent*>(raw);
+    if (event->modifiers || (event->key != 8 && event->key != 127)) return g_key.next(widget, raw);
+    try {
+        const auto state = eu4unicode::native_edit_state(widget);
+        eu4unicode::EditResult result;
+        if (state.selection.anchor != state.selection.caret) {
+            result = eu4unicode::replace_selection(state.text, state.selection.anchor, state.selection.caret, "", 32000);
+        } else {
+            const auto plan = eu4unicode::plan_edit(
+                state.text, state.selection.caret,
+                event->key == 8 ? eu4unicode::EditKey::backspace : eu4unicode::EditKey::forward_delete);
+            result = {state.text, plan.caret};
+            result.text.erase(plan.erase_begin, plan.erase_end - plan.erase_begin);
+        }
+        if (result.text != state.text) eu4unicode::native_edit_restore(widget, {std::move(result.text), {result.caret, result.caret}});
+        return true;
+    } catch (...) {
+        return g_key.next(widget, raw);
+    }
+}
+
+// editor_arrow: the caret moves one grapheme.
+template <bool Right> void arrow(void* widget) noexcept {
+    try {
+        const auto state = eu4unicode::native_edit_state(widget);
+        const auto target =
+            eu4unicode::plan_edit(state.text, state.selection.caret, Right ? eu4unicode::EditKey::right : eu4unicode::EditKey::left)
+                .caret;
+        eu4unicode::native_edit_caret(widget, target);
+        redraw(widget);
+    } catch (...) {
+        (Right ? g_right : g_left).next(widget);
+    }
+}
+
 }  // namespace
 
 std::size_t load_text_input(anvil::Host& host, std::vector<anvil::Change>& changes) {
@@ -131,7 +188,15 @@ std::size_t load_text_input(anvil::Host& host, std::vector<anvil::Change>& chang
     changes.push_back(host.replace_block(sym::input_block, input));
     host.hook(g_consume, sym::consume_editor_commit, consume);
     host.hook(g_insert, sym::insert_editor_commit, insert);
-    return 3;
+    eu4unicode::configure_native_editor_text(eu4unicode::NativeEditorTextApi{
+        reinterpret_cast<eu4unicode::EngineString* (*)(eu4unicode::EngineString*, const char*, std::uint64_t)>(
+            host.function(sym::assign_editor_prefix)),
+        reinterpret_cast<void (*)(eu4unicode::EngineString*)>(host.function(sym::string_destroy)),
+        reinterpret_cast<void (*)(void*, std::uint32_t)>(host.function(sym::editor_move_caret))});
+    host.hook(g_key, sym::editor_key, key);
+    host.hook(g_left, sym::editor_left, arrow<false>);
+    host.hook(g_right, sym::editor_right, arrow<true>);
+    return 6;
 }
 
 }  // namespace unicode_patch

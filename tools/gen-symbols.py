@@ -39,7 +39,7 @@ FUNCTION_BYTES = {0x16FD650: 20, 0x1705180: 21, 0x1704AF0: 17, 0x159B470: 18, 0x
                   0x170D1D0: 21, 0x170EBF0: 18, 0x15105B0: 20, 0x1594360: 18, 0xFD5B70: 20, 0x16D6640: 19,
                   0x1765850: 17, 0x1764940: 18, 0x15385A0: 20, 0x15361F0: 20, 0x1536060: 20, 0x1535EB0: 20,
                   0x1537210: 20, 0x1534250: 19, 0x15353F0: 17, 0x14DB940: 17, 0x1534100: 17, 0xB19590: 18,
-                  0x15354E0: 20, 0x1536B80: 19, 0x1506D30: 20, 0x14C7890: 20, 0xE3D40: 18, 0x1539820: 19,
+                  0x15354E0: 20, 0x1536B80: 19, 0x1506D30: 20, 0x14C7890: 20, 0xE3D40: 18, 0x1539820: 19, 0x1536F50: 20, 0x95660: 17,
                   0x95110: 18}
 # The hooks this plugin makes so far, with their C signatures.
 SIGNATURES = {
@@ -50,6 +50,10 @@ SIGNATURES = {
     "destroy_font_table": "void (void* table)",
     "consume_editor_commit": "bool (void* callback, const char* character)",
     "insert_editor_commit": "void (void* widget, const void* text)",
+    "editor_key": "bool (void* widget, const void* event)",
+    "editor_left": "void (void* widget)",
+    "editor_right": "void (void* widget)",
+    "assign_editor_prefix": "void* (void* target, const char* text, uint64_t size)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
@@ -66,6 +70,10 @@ CALLS = {
 INLINE = {
     "find_element": (0x14DB3C0, 'signature = "void* (void* set, const void* key)"',
                      "the game's set lookup that consume_editor_commit calls for its seven-character restriction"),
+    "string_destroy": (0x95660, 'signature = "void (void* target)"',
+                       "the game's std::string destructor (native_editor_text.cpp)"),
+    "editor_move_caret": (0x1536F50, 'signature = "void (void* widget, uint32_t offset)"',
+                          "the text field's caret move to a byte offset (native_editor_text.cpp)"),
     "editor_restricted_characters": (0x1D91328, 'type = "char"',
                                      "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }
@@ -134,7 +142,7 @@ for name, (signature, note) in CALLS.items():
             f'signature = "{signature}"', f'note = "{note}"', ""]
 for name, (rva, kind, note) in INLINE.items():
     if kind.startswith("signature"):
-        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, 16))}"', kind,
+        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, FUNCTION_BYTES.get(rva, 16)))}"', kind,
                 f'note = "{note}"', ""]
     else:
         out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "read"', kind, f'note = "{note}"', ""]
