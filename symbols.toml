@@ -763,6 +763,7 @@ note = "function hook of the original (format_localized_battle_title)"
 rva = 0x15953C0
 memory = "code"
 bytes = "48 89 5C 24 08 57 48 81 EC 80 00 00 00 48 8B F9"
+signature = "void (void* font)"
 note = "function hook of the original (load_font_atlas)"
 
 [symbol.synchronize_font_texture]
@@ -1029,6 +1030,13 @@ memory = "code"
 bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 64 24 20"
 signature = "void (void* widget, uint32_t offset)"
 note = "the text field's caret move to a byte offset (native_editor_text.cpp)"
+
+[symbol.resolve_resource]
+rva = 0x19FAD70
+memory = "code"
+bytes = "40 55 48 83 EC 60 48 8D 6C 24 20 48 89 5D 58 48 89 75 60"
+signature = "const void* (const char* path)"
+note = "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"
 
 [symbol.editor_restricted_characters]
 rva = 0x1D91328

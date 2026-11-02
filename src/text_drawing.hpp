@@ -18,7 +18,12 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <string_view>
+
+namespace eu4unicode {
+class FormattedText;
+}
 
 namespace unicode_patch {
 
@@ -64,12 +69,23 @@ std::size_t last_glyph_offset(std::string_view text) noexcept;
 struct TextState {
     std::uint32_t last_index = 0;
     std::uint32_t last_scalar = 0;
+    std::uint32_t last_bytes = 1;
     std::uint32_t button_extra = 0;
+    std::uint32_t button_scalar = 0;
 };
 TextState& text_state() noexcept;
 
 // copy_scalar: copies the character at `source` to `destination` when it fits
 // and remembers its glyph for the measuring block after it.
 Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, std::size_t available) noexcept;
+
+// formatted_boundaries: where Unicode's line breaking rules (UAX #14, the original's
+// formatted_text.cpp) allow a line to break in `text`, cached by text; nothing for
+// text without a character of three or more bytes, which wraps at spaces as the
+// game wraps it. The game breaks a line only at a glyph whose width field is 0 (a
+// space), so Chinese and Japanese, which have no spaces, would not wrap at all.
+std::shared_ptr<const eu4unicode::FormattedText> line_breaks(std::string_view text) noexcept;
+// FormattedText::line_before for `breaks` that may be empty.
+bool line_before(const eu4unicode::FormattedText* breaks, std::size_t offset) noexcept;
 
 }  // namespace unicode_patch

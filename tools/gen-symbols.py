@@ -40,7 +40,7 @@ FUNCTION_BYTES = {0x16FD650: 20, 0x1705180: 21, 0x1704AF0: 17, 0x159B470: 18, 0x
                   0x1765850: 17, 0x1764940: 18, 0x15385A0: 20, 0x15361F0: 20, 0x1536060: 20, 0x1535EB0: 20,
                   0x1537210: 20, 0x1534250: 19, 0x15353F0: 17, 0x14DB940: 17, 0x1534100: 17, 0xB19590: 18,
                   0x15354E0: 20, 0x1536B80: 19, 0x1506D30: 20, 0x14C7890: 20, 0xE3D40: 18, 0x1539820: 19, 0x1536F50: 20, 0x95660: 17,
-                  0x95110: 18}
+                  0x95110: 18, 0x19FAD70: 19}
 # The hooks this plugin makes so far, with their C signatures.
 SIGNATURES = {
     "find_country_name": "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)",
@@ -54,6 +54,7 @@ SIGNATURES = {
     "editor_left": "void (void* widget)",
     "editor_right": "void (void* widget)",
     "assign_editor_prefix": "void* (void* target, const char* text, uint64_t size)",
+    "load_font_atlas": "void (void* font)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
@@ -74,6 +75,8 @@ INLINE = {
                        "the game's std::string destructor (native_editor_text.cpp)"),
     "editor_move_caret": (0x1536F50, 'signature = "void (void* widget, uint32_t offset)"',
                           "the text field's caret move to a byte offset (native_editor_text.cpp)"),
+    "resolve_resource": (0x19FAD70, 'signature = "const void* (const char* path)"',
+                         "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"),
     "editor_restricted_characters": (0x1D91328, 'type = "char"',
                                      "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }

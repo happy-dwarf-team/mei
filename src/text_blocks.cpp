@@ -7,9 +7,10 @@
 // game's rsp+48h.
 //
 // Not ported: the blocks that only serve the original's own glyphs (shaped
-// paragraphs, atlas pages, line breaks and kerning above U+00FF). With the
-// game's fonts no glyph index is above 0xFF (text_drawing.hpp), so the game's
-// own code at those places does what the stubs' native paths do.
+// paragraphs, atlas pages and kerning above U+00FF). With the game's fonts no
+// glyph index is above 0xFF (text_drawing.hpp), so the game's own code at those
+// places does what the stubs' native paths do. The line break blocks are ported:
+// without them a Chinese paragraph has no place to wrap.
 #include "text_blocks.hpp"
 
 #include <cstdint>
@@ -21,6 +22,7 @@
 #include "symbols.gen.hpp"
 
 #include "engine_string.hpp"
+#include "formatted_text.hpp"
 #include "glyph_registry.hpp"
 #include "text_drawing.hpp"
 
@@ -97,13 +99,18 @@ struct Natives {
     std::uintptr_t main_measure_entry, main_plain_entry, button_plain_entry, button_draw_plain_entry,
         bitmap_plain_entry, button_loop, button_end, alternate_end, alternate_plain_entry, popup_plain_entry,
         popup_draw_plain_entry, font_allocate, font_duplicate, font_initialize, font_skip, map_fit_plain_entry,
-        map_justify_single_return;
+        map_justify_single_return, wrap_branch, button_wrap_branch, popup_advance_entry;
     void* (*engine_new)(std::uint64_t size);
 } g;
+
+// Where the text a routine lays out may break (line_breaks), set at its first character.
+std::shared_ptr<const eu4unicode::FormattedText> g_main_breaks, g_button_breaks, g_popup_breaks;
 
 // --- the main text routine (0x15988E0) ---
 
 void main_copy(Cpu& c) noexcept {
+    if (static_cast<std::uint32_t>(c.rdi) == 0)
+        g_main_breaks = line_breaks({text(at<std::uintptr_t>(c.rbp - 8)), at<std::uint64_t>(c.r12 + 0x10)});
     c.r9 = static_cast<std::uint64_t>(static_cast<std::int64_t>(static_cast<std::int32_t>(c.rdi))) + at<std::uint64_t>(c.rbp - 8);
     c.rdx = at<std::uint64_t>(c.rbp - 8);
     c.rcx = static_cast<std::uint64_t>(static_cast<std::int64_t>(static_cast<std::int32_t>(c.rsi)));
@@ -153,6 +160,28 @@ void main_icon_draw(Cpu& c) noexcept {
     at<std::uint8_t>(c.rbp + c.rcx + 0x1D0) = 0;
 }
 
+// The game breaks a line before a glyph whose width field (+6) is 0, a space; the
+// original asks the line breaking rules before a character above U+00FF.
+void main_wrap(Cpu& c) noexcept {
+    const auto& s = text_state();
+    bool allow;
+    if (s.last_scalar > 0xFF) {
+        const auto last_byte = static_cast<std::uint32_t>(c.rdi);
+        allow = last_byte + 1 >= s.last_bytes && line_before(g_main_breaks.get(), last_byte + 1 - s.last_bytes);
+    } else {
+        const auto width = at<std::uint16_t>(c.rcx + 6);
+        compare_flags<std::uint16_t>(c, width, 0);
+        allow = width == 0;
+    }
+    if (!allow) {
+        c.rip = g.wrap_branch;
+        return;
+    }
+    c.rax = low(c.rbx + c.rbx);
+    c.xmm[1] = {};
+    c.xmm[1].u32[0] = static_cast<std::uint32_t>(c.rax);
+}
+
 void main_draw(Cpu& c) noexcept {
     const auto d = decode_glyph(text(c.rcx + c.r9));
     c.r15 = low(c.r15 + d.extra);
@@ -165,9 +194,11 @@ void main_draw(Cpu& c) noexcept {
 // --- the button text routine (0x1596660) ---
 
 void button_copy(Cpu& c) noexcept {
+    if (static_cast<std::uint32_t>(c.r14) == 0) g_button_breaks = line_breaks(engine_text(c.rbp - 0x38));
     const char* source = text(c.rax + c.rbx);
     const auto d = decode_glyph(source);
     text_state().button_extra = d.extra;
+    text_state().button_scalar = d.scalar;
     const std::uint64_t size = d.extra + 1;
     char* destination = g.repeat_text(reinterpret_cast<void*>(c.rsp + 0x48), size, static_cast<std::uint8_t>(*source));
     std::memcpy(destination, source, size);
@@ -217,6 +248,19 @@ void button_advance(Cpu& c) noexcept {
     }
     c.r15 = at<std::uint32_t>(c.rbp + 0x21C8);
     c.rip = g.button_end;
+}
+
+void button_wrap(Cpu& c) noexcept {
+    const auto& s = text_state();
+    bool allow;
+    if (s.button_scalar > 0xFF) {
+        allow = line_before(g_button_breaks.get(), static_cast<std::uint32_t>(c.r14) + s.button_extra + 1);
+    } else {
+        const auto width = at<std::uint16_t>(c.r11 + 6);
+        compare_flags<std::uint16_t>(c, width, 0);
+        allow = width == 0;
+    }
+    if (!allow) c.rip = g.button_wrap_branch;
 }
 
 void button_draw_format(Cpu& c) noexcept {
@@ -385,7 +429,18 @@ Glyph copy_popup_glyph(std::uintptr_t target, const char* source) noexcept {
     return d;
 }
 
-void popup_copy(Cpu& c) noexcept { copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi)); }
+void popup_copy(Cpu& c) noexcept {
+    if (static_cast<std::uint32_t>(c.rdi) == 0) g_popup_breaks = line_breaks(engine_text(c.rsi));
+    copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi));
+}
+
+// A space wraps as in the game; any other glyph where the rules allow a break after it.
+void popup_wrap(Cpu& c) noexcept {
+    const auto width = at<std::uint16_t>(c.r12 + 6);
+    compare_flags<std::uint16_t>(c, width, 0);
+    if (width != 0 && !line_before(g_popup_breaks.get(), static_cast<std::uint32_t>(c.rdi) + 1))
+        c.rip = g.popup_advance_entry;
+}
 
 void popup_color_copy(Cpu& c) noexcept {
     const auto d = copy_popup_glyph(c.rbp + 0x50, text(c.rax + c.rdi));
@@ -729,6 +784,9 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     g.alternate_plain_entry = address(sym::alternate_plain_entry);
     g.popup_plain_entry = address(sym::popup_plain_entry);
     g.popup_draw_plain_entry = address(sym::popup_draw_plain_entry);
+    g.wrap_branch = address(sym::wrap_branch);
+    g.button_wrap_branch = address(sym::button_wrap_branch);
+    g.popup_advance_entry = address(sym::popup_advance_entry);
 
     const auto start = changes.size();
     const auto replace = [&](const auto& block, void (*callback)(Cpu&) noexcept) {
@@ -740,6 +798,7 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     replace(sym::main_icon_copy_block, main_icon_copy);
     replace(sym::main_icon_draw_block, main_icon_draw);
     replace(sym::main_draw_block, main_draw);
+    replace(sym::main_wrap_block, main_wrap);
     replace(sym::button_copy_block, button_copy);
     replace(sym::button_format_block, button_format);
     replace(sym::button_icon_copy_block, button_icon_copy);
@@ -748,6 +807,7 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     replace(sym::button_draw_format_block, button_draw_format);
     replace(sym::button_icon_draw_block, button_icon_draw);
     replace(sym::button_draw_block, button_draw);
+    replace(sym::button_wrap_block, button_wrap);
     replace(sym::text_limit_block, text_limit);
     replace(sym::bitmap_format_block, bitmap_format);
     replace(sym::bitmap_icon_end_block, bitmap_icon_end);
@@ -770,6 +830,7 @@ std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& chan
     replace(sym::popup_draw_format_block, popup_draw_format);
     replace(sym::popup_draw_block, popup_draw);
     replace(sym::popup_icon_end_block, popup_icon_end);
+    replace(sym::popup_wrap_block, popup_wrap);
     return changes.size() - start;
 }
 
