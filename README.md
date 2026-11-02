@@ -42,7 +42,7 @@ MinHook, the MASM stubs and the proxy loader are not used.
 
 ## What it does so far
 
-Five features of the original.
+Six features of the original.
 
 ### Search
 
@@ -145,8 +145,26 @@ As for the interface, the original's whole-label shaping, atlas page tags and ke
 characters above U+00FF are not ported. `tools/make-font-mod.py` gives the map's fonts
 (Mapfont, tahoma_60) the map atlas, whose colour the map shader uses.
 
+### Text input (`utf8_input`, off by default)
+
+SDL hands the game each typed or IME-committed text as UTF-8; the game keeps only what its
+conversion allows, so Chinese, Japanese and Korean never reach a text field. As in the
+original (`src/text_input.cpp`):
+
+| Symbol | The game | The plugin |
+| --- | --- | --- |
+| `input_block` `0x1569F91` | per-byte handling of SDL's text event | the original's `dispatch_utf8`: the whole text as one tagged event on the game's queue; continues at `input_return` |
+| `consume_editor_commit` `0x15354E0` | a text field takes one character | for the queue's caller only: the whole tagged text, through the field's refused characters and the game's seven-character restriction |
+| `insert_editor_commit` `0x1536B80` | inserts the field's text | for that consumer's call only: inserts the whole text |
+| `editor_key` `0x15366C0`, `editor_left` `0x15384D0`, `editor_right` `0x15385A0` | Backspace, Delete and the arrows step by byte | in a field whose text is UTF-8, they step by grapheme (the original's `editor_key` and `editor_arrow` without its shaped paragraphs, undo and IME state; `native_editor_text.cpp`) |
+
+Not ported yet: selection by grapheme, the width fit that drops a field's last byte, word
+steps, up and down in multi-line fields, undo, caret alignment after a commit, paste, the
+IME's candidate window (`sdl_ime_ui_less`) and composition display, and how they work with
+Anvil's overlay, which takes text input too.
+
 Settings (`settings.toml`, the overlay's panel): `search`, `utf8_localization`,
-`typo_tolerance`, `fuzzy_pinyin`, which replace the original's `config.ini`. A `pinyin.txt` in the plugin
+`utf8_input`, `typo_tolerance`, `fuzzy_pinyin`, which replace the original's `config.ini`. A `pinyin.txt` in the plugin
 folder adds readings, as in the original.
 
 `symbols.toml` declares every address of the original (91 blocks with their 113
@@ -167,13 +185,15 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | Text drawing: 36 blocks | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, 3 blocks, 1 hook, the glyph registry; `fontpack` and `tools/make-font-mod.py` | on with `utf8_localization` |
 | Map labels: 17 blocks | on with `utf8_localization` |
+| Text input: 1 block, 5 hooks | `utf8_input`, off by default |
 | The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 9/9 (Release, MSVC 2022) |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
 | In-game test of the localisation import (2.11.2026, the same conditions) | 259096 values kept in UTF-8, none rejected; see below |
 | In-game test of the text drawing (2.11.2026, the same conditions) | accented localisation drawn right; no measurable cost per frame; see below |
 | In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI and, with the map blocks, on the map; see below |
+| In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (script and save lexer, its own font atlases, editor and IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
+| The rest of the original (script and save lexer, its own font atlases, the rest of the editor and the IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test of the search
@@ -284,6 +304,26 @@ from `fontpack` (339 characters, 22 UI fonts), laid out as `tools/make-font-mod.
   `pops_api.dll` (a null read, no plugin on the stack); starting it in the menu did not.
   The first start ran with the display asleep (8 frames per second) and does not count.
 
+### In-game test of the text input
+
+Three starts on 2.11.2026 in the same private profile and test mod (165 frames per second),
+in the single-player lobby's finder (Find, the same `goto_box` as the province finder).
+Text was sent as `WM_CHAR` messages to the game window (`PostMessageW`, no change of
+focus), which SDL turns into the same text event an IME commit ends in; Tongs typed Latin-1.
+
+- With `utf8_input`: 法兰 reached the field whole as UTF-8, and the finder listed 法兰西
+  (France) by the Chinese search; 法xö日本 (Latin, accented and Japanese mixed) too.
+- Without it the same messages left only xö in the field, in Windows-1252: the game drops
+  Chinese and Japanese.
+- Before the key hooks one Backspace removed one byte of 兰 (the field showed 法 and a
+  broken letter). With them: Backspace removed 西 whole, Left then x gave 法x兰, Delete
+  removed 兰 whole, Tongs' bä then Backspace left b, and a Latin query (bohemia) found
+  Bohemia.
+- Not checked: IME composition itself (the candidate window, `WM_IME_COMPOSITION` and the
+  composing text in the field). A real IME commit reaches the game through
+  `ImmGetCompositionString`, which a message from another process cannot fill, so it needs
+  typing with an IME by hand.
+
 ## Next steps
 
 A plan only; none of it is ported. The original's order, from the lab's analysis:
@@ -308,11 +348,13 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
    Plangothic pack (SIL OFL 1.1, not bundled) go with it. Then Chinese text needs no mod,
    and the text blocks can give a character above U+00FF its own index, as the original
    does, with its shaped-paragraph, line-break and kerning blocks.
-4. **Editor and IME**: the original's input changes (about 30 blocks), UTF-8 typing and
-   cursor movement, `sdl_ime_ui_less` for the candidate window, and how it works with
-   Anvil's overlay, which also takes text input. After this the typed query is UTF-8 and
-   the Windows-1252 conversion of `src/game_text.cpp` can go, and `utf8_localization` can
-   default to on together with `search`.
+4. **The rest of the editor and the IME**: selection by grapheme, the width fit, word
+   steps, multi-line fields, undo, caret alignment and paste (about 20 more hooks of the
+   original), `sdl_ime_ui_less` for the candidate window and the composition display, and
+   how they work with Anvil's overlay, which also takes text input; then a test with a real
+   IME (Microsoft Pinyin, Microsoft IME for Japanese and Korean). After this the typed query
+   is always UTF-8 and the Windows-1252 conversion of `src/game_text.cpp` can go, and
+   `utf8_localization` and `utf8_input` can default to on together with `search`.
 
 The original's code is built as C++17, as in its own build (`u8""` literals are `char`
 there); the plugin itself is C++20.
