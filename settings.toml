@@ -4,7 +4,7 @@
 
 [setting.search]
 type = "bool"
-# Off until the in-game regression in README.md "State" is fixed.
+# Off until the diplomacy country list is checked in the game (README.md "State").
 default = false
 label = "Chinese and pinyin search"
 description = "The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input."

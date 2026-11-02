@@ -6,8 +6,9 @@ by VulonLok (MIT) from its EU4DLL-style `VERSION.dll` loader to Anvil, so that C
 Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)).
 
-**Status: draft, not usable yet.** It builds and its unit tests pass, but in the game the
-ported search makes the province finder worse, so `search` is off by default (see
+**Status: draft.** It builds and its unit tests pass. The ported search now finds the
+province finder's English names, accented or not, as the game does. `search` stays off
+by default until the diplomacy country list has been checked in the game (see
 [State](#state)). Not affiliated with Paradox Interactive.
 
 ## Where it lives and why
@@ -48,6 +49,11 @@ pinyin, optional fuzzy pinyin), as the original does it:
 | `find_province_distance` `0x171F880` | fuzzy distance in the province finder | the same for its two callers |
 | 10 × `search_lower_call_*`, 9 × `search_unaccent_call_*` | lower-case and strip Latin-1 accents from search keys in place, which breaks UTF-8 | NOPs, as in the original; the original's matching is case- and accent-insensitive itself |
 
+The original converts the game's localisation to UTF-8 when it loads and its search
+rejects any other text. Until that import is ported, the game's names and the typed query
+are Windows-1252, so `src/game_text.cpp` decodes text that is not valid UTF-8 as
+Windows-1252 before it reaches the original's code; valid UTF-8 passes unchanged.
+
 Settings (`settings.toml`, the overlay's panel): `search`, `typo_tolerance`,
 `fuzzy_pinyin`, which replace the original's `config.ini`. A `pinyin.txt` in the plugin
 folder adds readings, as in the original.
@@ -65,41 +71,36 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | `symbols.toml` with all 286 symbols | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | builds; `anvil check` of the built plugin folder OK |
 | The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML) and `tests/port_tests.cpp` | `ctest` 9/9 (Release, MSVC 2022) |
-| In-game test (1.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | **search regresses**, see below |
+| In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
+| In-game test of the diplomacy country list | not done |
 | The rest of the original (localisation import and lexer, fonts and atlases, layout blocks, map labels, editor and IME, dates, Rich Presence, save names) | not started |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test of the search
 
-Preliminary: the PC's monitor was asleep during these runs, in which the game draws slowly
-and may drop input; input did arrive (typed text and changing lists are on the screenshots),
-but the runs have to be repeated with the monitor on.
-
 The province finder (`minimap_panel/button_goto`, "Exact matches only" off), the same queries
-with and without the plugin; screenshots and `anvil.log` in the EU4 engine lab:
+without the plugin, with the build before the fix (`633ff58`) and with the fix (`587ab6e`),
+on 2.11.2026 with the display on (the game drew 79–83 frames per second in every run).
+Screenshots, logs and conditions are in the EU4 engine lab (`docs/anvil-unicode-patch-research.md`).
 
-| Query | Without the plugin (top of the list) | With the plugin |
-| --- | --- | --- |
-| `ostergotland` | Östergötland, Gotland, Easter Island, Shetland, Östra Götaland | Gotland, Easter Island, Shetland, Ingermanland…: no Östergötland or Östra Götaland in the first 8 |
-| `MOSKV` | Moskva, Mosul, Moshi | Tukholma, Kalmar, Tammerfors…: no Moskva in the first 8 |
-| `MOSKV`, hooks only (the 19 NOPs left out) | — | Tukholma, Kalmar, Värmland…: the same |
+| Query | Without the plugin | Before the fix | With the fix |
+| --- | --- | --- | --- |
+| `ostergotland` | Östergötland, Gotland, Easter Island, Shetland, Östra Götaland, Västerbotten, Ingermanland, Ostróda | Gotland, Easter Island, Shetland, Ingermanland, Vogtland, Sutherland, Teotitlan, Stargard | Östergötland, Östra Götaland, Gotland, Easter Island, Shetland, Østjylland, Västerbotten, Ingermanland |
+| `MOSKV` | Moskva, Mosul, Moshi, Morea, York, Pskov, Minsk, Mokha | the same | the same |
+| `götaland` | — | — | Östra Götaland, Västra Götaland, Gotland, Åland, Lolland, Vogtland, Holland, Holland |
 
-What the diagnosis found:
-
-- The plugin loads (286 symbols verified, 21 changes) and both detours run. The province
-  finder calls `find_province_distance` from `0x1142192` and `0x11421B2`, and
-  `find_country_name` from `0x11420E2`, the callers the original changes, so
-  `_ReturnAddress()` under Anvil gives the game's call site.
-- The original's distance is right for what it gets (`'Michoacan' 'M'`: 1, the game 8).
-- `find_country_name(0x11420E2, 'Moskva', 'MOSKV')` reaches the original's matching, but
-  `find_province_distance` is then never called for Moskva with that query. The list is
-  decided between the two calls.
-- With the NOPs left out the result is the same, so the NOPs alone do not cause it.
-
-Open: why a name the original's matching accepts drops out of the finder. Next: read the
-caller around `0x11420E2` in Ghidra (what it does with the find's result: the original
-returns 0 or `UINT64_MAX` and assumes the caller tests only found/not found), and run the
-original patch itself on the same save for comparison.
+- The cause: the original's search throws on text that is not valid UTF-8, and the
+  detours caught it and dropped the candidate, so every accented province went to the end
+  of the finder and every accented country left the diplomacy search (2816 and 1704
+  warnings in the log of the run before the fix, none with it).
+- The first test (1.11.2026) ran with the PC's display asleep. Its `MOSKV` result
+  (no Moskva in the first 8) did not repeat with the display on; the accented names did.
+- With the fix, the distance-ranked part of the list differs from the game's in places
+  (Östra Götaland 2nd instead of 5th, Østjylland in the first 8), probably because the original's
+  Latin keys fold more letters than the game's accent stripping (not checked in the game's
+  code).
+- Not checked yet: the diplomacy country list, Chinese and pinyin search (they need the
+  localisation import), and a comparison with the original patch itself.
 
 The original's code is built as C++17, as in its own build (`u8""` literals are `char`
 there); the plugin itself is C++20.
