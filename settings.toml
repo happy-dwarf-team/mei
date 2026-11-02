@@ -4,29 +4,36 @@
 
 [setting.search]
 type = "bool"
-# Off until the diplomacy country list is checked in the game (README.md "State").
-default = false
+# On with the localisation import: the game's own lower-casing and accent stripping
+# break UTF-8 names (README.md "In-game test of the localisation import").
+default = true
 label = "Chinese and pinyin search"
 description = "The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input."
 restart = true
 
 [setting.utf8_localization]
 type = "bool"
-# Off until the text editor and the original's own font atlases are ported:
-# the interface and map blocks draw UTF-8, the editor still reads it as
-# Windows-1252, and without `search` the province finder loses accented names
-# (README.md "State").
-default = false
-label = "UTF-8 localisation (experimental)"
-description = "The game keeps its localisation in UTF-8, as the original does, and draws it. Chinese, Japanese and Korean need fonts that hold them (from a mod for now); without them those letters show as '?'. Turn on the search with it: the game's own search misses accented names in UTF-8."
+# On: a translation mod's text shows without configuration. The text blocks,
+# the font loader and the map blocks come with it.
+default = true
+label = "UTF-8 localisation"
+description = "The game keeps its localisation in UTF-8 and draws it, and EU4DLL translation packs' escapes become UTF-8. Keep the search on with it: the game's own search misses accented names in UTF-8."
+restart = true
+
+[setting.bundled_fonts]
+type = "bool"
+# Needs utf8_localization, which loads the fonts' glyphs above U+00FF.
+default = true
+label = "Mei's fonts"
+description = "Where the game would use one of its own fonts, which have no Chinese, Japanese or Korean letters, it uses Mei's (Source Han Sans) instead. Fonts that a translation mod brings with such letters stay."
 restart = true
 
 [setting.utf8_input]
 type = "bool"
-# Off until selection by character, undo and the IME's candidate window are
-# ported (README.md "State").
-default = false
-label = "UTF-8 text input (experimental)"
+# On: typing is part of what Mei is for. Selection by character and undo are
+# not ported, and the IME's candidate window is not checked (README.md "State").
+default = true
+label = "UTF-8 text input"
 description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Backspace, Delete and the arrow keys step by character; selections and undo do not yet."
 restart = true
 

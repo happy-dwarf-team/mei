@@ -42,7 +42,7 @@ target_include_directories(unicode_search PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/g
 target_link_libraries(unicode_search PUBLIC unicode_services)
 set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPILE_OPTIONS /bigobj)
 
-add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp)
+add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp ${UPSTREAM}/src/formatted_text_cache.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
 add_library(unicode_editor STATIC ${UPSTREAM}/src/unicode_editor.cpp ${UPSTREAM}/src/editor_document.cpp
     ${UPSTREAM}/src/native_editor_text.cpp)
@@ -60,6 +60,11 @@ target_link_libraries(fontpack PRIVATE font_atlas_assets)
 set_target_properties(font_atlas_assets fontpack PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 target_compile_options(font_atlas_assets PRIVATE /utf-8 /EHsc)
 target_compile_options(fontpack PRIVATE /utf-8 /EHsc)
+# Mei's bundled atlases (fonts/README.md): the same layout from the pinned open font only.
+add_executable(meifonts tools/meifonts.cpp)
+target_link_libraries(meifonts PRIVATE font_atlas_assets)
+set_target_properties(meifonts PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_compile_options(meifonts PRIVATE /W4 /utf-8 /EHsc)
 
 add_library(native_script_bom STATIC ${UPSTREAM}/src/native_script_bom.cpp)
 target_include_directories(native_script_bom PUBLIC ${UPSTREAM}/include PRIVATE ${UPSTREAM}/vendor/utfcpp/source)
@@ -96,7 +101,7 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp)
+anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp)
 target_link_libraries(unicode_patch PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the

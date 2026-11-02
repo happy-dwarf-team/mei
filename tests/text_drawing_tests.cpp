@@ -1,6 +1,7 @@
 // The text blocks' decoding: a UTF-8 character gives the index of its glyph in
 // the game's fonts and its length; text that is not UTF-8 stays one byte per
 // glyph, as the game reads it; nothing gets an index above 0xFF.
+#include "formatted_text.hpp"
 #include "text_drawing.hpp"
 #include "unicode_text.hpp"
 
@@ -124,6 +125,17 @@ int text_drawing_tests() {
     char small[1] = {'x'};
     check(same(copy_glyph(ostra.data(), ostra.size(), small, 1), 0xD6, 1) && small[0] == 'x',
           "a character that does not fit is not copied");
+    check(text_state().last_bytes == 2, "the block remembers how many bytes the character had");
+
+    // Line breaks: a paragraph without spaces may break between Chinese characters, not
+    // before closing punctuation; Latin text is left to the game, which breaks at spaces.
+    const auto paragraph = utf8(u8"奥斯曼军队，取得胜利。");
+    const auto breaks = line_breaks(paragraph);
+    check(breaks != nullptr, "Chinese text gets its line breaks");
+    check(line_before(breaks.get(), 3) && line_before(breaks.get(), 6), "a line may break between characters");
+    check(!line_before(breaks.get(), 15) && !line_before(breaks.get(), 30), "not before a comma or a full stop");
+    check(line_breaks("Ottoman army") == nullptr && line_breaks(ostra) == nullptr, "Latin text keeps the game's breaks");
+    check(!line_before(nullptr, 3), "no breaks, no break");
 
     return g_failures;
 }

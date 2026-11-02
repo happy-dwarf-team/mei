@@ -6,13 +6,14 @@ by VulonLok (MIT) from its EU4DLL-style `VERSION.dll` loader to Anvil, so that C
 Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)).
 
-**Status: draft.** It builds and its unit tests pass. The ported search finds the
-province finder's English names, accented or not, as the game does. The localisation
-import keeps the game's text in UTF-8, as the original does, and the ported text blocks
-draw it, Chinese, Japanese and Korean too when a font holds those glyphs (from a mod; see
-[CJK fonts](#cjk-fonts-with-utf8_localization)), in the interface and on the map; it stays
-off (`utf8_localization`) until the editor and the original's own font atlases are ported. `search` stays off by default until the diplomacy country list has been checked in the
-game (see [State](#state)). Not affiliated with Paradox Interactive.
+**Status: works with translation mods.** With its default settings a translation mod's
+text shows in the interface and on the map, wraps, and can be searched and typed: tested
+in the game with the most used Simplified Chinese, Traditional Chinese and Korean
+translations from the Workshop ([State](#state)). The localisation import keeps the
+game's text in UTF-8, as the original does, and decodes the escapes of EU4DLL
+translation packs; the ported text blocks draw it with the translation mod's fonts, or
+with [Mei's own fonts](#cjk-fonts) where the game would use its own. Not affiliated with
+Paradox Interactive.
 
 ## Where it lives and why
 
@@ -62,7 +63,7 @@ not ported), so `src/game_text.cpp` decodes text that is not valid UTF-8 as Wind
 before it reaches the original's code; valid UTF-8, such as an imported name, passes
 unchanged.
 
-### Localisation import (`utf8_localization`, off by default)
+### Localisation import (`utf8_localization`)
 
 The game reads its localisation files as UTF-8 and converts every value to Windows-1252
 before it stores it; a character without a Windows-1252 form becomes `?`, which is why
@@ -97,14 +98,24 @@ They take one UTF-8 character and its glyph instead of one byte (`src/text_drawi
 A character above U+00FF is drawn from the font's own glyph for it when the font has one
 (below); otherwise from the font's glyph at its Windows-1252 byte (U+2013 at 0x96, where
 the game's fonts hold it), or `?`, as the game itself shows it. The index the game's code
-sees after a block (kerning, line breaks) is always that byte, never above 0xFF, so the
-original's blocks for its own glyphs (shaped paragraphs, atlas pages, line breaks and
-kerning above U+00FF) are not needed; the price is that Chinese text wraps only at spaces. Text that is not UTF-8, such as names from scripts and saves,
+sees after a block (kerning) is always that byte, never above 0xFF, so the original's
+blocks for its own glyphs (shaped paragraphs, atlas pages and kerning above U+00FF) are
+not needed. Text that is not UTF-8, such as names from scripts and saves,
 stays one byte per glyph, so both encodings draw side by side. The decoder is the
 plugin's own: the original's throws a C++ exception on every byte that is not UTF-8,
 which here would be every accented name of a save in every frame.
 
-### CJK fonts (with `utf8_localization`)
+The game breaks a line only before a glyph whose width field is 0, a space, so a Chinese
+or Japanese paragraph has nowhere to break; a long one (the 1444 bookmark's description
+in a Chinese translation) crashed the game in the lobby, with or without this plugin
+([the test](#in-game-test-with-translation-mods)). Three more blocks of the original
+(`main_wrap_hook`, `button_wrap_hook`, `popup_wrap_hook`) let a line break before or
+after a character above U+00FF where Unicode's line breaking rules allow it (UAX #14
+through the original's `formatted_text.cpp`, so not before a comma or a full stop).
+Text without a character of three or more bytes keeps the game's breaks and costs
+nothing.
+
+### CJK fonts
 
 The game's font loader drops every glyph above U+00FF (`cmp edi, 0xFF`), and the Steam
 1.37.5 fonts have none. As in the original, the limit becomes U+10FFFF together with the
@@ -112,21 +123,22 @@ loader's lookup, allocation and store blocks (`font_hooks.asm`) and the original
 registry (`glyph_registry.cpp`), which keeps those glyphs apart from the font's table of
 256 (alone, the limit would let the loader write past it); `destroy_font_table` releases
 them. So a font that holds Chinese, Japanese or Korean glyphs on its one texture page
-draws them with the game's own renderer.
+draws them with the game's own renderer. The texture file limit goes from 16 to 64 MiB,
+as in the original (`texture_file_limit`): EU4DLL translation packs and Mei's own fonts
+have larger textures.
 
-Such a font comes from a mod for now. The original's `fontpack` tool (built here) draws
-the characters of a UTF-8 file with DirectWrite from the system's fonts (Microsoft YaHei UI
-first) into atlases, and `tools/make-font-mod.py` lays them out under the game's font
-names:
+Translation mods made for EU4DLL bring such fonts and keep them. Where the game would load
+one of its own fonts instead, Mei's mod has an atlas of the same size from Source Han
+Sans (about 13,000 characters; [`fonts/README.md`](fonts/README.md)), and the hook on the
+font loader's entry (`load_font_atlas`, `src/fonts.cpp`) puts its path in place, as the
+original does with its own atlases. A font that a mod supplies is never replaced, also
+without CJK glyphs: Korean packs that need no DLL draw Hangul from pairs of Latin-1 glyphs
+of their own fonts (`bundled_fonts`, on by default).
 
-```
-build/Release/fontpack.exe <text in UTF-8> <atlas folder>
-python -I tools/make-font-mod.py <atlas folder> <mod folder>
-```
-
-The original instead draws the game's fonts itself at start-up and adds missing glyphs
-while the game runs (its font atlases, texture uploads and D3D9 hooks), so no mod is
-needed; that is not ported ([Next steps](#next-steps)).
+The original instead draws the game's fonts at start-up from the system's fonts and adds
+missing glyphs while the game runs (texture uploads and D3D9 hooks); that is not ported.
+Its `fontpack` tool (built here) and `tools/make-font-mod.py` still make a test mod's
+fonts from the system's fonts.
 
 ### Map labels (with `utf8_localization`)
 
@@ -142,10 +154,10 @@ Country names on the map come from the localisation and go through their own rou
 | case change of label text `0x14BA7F0`, `0x15503F0` | upper and lower case of ASCII letters only, as in the original (the C runtime's byte-wise change would alter UTF-8 bytes) |
 
 As for the interface, the original's whole-label shaping, atlas page tags and kerning for
-characters above U+00FF are not ported. `tools/make-font-mod.py` gives the map's fonts
-(Mapfont, tahoma_60) the map atlas, whose colour the map shader uses.
+characters above U+00FF are not ported. Mei's map atlas (for Mapfont and tahoma_60) is
+black, as the map shader takes the atlas colour.
 
-### Text input (`utf8_input`, off by default)
+### Text input (`utf8_input`)
 
 SDL hands the game each typed or IME-committed text as UTF-8; the game keeps only what its
 conversion allows, so Chinese, Japanese and Korean never reach a text field. As in the
@@ -158,13 +170,18 @@ original (`src/text_input.cpp`):
 | `insert_editor_commit` `0x1536B80` | inserts the field's text | for that consumer's call only: inserts the whole text |
 | `editor_key` `0x15366C0`, `editor_left` `0x15384D0`, `editor_right` `0x15385A0` | Backspace, Delete and the arrows step by byte | in a field whose text is UTF-8, they step by grapheme (the original's `editor_key` and `editor_arrow` without its shaped paragraphs, undo and IME state; `native_editor_text.cpp`) |
 
+As in the original, SDL's IME set-up skips the UI-less TSF manager (`sdl_ime_ui_less`),
+which would ask the game to draw the candidates itself, so the IME's own candidate window
+shows (not checked with a real IME).
+
 Not ported yet: selection by grapheme, the width fit that drops a field's last byte, word
 steps, up and down in multi-line fields, undo, caret alignment after a commit, paste, the
-IME's candidate window (`sdl_ime_ui_less`) and composition display, and how they work with
-Anvil's overlay, which takes text input too.
+composition display, and how they work with Anvil's overlay, which takes text input too.
 
 Settings (`settings.toml`, the overlay's panel): `search`, `utf8_localization`,
-`utf8_input`, `typo_tolerance`, `fuzzy_pinyin`, which replace the original's `config.ini`. A `pinyin.txt` in the plugin
+`bundled_fonts`, `utf8_input` (all on by default, so a translation mod works without
+configuration), `typo_tolerance` (on) and `fuzzy_pinyin` (off), which replace the
+original's `config.ini`. A `pinyin.txt` in the plugin
 folder adds readings, as in the original.
 
 `symbols.toml` declares every address of the original (91 blocks with their 113
@@ -180,13 +197,15 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
 | `symbols.toml` with all 289 symbols | `anvil check --exe` OK |
-| Search: 2 hooks, 19 byte patches | builds; `anvil check` of the built plugin folder OK |
-| Localisation import: 2 hooks, 1 call | builds; off by default (`utf8_localization`) |
-| Text drawing: 36 blocks | on with `utf8_localization` |
-| Font loader: the U+10FFFF limit, 3 blocks, 1 hook, the glyph registry; `fontpack` and `tools/make-font-mod.py` | on with `utf8_localization` |
+| Search: 2 hooks, 19 byte patches | on (`search`) |
+| Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
+| Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
+| Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
+| Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
 | Map labels: 17 blocks | on with `utf8_localization` |
-| Text input: 1 block, 5 hooks | `utf8_input`, off by default |
-| The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 9/9 (Release, MSVC 2022) |
+| Text input: 1 block, 5 hooks, the IME patch | on (`utf8_input`) |
+| The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 10/10 (Release, MSVC 2022) |
+| In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
 | In-game test of the localisation import (2.11.2026, the same conditions) | 259096 values kept in UTF-8, none rejected; see below |
 | In-game test of the text drawing (2.11.2026, the same conditions) | accented localisation drawn right; no measurable cost per frame; see below |
@@ -195,6 +214,36 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | In-game test of the diplomacy country list | not done |
 | The rest of the original (script and save lexer, its own font atlases, the rest of the editor and the IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
+
+### In-game test with translation mods
+
+On 2–3.11.2026 with Anvil 1.8.0, Tongs 0.25.1 and this plugin with its default settings,
+in a junction copy of the game with a private game profile (`-userdir`) that enables one
+translation mod from the Workshop and a local mod with Mei's five atlases
+(`gfx/fonts/mei/`); the game at 3440×1440, 145–166 frames per second in every run. Each
+start went to the main menu and the single-player lobby; the Simplified Chinese one on
+into a game (the Ottomans, 1444–1446 at speed 5).
+
+| Translation mod | What it is | Result |
+| --- | --- | --- |
+| [Chinese Language Mod for 1.37](https://steamcommunity.com/sharedfiles/filedetails/?id=2976470733) (Simplified Chinese, about 340,000 subscribers) | EU4DLL escapes, its own fonts (`zh-hans-*`, 21,563 glyphs) | 248,798 values decoded from escapes, none rejected; menu, lobby, map labels, the bookmark text, the 1444 introduction and messages in Chinese, wrapped; `falanxi` finds 法兰西 and 法兰西岛 |
+| [Traditional Chinese for 1.37.5](https://steamcommunity.com/sharedfiles/filedetails/?id=2437805432) | EU4DLL escapes, its own fonts (`Trad-zh-*`, textures up to 32 MiB) | 248,804 values decoded; menu, lobby, map and bookmark text in Traditional Chinese, wrapped; `yinggelan` finds 英格蘭, 新英格蘭海山 and 北英格蘭 |
+| [Korean Language Mod - stability](https://steamcommunity.com/sharedfiles/filedetails/?id=2714934430) | no DLL: Hangul drawn from pairs of Latin-1 glyphs of its own fonts | its fonts kept (45 font paths); menu and lobby in Korean as without the plugin, map labels in English as the mod intends |
+
+- Mei's fonts replaced only the game's own: 0 font paths with the Simplified Chinese mod
+  (it maps every game font to its own), 2 with the Traditional Chinese and the Korean one.
+  Without a translation mod, with the original's probe localisation, they replaced all 47
+  and drew the menu, the lobby and the map labels in Chinese, Japanese and Korean.
+- Before the line break blocks, the Simplified Chinese mod crashed the game when the lobby
+  opened: an access violation in `EOSSDK-Win64-Shipping.dll` on the main thread, with UTF-8
+  text of the bookmark's description in a register, in three of three starts. It crashed
+  the same way with the localisation import off (the register then held the mod's EU4DLL
+  escapes) and with this plugin disabled, so it is the game's own failure on a paragraph
+  without spaces; the mod's page warns that it crashes without its DLL. With the line break
+  blocks the lobby opened in every start.
+- Not checked: Japanese (no Japanese translation for 1.37 on the Workshop; the probe
+  localisation's Japanese drew right), the Chinese supplementary mod (its dynamic names
+  are in scripts, whose lexer is not ported), an IME's candidate window, and long play.
 
 ### In-game test of the search
 
@@ -335,26 +384,24 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
    `0x170EBF0`): script files and saves in UTF-8 (BOM, legacy tokens, binary save tokens),
    so that names from the culture lists and saves are UTF-8 too and memory holds one
    encoding.
-3. **The original's own font atlases**: at start-up it replaces the game's 29 fonts by
-   atlases it draws with DirectWrite (`load_font_atlas` at `0x15953C0`,
-   `font_atlas_assets.cpp`), adds glyphs that are missing while the game runs into the
+3. **The original's own font atlases** (in place of Mei's fixed ones): at start-up it
+   draws its atlases with DirectWrite from the system's fonts (`font_atlas_assets.cpp`),
+   adds glyphs that are missing while the game runs into the
    reserved part of the texture (`native_font_atlas.cpp`, the texture synchronisation and
    the D3D9 hooks: Reset, CreateTexture, CreateVertexBuffer, SetTexture, DrawPrimitive,
    DrawIndexedPrimitive, SetStreamSource, with Reset chained after Anvil's overlay), tags
    glyph vertices with their page (the page blocks) and splits draws by page. The
    original writes its atlases into the game folder; here they belong in the plugin's data
    folder, which the game reads only once it is mounted (`PHYSFS_mount`, exported by
-   `eu4.exe`). The texture limit (`texture_file_limit`) and the optional Source Han Sans /
-   Plangothic pack (SIL OFL 1.1, not bundled) go with it. Then Chinese text needs no mod,
-   and the text blocks can give a character above U+00FF its own index, as the original
-   does, with its shaped-paragraph, line-break and kerning blocks.
+   `eu4.exe`). Then every character has a glyph, in the shapes of the player's own
+   script, and the text blocks can give a character above U+00FF its own index, as the
+   original does, with its shaped-paragraph and kerning blocks.
 4. **The rest of the editor and the IME**: selection by grapheme, the width fit, word
    steps, multi-line fields, undo, caret alignment and paste (about 20 more hooks of the
-   original), `sdl_ime_ui_less` for the candidate window and the composition display, and
+   original), the composition display, and
    how they work with Anvil's overlay, which also takes text input; then a test with a real
    IME (Microsoft Pinyin, Microsoft IME for Japanese and Korean). After this the typed query
-   is always UTF-8 and the Windows-1252 conversion of `src/game_text.cpp` can go, and
-   `utf8_localization` and `utf8_input` can default to on together with `search`.
+   is always UTF-8 and the Windows-1252 conversion of `src/game_text.cpp` can go.
 
 The original's code is built as C++17, as in its own build (`u8""` literals are `char`
 there); the plugin itself is C++20.

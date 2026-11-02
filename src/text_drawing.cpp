@@ -3,6 +3,7 @@
 #include <cstring>
 
 #include "formatted_text.hpp"
+#include "formatted_text_cache.hpp"
 
 namespace unicode_patch {
 
@@ -172,8 +173,27 @@ Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, s
     const std::uint32_t consumed = d.bytes ? d.bytes : 1;
     g_state.last_index = d.valid ? glyph_index(d.value) : static_cast<unsigned char>(*source);
     g_state.last_scalar = d.valid ? d.value : static_cast<unsigned char>(*source);
+    g_state.last_bytes = consumed;
     if (consumed <= available) std::memcpy(destination, source, consumed);
     return {g_state.last_index, consumed - 1, g_state.last_scalar};
+}
+
+std::shared_ptr<const eu4unicode::FormattedText> line_breaks(std::string_view text) noexcept {
+    text = text.substr(0, bounded_text_length(text));
+    bool wide = false;
+    for (const char c : text) wide = wide || static_cast<unsigned char>(c) >= 0xE0;
+    if (!wide) return {};
+    // Per thread, as the original's (the game lays text out on its main thread).
+    thread_local eu4unicode::FormattedTextCache cache;
+    try {
+        return cache.get(text);
+    } catch (...) {
+        return {};
+    }
+}
+
+bool line_before(const eu4unicode::FormattedText* breaks, std::size_t offset) noexcept {
+    return breaks && breaks->line_before(offset);
 }
 
 }  // namespace unicode_patch

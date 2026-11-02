@@ -21,6 +21,7 @@
 #include "settings.gen.hpp"
 #include "symbols.gen.hpp"
 
+#include "fonts.hpp"
 #include "game_text.hpp"
 #include "localisation.hpp"
 #include "native_search.hpp"
@@ -114,8 +115,16 @@ struct UnicodePatch : anvil::Plugin {
         const auto blocks = unicode_patch::load_text_blocks(host, text_blocks) +
                             unicode_patch::load_map_blocks(host, text_blocks);
         // Fonts keep their glyphs above U+00FF, which the text blocks draw.
-        const auto loader = unicode_patch::load_font_loader(host, text_blocks);
-        host.subscribe("anvil-game.ready", [] { anvil::Host{}.info("{}", unicode_patch::font_loader_summary()); });
+        auto loader = unicode_patch::load_font_loader(host, text_blocks);
+        // Font textures above 16 MiB load, as in the original: Mei's atlases and an
+        // EU4DLL translation pack's fonts are larger.
+        text_blocks.push_back(host.patch(sym::texture_file_limit, {0x00, 0x00, 0x00, 0x04}));
+        ++loader;
+        if (cfg::bundled_fonts.get()) loader += unicode_patch::load_font_redirect(host);
+        host.subscribe("anvil-game.ready", [] {
+            anvil::Host{}.info("{}", unicode_patch::font_loader_summary());
+            if (cfg::bundled_fonts.get()) anvil::Host{}.info("{}", unicode_patch::font_redirect_summary());
+        });
         host.info("localisation import: 2 hooks; text drawing: {} blocks; font loader: {} changes", blocks, loader);
     }
 

@@ -196,7 +196,11 @@ std::size_t load_text_input(anvil::Host& host, std::vector<anvil::Change>& chang
     host.hook(g_key, sym::editor_key, key);
     host.hook(g_left, sym::editor_left, arrow<false>);
     host.hook(g_right, sym::editor_right, arrow<true>);
-    return 6;
+    // SDL's IME set-up adds a UI-less TSF manager, which asks the game to draw the
+    // candidates itself (it does not); the original jumps past it, so the IME's own
+    // candidate window shows: jmp rel32 to 0x1764F82, then two NOPs.
+    changes.push_back(host.patch(sym::sdl_ime_ui_less, {0xE9, 0x27, 0x01, 0x00, 0x00, 0x90, 0x90}));
+    return 7;
 }
 
 }  // namespace unicode_patch
