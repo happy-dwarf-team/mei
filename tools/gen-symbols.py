@@ -45,6 +45,14 @@ FUNCTION_BYTES = {0x16FD650: 20, 0x1705180: 21, 0x1704AF0: 17, 0x159B470: 18, 0x
 SIGNATURES = {
     "find_country_name": "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)",
     "find_province_distance": "int64_t (const void* name, const void* query)",
+    "import_legacy_localization": "void (const void* key, const void* value, int version, int unused, const void* context)",
+    "parse_utf8_yaml": "void (void* file, const void* input, const char* name, void* language, void* key, void* context)",
+}
+# The game's functions this plugin calls, with their C signatures; the address is the
+# original's `address(0x...)` for the same name in src/plugin.cpp.
+CALLS = {
+    "register_imported_text": ("void (void* collection, const char* key, const char* value, int line, int version, bool replace)",
+                               "the game's registration of one localisation value, which import_legacy_localization calls"),
 }
 # What the 26 byte patches change (Ghidra, EU4 engine lab docs/anvil-unicode-patch-research.md).
 CALL_TARGETS = {0x1705180: ("save_transliterate", "CP1252 transliteration of a save name"),
@@ -97,7 +105,11 @@ for rva, callback, trampoline in hooks:
         out += [f"[symbol.{callback}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(b)}"']
         if callback in SIGNATURES:
             out.append(f'signature = "{SIGNATURES[callback]}"')
-        out += [f'note = "function hook{"" if trampoline else " that does not call the original"} of the original ({callback})"', ""]
+        out += [f'note = "function hook of the original{"" if trampoline else " that does not call the game function"} ({callback})"', ""]
+for name, (signature, note) in CALLS.items():
+    rva = int(re.search(rf"\b{name}=reinterpret_cast<[\w:]+>\(address\(0x([0-9a-f]+)\)\)", plugin).group(1), 16)
+    out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, FUNCTION_BYTES.get(rva, 16)))}"',
+            f'signature = "{signature}"', f'note = "{note}"', ""]
 for c, name in sorted(continuations.items()):
     out += [f"[symbol.{name}]", f"rva = 0x{c:X}", 'memory = "code"', f'bytes = "{hexbytes(at(c, 4))}"',
             'note = "where a replaced block continues"', ""]

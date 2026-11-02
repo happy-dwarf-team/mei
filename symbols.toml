@@ -28,7 +28,8 @@ note = "text_hooks.asm generated_name_hook"
 rva = 0x16FD650
 memory = "code"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
-note = "function hook that does not call the original of the original (import_legacy_localization)"
+signature = "void (const void* key, const void* value, int version, int unused, const void* context)"
+note = "function hook of the original that does not call the game function (import_legacy_localization)"
 
 [symbol.main_copy_block]
 rva = 0x15995B0
@@ -660,6 +661,7 @@ note = "function hook of the original (measure_paragraph_height)"
 rva = 0x16FC3D0
 memory = "code"
 bytes = "4C 89 4C 24 20 4C 89 44 24 18 48 89 54 24 10 48 89 4C 24 08"
+signature = "void (void* file, const void* input, const char* name, void* language, void* key, void* context)"
 note = "function hook of the original (parse_utf8_yaml)"
 
 [symbol.construct_script_file]
@@ -897,7 +899,7 @@ note = "function hook of the original (construct_editor_space_row)"
 rva = 0x1539240
 memory = "code"
 bytes = "40 53 48 83 EC 40 48 8B D9 C6 81 90 00 00 00 00"
-note = "function hook that does not call the original of the original (paste_editor_clipboard)"
+note = "function hook of the original that does not call the game function (paste_editor_clipboard)"
 
 [symbol.paint_editor_ime_rect]
 rva = 0x1534250
@@ -976,6 +978,13 @@ rva = 0x1536B80
 memory = "code"
 bytes = "48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 4C 89 60 20"
 note = "function hook of the original (insert_editor_commit)"
+
+[symbol.register_imported_text]
+rva = 0x16FA8D0
+memory = "code"
+bytes = "44 89 4C 24 20 4C 89 44 24 18 53 57 41 55 41 56"
+signature = "void (void* collection, const char* key, const char* value, int line, int version, bool replace)"
+note = "the game's registration of one localisation value, which import_legacy_localization calls"
 
 [symbol.generated_name_return]
 rva = 0x314301

@@ -62,9 +62,15 @@ target_include_directories(port_search PUBLIC src)
 target_compile_features(port_search PUBLIC cxx_std_20)
 target_link_libraries(port_search PUBLIC unicode_search)
 target_compile_options(port_search PRIVATE /W4 /utf-8 /EHsc)
+# The plugin's glue to the original's localisation import, shared with port_tests.
+add_library(port_localisation STATIC src/localisation.cpp)
+target_include_directories(port_localisation PUBLIC src)
+target_compile_features(port_localisation PUBLIC cxx_std_20)
+target_link_libraries(port_localisation PUBLIC legacy_text)
+target_compile_options(port_localisation PRIVATE /W4 /utf-8 /EHsc)
 
 anvil_add_plugin(unicode_patch SOURCES src/plugin.cpp)
-target_link_libraries(unicode_patch PRIVATE port_search)
+target_link_libraries(unicode_patch PRIVATE port_search port_localisation)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
 # EU4DLL escape conversion, search and pinyin. They run on this build of them.
@@ -84,9 +90,10 @@ foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()
 
-# This plugin's own glue: the detours pick the same callers as the original.
-add_executable(port_tests tests/port_tests.cpp)
+# This plugin's own glue: the detours pick the same callers as the original, and
+# the localisation import keeps the game's text in UTF-8.
+add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp)
 target_compile_features(port_tests PRIVATE cxx_std_20)
-target_link_libraries(port_tests PRIVATE port_search)
+target_link_libraries(port_tests PRIVATE port_search port_localisation)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
 add_test(NAME port COMMAND port_tests)
