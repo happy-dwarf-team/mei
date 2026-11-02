@@ -53,6 +53,14 @@ SIGNATURES = {
 CALLS = {
     "register_imported_text": ("void (void* collection, const char* key, const char* value, int line, int version, bool replace)",
                                "the game's registration of one localisation value, which import_legacy_localization calls"),
+    "repeat_text": ("char* (void* target, uint64_t count, uint8_t character)",
+                    "the game's std::string assign of count copies of a character, which button_copy_block calls"),
+    "append_text": ("void* (void* target, const char* text, uint64_t size)",
+                    "the game's std::string append, which button_icon_copy_block calls"),
+}
+# Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
+VALUES = {
+    "main_copy_block": ['values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }'],
 }
 # What the 26 byte patches change (Ghidra, EU4 engine lab docs/anvil-unicode-patch-research.md).
 CALL_TARGETS = {0x1705180: ("save_transliterate", "CP1252 transliteration of a save name"),
@@ -95,6 +103,7 @@ for rva, callback, trampoline in hooks:
         out.append(f'bytes = "{hexbytes(at(rva, (end - rva) if end else 5))}"')
         if end:
             out.append(f'resume = "{later[0][1].removeprefix("g_")}"')
+        out += VALUES.get(name, [])
         others = [g.removeprefix("g_") for c, g in conts if c != end]
         note = f"{stub}.asm {callback}" + (f"; also continues at {', '.join(others)}" if others else "")
         out += [f'note = "{note}"', ""]

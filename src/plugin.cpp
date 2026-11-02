@@ -5,7 +5,7 @@
 //
 // So far: Chinese and pinyin search in the diplomacy country list and the
 // province finder, and the localisation import that keeps the game's text in
-// UTF-8. Every symbol of the original is declared and verified in
+// UTF-8, with the per-glyph text blocks that draw it. Every symbol of the original is declared and verified in
 // symbols.toml, so later features only add changes here.
 #include <anvil/anvil.hpp>
 
@@ -16,6 +16,7 @@
 #include <cstdint>
 #include <exception>
 #include <filesystem>
+#include <vector>
 
 #include "settings.gen.hpp"
 #include "symbols.gen.hpp"
@@ -23,6 +24,7 @@
 #include "game_text.hpp"
 #include "localisation.hpp"
 #include "native_search.hpp"
+#include "text_blocks.hpp"
 #include "search_resources.hpp"
 #include "unicode_search.hpp"
 
@@ -86,6 +88,7 @@ struct UnicodePatch : anvil::Plugin {
     // from search keys in place, which breaks UTF-8. The detours above match
     // case- and accent-insensitively themselves.
     std::array<anvil::Change, 19> search_calls;
+    std::vector<anvil::Change> text_blocks;
 
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
@@ -103,7 +106,10 @@ struct UnicodePatch : anvil::Plugin {
         host.hook(g_parse_yaml, sym::parse_utf8_yaml, unicode_patch::parse_localisation_file);
         // The main menu is up: the game has read its localisation.
         host.subscribe("anvil-game.ready", [] { anvil::Host{}.info("{}", unicode_patch::localisation_summary()); });
-        host.info("localisation import: 2 hooks");
+        // The game walks text byte by byte; these blocks take a UTF-8 character
+        // and its glyph instead, so the imported text draws as it reads.
+        const auto blocks = unicode_patch::load_text_blocks(host, text_blocks);
+        host.info("localisation import: 2 hooks; text drawing: {} blocks", blocks);
     }
 
     void load_search(anvil::Host& host) {

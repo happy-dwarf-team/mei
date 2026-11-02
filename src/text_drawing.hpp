@@ -1,0 +1,63 @@
+// The decoding of the original's per-glyph text blocks (plugin.cpp: decode_z,
+// copy_scalar, format_scalar, decode_layout_range, format_layout_range,
+// construct_scalar, next_layout_scalar), for the game's own fonts. The game
+// walks its text byte by byte and takes a byte as the index into the font's 256
+// glyphs; the blocks (text_blocks.cpp) take one UTF-8 character instead and the
+// index of its glyph, so localisation in UTF-8 draws as it does in
+// Windows-1252.
+//
+// The difference from the original: it gives a character above U+00FF its own
+// index and draws it from fonts it loads (glyph_registry.cpp, the font atlases).
+// Until those are ported, the index is the character's Windows-1252 byte
+// (U+2013 is 0x96, as the game's fonts hold it) and '?' for characters
+// Windows-1252 does not have, which the game itself shows for them. So no index
+// is above 0xFF and the game's code after a block (kerning, line breaks) sees the
+// values it knows.
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <string_view>
+
+namespace unicode_patch {
+
+// The index of a character's glyph in the game's fonts.
+std::uint32_t glyph_index(std::uint32_t scalar) noexcept;
+
+// One character of text: the index of its glyph and its bytes after the first.
+struct Glyph {
+    std::uint32_t index;
+    std::uint32_t extra;
+    std::uint64_t packed() const noexcept { return index | static_cast<std::uint64_t>(extra) << 32; }
+};
+
+// decode_z: the character at `text`, a NUL-terminated string. Text that is not
+// UTF-8 (the game's Windows-1252 literals, script and save names) is one byte.
+Glyph decode_glyph(const char* text) noexcept;
+// format_scalar: as decode_glyph, but only the game's format introducers (§ £ ¤)
+// advance before its parser; any other character keeps extra = 0.
+Glyph format_glyph(const char* text) noexcept;
+// decode_layout_range: the character at the start of `text`; nothing (false)
+// for empty text or a UTF-8 sequence that the end of the text cuts.
+bool layout_glyph(std::string_view text, Glyph& glyph) noexcept;
+// format_layout_range: as layout_glyph, with the format rules of the game's
+// width routine; false also where that routine ends on a format token.
+bool format_layout_glyph(std::string_view text, Glyph& glyph) noexcept;
+// native_scalar_next: the offset after the character at `offset`.
+std::size_t next_glyph(std::string_view text, std::size_t offset) noexcept;
+// bounded_text_length: `length` cut to 32000 bytes without cutting a character.
+std::size_t bounded_text_length(std::string_view text) noexcept;
+
+// The text blocks' state between blocks of one routine (the original's
+// last_slot, last_scalar_bytes, button_slot, button_extra).
+struct TextState {
+    std::uint32_t last_index = 0;
+    std::uint32_t button_extra = 0;
+};
+TextState& text_state() noexcept;
+
+// copy_scalar: copies the character at `source` to `destination` when it fits
+// and remembers its glyph for the measuring block after it.
+Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, std::size_t available) noexcept;
+
+}  // namespace unicode_patch
