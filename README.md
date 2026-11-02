@@ -10,8 +10,8 @@ Japanese and Korean players no longer choose between their text patch and Anvil
 province finder's English names, accented or not, as the game does. The localisation
 import keeps the game's text in UTF-8, as the original does, and the ported text blocks
 draw it, Chinese, Japanese and Korean too when a font holds those glyphs (from a mod; see
-[CJK fonts](#cjk-fonts-with-utf8_localization)); it stays off (`utf8_localization`) until
-the map labels, the editor and the original's own font atlases are ported. `search` stays off by default until the diplomacy country list has been checked in the
+[CJK fonts](#cjk-fonts-with-utf8_localization)), in the interface and on the map; it stays
+off (`utf8_localization`) until the editor and the original's own font atlases are ported. `search` stays off by default until the diplomacy country list has been checked in the
 game (see [State](#state)). Not affiliated with Paradox Interactive.
 
 ## Where it lives and why
@@ -42,7 +42,7 @@ MinHook, the MASM stubs and the proxy loader are not used.
 
 ## What it does so far
 
-Four features of the original.
+Five features of the original.
 
 ### Search
 
@@ -128,6 +128,23 @@ The original instead draws the game's fonts itself at start-up and adds missing 
 while the game runs (its font atlases, texture uploads and D3D9 hooks), so no mod is
 needed; that is not ported ([Next steps](#next-steps)).
 
+### Map labels (with `utf8_localization`)
+
+Country names on the map come from the localisation and go through their own routines.
+17 of the original's map blocks (`map_hooks.asm`) decode them as the text blocks do:
+
+| Game routine | Blocks |
+| --- | --- |
+| province labels `0x159DA60` | copy, measure, draw |
+| the label fit `0x159E510` | format, measure, icon end |
+| country labels along their curve `0xFD3850`, `0xFD5B70` | draw, character count (the letter spacing divides by characters, not bytes), spacing, advance |
+| letter spacing `0xFD7200` | copy, glyph, gap end, last character, vertex count |
+| case change of label text `0x14BA7F0`, `0x15503F0` | upper and lower case of ASCII letters only, as in the original (the C runtime's byte-wise change would alter UTF-8 bytes) |
+
+As for the interface, the original's whole-label shaping, atlas page tags and kerning for
+characters above U+00FF are not ported. `tools/make-font-mod.py` gives the map's fonts
+(Mapfont, tahoma_60) the map atlas, whose colour the map shader uses.
+
 Settings (`settings.toml`, the overlay's panel): `search`, `utf8_localization`,
 `typo_tolerance`, `fuzzy_pinyin`, which replace the original's `config.ini`. A `pinyin.txt` in the plugin
 folder adds readings, as in the original.
@@ -149,13 +166,14 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | Localisation import: 2 hooks, 1 call | builds; off by default (`utf8_localization`) |
 | Text drawing: 36 blocks | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, 3 blocks, 1 hook, the glyph registry; `fontpack` and `tools/make-font-mod.py` | on with `utf8_localization` |
+| Map labels: 17 blocks | on with `utf8_localization` |
 | The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 9/9 (Release, MSVC 2022) |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
 | In-game test of the localisation import (2.11.2026, the same conditions) | 259096 values kept in UTF-8, none rejected; see below |
 | In-game test of the text drawing (2.11.2026, the same conditions) | accented localisation drawn right; no measurable cost per frame; see below |
-| In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI; map labels not; see below |
+| In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI and, with the map blocks, on the map; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (script and save lexer, map labels, its own font atlases, editor and IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
+| The rest of the original (script and save lexer, its own font atlases, editor and IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test of the search
@@ -244,8 +262,18 @@ from `fontpack` (339 characters, 22 UI fonts), laid out as `tools/make-font-mod.
   UTF8 (yellow, from its colour code), 退出游戏; in the single-player lobby the selected
   nation reads 奥斯曼 and the bookmark tooltip "奥斯曼 is an interesting choice during this
   period" mixes it with English, both right.
-- The map label of the same country shows Latin-1 letters in place of 奥斯曼: the map
-  labels' blocks are not ported.
+- Before the map blocks, the map label of the same country showed Latin-1 letters in
+  place of 奥斯曼. With them (and the map atlas for Mapfont) the 1444 map in the lobby reads
+  奥 斯 曼 along the Ottoman curve, spaced by characters, and 英格兰, 卡斯蒂利亚 and 法兰西 for
+  England, Castile and France; the other labels are in English as before.
+- Map label cost on the lobby's map (165 frames per second): main-thread CPU per frame
+  1.49 ms with the map blocks, 1.58 ms with the build before them. In that run (about
+  12,000 frames, the lobby open most of it) the map blocks ran about 2.6 million times and
+  the lower-case block 46.2 million times: `0x15503F0` lowers strings byte by byte for more
+  than the map (searches, string comparisons), so its block is the busiest of the plugin.
+- Clicking the lobby's Back ended that game: it exited by itself through `ExitProcess` (Anvil
+  wrote its call counts), with no crash report. The build before the map blocks does the
+  same in this profile, so it is not the map blocks; why the game exits there is not known.
 - Without the plugin's changes the menu is in English: the game leaves out the probe file,
   which has no UTF-8 signature (the localisation import gives it one).
 - Cost at the main menu (165 frames per second): the text blocks ran about 0.2 times a frame
@@ -260,10 +288,9 @@ from `fontpack` (339 characters, 22 UI fonts), laid out as `tools/make-font-mod.
 
 A plan only; none of it is ported. The original's order, from the lab's analysis:
 
-1. **Map labels** (`map_hooks.asm`, 26 blocks, and the country and province label shaping):
-   country names on the map come from the localisation and are still read byte by byte.
-   With them and the editor below, `utf8_localization` can default to on together with
-   `search`.
+1. **The lower-case block's cost**: 46 million calls in a short session. Lowering the
+   string in one callback for the whole loop, instead of a block per byte, would cut the
+   calls by the string's length; it needs the loop's exit continuation.
 2. **Script and save lexer** (`0x170CD10`, `0x170CA20`, `0x170D1D0`, `0x170E700`,
    `0x170EBF0`): script files and saves in UTF-8 (BOM, legacy tokens, binary save tokens),
    so that names from the culture lists and saves are UTF-8 too and memory holds one
@@ -284,7 +311,8 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
 4. **Editor and IME**: the original's input changes (about 30 blocks), UTF-8 typing and
    cursor movement, `sdl_ime_ui_less` for the candidate window, and how it works with
    Anvil's overlay, which also takes text input. After this the typed query is UTF-8 and
-   the Windows-1252 conversion of `src/game_text.cpp` can go.
+   the Windows-1252 conversion of `src/game_text.cpp` can go, and `utf8_localization` can
+   default to on together with `search`.
 
 The original's code is built as C++17, as in its own build (`u8""` literals are `char`
 there); the plugin itself is C++20.

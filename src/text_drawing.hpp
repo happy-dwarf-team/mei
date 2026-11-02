@@ -52,6 +52,13 @@ std::size_t next_glyph(std::string_view text, std::size_t offset) noexcept;
 // bounded_text_length: `length` cut to 32000 bytes without cutting a character.
 std::size_t bounded_text_length(std::string_view text) noexcept;
 
+// The map label routines (the original's map_scalar_size, map_scalar_count and
+// map_last_scalar_offset): the bytes of the character at `offset` (1 past the
+// end), the number of characters, and where the last character starts.
+std::size_t glyph_size(std::string_view text, std::size_t offset) noexcept;
+std::size_t glyph_count(std::string_view text) noexcept;
+std::size_t last_glyph_offset(std::string_view text) noexcept;
+
 // The text blocks' state between blocks of one routine (the original's
 // last_slot, last_scalar_bytes, button_slot, button_extra).
 struct TextState {

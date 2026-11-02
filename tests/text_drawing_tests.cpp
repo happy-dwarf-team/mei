@@ -105,6 +105,14 @@ int text_drawing_tests() {
     check(bounded_text_length(limit) == 31999, "the 32000-byte limit does not cut a character");
     check(bounded_text_length(std::string(32005, 'a')) == 32000 && bounded_text_length("abc") == 3, "the limit");
 
+    // The map label routines count and step by characters.
+    check(glyph_count(ostra) == 14 && glyph_count("\xD6sterg\xF6tland") == 12 && glyph_count({}) == 0,
+          "characters of a label, UTF-8 or Windows-1252");
+    check(glyph_size(ostra, 0) == 2 && glyph_size(ostra, 2) == 1 && glyph_size(ostra, 99) == 1, "a character's bytes");
+    check(last_glyph_offset(utf8(u8"Götaland")) == 8 && last_glyph_offset(utf8(u8"Kö")) == 1 &&
+              last_glyph_offset("A") == 0 && last_glyph_offset({}) == 0,
+          "where the last character starts");
+
     // copy_scalar: the whole character when it fits, and its glyph for the
     // measuring block after it.
     char buffer[8] = {};

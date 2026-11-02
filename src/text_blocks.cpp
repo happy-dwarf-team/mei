@@ -96,7 +96,8 @@ struct Natives {
     void* (*append_text)(void* target, const char* text, std::uint64_t size);
     std::uintptr_t main_measure_entry, main_plain_entry, button_plain_entry, button_draw_plain_entry,
         bitmap_plain_entry, button_loop, button_end, alternate_end, alternate_plain_entry, popup_plain_entry,
-        popup_draw_plain_entry, font_allocate, font_duplicate, font_initialize, font_skip;
+        popup_draw_plain_entry, font_allocate, font_duplicate, font_initialize, font_skip, map_fit_plain_entry,
+        map_justify_single_return;
     void* (*engine_new)(std::uint64_t size);
 } g;
 
@@ -448,6 +449,166 @@ void popup_icon_end(Cpu& c) noexcept {
     at<std::uint8_t>(c.rbp + c.rdx - 0x70) = 0;
 }
 
+// --- the map labels (map_hooks.asm): province labels 0x159DA60, the label fit
+// 0x159E510, country labels along their curve 0xFD3850 and 0xFD5B70, their
+// letter spacing 0xFD7200, and the upper and lower case of label text ---
+// The original's shaping of whole labels, its atlas page tags, line breaks and
+// kerning for characters above U+00FF are not ported, as for the UI text.
+
+void map_copy(Cpu& c) noexcept {
+    const char* source = text(c.r15 + c.rax);
+    const auto d = decode_glyph(source);
+    const std::uint64_t size = d.extra + 1;
+    char* destination = g.repeat_text(reinterpret_cast<void*>(c.rsp + 0x58), size, static_cast<std::uint8_t>(*source));
+    std::memcpy(destination, source, size);
+    c.rax = reinterpret_cast<std::uintptr_t>(destination);
+}
+
+void map_measure(Cpu& c) noexcept {
+    const auto d = decode_glyph(text(c.r15 + c.rax));
+    c.r14 = low(c.r14 + d.extra);
+    c.r15 += d.extra;
+    c.rax = d.index;
+    c.r11 = glyph(c.r9 + 0x120, d);
+    test_flags(c, c.r11);
+}
+
+void map_draw(Cpu& c) noexcept {
+    at<std::uint32_t>(c.rbp - 0x60) = c.xmm[3].u32[0];
+    const auto d = decode_glyph(text(c.r9 + c.rax));
+    c.r11 += d.extra;
+    c.r9 += d.extra;
+    c.rax = d.index;
+    c.rdx = glyph(c.r15, d);
+    test_flags(c, c.rdx);
+}
+
+void map_fit_format(Cpu& c) noexcept {
+    c.r8 = at<std::uint64_t>(c.rbx + 0x18);
+    c.rax = c.r8 >= 0x10 ? at<std::uintptr_t>(c.rbx) : c.rbx;
+    c.rdx = low(c.rdi);
+    const auto f = format_glyph(text(c.rax + c.rdx));
+    if (f.index > 0xFF) {
+        c.rip = g.map_fit_plain_entry;
+        return;
+    }
+    c.rdi = low(c.rdi + f.extra);
+    c.rdx = low(c.rdi);
+}
+
+void map_fit_measure(Cpu& c) noexcept {
+    const auto d = decode_glyph(text(c.rax + c.rdx));
+    c.rdi = low(c.rdi + d.extra);
+    c.rdx += d.extra;
+    c.rax = d.index;
+    c.r11 = glyph(c.r13 + 0x120, d);
+    load_float(c.xmm[1], c.r13 + 0x968);
+    test_flags(c, c.r11);
+}
+
+void map_fit_icon_end(Cpu& c) noexcept {
+    c.rax = at<std::uint64_t>(c.rbx + 0x18) >= 0x10 ? at<std::uintptr_t>(c.rbx) : c.rbx;
+    if (icon_tail(c.rax + c.rdi)) c.rdi = low(c.rdi + 1);
+    at<std::uint8_t>(c.rsp + c.rcx + 0x40) = static_cast<std::uint8_t>(c.r12);
+    c.rax = at<std::uintptr_t>(c.r13);
+    c.rdx = c.rsp + 0x40;
+    c.rcx = c.r13;
+}
+
+void map_vertex_count(Cpu& c) noexcept {
+    c.rax = c.r9 >= 0x10 ? at<std::uintptr_t>(c.rbx + 0x10) : c.rbx + 0x10;
+    const auto d = decode_glyph(text(c.rcx + c.rax));
+    c.rcx += d.extra;
+    c.rax = d.index;
+    c.rdx = glyph(c.r12 + 0x120, d);
+}
+
+void map_justify_draw(Cpu& c) noexcept {
+    const auto d = decode_glyph(text(c.rcx + c.rax));
+    c.rax = d.index;
+    at<std::uint8_t>(c.rbp + 0x808) = static_cast<std::uint8_t>(d.index);
+    load_float(c.xmm[12], c.rdx + 0x848);
+    c.r14 = glyph(c.rdx, d);
+    test_flags(c, c.r14);
+}
+
+// The letter spacing of a country label divides by its characters, not its bytes.
+void map_justify_count(Cpu& c) noexcept {
+    c.rax = glyph_count(engine_text(c.rdi));
+    c.rcx = at<std::uint64_t>(c.rdi + 0x10);
+    at<std::uint64_t>(c.rbp + 0x168) = c.rax;
+    c.rax = low(c.rax - 2);
+}
+
+void map_justify_measure(Cpu& c) noexcept {
+    const auto count = at<std::uint64_t>(c.rbp + 0x168);
+    if (count <= 1) {  // the native spacing of a single character, set to 1
+        c.rip = g.map_justify_single_return;
+        return;
+    }
+    c.rax = low(count - 1);
+    c.xmm[6] = {};
+    c.xmm[6].f32[0] = static_cast<float>(static_cast<std::int32_t>(c.rsi));
+    c.xmm[1] = {};
+    c.xmm[1].u32[0] = static_cast<std::uint32_t>(c.rax);
+}
+
+void map_justify_advance(Cpu& c) noexcept {
+    c.rcx += glyph_size(engine_text(c.rdi), c.rcx);
+    c.rsi = low(c.rsi + 1);
+    at<std::uint32_t>(c.rbp + 0x7E8) = static_cast<std::uint32_t>(c.rsi);
+    at<std::uint64_t>(c.rbp + 0x118) = c.rcx;
+}
+
+void map_adjust_copy(Cpu& c) noexcept {
+    c.rax = c.r13 >= 0x10 ? c.rsi : c.rbp + 0x90;
+    const std::uint64_t remaining = at<std::uint64_t>(c.rbp + 0xA0) - c.rbx;
+    const auto d = copy_glyph(text(c.rax + c.rbx), remaining, reinterpret_cast<char*>(c.rbp), 4);
+    c.rbx += d.extra;
+    c.r8 = d.extra + 1;
+}
+
+void map_adjust_glyph(Cpu& c) noexcept {
+    c.rax = c.r13 >= 0x10 ? c.rsi : c.rbp + 0x90;
+    const auto d = decode_glyph(text(c.rcx + c.rax));
+    c.rcx += d.extra;
+    c.rax = d.index;
+    c.rdx = glyph(c.r14, d);
+}
+
+void map_adjust_gap_end(Cpu& c) noexcept {
+    c.rax = last_glyph_offset(engine_text(c.rbp + 0x90));
+    c.r12 = c.rax;
+}
+
+void map_adjust_last(Cpu& c) noexcept {
+    const auto source = engine_text(c.rbp + 0x90);
+    const auto offset = last_glyph_offset(source);
+    const auto size = source.size() - offset;
+    auto* destination = reinterpret_cast<char*>(c.rbp);
+    if (size) std::memcpy(destination, source.data() + offset, size);
+    destination[size] = 0;
+    c.r8 = size;
+}
+
+// Upper and lower case of ASCII letters only: the C runtime's byte-wise case
+// change would alter UTF-8 bytes.
+void map_upper(Cpu& c) noexcept {
+    c.rbx = c.rax + c.rbp;
+    auto& letter = at<std::uint8_t>(c.rbx);
+    if (letter >= 'a' && letter <= 'z') letter = static_cast<std::uint8_t>(letter - 0x20);
+    c.rdi = low(c.rdi + 1);
+    c.rax = low(c.rdi);
+}
+
+void map_lower(Cpu& c) noexcept {
+    c.rbx = c.rax + c.rbp;
+    auto& letter = at<std::uint8_t>(c.rbx);
+    if (letter >= 'A' && letter <= 'Z') letter = static_cast<std::uint8_t>(letter + 0x20);
+    c.rdi = low(c.rdi + 1);
+    c.rax = low(c.rdi);
+}
+
 // --- the font loader (0x1595570) ---
 // It reads a font's glyph lines and keeps each glyph in a table of 256 pointers
 // at font+0x120, after `cmp edi, 0xFF` drops any glyph above it. The original
@@ -517,6 +678,33 @@ std::size_t load_font_loader(anvil::Host& host, std::vector<anvil::Change>& chan
     changes.push_back(host.replace_block(sym::font_store_block, font_store));
     host.hook(g_destroy_font, sym::destroy_font_table, destroy_font_table);
     return changes.size() - start + 1;
+}
+
+std::size_t load_map_blocks(anvil::Host& host, std::vector<anvil::Change>& changes) {
+    g.map_fit_plain_entry = reinterpret_cast<std::uintptr_t>(host.address(sym::map_fit_plain_entry));
+    g.map_justify_single_return = reinterpret_cast<std::uintptr_t>(host.address(sym::map_justify_single_return));
+    const auto start = changes.size();
+    const auto replace = [&](const auto& block, void (*callback)(Cpu&) noexcept) {
+        changes.push_back(host.replace_block(block, callback));
+    };
+    replace(sym::map_copy_block, map_copy);
+    replace(sym::map_measure_block, map_measure);
+    replace(sym::map_draw_block, map_draw);
+    replace(sym::map_fit_format_block, map_fit_format);
+    replace(sym::map_fit_measure_block, map_fit_measure);
+    replace(sym::map_fit_icon_end_block, map_fit_icon_end);
+    replace(sym::map_vertex_count_block, map_vertex_count);
+    replace(sym::map_justify_draw_block, map_justify_draw);
+    replace(sym::map_justify_count_block, map_justify_count);
+    replace(sym::map_justify_measure_block, map_justify_measure);
+    replace(sym::map_justify_advance_block, map_justify_advance);
+    replace(sym::map_adjust_copy_block, map_adjust_copy);
+    replace(sym::map_adjust_glyph_block, map_adjust_glyph);
+    replace(sym::map_adjust_gap_end_block, map_adjust_gap_end);
+    replace(sym::map_adjust_last_block, map_adjust_last);
+    replace(sym::map_upper_block, map_upper);
+    replace(sym::map_lower_block, map_lower);
+    return changes.size() - start;
 }
 
 std::string font_loader_summary() {
