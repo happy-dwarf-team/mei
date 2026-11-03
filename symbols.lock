@@ -1,7 +1,7 @@
 # Written by anvil check --exe; anvil check without the game fails when it does not match
 # symbols.toml. Commit it with symbols.toml.
 format = 2
-tool = "anvil 1.8.0"
+tool = "anvil 1.9.0"
 symbols_sha256 = "379C20472FA2060C223FC7710A014E9DBD93EA9A94A5E4890EF462B408E19D37"
 
 [[check]]
