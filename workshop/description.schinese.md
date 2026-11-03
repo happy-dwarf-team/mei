@@ -9,7 +9,7 @@ Mei 让游戏能够显示、换行、搜索和输入中文、日文或韩文汉�
 - **搜索和输入：** 外交国家列表和省份查找支持汉字、拼音和首字母；键盘输入或通过输入法上屏的文字可以进入文本框。
 - **已测试的汉化 Mod：** [Chinese Language Mod for 1.37](https://steamcommunity.com/sharedfiles/filedetails/?id=2976470733)、[Traditional Chinese for 1.37.5](https://steamcommunity.com/sharedfiles/filedetails/?id=2437805432) 和 [Korean Language Mod - stability](https://steamcommunity.com/sharedfiles/filedetails/?id=2714934430)。
 
-**尚未完成：** 输入法候选窗口尚未测试；文本框还不能选择文字或撤销；放在脚本文件中的名称（例如动态地名）会显示错误；Mei 自带字体中的日文汉字采用中文字形；Anvil 自己的面板只显示拉丁字母。
+**尚未完成：** 输入法候选窗口尚未测试；文本框还不能选择文字或撤销；放在脚本文件中的名称（例如动态地名）会显示错误；Mei 自带字体中的日文汉字采用中文字形。Anvil 自己的面板和管理器从 Anvil 1.9 起支持中文、日文和韩文；Anvil 1.8 只显示拉丁字母。
 
 ## 你需要
 - 游戏目录中安装 **[Anvil](https://anvil.happydwarf.dev/) 1.9 或更新版本**。请在它的网站下载一次：创意工坊无法替你安装它。
