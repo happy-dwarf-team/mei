@@ -123,6 +123,13 @@ int main() {
     }
     check(!threw, "distance does not throw on the game's text");
 
+    // Another build's return addresses map to Steam's; others stay as they are.
+    unicode_patch::record_caller(0xEFAB44, 0xEFC394);
+    unicode_patch::record_caller(0x1141FEB, 0x1141FEB);  // the same on Steam: not recorded
+    check(unicode_patch::steam_caller(0xEFAB44) == 0xEFC394, "a GOG caller maps to its Steam address");
+    check(unicode_patch::steam_caller(0x1141FEB) == 0x1141FEB, "a Steam caller stays");
+    check(unicode_patch::steam_caller(0x1234) == 0x1234, "an unknown caller stays");
+
     g_failures += localisation_tests();
     g_failures += text_drawing_tests();
     std::printf("%s\n", g_failures == 0 ? "ok" : "failed");

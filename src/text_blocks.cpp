@@ -724,8 +724,9 @@ std::size_t load_font_loader(anvil::Host& host, std::vector<anvil::Change>& chan
     g.font_duplicate = address(sym::font_duplicate);
     g.font_initialize = address(sym::font_initialize);
     g.font_skip = address(sym::font_skip);
-    g.engine_new = reinterpret_cast<void* (*)(std::uint64_t)>(reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr)) +
-                                                           sym::font_allocate_block.engine_new);
+    // An RVA that differs between the game builds: read when the game loads.
+    g.engine_new = reinterpret_cast<void* (*)(std::uint64_t)>(host.game().image_base +
+                                                           host.value(sym::font_allocate_block, "engine_new"));
     const auto start = changes.size();
     changes.push_back(host.patch(sym::font_codepoint_limit, {0xFF, 0xFF, 0x10, 0x00}));
     changes.push_back(host.replace_block(sym::font_lookup_block, font_lookup));

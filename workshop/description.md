@@ -12,8 +12,8 @@ Mei lets the game show, wrap, search and type the text of a Chinese, Japanese or
 **Not there yet:** the IME candidate window is untested, text fields have no selection or undo, names kept in script files (such as dynamic province names) show wrong, Japanese kanji in Mei's own fonts take Chinese shapes, and Anvil's own panel shows Latin text only.
 
 ## You need
-- **[Anvil](https://anvil.happydwarf.dev/) 1.8 or newer** in the game folder. Download it once from its website: the Workshop can't install it for you.
-- **EU4 1.37.5** on Steam (Windows). The GOG build is not supported yet.
+- **[Anvil](https://anvil.happydwarf.dev/) 1.9 or newer** in the game folder. Download it once from its website: the Workshop can't install it for you.
+- **EU4 1.37.5** on Steam (Windows). Mei also runs on the GOG build 1.37.5.2, from its GitHub release.
 - **A translation mod,** enabled together with Mei in your playset.
 - **No old double-byte patch:** remove its version.dll, d3d9.dll and plugins folder from the game folder first, because it and Anvil can't both be there.
 - After subscribing, start the game, approve Mei in Anvil (Ctrl+Shift+F12, then Mods) and restart. There is nothing to configure.

@@ -3,7 +3,7 @@
 **Chinese, Japanese and Korean text in Europa Universalis IV, without the old DLL patch.**
 Mei does not translate the game: it lets the game show, wrap, search and type the text of
 a translation mod. An [Anvil](https://anvil.happydwarf.dev/) plugin for EU4 1.37.5
-(Steam, Windows x64), and a port of [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)
+(Steam, and the GOG build 1.37.5.2, Windows x64), and a port of [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)
 by VulonLok (MIT) from its EU4DLL-style `VERSION.dll` loader to Anvil, so that Chinese,
 Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)).
@@ -23,8 +23,8 @@ Paradox Interactive.
 
 ## Install
 
-- [Anvil](https://anvil.happydwarf.dev/) 1.8 or newer in the game folder, and EU4 1.37.5
-  (Steam). Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the
+- [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer in the game folder, and EU4 1.37.5
+  (Steam, or the GOG build 1.37.5.2 with the GitHub release and a local mod for the fonts). Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the
   `plugins` folder of EU4DLL or the original): it and Anvil both use `version.dll`.
 - **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3832685486):** subscribe to Mei and a translation mod, enable both in the playset,
   approve Mei in Anvil (Ctrl+Shift+F12, Mods) and restart. The Workshop item carries the

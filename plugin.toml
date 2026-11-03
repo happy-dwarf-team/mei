@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["VulonLok (EU4 Unicode Patch)", "Happy Dwarf Team"]
 description = "Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok."
 api = 2
-anvil = ">=1.8.0"
+anvil = ">=1.9.0"
 entry = "mei.dll"
 # Early: the original's lexer and localisation hooks must be in place before the
 # game reads its data (later steps).
