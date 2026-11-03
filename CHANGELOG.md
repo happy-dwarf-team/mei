@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/happy-dwarf-team/mei/compare/v0.1.0...v0.2.0) (2026-11-03)
+
+
+### Features
+
+* run on the GOG build 1.37.5.2 ([#15](https://github.com/happy-dwarf-team/mei/issues/15)) ([a3dc709](https://github.com/happy-dwarf-team/mei/commit/a3dc709f7b6dd0513f0398fd6116200a01eac281))
+
 ## 0.1.0 (2026-11-02)
 
 
