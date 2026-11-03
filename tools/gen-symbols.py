@@ -1,32 +1,75 @@
 """Writes symbols.toml from the original's hook tables, so that every address is written once.
 
-Usage: python -I tools/gen-symbols.py <eu4.exe> [upstream] > symbols.toml
+Usage: python -I tools/gen-symbols.py <eu4.exe> [upstream] [--gog <gog eu4.exe> [map.json]] > symbols.toml
 
 It reads the original (the `upstream` submodule): the MinHook table and calls in src/plugin.cpp,
 the stubs in src/*_hooks.asm and the continuation addresses they jump to, and the byte patches.
 The bytes come from <eu4.exe> (EU4 1.37.5 Steam, SHA-256 9AD3EFE1...D771A); `anvil check . --exe`
 then verifies them and the instruction boundaries.
+
+With --gog, the file lists the GOG build 1.37.5.2 too (Anvil design 5.2): each symbol's GOG address
+comes from tools/gog-1.37.5.2.json (the lab's port, names from the GOG eu4.pdb), its bytes from the
+GOG eu4.exe (SHA-256 D29CF745...155319), shared when they equal Steam's. A symbol the map gives
+null is `absent` on GOG (Anvil 1.9).
 """
+import json
 import re
 import struct
 import sys
 from pathlib import Path
 
-exe = Path(sys.argv[1]).read_bytes()
-src = Path(sys.argv[2] if len(sys.argv) > 2 else "upstream")
+STEAM, GOG = "eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64"
+args = sys.argv[1:]
+gog_exe, gog_map = None, None
+if "--gog" in args:
+    i = args.index("--gog")
+    gog_exe = Path(args[i + 1]).read_bytes()
+    rest = args[i + 2:]
+    map_path = Path(rest[0]) if rest and rest[0].endswith(".json") else Path(__file__).with_name("gog-1.37.5.2.json")
+    gog_map = {k: (None if v is None else int(v, 16)) for k, v in json.loads(map_path.read_text(encoding="utf-8"))["symbols"].items()}
+    args = args[:i] + rest[1 if rest and rest[0].endswith(".json") else 0:]
+exe = Path(args[0]).read_bytes()
+src = Path(args[1] if len(args) > 1 else "upstream")
 plugin = (src / "src/plugin.cpp").read_text(encoding="utf-8")
 
-pe = struct.unpack_from("<I", exe, 0x3C)[0]
-count = struct.unpack_from("<H", exe, pe + 6)[0]
-optional = struct.unpack_from("<H", exe, pe + 20)[0]
-sections = [struct.unpack_from("<IIII", exe, pe + 24 + optional + 40 * i + 8) for i in range(count)]
+
+def sections_of(image):
+    pe = struct.unpack_from("<I", image, 0x3C)[0]
+    count = struct.unpack_from("<H", image, pe + 6)[0]
+    optional = struct.unpack_from("<H", image, pe + 20)[0]
+    return [struct.unpack_from("<IIII", image, pe + 24 + optional + 40 * i + 8) for i in range(count)]
 
 
-def at(rva, n):
-    for vsize, va, rsize, raw in sections:
+sections = sections_of(exe)
+gog_sections = sections_of(gog_exe) if gog_exe else []
+
+
+def at(rva, n, image=None, secs=None):
+    image, secs = (exe, sections) if image is None else (image, secs)
+    for vsize, va, rsize, raw in secs:
         if va <= rva < va + max(vsize, rsize):
-            return exe[raw + rva - va: raw + rva - va + n]
+            return image[raw + rva - va: raw + rva - va + n]
     raise ValueError(hex(rva))
+
+
+def where(name, rva, n):
+    """The keys that place a symbol: rva and, with n, its n bytes; for both builds with --gog."""
+    if gog_map is None:
+        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(at(rva, n))}"'] if n else [])
+    if name not in gog_map:
+        raise SystemExit(f"{name}: not in the GOG map")
+    other = gog_map[name]
+    steam = at(rva, n) if n else None
+    if other is None:
+        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(steam)}"'] if n else []) + [f'absent = ["{GOG}"]']
+    if not n:
+        return [f'build."{STEAM}" = {{ rva = 0x{rva:X} }}', f'build."{GOG}" = {{ rva = 0x{other:X} }}']
+    gog = at(other, n, gog_exe, gog_sections)
+    if gog == steam:
+        return [f'bytes = "{hexbytes(steam)}"', f'build."{STEAM}" = {{ rva = 0x{rva:X} }}',
+                f'build."{GOG}" = {{ rva = 0x{other:X} }}']
+    return [f'build."{STEAM}" = {{ rva = 0x{rva:X}, bytes = "{hexbytes(steam)}" }}',
+            f'build."{GOG}" = {{ rva = 0x{other:X}, bytes = "{hexbytes(gog)}" }}']
 
 
 def hexbytes(b):
@@ -80,6 +123,17 @@ INLINE = {
     "editor_restricted_characters": (0x1D91328, 'type = "char"',
                                      "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }
+# Calls the original recognises by where they return on Steam (native_search.cpp, and plugin.cpp
+# for text input): their call instructions, so that the plugin finds them on every build.
+CALL_SITES = {
+    0xEFC38F: ("country_find_call_efc38f", 5, "lobby search: find_country_name on a country's name"),
+    0x1141FE6: ("country_find_call_1141fe6", 5, "goto box: find_country_name on a name"),
+    0x11420DD: ("country_find_call_11420dd", 5, "goto box: find_country_name on a second name"),
+    0x114218D: ("province_distance_call_114218d", 5, "goto box: find_province_distance on a name"),
+    0x11421AD: ("province_distance_call_11421ad", 5, "goto box: find_province_distance on a second name"),
+    0x14E9CB3: ("queued_character_call_14e9cb3", 3, "the input queue's type-2 consumer: consume_editor_commit through the callback"),
+    0x153560F: ("commit_insert_call_153560f", 6, "consume_editor_commit's insertion: insert_editor_commit through the widget"),
+}
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
     "main_copy_block": ['values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }'],
@@ -111,10 +165,17 @@ consts = re.search(r"const DataPatch constants\[\]=\{(.*?)\};", plugin, re.S).gr
 for m in re.finditer(r"\{0x([0-9a-f]+),bytes\(\"([0-9a-f]+)\"\)", consts):
     patches.append((int(m.group(1), 16), bytes.fromhex(m.group(2))))
 
-out = ["# Generated by tools/gen-symbols.py from the original's hook tables (upstream/, see",
-       "# README.md for the commit) and eu4.exe 1.37.5 Steam. Do not edit by hand: change the",
-       "# generator and run `anvil check . --exe <eu4.exe>` to write symbols.lock.",
-       'build = "eu4-1.37.5-steam-win64"', ""]
+if gog_map:
+    out = ["# Generated by tools/gen-symbols.py from the original's hook tables (upstream/, see",
+           "# README.md for the commit), eu4.exe 1.37.5 Steam and, for the GOG build 1.37.5.2,",
+           "# tools/gog-1.37.5.2.json. Do not edit by hand: change the generator or the map and run",
+           "# `anvil check . --exe <eu4.exe>` once per build to write symbols.lock.",
+           f'builds = ["{STEAM}", "{GOG}"]', ""]
+else:
+    out = ["# Generated by tools/gen-symbols.py from the original's hook tables (upstream/, see",
+           "# README.md for the commit) and eu4.exe 1.37.5 Steam. Do not edit by hand: change the",
+           "# generator and run `anvil check . --exe <eu4.exe>` to write symbols.lock.",
+           f'build = "{STEAM}"', ""]
 continuations = {}
 for rva, callback, trampoline in hooks:
     if callback in asm:
@@ -122,9 +183,8 @@ for rva, callback, trampoline in hooks:
         conts = sorted((returns[g], g) for g in targets)
         later = [c for c in conts if c[0] > rva and c[0] - rva <= 96]
         name = callback.removesuffix("_hook") + "_block"
-        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"']
         end = later[0][0] if later else None
-        out.append(f'bytes = "{hexbytes(at(rva, (end - rva) if end else 5))}"')
+        out += [f"[symbol.{name}]", *where(name, rva, (end - rva) if end else 5), 'memory = "code"']
         if end:
             out.append(f'resume = "{later[0][1].removeprefix("g_")}"')
         out += VALUES.get(name, [])
@@ -134,24 +194,25 @@ for rva, callback, trampoline in hooks:
         for c, g in conts:
             continuations.setdefault(c, g.removeprefix("g_"))
     else:
-        b = at(rva, FUNCTION_BYTES.get(rva, 16))
-        out += [f"[symbol.{callback}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(b)}"']
+        out += [f"[symbol.{callback}]", *where(callback, rva, FUNCTION_BYTES.get(rva, 16)), 'memory = "code"']
         if callback in SIGNATURES:
             out.append(f'signature = "{SIGNATURES[callback]}"')
         out += [f'note = "function hook of the original{"" if trampoline else " that does not call the game function"} ({callback})"', ""]
 for name, (signature, note) in CALLS.items():
     rva = int(re.search(rf"\b{name}=reinterpret_cast<[\w:]+>\(address\(0x([0-9a-f]+)\)\)", plugin).group(1), 16)
-    out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, FUNCTION_BYTES.get(rva, 16)))}"',
+    out += [f"[symbol.{name}]", *where(name, rva, FUNCTION_BYTES.get(rva, 16)), 'memory = "code"',
             f'signature = "{signature}"', f'note = "{note}"', ""]
 for name, (rva, kind, note) in INLINE.items():
     if kind.startswith("signature"):
-        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, FUNCTION_BYTES.get(rva, 16)))}"', kind,
+        out += [f"[symbol.{name}]", *where(name, rva, FUNCTION_BYTES.get(rva, 16)), 'memory = "code"', kind,
                 f'note = "{note}"', ""]
     else:
-        out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "read"', kind, f'note = "{note}"', ""]
+        out += [f"[symbol.{name}]", *where(name, rva, 0), 'memory = "read"', kind, f'note = "{note}"', ""]
+for rva, (name, size, note) in CALL_SITES.items():
+    out += [f"[symbol.{name}]", *where(name, rva, size), 'memory = "code"',
+            f'note = "{note}; the plugin maps where it returns to the Steam address the original checks"', ""]
 for c, name in sorted(continuations.items()):
-    out += [f"[symbol.{name}]", f"rva = 0x{c:X}", 'memory = "code"', f'bytes = "{hexbytes(at(c, 4))}"',
-            'note = "where a replaced block continues"', ""]
+    out += [f"[symbol.{name}]", *where(name, c, 4), 'memory = "code"', 'note = "where a replaced block continues"', ""]
 for rva, before in patches:
     if rva in CONSTANTS:
         name, note = CONSTANTS[rva]
@@ -159,6 +220,5 @@ for rva, before in patches:
         target = (rva + 5 + struct.unpack("<i", before[1:5])[0]) & 0xFFFFFFFF
         prefix, what = CALL_TARGETS[target]
         name, note = f"{prefix}_call_{rva:x}", f"call 0x{target:X}, {what}; the original NOPs it"
-    out += [f"[symbol.{name}]", f"rva = 0x{rva:X}", 'memory = "code"', f'bytes = "{hexbytes(at(rva, len(before)))}"',
-            f'note = "{note}"', ""]
+    out += [f"[symbol.{name}]", *where(name, rva, len(before)), 'memory = "code"', f'note = "{note}"', ""]
 sys.stdout.write("\n".join(out))

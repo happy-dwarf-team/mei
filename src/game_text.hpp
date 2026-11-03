@@ -27,4 +27,13 @@ std::int64_t province_game_distance(std::uintptr_t caller, const eu4unicode::Eng
                                     const eu4unicode::EngineString* query,
                                     eu4unicode::NativeSearchDistance original);
 
+// The original recognises some of the game's calls by where they return in the
+// Steam build (native_search.cpp, and its plugin.cpp for text input). Their call
+// instructions are declared in symbols.toml for every build: record_caller maps
+// where one returns in the running build to where it returns on Steam, and
+// steam_caller gives that address for a return address of the running build
+// (unchanged for any other caller, and on Steam).
+void record_caller(std::uintptr_t rva, std::uintptr_t steam_rva) noexcept;
+std::uintptr_t steam_caller(std::uintptr_t rva) noexcept;
+
 }  // namespace unicode_patch

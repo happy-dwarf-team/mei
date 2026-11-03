@@ -25,6 +25,7 @@
 #include "symbols.gen.hpp"
 
 #include "engine_string.hpp"
+#include "game_text.hpp"
 #include "native_editor_text.hpp"
 #include "native_text_event.hpp"
 #include "unicode_editor.hpp"
@@ -56,10 +57,13 @@ struct ActiveCommit {
 } g_active;
 
 // The native callers the original singles out (plugin.cpp).
+// Steam's return addresses; caller_rva maps another build's to them (game_text.hpp).
 constexpr std::uintptr_t kQueuedCharacterCaller = 0x14E9CB6;  // the queue's type-2 consumer
 constexpr std::uintptr_t kCommitInsertCaller = 0x1535615;     // consume_editor_commit's insertion
 
-std::uintptr_t caller_rva(void* return_address) { return reinterpret_cast<std::uintptr_t>(return_address) - g_image; }
+std::uintptr_t caller_rva(void* return_address) {
+    return unicode_patch::steam_caller(reinterpret_cast<std::uintptr_t>(return_address) - g_image);
+}
 
 // dispatch_utf8: the SDL text as one tagged event on the game's queue.
 void dispatch_utf8(void* window, void* receiver, const char* payload, std::uint32_t event_value) noexcept {

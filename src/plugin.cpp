@@ -55,7 +55,9 @@ void native_parse_yaml(void* file, const void* input, const char* name, void* la
 }
 void import_warning(const std::string& message) { anvil::Host{}.warn("{}", message); }
 
-std::uintptr_t caller_rva(void* return_address) { return reinterpret_cast<std::uintptr_t>(return_address) - g_image; }
+std::uintptr_t caller_rva(void* return_address) {
+    return unicode_patch::steam_caller(reinterpret_cast<std::uintptr_t>(return_address) - g_image);
+}
 
 // The detours are reached by a jump from the game's function, so the return
 // address is the game's call site, which picks the callers the original
@@ -95,6 +97,7 @@ struct UnicodePatch : anvil::Plugin {
 
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
+        record_callers(host);
         if (cfg::utf8_localization.get()) load_localisation(host);
         if (cfg::search.get()) load_search(host);
         if (cfg::utf8_input.get())
@@ -127,6 +130,21 @@ struct UnicodePatch : anvil::Plugin {
             if (cfg::bundled_fonts.get()) anvil::Host{}.info("{}", unicode_patch::font_redirect_summary());
         });
         host.info("localisation import: 2 hooks; text drawing: {} blocks; font loader: {} changes", blocks, loader);
+    }
+
+    // Where the calls the original recognises return in this build: their call
+    // instructions (symbols.toml), mapped to the Steam return addresses it checks.
+    void record_callers(anvil::Host& host) {
+        const auto record = [&](const auto& call, std::uintptr_t size, std::uintptr_t steam_return) {
+            unicode_patch::record_caller(reinterpret_cast<std::uintptr_t>(host.address(call)) - g_image + size, steam_return);
+        };
+        record(sym::country_find_call_efc38f, 5, 0xEFC394);
+        record(sym::country_find_call_1141fe6, 5, 0x1141FEB);
+        record(sym::country_find_call_11420dd, 5, 0x11420E2);
+        record(sym::province_distance_call_114218d, 5, 0x1142192);
+        record(sym::province_distance_call_11421ad, 5, 0x11421B2);
+        record(sym::queued_character_call_14e9cb3, 3, 0x14E9CB6);
+        record(sym::commit_insert_call_153560f, 6, 0x1535615);
     }
 
     void load_search(anvil::Host& host) {

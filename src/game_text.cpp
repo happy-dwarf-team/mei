@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstring>
+#include <utility>
 
 #include "unicode_text.hpp"
 
@@ -70,6 +71,23 @@ std::int64_t province_game_distance(std::uintptr_t caller, const eu4unicode::Eng
     const auto converted_name = borrowed_string(n);
     const auto converted_query = borrowed_string(q);
     return eu4unicode::province_search_distance(caller, &converted_name, &converted_query, original);
+}
+
+namespace {
+// Written once while the plugin loads, before any of its hooks are enabled.
+std::array<std::pair<std::uintptr_t, std::uintptr_t>, 8> g_callers{};
+std::size_t g_caller_count = 0;
+}  // namespace
+
+void record_caller(std::uintptr_t rva, std::uintptr_t steam_rva) noexcept {
+    if (rva != steam_rva && g_caller_count < g_callers.size()) g_callers[g_caller_count++] = {rva, steam_rva};
+}
+
+std::uintptr_t steam_caller(std::uintptr_t rva) noexcept {
+    for (std::size_t i = 0; i < g_caller_count; ++i) {
+        if (g_callers[i].first == rva) return g_callers[i].second;
+    }
+    return rva;
 }
 
 }  // namespace unicode_patch
