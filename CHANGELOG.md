@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/happy-dwarf-team/mei/compare/v0.2.0...v0.3.0) (2026-11-04)
+
+
+### Features
+
+* port the rest of the original's text editor ([#22](https://github.com/happy-dwarf-team/mei/issues/22)) ([59e4c79](https://github.com/happy-dwarf-team/mei/commit/59e4c792ca0ab2e54659d193c83bfacca2c6376c))
+* read UTF-8 and EU4DLL names in scripts and saves ([#19](https://github.com/happy-dwarf-team/mei/issues/19)) ([cb4fbee](https://github.com/happy-dwarf-team/mei/commit/cb4fbee2f65e21620963353b446f7c6e8a09d865))
+
+
+### Bug Fixes
+
+* keep the text state per thread, as the original does ([#20](https://github.com/happy-dwarf-team/mei/issues/20)) ([48de8f7](https://github.com/happy-dwarf-team/mei/commit/48de8f751752205c919acc31c49ab93115795cdc))
+
 ## [0.2.0](https://github.com/happy-dwarf-team/mei/compare/v0.1.0...v0.2.0) (2026-11-03)
 
 
