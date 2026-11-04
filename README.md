@@ -77,7 +77,7 @@ MinHook, the MASM stubs and the proxy loader are not used.
 
 ## What it does so far
 
-Six features of the original.
+Seven features of the original.
 
 ### Search
 
@@ -112,6 +112,34 @@ function (`src/localisation.cpp`):
 
 At the main menu the plugin logs how many values it kept, decoded and rejected.
 
+### Script and save lexer (`utf8_scripts`)
+
+The game reads scripts and saves byte by byte, so UTF-8 passes through its lexer as it is,
+except for a signature, which it takes as the start of the first token. EU4DLL translation
+packs keep their names in scripts as escapes, and old saves hold them too, so a
+supplementary translation mod showed garbage in place of rulers, capitals and provinces
+([the test](#in-game-test-of-the-script-and-save-lexer)). As in the original (`src/script_lexer.cpp`):
+
+| Symbol | The game | The plugin |
+| --- | --- | --- |
+| `construct_script_file` `0x170CD10`, `construct_script_file_mode` `0x170CA20`, `construct_script_stream` `0x170D1D0` | opens a script | a UTF-8 signature at the start is skipped |
+| `read_legacy_script_token` `0x170E700` | reads one token of a script or a text save | a text token with EU4DLL escapes becomes UTF-8 in the token's buffer of 512 bytes; other tokens, and Windows-1252 names, stay as they are |
+| `read_legacy_binary_token` `0x170EBF0` | reads one token of a binary save | the same for strings |
+
+A byte scan comes before the original's import, as the game reads millions of tokens and
+few have an escape. As in the original, a token that cannot be decoded ends the file or
+save for the game, and the log says which (none in the tests). At the main menu and at each
+session the plugin logs how many tokens it decoded.
+
+**Ironman, multiplayer and saves.** Only the text of names changes: two new games with the
+same seed, with and without `utf8_scripts`, gave saves whose 1.6 million lines differ in
+names alone (below), with the same count of random numbers. Files are not touched, so the
+game's checksum stays. So `utf8_scripts` stays on in ironman with the rest of the plugin
+(`affects_gameplay = false`). A save written with it holds these names in UTF-8, which a
+game without Mei shows as Latin-1 letters. In multiplayer every player needs the same mods
+anyway; a player without Mei sees such names wrongly. Whether names can ever feed the
+game's checks for desynchronised games is not checked (no multiplayer session was run).
+
 ### Text drawing (with `utf8_localization`)
 
 The game walks text byte by byte and takes each byte as the index into its font's 256
@@ -134,7 +162,7 @@ A character above U+00FF is drawn from the font's own glyph for it when the font
 the game's fonts hold it), or `?`, as the game itself shows it. The index the game's code
 sees after a block (kerning) is always that byte, never above 0xFF, so the original's
 blocks for its own glyphs (shaped paragraphs, atlas pages and kerning above U+00FF) are
-not needed. Text that is not UTF-8, such as names from scripts and saves,
+not needed. Text that is not UTF-8, such as Windows-1252 names from scripts and saves,
 stays one byte per glyph, so both encodings draw side by side. The decoder is the
 plugin's own: the original's throws a C++ exception on every byte that is not UTF-8,
 which here would be every accented name of a save in every frame.
@@ -213,7 +241,7 @@ steps, up and down in multi-line fields, undo, caret alignment after a commit, p
 composition display, and how they work with Anvil's overlay, which takes text input too.
 
 Settings (`settings.toml`, the overlay's panel): `search`, `utf8_localization`,
-`bundled_fonts`, `utf8_input` (all on by default, so a translation mod works without
+`utf8_scripts`, `bundled_fonts`, `utf8_input` (all on by default, so a translation mod works without
 configuration), `typo_tolerance` (on) and `fuzzy_pinyin` (off), which replace the
 original's `config.ini`. A `pinyin.txt` in the plugin
 folder adds readings, as in the original.
@@ -233,20 +261,22 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | `symbols.toml` with all 289 symbols | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
+| Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
 | Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
 | Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
 | Map labels: 17 blocks | on with `utf8_localization` |
 | Text input: 1 block, 5 hooks, the IME patch | on (`utf8_input`) |
-| The original's unit tests (UTF-8, EU4DLL escapes, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 10/10 (Release, MSVC 2022) |
+| The original's unit tests (UTF-8, EU4DLL escapes, script signature, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 11/11 (Release, MSVC 2022) |
 | In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
+| In-game test of the script and save lexer (4.11.2026, Anvil 1.9.0, Tongs 0.26.0, Steam and GOG) | names of the supplementary Chinese mod shown; state unchanged but for names; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
 | In-game test of the localisation import (2.11.2026, the same conditions) | 259096 values kept in UTF-8, none rejected; see below |
 | In-game test of the text drawing (2.11.2026, the same conditions) | accented localisation drawn right; no measurable cost per frame; see below |
 | In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI and, with the map blocks, on the map; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (script and save lexer, its own font atlases, the rest of the editor and the IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
+| The rest of the original (its own font atlases, the rest of the editor and the IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test with translation mods
@@ -276,8 +306,29 @@ into a game (the Ottomans, 1444–1446 at speed 5).
   without spaces; the mod's page warns that it crashes without its DLL. With the line break
   blocks the lobby opened in every start.
 - Not checked: Japanese (no Japanese translation for 1.37 on the Workshop; the probe
-  localisation's Japanese drew right), the Chinese supplementary mod (its dynamic names
-  are in scripts, whose lexer is not ported), an IME's candidate window, and long play.
+  localisation's Japanese drew right), an IME's candidate window, and long play.
+
+### In-game test of the script and save lexer
+
+On 4.11.2026 with Anvil 1.9.0, Tongs 0.26.0 and this plugin's default settings, in junction
+copies of the Steam 1.37.5 and the GOG 1.37.5.2 game with a private game profile: the
+Simplified Chinese mod, its [supplementary mod](https://steamcommunity.com/sharedfiles/filedetails/?id=1999055990)
+(EU4DLL escapes in 5,763 script files) and a probe mod with one script file in UTF-8 with a
+signature, which renames two provinces. New games at 1444 with a fixed seed (`-seed`).
+
+- **Scripts:** 229,719 script tokens decoded, none rejected, the same on both builds. Rulers,
+  capitals and province names show in Chinese; with `utf8_scripts` off the ruler's name in
+  the lobby shows Latin-1 letters.
+- **Signature:** the probe's province 1 reads 梅迪 with `utf8_scripts`; without it the game
+  drops the first entry and the province keeps its name.
+- **Saves:** a text save holds the names in UTF-8, with no escape left; with `utf8_scripts`
+  off the same game's save has 152,536 escape bytes. A binary ironman save written with it off
+  (346,592 escape bytes) loads with it on: 29,737 tokens decoded, none rejected, in ironman
+  (Mei stayed on, Tongs was suspended by Anvil as it should be).
+- **State:** the saves of the two seeded games, one with `utf8_scripts` and one without, are
+  1.67 million lines. After decoding the escapes, 281 lines differ: names, capitals, the file's
+  own hash, and the probe's province. `multiplayer_random_count` is 163,153 in both.
+- No multiplayer session was run.
 
 ### In-game test of the search
 
@@ -414,11 +465,7 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
 1. **The lower-case block's cost**: 46 million calls in a short session. Lowering the
    string in one callback for the whole loop, instead of a block per byte, would cut the
    calls by the string's length; it needs the loop's exit continuation.
-2. **Script and save lexer** (`0x170CD10`, `0x170CA20`, `0x170D1D0`, `0x170E700`,
-   `0x170EBF0`): script files and saves in UTF-8 (BOM, legacy tokens, binary save tokens),
-   so that names from the culture lists and saves are UTF-8 too and memory holds one
-   encoding.
-3. **The original's own font atlases** (in place of Mei's fixed ones): at start-up it
+2. **The original's own font atlases** (in place of Mei's fixed ones): at start-up it
    draws its atlases with DirectWrite from the system's fonts (`font_atlas_assets.cpp`),
    adds glyphs that are missing while the game runs into the
    reserved part of the texture (`native_font_atlas.cpp`, the texture synchronisation and
@@ -430,7 +477,7 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
    `eu4.exe`). Then every character has a glyph, in the shapes of the player's own
    script, and the text blocks can give a character above U+00FF its own index, as the
    original does, with its shaped-paragraph and kerning blocks.
-4. **The rest of the editor and the IME**: selection by grapheme, the width fit, word
+3. **The rest of the editor and the IME**: selection by grapheme, the width fit, word
    steps, multi-line fields, undo, caret alignment and paste (about 20 more hooks of the
    original), the composition display, and
    how they work with Anvil's overlay, which also takes text input; then a test with a real
