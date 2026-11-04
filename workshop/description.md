@@ -32,19 +32,15 @@ We found no Japanese translation for EU4 1.37 on the Workshop; Mei draws Japanes
 
 ![](https://i.imgur.com/Uf8Z21n.png)
 
-## Before you subscribe
-- **[Anvil](https://anvil.happydwarf.dev/) 1.9 or newer** must be installed in the game folder. Get it from [anvil.happydwarf.dev](https://anvil.happydwarf.dev/) and press Download. The Workshop can't install it for you.
-- **EU4 1.37.5** (Steam, Windows).
-- **Playing on GOG?** Mei also runs on the GOG build 1.37.5.2. GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases).
-- **Remove the old double-byte patch first** (`version.dll`, `d3d9.dll` and the `plugins` folder it put in the game folder). It and Anvil both use `version.dll`, so only one of them can be there.
+## Install
+Mei runs on EU4 1.37.5 (Steam, Windows) and on the GOG build 1.37.5.2. GOG has no Workshop, so there install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases).
 
-![](https://i.imgur.com/Uf8Z21n.png)
+**Remove the old double-byte patch first** (`version.dll`, `d3d9.dll` and the `plugins` folder it put in the game folder). It and Anvil both use `version.dll`, so only one of them can be there.
 
-## Getting it running
-1. Subscribe to Mei and to your translation mod, and enable both in your playset.
-2. Start the game. Anvil will tell you a new plugin is waiting.
-3. Press **Ctrl+Shift+F12**, open **Mods** and approve Mei. You can also approve it before playing, in Anvil Manager.
-4. Restart. Nothing to configure: the settings (**Ctrl+Shift+F12**, Settings) are already set for translation mods.
+1. **Install [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer.** Download it, run it and click **Install Anvil**. If Windows warns, choose **More info**, then **Run anyway**. You do this once; the Workshop can't do it for you.
+2. **Subscribe** to Mei and to your translation mod, and enable both in your playset.
+3. **Start the game.** Anvil says a plugin is waiting: press **Ctrl+Shift+F12**, open **Mods** and approve Mei.
+4. **Restart the game.** Nothing to configure: the settings are already set for translation mods.
 
 ![](https://i.imgur.com/Uf8Z21n.png)
 
