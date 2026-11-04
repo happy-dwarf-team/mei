@@ -8,6 +8,10 @@ on:
   # the font atlases of a branch too.
   workflow_call:
     inputs:
+      ref:
+        description: The commit or tag to build; empty builds the commit that started the run
+        type: string
+        default: ''
       fonts:
         type: boolean
         default: false
@@ -27,6 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ inputs.ref }}
           persist-credentials: false
 
       # Only the submodules the build uses: the original at its pinned commit and
@@ -103,6 +108,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ inputs.ref }}
           persist-credentials: false
 
       - name: Submodules
