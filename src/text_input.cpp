@@ -484,7 +484,7 @@ bool key(void* widget, const void* raw) noexcept {
             eu4unicode::native_edit_select_all(widget);
             return true;
         }
-        if (event->key == 'z' && (event->modifiers == kCtrl || event->modifiers == (kCtrl | kShift))) {
+        if ((event->key == 'z' || event->key == 'Z') && (event->modifiers == kCtrl || event->modifiers == (kCtrl | kShift))) {
             const auto found = g_histories.find(widget);
             if (found != g_histories.end()) {
                 const auto state = eu4unicode::native_edit_state(widget);
