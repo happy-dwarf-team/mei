@@ -32,19 +32,15 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 ![](https://i.imgur.com/Uf8Z21n.png)
 
-## 訂閱之前
-- 遊戲資料夾中必須安裝 **[Anvil](https://anvil.happydwarf.dev/) 1.9 或更新版本**。請在 [anvil.happydwarf.dev](https://anvil.happydwarf.dev/) 點擊 Download 下載。工作坊無法替你安裝它。
-- **EU4 1.37.5**（Steam，Windows）。
-- **使用 GOG 版？** Mei 也可用於 GOG 版 1.37.5.2。GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog** 分頁中安裝 Mei，或使用 [GitHub](https://github.com/happy-dwarf-team/mei/releases) 上的發行版本壓縮檔。
-- **請先移除舊的雙字節補丁**（它放進遊戲資料夾的 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾）。它和 Anvil 都使用 `version.dll`，兩者只能保留一個。
+## 安裝
+Mei 適用於 EU4 1.37.5（Steam，Windows）和 GOG 版 1.37.5.2。GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog** 分頁中安裝 Mei，或使用 [GitHub](https://github.com/happy-dwarf-team/mei/releases) 上的發行版本壓縮檔。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+**請先移除舊的雙字節補丁**（它放進遊戲資料夾的 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾）。它和 Anvil 都使用 `version.dll`，兩者只能保留一個。
 
-## 開始使用
-1. 訂閱 Mei 和你的中文化 Mod，並在播放集中同時啟用。
-2. 啟動遊戲。Anvil 會提示有新外掛等待核准。
-3. 按 **Ctrl+Shift+F12**，開啟 **Mods** 並核准 Mei。也可以在開始遊戲前在 Anvil Manager 中核准。
-4. 重新啟動遊戲。無需任何設定：設定（**Ctrl+Shift+F12**，Settings）已經為中文化 Mod 調好。
+1. **安裝 [Anvil](https://anvil.happydwarf.dev/) 1.9 或更新版本。** 下載並執行，然後點擊 **Install Anvil**。如果 Windows 提示檔案有風險，請選擇**其他資訊**，再選擇**仍要執行**。只需操作一次，工作坊無法替你完成。
+2. **訂閱** Mei 和你的中文化 Mod，並在播放集中同時啟用。
+3. **啟動遊戲。** Anvil 會提示有新外掛等待核准：按 **Ctrl+Shift+F12**，開啟 **Mods** 並核准 Mei。
+4. **重新啟動遊戲。** 無需任何設定：預設設定已經為中文化 Mod 調好。
 
 ![](https://i.imgur.com/Uf8Z21n.png)
 
