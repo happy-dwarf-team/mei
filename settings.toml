@@ -39,11 +39,11 @@ restart = true
 
 [setting.utf8_input]
 type = "bool"
-# On: typing is part of what Mei is for. Selection by character and undo are
-# not ported, and the IME's candidate window is not checked (README.md "State").
+# On: typing is part of what Mei is for. The IME's candidate window is not
+# checked (README.md "State").
 default = true
 label = "UTF-8 text input"
-description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Backspace, Delete and the arrow keys step by character; selections and undo do not yet."
+description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character."
 restart = true
 
 [setting.typo_tolerance]

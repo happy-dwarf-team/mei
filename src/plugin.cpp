@@ -150,6 +150,10 @@ struct UnicodePatch : anvil::Plugin {
         record(sym::province_distance_call_11421ad, 5, 0x11421B2);
         record(sym::queued_character_call_14e9cb3, 3, 0x14E9CB6);
         record(sym::commit_insert_call_153560f, 6, 0x1535615);
+        record(sym::write_filter_call_1536c32, 5, 0x1536C37);
+        record(sym::font_filter_call_15a05a8, 5, 0x15A05AD);
+        record(sym::tooltip_insert_call_1415f33, 5, 0x1415F38);
+        record(sym::lobby_chat_insert_call_83eadb, 5, 0x83EAE0);
     }
 
     void load_search(anvil::Host& host) {

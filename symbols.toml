@@ -979,6 +979,7 @@ bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x153B170 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1532070 }
 memory = "code"
+signature = "void (void* widget)"
 note = "function hook of the original (editor_selection)"
 
 [symbol.editor_point]
@@ -986,6 +987,7 @@ bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 20 4C 89 44 24 18"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15361F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152D0F0 }
 memory = "code"
+signature = "void (void* widget, const void* row, const void* point)"
 note = "function hook of the original (editor_point)"
 
 [symbol.editor_caret_position]
@@ -993,6 +995,7 @@ bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536060 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152CF60 }
 memory = "code"
+signature = "void* (void* widget, void* result)"
 note = "function hook of the original (editor_caret_position)"
 
 [symbol.editor_anchor_position]
@@ -1007,6 +1010,7 @@ bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1537210 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152E110 }
 memory = "code"
+signature = "int (void* widget, const void* text)"
 note = "function hook of the original (editor_width_fit)"
 
 [symbol.editor_word_break]
@@ -1014,6 +1018,7 @@ bytes = "48 89 5C 24 18 48 89 6C 24 20 57 41 54 41 57 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539820 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530720 }
 memory = "code"
+signature = "int (void* widget, const void* text, int fit)"
 note = "function hook of the original (editor_word_break)"
 
 [symbol.construct_editor_space_row]
@@ -1021,6 +1026,7 @@ bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539620 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530520 }
 memory = "code"
+signature = "void* (void* row, const void* source)"
 note = "function hook of the original (construct_editor_space_row)"
 
 [symbol.paste_editor_clipboard]
@@ -1028,6 +1034,7 @@ bytes = "40 53 48 83 EC 40 48 8B D9 C6 81 90 00 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539240 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530140 }
 memory = "code"
+signature = "void (void* widget)"
 note = "function hook of the original that does not call the game function (paste_editor_clipboard)"
 
 [symbol.paint_editor_ime_rect]
@@ -1077,6 +1084,7 @@ bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1533D90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AC90 }
 memory = "code"
+signature = "void (void* outer)"
 note = "function hook of the original (destroy_editor)"
 
 [symbol.hide_editor]
@@ -1106,6 +1114,7 @@ bytes = "40 53 56 57 41 54 48 83 EC 48 48 83 7A 18 10 4C 8B E1"
 build."eu4-1.37.5-steam-win64" = { rva = 0xB19590 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xB17FB0 }
 memory = "code"
+signature = "void (void* text, const void* blacklist)"
 note = "function hook of the original (filter_editor_text)"
 
 [symbol.consume_editor_commit]
@@ -1180,6 +1189,28 @@ memory = "code"
 signature = "const void* (const char* path)"
 note = "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"
 
+[symbol.clipboard_text]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1734490, bytes = "48 FF 25 59 BD 87 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x171E110, bytes = "48 FF 25 D9 60 87 00" }
+memory = "code"
+signature = "char* ()"
+note = "SDL_GetClipboardText, which the original's paste calls"
+
+[symbol.clipboard_free]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1735E00, bytes = "48 FF 25 99 AC 87 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x171FA80, bytes = "48 FF 25 19 50 87 00" }
+memory = "code"
+signature = "void (void* text)"
+note = "SDL_free, which the original's paste calls"
+
+[symbol.editor_row_offset]
+bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+build."eu4-1.37.5-steam-win64" = { rva = 0x153AA90 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531990 }
+memory = "code"
+signature = "uint32_t (void* widget, uint32_t row, uint32_t column)"
+note = "the text field's byte offset of a row and column (the original's trim_editor_grapheme)"
+
 [symbol.editor_restricted_characters]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1D91328 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1D796F0 }
@@ -1230,6 +1261,48 @@ build."eu4-1.37.5-steam-win64" = { rva = 0x153560F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C50F }
 memory = "code"
 note = "consume_editor_commit's insertion: insert_editor_commit through the widget; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.write_filter_call_1536c32]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1536C32, bytes = "E8 59 29 5E FF" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DB32, bytes = "E8 79 A4 5E FF" }
+memory = "code"
+note = "the field's refused characters in insert_editor_commit: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.font_filter_call_15a05a8]
+build."eu4-1.37.5-steam-win64" = { rva = 0x15A05A8, bytes = "E8 E3 8F 57 FF" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15970C8, bytes = "E8 E3 0E 58 FF" }
+memory = "code"
+note = "the font's refused characters: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.tooltip_insert_call_1415f33]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1415F33, bytes = "E8 48 0C 12 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x140FED3, bytes = "E8 A8 DB 11 00" }
+memory = "code"
+note = "a tooltip's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.lobby_chat_insert_call_83eadb]
+build."eu4-1.37.5-steam-win64" = { rva = 0x83EADB, bytes = "E8 A0 80 CF 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
+memory = "code"
+note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.prefix_assign_block_153a306]
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A306, bytes = "E8 05 AE B5 FE" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }
+memory = "code"
+note = "CTextBuffer::TryToAppendStringToText: call of assign_editor_prefix with a byte-limited prefix"
+
+[symbol.prefix_assign_block_153a717]
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A717, bytes = "E8 F4 A9 B5 FE" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531617, bytes = "E8 24 3B B6 FE" }
+memory = "code"
+note = "CTextBuffer::AppendTextToString: call of assign_editor_prefix with a byte-limited prefix"
+
+[symbol.prefix_assign_block_153a99b]
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A99B, bytes = "E8 70 A7 B5 FE" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x153189B, bytes = "E8 A0 38 B6 FE" }
+memory = "code"
+note = "CTextBuffer::InsertStringInToText: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.generated_name_return]
 bytes = "0F 11 07 0F"

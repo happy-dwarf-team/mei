@@ -75,7 +75,7 @@ std::int64_t province_game_distance(std::uintptr_t caller, const eu4unicode::Eng
 
 namespace {
 // Written once while the plugin loads, before any of its hooks are enabled.
-std::array<std::pair<std::uintptr_t, std::uintptr_t>, 8> g_callers{};
+std::array<std::pair<std::uintptr_t, std::uintptr_t>, 12> g_callers{};
 std::size_t g_caller_count = 0;
 }  // namespace
 
