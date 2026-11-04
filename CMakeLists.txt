@@ -116,7 +116,7 @@ install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENA
 # EU4DLL escape conversion, search, pinyin and the glyph registry. They run on this build of them.
 enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
-             legacy_text glyph_registry)
+             legacy_text glyph_registry native_script_bom)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
     set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
@@ -127,6 +127,7 @@ target_link_libraries(unicode_services_tests PRIVATE unicode_services)
 target_link_libraries(yaml_input_tests PRIVATE unicode_text)
 target_link_libraries(legacy_text_tests PRIVATE legacy_text)
 target_link_libraries(glyph_registry_tests PRIVATE glyph_registry)
+target_link_libraries(native_script_bom_tests PRIVATE native_script_bom)
 foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()
