@@ -90,7 +90,7 @@ jobs:
           [ -f workshop/gfx/fonts/mei/ui-16.fnt ] || { echo "::error::mei-fonts.zip holds no ui-16.fnt"; exit 1; }
           find workshop -type f | sort
 
-      - uses: happy-dwarf-team/paradox-workshop-publish@v0.3.0
+      - uses: happy-dwarf-team/paradox-workshop-publish@v1.0.0
         id: workshop
         with:
           steam-username: ${{ secrets.STEAM_USERNAME }}
