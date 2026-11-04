@@ -1,0 +1,105 @@
+name: Bug report
+description: Text that shows wrongly, wraps wrongly, cannot be typed or searched, a crash, or a save that does not load.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Security problems go through [private reporting](https://github.com/happy-dwarf-team/mei/security/advisories/new).
+        Please narrow it down first: Mei does not translate the game, so a missing or wrong translation belongs to the translation mod. An old double-byte patch (`version.dll`, `d3d9.dll` and the `plugins` folder of EU4DLL) must be removed first. Reports in Chinese, Japanese or Korean are welcome.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead. A screenshot helps most here.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where it happens
+      options:
+        - Interface text
+        - Names on the map
+        - Typing (a save name, a country name, the chat, IME)
+        - Searching a list
+        - Fonts (boxes, missing or wrong characters)
+        - Saves or scripts (a file that does not load)
+        - A crash
+        - Somewhere else
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start a game as ..., with the translation mod ...
+        2. Open ...
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - Simplified Chinese
+        - Traditional Chinese
+        - Japanese
+        - Korean
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: translation
+    attributes:
+      label: Translation mod
+      description: Its name and Workshop link, or "none".
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Plugin and Anvil versions
+      description: "From `anvil/anvil.log`, e.g. `Anvil 1.10.0` and `mei 0.3.0: loaded`."
+    validations:
+      required: true
+  - type: input
+    id: game-build
+    attributes:
+      label: Game build
+      description: The `game build:` line of `anvil/anvil.log`, and the game version shown in the launcher.
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How Mei is installed
+      options:
+        - Steam Workshop (plugin and fonts)
+        - GitHub release, with the fonts in a local mod
+        - GitHub release, without the fonts
+    validations:
+      required: true
+  - type: textarea
+    id: mods
+    attributes:
+      label: Enabled mods and other plugins
+      description: The mods of the playset and the other Anvil plugins with their versions (or "none").
+    validations:
+      required: true
+  - type: textarea
+    id: crash
+    attributes:
+      label: Crash report
+      description: After a crash, the `.txt` report from `anvil/crashes/` (the Anvil Manager's **Crashes** tab copies it). Leave empty if the game did not crash.
+      render: text
+  - type: textarea
+    id: log
+    attributes:
+      label: anvil/anvil.log
+      description: "The Anvil Manager's **Log** tab has **Copy a problem report** (Anvil 1.9 or newer), which leaves your paths and user name out. Otherwise paste the whole file from the start where the problem happened, and check it for anything you do not want to share, such as your Windows user name in paths."
+      render: text
+    validations:
+      required: true
