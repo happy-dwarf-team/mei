@@ -926,6 +926,7 @@ bytes = "40 55 56 41 55 41 56 41 57 48 83 EC 20 48 8B 6C 24 70"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1764940 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174E5C0 }
 memory = "code"
+signature = "int (void* window, uint32_t message, uint64_t parameter, void* flags, void* video)"
 note = "function hook of the original (show_native_ime_candidates)"
 
 [symbol.position_native_ime_candidates]
@@ -1063,6 +1064,7 @@ bytes = "40 57 48 83 EC 30 80 B9 61 02 00 00 00 48 8B F9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1535250 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C150 }
 memory = "code"
+signature = "void (void* outer)"
 note = "function hook of the original (focus_editor_ime_rect)"
 
 [symbol.blur_editor_ime_rect]
@@ -1070,6 +1072,7 @@ bytes = "48 89 5C 24 10 57 48 83 EC 20 80 B9 70 02 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15353F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C2F0 }
 memory = "code"
+signature = "void (void* outer)"
 note = "function hook of the original (blur_editor_ime_rect)"
 
 [symbol.create_editor_sprite]
@@ -1092,6 +1095,7 @@ bytes = "40 53 48 83 EC 20 C6 81 C5 00 00 00 00 48 8B D9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15340A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AFA0 }
 memory = "code"
+signature = "void (void* outer)"
 note = "function hook of the original (hide_editor)"
 
 [symbol.setup_editor]

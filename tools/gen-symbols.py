@@ -112,6 +112,10 @@ SIGNATURES = {
     "paste_editor_clipboard": "void (void* widget)",
     "filter_editor_text": "void (void* text, const void* blacklist)",
     "destroy_editor": "void (void* outer)",
+    "focus_editor_ime_rect": "void (void* outer)",
+    "blur_editor_ime_rect": "void (void* outer)",
+    "hide_editor": "void (void* outer)",
+    "show_native_ime_candidates": "int (void* window, uint32_t message, uint64_t parameter, void* flags, void* video)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.

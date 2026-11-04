@@ -63,6 +63,11 @@ anvil::HookOf<sym::construct_editor_space_row> g_space_row;
 anvil::HookOf<sym::paste_editor_clipboard> g_paste;
 anvil::HookOf<sym::filter_editor_text> g_filter;
 anvil::HookOf<sym::destroy_editor> g_destroy;
+anvil::HookOf<sym::focus_editor_ime_rect> g_focus;
+anvil::HookOf<sym::blur_editor_ime_rect> g_blur;
+anvil::HookOf<sym::hide_editor> g_hide;
+anvil::HookOf<sym::show_native_ime_candidates> g_window_message;
+void* g_focused = nullptr;  // the text box with the keyboard, for window_message
 using Assign = EngineString* (*)(EngineString*, const char*, std::uint64_t);
 Assign g_assign = nullptr;
 void (*g_string_destroy)(EngineString*) = nullptr;
@@ -196,9 +201,24 @@ struct Transaction {
     }
 };
 
+constexpr std::size_t kFieldOfBox = 0xC8;  // the text field in its box
+
+void focus(void* outer) noexcept {
+    g_focus.next(outer);
+    if (static_cast<const std::byte*>(outer)[0x260] == std::byte{1}) g_focused = outer;
+}
+void blur(void* outer) noexcept {
+    g_blur.next(outer);
+    if (g_focused == outer) g_focused = nullptr;
+}
+void hide(void* outer) noexcept {
+    if (g_focused == outer) g_focused = nullptr;
+    g_hide.next(outer);
+}
+
 void destroy(void* outer) noexcept {
-    // The text field is at +0xC8 of its box.
-    const auto found = g_histories.find(static_cast<std::byte*>(outer) + 0xC8);
+    if (g_focused == outer) g_focused = nullptr;
+    const auto found = g_histories.find(static_cast<std::byte*>(outer) + kFieldOfBox);
     if (found != g_histories.end()) {
         found->second->alive = false;
         g_histories.erase(found);
@@ -530,6 +550,22 @@ bool key(void* widget, const void* raw) noexcept {
     }
 }
 
+// The game's dispatch can consume Ctrl+Shift+Z before a field sees it, so the
+// original takes history keys in SDL's window message path while a field has the
+// keyboard (show_native_ime_candidates; the rest of it is IME state).
+int window_message(void* window, std::uint32_t message, std::uint64_t parameter, void* flags, void* video) noexcept {
+    const auto scan = flags ? *static_cast<const std::int64_t*>(flags) : 0;
+    const auto virtual_key = parameter == VK_PROCESSKEY ? MapVirtualKeyW(static_cast<UINT>((scan >> 16) & 0xFF), MAPVK_VSC_TO_VK)
+                                                        : static_cast<UINT>(parameter);
+    const int trapped = g_window_message.next(window, message, parameter, flags, video);
+    if (message != WM_KEYDOWN || virtual_key != 'Z' || !g_focused || !(GetKeyState(VK_CONTROL) & 0x8000) ||
+        (GetKeyState(VK_MENU) & 0x8000) || (GetKeyState(VK_LWIN) & 0x8000) || (GetKeyState(VK_RWIN) & 0x8000))
+        return trapped;
+    const KeyEvent event{'z', 0, (GetKeyState(VK_SHIFT) & 0x8000) ? kCtrl | kShift : kCtrl};
+    key(static_cast<std::byte*>(g_focused) + kFieldOfBox, &event);
+    return 1;
+}
+
 // editor_arrow: the caret moves one grapheme, across rows too.
 template <bool Right> void arrow(void* widget) noexcept {
     try {
@@ -573,6 +609,10 @@ std::size_t load_text_input(anvil::Host& host, std::vector<anvil::Change>& chang
     host.hook(g_paste, sym::paste_editor_clipboard, paste);
     host.hook(g_filter, sym::filter_editor_text, filter);
     host.hook(g_destroy, sym::destroy_editor, destroy);
+    host.hook(g_focus, sym::focus_editor_ime_rect, focus);
+    host.hook(g_blur, sym::blur_editor_ime_rect, blur);
+    host.hook(g_hide, sym::hide_editor, hide);
+    host.hook(g_window_message, sym::show_native_ime_candidates, window_message);
     g_caret_position = host.function(sym::editor_caret_position);
     changes.push_back(host.replace_block(sym::editor_fit_block, fit));
     changes.push_back(host.replace_block(sym::prefix_assign_block_153a306, assign_prefix));
@@ -582,7 +622,7 @@ std::size_t load_text_input(anvil::Host& host, std::vector<anvil::Change>& chang
     // candidates itself (it does not); the original jumps past it, so the IME's own
     // candidate window shows: jmp rel32 to 0x1764F82, then two NOPs.
     changes.push_back(host.patch(sym::sdl_ime_ui_less, {0xE9, 0x27, 0x01, 0x00, 0x00, 0x90, 0x90}));
-    return 19;
+    return 23;
 }
 
 }  // namespace unicode_patch
