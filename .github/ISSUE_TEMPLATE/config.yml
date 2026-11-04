@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/happy-dwarf-team/mei/security/advisories/new
+    about: Report privately; see the organization's security policy.
+  - name: Anvil (loader) issues
+    url: https://github.com/happy-dwarf-team/anvil/issues/new/choose
+    about: Problems that also happen without this plugin belong to Anvil.
+  - name: Install guide
+    url: https://anvil.happydwarf.dev/plugins/mei/
+    about: How to install and use the plugin.
