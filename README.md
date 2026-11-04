@@ -326,7 +326,7 @@ signature, which renames two provinces. New games at 1444 with a fixed seed (`-s
   (346,592 escape bytes) loads with it on: 29,737 tokens decoded, none rejected, in ironman
   (Mei stayed on, Tongs was suspended by Anvil as it should be).
 - **State:** the saves of the two seeded games, one with `utf8_scripts` and one without, are
-  1.67 million lines. After decoding the escapes, 281 lines differ: names, capitals, the file's
+  1.67 million lines. After decoding the escapes, 142 lines differ: names, capitals, the file's
   own hash, and the probe's province. `multiplayer_random_count` is 163,153 in both.
 - No multiplayer session was run.
 
