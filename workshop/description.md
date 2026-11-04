@@ -17,7 +17,7 @@ EU4 keeps its text in an old Western encoding, so a Chinese, Japanese or Korean 
 - **Line breaks.** Chinese and Japanese have no spaces, so the game had nowhere to break a line (and with a long paragraph it crashed). Mei breaks lines between characters, following Unicode's rules: never before a comma or a full stop.
 - **Fonts.** A translation mod's own fonts are used as they are. Where the game would use its own fonts, which have no Chinese, Japanese or Korean letters, Mei brings fonts made from Source Han Sans (about 13,000 characters: Simplified and Traditional Chinese, Japanese kana and kanji, Korean Hangul).
 - **Search.** The diplomacy country list and the province finder match Chinese characters, full pinyin, initials and mixed input, with one typo allowed in long pinyin.
-- **Typing.** Text you type or commit with an IME reaches text fields as UTF-8, and Backspace, Delete and the arrow keys step by character.
+- **Typing.** Text you type or commit with an IME reaches text fields as UTF-8, and Backspace, Delete and the arrow keys step by character. Selecting, undo (Ctrl+Z, Ctrl+Shift+Z) and paste work by character too.
 
 ![](https://i.imgur.com/Uf8Z21n.png)
 
@@ -50,7 +50,6 @@ We found no Japanese translation for EU4 1.37 on the Workshop; Mei draws Japanes
 
 ## Not there yet
 - **IME candidate window:** typing through an IME was only checked with committed text; the candidate window and the text you are still composing were not checked.
-- **Selecting text and undo** in text fields are not done yet; typing, Backspace, Delete and the arrow keys are.
 - **Japanese kanji** in Mei's own fonts take their Simplified Chinese shapes (Source Han Sans SC).
 - **Anvil's own panel and Manager** speak Chinese, Japanese and Korean from Anvil 1.9; with Anvil 1.8 they show Latin text only.
 
