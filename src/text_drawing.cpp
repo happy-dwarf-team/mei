@@ -69,7 +69,9 @@ std::string_view first_bytes(const char* text) noexcept {
     return {text, length};
 }
 
-TextState g_state;
+// Per thread, as the original's: a routine's blocks on one thread must not see
+// the state of the same routine on another.
+thread_local TextState g_state;
 
 }  // namespace
 

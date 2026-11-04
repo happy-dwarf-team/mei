@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
+#include <thread>
 
 namespace {
 
@@ -136,6 +137,21 @@ int text_drawing_tests() {
     check(!line_before(breaks.get(), 15) && !line_before(breaks.get(), 30), "not before a comma or a full stop");
     check(line_breaks("Ottoman army") == nullptr && line_breaks(ostra) == nullptr, "Latin text keeps the game's breaks");
     check(!line_before(nullptr, 3), "no breaks, no break");
+
+    // The state between a routine's blocks is the thread's own, as the original's: text
+    // laid out on another thread does not change what this one's next block reads.
+    text_state() = TextState{};
+    text_state().last_scalar = 0x4E2D;
+    text_state().button_extra = 2;
+    TextState seen;
+    std::thread other([&] {
+        seen = text_state();
+        text_state().last_scalar = 0x41;
+        text_state().button_extra = 0;
+    });
+    other.join();
+    check(seen.last_scalar == 0 && seen.button_extra == 0, "another thread starts with its own text state");
+    check(text_state().last_scalar == 0x4E2D && text_state().button_extra == 2, "and leaves this thread's alone");
 
     return g_failures;
 }
