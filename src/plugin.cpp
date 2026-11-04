@@ -4,8 +4,9 @@
 // MinHook, MASM stubs and page protection.
 //
 // So far: the localisation import that keeps the game's text in UTF-8, the
-// per-glyph text and map blocks that draw and wrap it, the font loader with Mei's
-// bundled fonts, Chinese and pinyin search, and UTF-8 text input. Every symbol of
+// script and save lexer, the per-glyph text and map blocks that draw and wrap it,
+// the font loader with Mei's bundled fonts, Chinese and pinyin search, and UTF-8
+// text input. Every symbol of
 // the original is declared and verified in symbols.toml, so later features only
 // add changes here.
 #include <anvil/anvil.hpp>
@@ -26,6 +27,7 @@
 #include "game_text.hpp"
 #include "localisation.hpp"
 #include "native_search.hpp"
+#include "script_lexer.hpp"
 #include "text_blocks.hpp"
 #include "text_input.hpp"
 #include "search_resources.hpp"
@@ -98,7 +100,10 @@ struct UnicodePatch : anvil::Plugin {
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
         record_callers(host);
-        if (cfg::utf8_localization.get()) load_localisation(host);
+        if (cfg::utf8_localization.get()) {
+            load_localisation(host);
+            if (cfg::utf8_scripts.get()) host.info("script lexer: {} hooks", unicode_patch::load_script_lexer(host));
+        }
         if (cfg::search.get()) load_search(host);
         if (cfg::utf8_input.get())
             host.info("UTF-8 text input: {} changes", unicode_patch::load_text_input(host, text_blocks));

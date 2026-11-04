@@ -101,7 +101,7 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp)
+anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp)
 target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
 
 # The release package (`cmake --install build --component plugin --prefix dist/package`):

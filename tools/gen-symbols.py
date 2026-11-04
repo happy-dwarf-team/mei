@@ -98,6 +98,11 @@ SIGNATURES = {
     "editor_right": "void (void* widget)",
     "assign_editor_prefix": "void* (void* target, const char* text, uint64_t size)",
     "load_font_atlas": "void (void* font)",
+    "construct_script_file": "void* (void* lexer, void* path)",
+    "construct_script_file_mode": "void* (void* lexer, void* path, int mode)",
+    "construct_script_stream": "void* (void* lexer, void* input, bool own_input)",
+    "read_legacy_script_token": "int (void* lexer)",
+    "read_legacy_binary_token": "int (void* lexer)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
