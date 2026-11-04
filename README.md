@@ -505,7 +505,23 @@ which goes through a temporary editor, work as before.
   game, the hooks for clicks and selections ran by other paths), and refused characters by
   hand (the original's tests cover them).
 
-COST_PLACEHOLDER
+### Cost of the lexer and the text field
+
+On 4.11.2026 on the Steam build, Anvil 1.9.0 and Tongs 0.26.0, in a new game's profile with the
+files in the disk cache, 3440×1440.
+
+| Measure | Without | With |
+| --- | --- | --- |
+| Start to menu with both Chinese mods (`game ready at`, median of 3, `utf8_scripts` off and on) | 31.95 s (31.3–35.0) | 32.81 s (31.3–34.4) |
+| Start to menu without mods, the same arms | 25.83 s (25.7–26.9) | 25.93 s (25.7–29.2) |
+| Main-thread CPU per frame on the paused 1444 map, the 0.2.0 release and this build (6 samples of 30 s in 2 starts each) | 4.31 ms (4.06–4.56) | 4.28 ms (4.09–4.77) |
+
+The differences are smaller than the spread between starts of one arm. The lexer's hooks run
+while scripts and saves load, and the text field's when a field is used or a tooltip is built,
+so nothing was expected per frame.
+
+With Bellows 0.19.0 next to Mei (both Chinese mods) the game started in 14.7 s, 5 plugins
+loaded, the same 229,719 tokens were decoded and the save holds the same names (one start).
 
 ## Next steps
 
