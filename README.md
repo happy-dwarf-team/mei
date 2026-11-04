@@ -59,7 +59,7 @@ player benefits from (`anvil-log-throttle`). This port is none of those:
 
 - it changes how every text of the game is laid out, drawn and typed, which only players
   who read or write CJK (or other non-Latin) text need;
-- it follows an active upstream (several releases a month) and is large: 289 symbols and
+- it follows an active upstream (several releases a month) and is large: 311 symbols and
   about 170 changes;
 - its licence and credit belong to the original's author.
 
@@ -273,7 +273,7 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with all 289 symbols | `anvil check --exe` OK |
+| `symbols.toml` with all 311 symbols | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
