@@ -104,7 +104,8 @@ struct Natives {
 } g;
 
 // Where the text a routine lays out may break (line_breaks), set at its first character.
-std::shared_ptr<const eu4unicode::FormattedText> g_main_breaks, g_button_breaks, g_popup_breaks;
+// Per thread, as the original's: a shared_ptr assigned on two threads at once frees twice.
+thread_local std::shared_ptr<const eu4unicode::FormattedText> g_main_breaks, g_button_breaks, g_popup_breaks;
 
 // --- the main text routine (0x15988E0) ---
 
