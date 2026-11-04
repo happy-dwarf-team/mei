@@ -59,7 +59,7 @@ player benefits from (`anvil-log-throttle`). This port is none of those:
 
 - it changes how every text of the game is laid out, drawn and typed, which only players
   who read or write CJK (or other non-Latin) text need;
-- it follows an active upstream (several releases a month) and is large: 289 symbols and
+- it follows an active upstream (several releases a month) and is large: 311 symbols and
   about 170 changes;
 - its licence and credit belong to the original's author.
 
@@ -230,15 +230,30 @@ original (`src/text_input.cpp`):
 | `input_block` `0x1569F91` | per-byte handling of SDL's text event | the original's `dispatch_utf8`: the whole text as one tagged event on the game's queue; continues at `input_return` |
 | `consume_editor_commit` `0x15354E0` | a text field takes one character | for the queue's caller only: the whole tagged text, through the field's refused characters and the game's seven-character restriction |
 | `insert_editor_commit` `0x1536B80` | inserts the field's text | for that consumer's call only: inserts the whole text |
-| `editor_key` `0x15366C0`, `editor_left` `0x15384D0`, `editor_right` `0x15385A0` | Backspace, Delete and the arrows step by byte | in a field whose text is UTF-8, they step by grapheme (the original's `editor_key` and `editor_arrow` without its shaped paragraphs, undo and IME state; `native_editor_text.cpp`) |
+| `editor_key` `0x15366C0`, `editor_left` `0x15384D0`, `editor_right` `0x15385A0` | Backspace, Delete and the arrows step by byte | in a field whose text is UTF-8, they step by grapheme; Ctrl+A selects all, Ctrl+Z and Ctrl+Shift+Z undo and redo, up and down move between rows (the original's `editor_key` and `editor_arrow` without its shaped paragraphs and IME state; `native_editor_text.cpp`) |
+| `editor_selection` `0x153B170` | keeps a selection in bytes | takes in every grapheme it touches, whichever way it runs |
+| `editor_point` `0x15361F0` | a click lands on a byte | on the nearest grapheme boundary |
+| `paste_editor_clipboard` `0x1539240` | pastes what Windows-1252 has | the clipboard's UTF-8 as one commit, through the field's refused characters |
+| `filter_editor_text` `0xB19590` | takes refused Latin-1 bytes out of the text, also out of UTF-8 sequences | for the field's two calls, takes out whole characters |
+| `editor_fit_block` `0x1536E51` | drops a text's last byte when it does not fit | drops its last grapheme |
+| `editor_width_fit` `0x1537210`, `editor_word_break` `0x1539820`, `construct_editor_space_row` `0x1539620` | fit and wrap a row by bytes | in whole graphemes |
+| `prefix_assign_block_*` (three calls of `std::string` assign) | cut a text at a byte limit | at the last whole grapheme. The original hooks the assign itself, which has 17,000 call sites; Mei replaces the three calls |
+| `destroy_editor` `0x1533D90` | destroys a field | forgets its undo history |
+| `focus_editor_ime_rect` `0x1535250`, `blur_editor_ime_rect` `0x15353F0`, `hide_editor` `0x15340A0`, `show_native_ime_candidates` `0x1764940` | focus, and SDL's window messages | the game's dispatch consumes Ctrl+Shift+Z before a field sees it, so Ctrl+Z with or without Shift is taken from the window's messages while a field has the keyboard (the original's path, without its IME state) |
+
+`insert_editor_commit` also records the undo step and puts the caret on a grapheme boundary
+after a commit, as in the original. Fields with text that is not UTF-8 (a Windows-1252 name)
+keep the game's handling. The temporary editors of tooltips and the lobby's chat (two more
+call sites) are left alone, as in the original. There is no word step on the keyboard to
+port: the game's key handler has none, and word breaks are the soft wraps above.
 
 As in the original, SDL's IME set-up skips the UI-less TSF manager (`sdl_ime_ui_less`),
 which would ask the game to draw the candidates itself, so the IME's own candidate window
 shows (not checked with a real IME).
 
-Not ported yet: selection by grapheme, the width fit that drops a field's last byte, word
-steps, up and down in multi-line fields, undo, caret alignment after a commit, paste, the
-composition display, and how they work with Anvil's overlay, which takes text input too.
+Not ported yet: the composition display, how it works with Anvil's overlay, which takes
+text input too, and the original's selection boxes, which only shaped paragraphs and fields
+of several rows need.
 
 Settings (`settings.toml`, the overlay's panel): `search`, `utf8_localization`,
 `utf8_scripts`, `bundled_fonts`, `utf8_input` (all on by default, so a translation mod works without
@@ -258,7 +273,7 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with all 289 symbols | `anvil check --exe` OK |
+| `symbols.toml` with all 311 symbols | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
@@ -266,17 +281,18 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
 | Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
 | Map labels: 17 blocks | on with `utf8_localization` |
-| Text input: 1 block, 5 hooks, the IME patch | on (`utf8_input`) |
-| The original's unit tests (UTF-8, EU4DLL escapes, script signature, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 11/11 (Release, MSVC 2022) |
+| Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
+| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 13/13 (Release, MSVC 2022) |
 | In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
 | In-game test of the script and save lexer (4.11.2026, Anvil 1.9.0, Tongs 0.26.0, Steam and GOG) | names of the supplementary Chinese mod shown; state unchanged but for names; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
 | In-game test of the localisation import (2.11.2026, the same conditions) | 259096 values kept in UTF-8, none rejected; see below |
 | In-game test of the text drawing (2.11.2026, the same conditions) | accented localisation drawn right; no measurable cost per frame; see below |
 | In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI and, with the map blocks, on the map; see below |
+| In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (its own font atlases, the rest of the editor and the IME, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
+| The rest of the original (its own font atlases, the IME composition display, dates, Rich Presence, save names) | not started; see [Next steps](#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test with translation mods
@@ -458,6 +474,55 @@ focus), which SDL turns into the same text event an IME commit ends in; Tongs ty
   `ImmGetCompositionString`, which a message from another process cannot fill, so it needs
   typing with an IME by hand.
 
+### In-game test of the text field
+
+On 4.11.2026 with Anvil 1.9.0, Tongs 0.26.0 and the Simplified Chinese mods, on the Steam
+and the GOG build, in the lobby's finder. Text went to the window as `WM_CHAR`, keys through
+Tongs, and Ctrl and Shift as window messages with the game thread's key state set, as Tongs
+has no modifiers; the lab's clipboard was put back after each run. Both builds gave:
+
+| Step | The field |
+| --- | --- |
+| 法兰西, Ctrl+A, Backspace | empty |
+| 法兰西abc, Ctrl+Z twice, Ctrl+Shift+Z | 法兰西ab, 法兰西a, 法兰西ab |
+| 法兰西abc, Shift+Left four times, Ctrl+C | the clipboard holds 西abc |
+| Backspace, Ctrl+Z | 法兰, then 法兰西abc |
+| Ctrl+V with 日本語テスト, Ctrl+Z | 法兰西abc日本語テスト, then 法兰西abc |
+| Left four times, x | 法兰x西abc |
+| Ctrl+A, Ctrl+V with 한국어 | 한국어 |
+| Ctrl+A, Ctrl+X | empty, and the clipboard holds 한국어 |
+| e with a combining accent, x, Backspace twice | empty |
+| 法兰西abc, a click near the field's left, y | 法兰y西abc |
+| Ctrl+V with 240 Chinese characters | 24 characters that fit the field, valid UTF-8 |
+
+Tongs' `bä`, Backspace (b), `falanxi` (the finder's list) and the tooltip of a lobby shield,
+which goes through a temporary editor, work as before.
+
+- Before the window message hook, Ctrl+Shift+Z never reached the field: the log showed its
+  Shift and Ctrl, and no Z.
+- Not checked: a field of several rows (none found in the game's interface files that a player
+  reaches easily), selecting with a mouse drag (window messages for it did not reach the
+  game, the hooks for clicks and selections ran by other paths), and refused characters by
+  hand (the original's tests cover them).
+
+### Cost of the lexer and the text field
+
+On 4.11.2026 on the Steam build, Anvil 1.9.0 and Tongs 0.26.0, in a new game's profile with the
+files in the disk cache, 3440×1440.
+
+| Measure | Without | With |
+| --- | --- | --- |
+| Start to menu with both Chinese mods (`game ready at`, median of 3, `utf8_scripts` off and on) | 31.95 s (31.3–35.0) | 32.81 s (31.3–34.4) |
+| Start to menu without mods, the same arms | 25.83 s (25.7–26.9) | 25.93 s (25.7–29.2) |
+| Main-thread CPU per frame on the paused 1444 map, the 0.2.0 release and this build (6 samples of 30 s in 2 starts each) | 4.31 ms (4.06–4.56) | 4.28 ms (4.09–4.77) |
+
+The differences are smaller than the spread between starts of one arm. The lexer's hooks run
+while scripts and saves load, and the text field's when a field is used or a tooltip is built,
+so nothing was expected per frame.
+
+With Bellows 0.19.0 next to Mei (both Chinese mods) the game started in 14.7 s, 5 plugins
+loaded, the same 229,719 tokens were decoded and the save holds the same names (one start).
+
 ## Next steps
 
 A plan only; none of it is ported. The original's order, from the lab's analysis:
@@ -477,11 +542,8 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
    `eu4.exe`). Then every character has a glyph, in the shapes of the player's own
    script, and the text blocks can give a character above U+00FF its own index, as the
    original does, with its shaped-paragraph and kerning blocks.
-3. **The rest of the editor and the IME**: selection by grapheme, the width fit, word
-   steps, multi-line fields, undo, caret alignment and paste (about 20 more hooks of the
-   original), the composition display, and
-   how they work with Anvil's overlay, which also takes text input; then a test with a real
-   IME (Microsoft Pinyin, Microsoft IME for Japanese and Korean). After this the typed query
+3. **The IME**: the composition display and how it works with Anvil's overlay, which also
+   takes text input; then a test with a real IME (Microsoft Pinyin, Microsoft IME for Japanese and Korean). After this the typed query
    is always UTF-8 and the Windows-1252 conversion of `src/game_text.cpp` can go.
 
 The original's code is built as C++17, as in its own build (`u8""` literals are `char`

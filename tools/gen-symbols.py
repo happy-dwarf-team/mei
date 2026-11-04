@@ -83,7 +83,7 @@ FUNCTION_BYTES = {0x16FD650: 20, 0x1705180: 21, 0x1704AF0: 17, 0x159B470: 18, 0x
                   0x1765850: 17, 0x1764940: 18, 0x15385A0: 20, 0x15361F0: 20, 0x1536060: 20, 0x1535EB0: 20,
                   0x1537210: 20, 0x1534250: 19, 0x15353F0: 17, 0x14DB940: 17, 0x1534100: 17, 0xB19590: 18,
                   0x15354E0: 20, 0x1536B80: 19, 0x1506D30: 20, 0x14C7890: 20, 0xE3D40: 18, 0x1539820: 19, 0x1536F50: 20, 0x95660: 17,
-                  0x95110: 18, 0x19FAD70: 19}
+                  0x95110: 18, 0x19FAD70: 19, 0x1734490: 7, 0x1735E00: 7, 0x153AA90: 20}
 # The hooks this plugin makes so far, with their C signatures.
 SIGNATURES = {
     "find_country_name": "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)",
@@ -103,6 +103,19 @@ SIGNATURES = {
     "construct_script_stream": "void* (void* lexer, void* input, bool own_input)",
     "read_legacy_script_token": "int (void* lexer)",
     "read_legacy_binary_token": "int (void* lexer)",
+    "editor_selection": "void (void* widget)",
+    "editor_point": "void (void* widget, const void* row, const void* point)",
+    "editor_caret_position": "void* (void* widget, void* result)",
+    "editor_width_fit": "int (void* widget, const void* text)",
+    "editor_word_break": "int (void* widget, const void* text, int fit)",
+    "construct_editor_space_row": "void* (void* row, const void* source)",
+    "paste_editor_clipboard": "void (void* widget)",
+    "filter_editor_text": "void (void* text, const void* blacklist)",
+    "destroy_editor": "void (void* outer)",
+    "focus_editor_ime_rect": "void (void* outer)",
+    "blur_editor_ime_rect": "void (void* outer)",
+    "hide_editor": "void (void* outer)",
+    "show_native_ime_candidates": "int (void* window, uint32_t message, uint64_t parameter, void* flags, void* video)",
 }
 # The game's functions this plugin calls, with their C signatures; the address is the
 # original's `address(0x...)` for the same name in src/plugin.cpp.
@@ -125,6 +138,10 @@ INLINE = {
                           "the text field's caret move to a byte offset (native_editor_text.cpp)"),
     "resolve_resource": (0x19FAD70, 'signature = "const void* (const char* path)"',
                          "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"),
+    "clipboard_text": (0x1734490, 'signature = "char* ()"', "SDL_GetClipboardText, which the original's paste calls"),
+    "clipboard_free": (0x1735E00, 'signature = "void (void* text)"', "SDL_free, which the original's paste calls"),
+    "editor_row_offset": (0x153AA90, 'signature = "uint32_t (void* widget, uint32_t row, uint32_t column)"',
+                          "the text field's byte offset of a row and column (the original's trim_editor_grapheme)"),
     "editor_restricted_characters": (0x1D91328, 'type = "char"',
                                      "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }
@@ -138,6 +155,17 @@ CALL_SITES = {
     0x11421AD: ("province_distance_call_11421ad", 5, "goto box: find_province_distance on a second name"),
     0x14E9CB3: ("queued_character_call_14e9cb3", 3, "the input queue's type-2 consumer: consume_editor_commit through the callback"),
     0x153560F: ("commit_insert_call_153560f", 6, "consume_editor_commit's insertion: insert_editor_commit through the widget"),
+    0x1536C32: ("write_filter_call_1536c32", 5, "the field's refused characters in insert_editor_commit: filter_editor_text"),
+    0x15A05A8: ("font_filter_call_15a05a8", 5, "the font's refused characters: filter_editor_text"),
+    0x1415F33: ("tooltip_insert_call_1415f33", 5, "a tooltip's temporary editor: insert_editor_commit"),
+    0x83EADB: ("lobby_chat_insert_call_83eadb", 5, "a lobby chat message's temporary editor: insert_editor_commit"),
+}
+# Where the text field cuts a text to a byte limit (the original hooks std::string assign, which has
+# 17,000 call sites, and picks these by their return addresses; these blocks replace the three calls).
+PREFIX_BLOCKS = {
+    0x153A306: ("prefix_assign_block_153a306", "CTextBuffer::TryToAppendStringToText"),
+    0x153A717: ("prefix_assign_block_153a717", "CTextBuffer::AppendTextToString"),
+    0x153A99B: ("prefix_assign_block_153a99b", "CTextBuffer::InsertStringInToText"),
 }
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
@@ -216,6 +244,9 @@ for name, (rva, kind, note) in INLINE.items():
 for rva, (name, size, note) in CALL_SITES.items():
     out += [f"[symbol.{name}]", *where(name, rva, size), 'memory = "code"',
             f'note = "{note}; the plugin maps where it returns to the Steam address the original checks"', ""]
+for rva, (name, where_from) in PREFIX_BLOCKS.items():
+    out += [f"[symbol.{name}]", *where(name, rva, 5), 'memory = "code"',
+            f'note = "{where_from}: call of assign_editor_prefix with a byte-limited prefix"', ""]
 for c, name in sorted(continuations.items()):
     out += [f"[symbol.{name}]", *where(name, c, 4), 'memory = "code"', 'note = "where a replaced block continues"', ""]
 for rva, before in patches:
