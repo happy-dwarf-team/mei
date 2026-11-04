@@ -135,5 +135,19 @@ int localisation_tests() {
     check(g_parsed_inputs.back() == &empty, "an empty file is left to the game");
     check(unicode_patch::localisation_counts().signed_files == 1, "signed files are counted");
 
+    // The lexer's check before the original's token import.
+    char token[8] = "Moskva";
+    check(!unicode_patch::token_has_legacy_escape(token, sizeof token), "a plain token has no escape");
+    token[3] = 0x12;
+    check(unicode_patch::token_has_legacy_escape(token, sizeof token), "an escape marker is found");
+    token[3] = '\x14';
+    check(!unicode_patch::token_has_legacy_escape(token, sizeof token), "only 0x10-0x13 are markers");
+    token[3] = '\0';
+    token[4] = 0x10;
+    check(!unicode_patch::token_has_legacy_escape(token, sizeof token), "the check ends at the token's end");
+    const char full[4] = {'a', 'b', 'c', 'd'};
+    check(!unicode_patch::token_has_legacy_escape(full, sizeof full), "the check ends at the buffer's end");
+    check(unicode_patch::lexer_summary().find("0 script tokens") != std::string::npos, "the lexer's summary");
+
     return g_failures;
 }

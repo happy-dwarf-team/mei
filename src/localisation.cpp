@@ -78,4 +78,23 @@ std::string localisation_summary() {
                        c.values - std::min(c.values, c.rejected), c.escaped, c.rejected, c.signed_files);
 }
 
+bool token_has_legacy_escape(const char* text, std::size_t capacity) noexcept {
+    for (const char* end = text + capacity; text != end && *text; ++text) {
+        if (static_cast<unsigned char>(*text - 0x10) < 4) return true;
+    }
+    return false;
+}
+
+LexerCounts lexer_counts() noexcept {
+    const auto legacy = eu4unicode::legacy_import_counts();
+    return {legacy.script, legacy.binary, legacy.rejected};
+}
+
+std::string lexer_summary() {
+    const auto c = lexer_counts();
+    return std::format("script lexer: {} script tokens and {} save tokens decoded from EU4DLL escapes, {} values and "
+                       "tokens rejected",
+                       c.script, c.binary, c.rejected);
+}
+
 }  // namespace unicode_patch

@@ -8,6 +8,7 @@
 // (native_yaml.cpp).
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -40,5 +41,17 @@ struct LocalisationCounts {
 };
 LocalisationCounts localisation_counts() noexcept;
 std::string localisation_summary();
+
+// The lexer's token buffer holds an EU4DLL escape marker. The game reads millions
+// of tokens and almost none has one, so this comes before the original's import.
+bool token_has_legacy_escape(const char* text, std::size_t capacity) noexcept;
+
+struct LexerCounts {
+    std::uint64_t script;    // script tokens decoded from EU4DLL escapes
+    std::uint64_t binary;    // binary save tokens decoded from them
+    std::uint64_t rejected;  // localisation values and tokens rejected, as in LocalisationCounts
+};
+LexerCounts lexer_counts() noexcept;
+std::string lexer_summary();
 
 }  // namespace unicode_patch

@@ -101,7 +101,7 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp)
+anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp)
 target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor)
 
 # The release package (`cmake --install build --component plugin --prefix dist/package`):
@@ -116,7 +116,7 @@ install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENA
 # EU4DLL escape conversion, search, pinyin and the glyph registry. They run on this build of them.
 enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
-             legacy_text glyph_registry)
+             legacy_text glyph_registry native_script_bom)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
     set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
@@ -127,6 +127,7 @@ target_link_libraries(unicode_services_tests PRIVATE unicode_services)
 target_link_libraries(yaml_input_tests PRIVATE unicode_text)
 target_link_libraries(legacy_text_tests PRIVATE legacy_text)
 target_link_libraries(glyph_registry_tests PRIVATE glyph_registry)
+target_link_libraries(native_script_bom_tests PRIVATE native_script_bom)
 foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()
