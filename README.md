@@ -357,9 +357,14 @@ ctest --test-dir build -C Release --output-on-failure
 Regenerate the symbols after moving `upstream/` to another commit:
 
 ```
-python -I tools/gen-symbols.py "<EU4>/eu4.exe" upstream > symbols.toml
-build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4>/eu4.exe"
+python -I tools/gen-symbols.py "<EU4 Steam>/eu4.exe" upstream --build "<EU4 GOG>/eu4.exe" tools/gog-1.37.5.2.json > symbols.toml
+build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 Steam>/eu4.exe"
+build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 GOG>/eu4.exe"
 ```
+
+For a new game build, `anvil port symbols.toml --from <old eu4.exe> --to <new eu4.exe> --build <id> --format json > tools/<id>.json`
+gives the map. Add the symbols the report leaves by hand to its `symbols`, each with its address or `null`, and add one more
+`--build "<new eu4.exe>" tools/<id>.json`, after the GOG one. `check` needs an SDK whose Anvil knows the build.
 
 `upstream/` is pinned to `50515b8` (v0.1.15 and one fix, 27.10.2026).
 
