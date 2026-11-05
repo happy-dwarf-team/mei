@@ -49,7 +49,7 @@ With the default settings:
   plugin (`anvil/mei/`) and Mei's fonts (`gfx/fonts/mei/`).
 - **GitHub release:** `mei-windows-x64.zip` holds the plugin folder `mei/` for
   `anvil/plugins/`; `mei-fonts.zip` holds the fonts, which the game reads from a mod's
-  `gfx/fonts/mei/` only (a local mod with them, or the Workshop item). Without them the
+  `gfx/fonts/mei/` only (the Workshop item, or a [local mod](https://anvil.happydwarf.dev/plugins/mei/#install)). Without them the
   game's own fonts stay and a translation mod's fonts still work.
 
 
