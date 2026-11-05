@@ -1,27 +1,21 @@
-**讓《歐陸風雲4》顯示中文、日文和韓文，不再需要舊的雙字節補丁。**
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-hero.png)
 
 Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中文化 Mod 的文字。Mei 本身不是中文化，所以請同時訂閱一個中文化 Mod。
 
-## 你將得到
-- **文字正常顯示：** 選單、提示框、事件和地圖都能顯示。為舊雙字節補丁製作的中文化包無需修改即可使用。
-- **正確換行：** 在字與字之間換行，長段落也不會再閃退。
-- **自帶字型：** 遊戲自帶的字型沒有中日韓文字，凡是要用這些字型的地方，Mei 會換上以思源黑體（Source Han Sans）製作的字型，約 13,000 個字。
-- **搜尋和輸入：** 外交國家列表和省份尋找支援漢字、拼音和首字母；鍵盤輸入或透過輸入法送出的文字可以進入文字框。
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-install.png)
 
-![](https://i.imgur.com/Uf8Z21n.png)
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-steps.png)
 
-## 運作原理
-遊戲以一種舊的西文編碼儲存文字，因此沒有輔助工具就無法顯示中文、日文或韓文翻譯。多年來，這個輔助工具是放進遊戲資料夾的「雙字節補丁」（EU4DLL）。Mei 以 [Anvil](https://anvil.happydwarf.dev/) 外掛的形式完成同樣的工作：
+**請先移除舊的雙字節補丁**（它放進遊戲資料夾的 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾）。它和 Anvil 都使用 `version.dll`，兩者只能保留一個。
 
-- **編碼。** 遊戲以 UTF-8 儲存並顯示文字，包括選單、提示框、事件和地圖。為舊補丁製作的中文化包（帶有它的跳脫編碼）會在載入時轉換為 UTF-8，無需修改即可使用。腳本檔案和存檔也一樣：補充包放在腳本中的名稱會正常顯示。
-- **換行。** 中文和日文沒有空格，遊戲原本找不到換行的位置（遇到很長的段落甚至會閃退）。Mei 依照 Unicode 的規則在字與字之間換行，逗號和句號不會出現在行首。
-- **字型。** 中文化 Mod 自帶的字型照常使用。遊戲自帶的字型沒有中日韓文字，凡是遊戲要用這些字型的地方，Mei 會換上以思源黑體（Source Han Sans）製作的字型（約 13,000 個字：簡體和繁體中文、日文假名和漢字、韓文諺文）。
-- **搜尋。** 外交國家列表和省份尋找支援漢字、全拼、首字母和混合輸入，較長的拼音允許一個錯字。
-- **輸入。** 鍵盤輸入或透過輸入法送出的文字會以 UTF-8 進入文字框，退格、刪除和方向鍵按字移動；選取文字、復原（Ctrl+Z、Ctrl+Shift+Z）和貼上也按字處理。
+需要 [Anvil](https://anvil.happydwarf.dev/) 1.9 或更新版本和 EU4 1.37.5（Steam；也支援 GOG 版 1.37.5.2，見常見問題）。如果 Windows 提示檔案有風險，請選擇**其他資訊**，再選擇**仍要執行**。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-tiles-title.png)
 
-## Mei 不是中文化
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-tiles.png)
+
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-extra0.png)
+
 你還需要一個中文化 Mod。我們用以下 Mod 測試過 Mei（每次只開 Mei 和該 Mod，使用預設設定）：
 - 簡體中文：[Chinese Language Mod for 1.37](https://steamcommunity.com/sharedfiles/filedetails/?id=2976470733)
 - 簡體中文名稱：[Chinese Language Supplementary Mod for 1.37](https://steamcommunity.com/sharedfiles/filedetails/?id=1999055990)（在上述 Mod 之上）
@@ -30,46 +24,37 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 工作坊上沒有找到適用於 1.37 的日文翻譯；任何包含日文的 Mod，Mei 都能顯示其文字。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-extra1.png)
 
-## 安裝
-Mei 適用於 EU4 1.37.5（Steam，Windows）和 GOG 版 1.37.5.2。GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog** 分頁中安裝 Mei，或使用 [GitHub](https://github.com/happy-dwarf-team/mei/releases) 上的發行版本壓縮檔。
-
-**請先移除舊的雙字節補丁**（它放進遊戲資料夾的 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾）。它和 Anvil 都使用 `version.dll`，兩者只能保留一個。
-
-1. **安裝 [Anvil](https://anvil.happydwarf.dev/) 1.9 或更新版本。** 下載並執行，然後點擊 **Install Anvil**。如果 Windows 提示檔案有風險，請選擇**其他資訊**，再選擇**仍要執行**。只需操作一次，工作坊無法替你完成。
-2. **訂閱** Mei 和你的中文化 Mod，並在播放集中同時啟用。
-3. **啟動遊戲。** Anvil 會提示有新外掛等待核准：按 **Ctrl+Shift+F12**，開啟 **Mods** 並核准 Mei。
-4. **重新啟動遊戲。** 無需任何設定：預設設定已經為中文化 Mod 調好。
-
-![](https://i.imgur.com/Uf8Z21n.png)
-
-## 尚未完成
 - **輸入法候選視窗：** 輸入法只測試過已送出的文字；候選視窗和正在組字的內容尚未測試。
 - Mei 自帶字型中的**日文漢字**採用簡體中文字形（思源黑體 SC）。
 - **Anvil 自己的面板和管理器** 從 Anvil 1.9 起支援中文、日文和韓文；Anvil 1.8 只顯示拉丁字母。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+[![](https://anvil.happydwarf.dev/workshop/mei-tchinese-docs.png)](https://anvil.happydwarf.dev/plugins/mei/) [![](https://anvil.happydwarf.dev/workshop/mei-tchinese-github.png)](https://github.com/happy-dwarf-team/mei)
 
-## 為什麼叫「Mei」
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-faq.png)
+
+### 為什麼需要核准？
+Mei 是在遊戲內執行的真正程式，不只是一堆文字檔。Anvil 確保這樣的程式不會未經你點頭就執行。信任，但要查證。這是矮人的規矩。
+
+### 我玩的是 GOG 版，可以用嗎？
+可以，支援 GOG 版 1.37.5.2。GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog** 分頁安裝 Mei，或使用 [GitHub](https://github.com/happy-dwarf-team/mei/releases) 上的發行版本壓縮檔。
+
+### 為什麼叫「Mei」？
 銘（日文讀作 *mei*）是刀匠刻在刀莖上的署名。同一個字在中文裡讀作 *míng*，在韓文裡是 명（*myeong*），意思都是「銘文」：中日韓三種語言共用這一個字，正如 Mei 服務於這三種語言。我們團隊的名字都來自鐵匠鋪。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+### 縮圖上那個小矮人頭像是什麼？
+看看這個 Mod 的 GitHub 頁面，你會發現儲存庫屬於 Happy Dwarf Team。
 
-## 致謝與授權
-Mei 移植自 VulonLok（YozoraTempest）的 [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)（MIT 授權）：文字、搜尋和輸入的邏輯都來自原作者，從其原始碼原樣建置。衷心感謝！Mei 自己的程式碼同樣採用 MIT 授權。字型：Adobe 的思源黑體（Source Han Sans），SIL 開放字型授權 1.1。本專案與 Paradox Interactive 無關。
+我喜歡矮人。
+我喜歡開心。
+其實我本人就是一個開心的矮人。
 
-![](https://i.imgur.com/Uf8Z21n.png)
+![](https://anvil.happydwarf.dev/workshop/mei-tchinese-credits.png)
 
-## Happy Dwarf Team 的其他作品
-- **[Anvil](https://anvil.happydwarf.dev/)**：讓 Mei 這樣的外掛進入 EU4 的免費載入器，附帶用於核准和更新外掛的 Manager。
-- **[Bellows](https://steamcommunity.com/sharedfiles/filedetails/?id=3823747170)**：遊戲啟動時間從約 41 秒縮短到約 13 秒。
-- **[Hamweard](https://steamcommunity.com/sharedfiles/filedetails/?id=3832650792)**：退出到主選單時無需重新啟動遊戲。
-- **[Tongs](https://steamcommunity.com/sharedfiles/filedetails/?id=3826695093)**：面向 Mod 測試者和工具開發者，讓腳本和 AI 代理看到遊戲並操作按鈕。
-- **[Etch](https://etch.happydwarf.dev/)**：面向介面 Mod 作者，在 VS Code 中按遊戲的樣子預覽 `.gui` 視窗。
-- 我們的全部作品：[happydwarf.dev](https://happydwarf.dev/)
+**VulonLok**（[EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch)，MIT 授權）：文字、搜尋和輸入的邏輯都來自原作者，從其原始碼原樣建置。衷心感謝！
+**Anvil** 讓矮人走進了鐵匠鋪。
+**思源黑體**（Source Han Sans，Adobe，SIL 開放字型授權 1.1）提供字型。
+Mei 自己的程式碼採用 MIT 授權。本專案與 Paradox Interactive 無關。
 
-![](https://i.imgur.com/Uf8Z21n.png)
-
-### 其他下載方式
-[GitHub](https://github.com/happy-dwarf-team/mei)，也適用於 GOG 版。外掛頁面：[anvil.happydwarf.dev/plugins/mei](https://anvil.happydwarf.dev/plugins/mei/)。
+[![](https://anvil.happydwarf.dev/workshop/collection-tchinese.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=3833899418)
