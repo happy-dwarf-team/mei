@@ -11,7 +11,7 @@
 // commit. A field whose text is not UTF-8 (a save's name in Windows-1252) makes
 // native_edit_view throw and keeps the game's own handling.
 //
-// Not ported (README.md "Next steps"): the IME's composition display, and the
+// Not ported (docs/port.md "Next steps"): the IME's composition display, and the
 // original's selection boxes for fields of several rows and shaped paragraphs,
 // which only those two need.
 #include "text_input.hpp"
