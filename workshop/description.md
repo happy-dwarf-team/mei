@@ -22,11 +22,11 @@ You need a translation mod as well. We tested Mei with these, each with Mei alon
 - Traditional Chinese: [Traditional Chinese for 1.37.5](https://steamcommunity.com/sharedfiles/filedetails/?id=2437805432)
 - Korean: [Korean Language Mod - stability](https://steamcommunity.com/sharedfiles/filedetails/?id=2714934430)
 
-We found no Japanese translation for EU4 1.37 on the Workshop; Mei draws Japanese text from any mod that has it.
+We found no Japanese translation for EU4 1.37 on the Workshop. Mei drew our Japanese test text, but no full translation was tried.
 
 ![](https://anvil.happydwarf.dev/workshop/mei-extra1.png)
 
-- **IME candidate window:** typing through an IME was only checked with committed text; the candidate window and the text you are still composing were not checked.
+- **IME:** no real IME was used. The tests sent finished text to the window, so the candidate window and the text you are still composing were not checked.
 - **Japanese kanji** in Mei's own fonts take their Simplified Chinese shapes (Source Han Sans SC).
 - **Anvil's own panel and Manager** speak Chinese, Japanese and Korean from Anvil 1.9; with Anvil 1.8 they show Latin text only.
 
