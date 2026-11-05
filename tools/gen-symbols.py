@@ -1,16 +1,19 @@
 """Writes symbols.toml from the original's hook tables, so that every address is written once.
 
-Usage: python -I tools/gen-symbols.py <eu4.exe> [upstream] [--gog <gog eu4.exe> [map.json]] > symbols.toml
+Usage: python -I tools/gen-symbols.py <eu4.exe> [upstream] [--build <eu4.exe> <map.json>]... > symbols.toml
 
 It reads the original (the `upstream` submodule): the MinHook table and calls in src/plugin.cpp,
 the stubs in src/*_hooks.asm and the continuation addresses they jump to, and the byte patches.
 The bytes come from <eu4.exe> (EU4 1.37.5 Steam, SHA-256 9AD3EFE1...D771A); `anvil check . --exe`
 then verifies them and the instruction boundaries.
 
-With --gog, the file lists the GOG build 1.37.5.2 too (Anvil design 5.2): each symbol's GOG address
-comes from tools/gog-1.37.5.2.json (the lab's port, names from the GOG eu4.pdb), its bytes from the
-GOG eu4.exe (SHA-256 D29CF745...155319), shared when they equal Steam's. A symbol the map gives
-null is `absent` on GOG (Anvil 1.9).
+Each --build adds a game build (Anvil design 5.2), GOG 1.37.5.2 first: tools/gog-1.37.5.2.json with
+the GOG eu4.exe (SHA-256 D29CF745...155319). A symbol's address comes from the map, its bytes from
+that eu4.exe, shared when they equal every other build's. A symbol the map gives null is `absent`
+on that build (Anvil 1.9).
+
+A map is the report of `anvil port symbols.toml ... --format json`: `build` and `symbols`. Its
+`symbols` holds only what the port placed, so add what it left by hand: the address, or null.
 """
 import json
 import re
@@ -18,16 +21,15 @@ import struct
 import sys
 from pathlib import Path
 
-STEAM, GOG = "eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64"
+STEAM = "eu4-1.37.5-steam-win64"
 args = sys.argv[1:]
-gog_exe, gog_map = None, None
-if "--gog" in args:
-    i = args.index("--gog")
-    gog_exe = Path(args[i + 1]).read_bytes()
-    rest = args[i + 2:]
-    map_path = Path(rest[0]) if rest and rest[0].endswith(".json") else Path(__file__).with_name("gog-1.37.5.2.json")
-    gog_map = {k: (None if v is None else int(v, 16)) for k, v in json.loads(map_path.read_text(encoding="utf-8"))["symbols"].items()}
-    args = args[:i] + rest[1 if rest and rest[0].endswith(".json") else 0:]
+further = []  # the builds after Steam: id, map path, image, addresses
+while "--build" in args:
+    i = args.index("--build")
+    image, map_path = Path(args[i + 1]).read_bytes(), Path(args[i + 2])
+    port = json.loads(map_path.read_text(encoding="utf-8"))
+    further.append((port["build"], map_path, image, {k: (None if v is None else int(v, 16)) for k, v in port["symbols"].items()}))
+    del args[i:i + 3]
 exe = Path(args[0]).read_bytes()
 src = Path(args[1] if len(args) > 1 else "upstream")
 plugin = (src / "src/plugin.cpp").read_text(encoding="utf-8")
@@ -41,7 +43,7 @@ def sections_of(image):
 
 
 sections = sections_of(exe)
-gog_sections = sections_of(gog_exe) if gog_exe else []
+sections_by_build = {build: sections_of(image) for build, _, image, _ in further}
 
 
 def at(rva, n, image=None, secs=None):
@@ -53,23 +55,24 @@ def at(rva, n, image=None, secs=None):
 
 
 def where(name, rva, n):
-    """The keys that place a symbol: rva and, with n, its n bytes; for both builds with --gog."""
-    if gog_map is None:
-        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(at(rva, n))}"'] if n else [])
-    if name not in gog_map:
-        raise SystemExit(f"{name}: not in the GOG map")
-    other = gog_map[name]
-    steam = at(rva, n) if n else None
-    if other is None:
-        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(steam)}"'] if n else []) + [f'absent = ["{GOG}"]']
+    """The keys that place a symbol: rva and, with n, its n bytes; in every build with --build."""
+    placed, absent = [(STEAM, rva, at(rva, n) if n else None)], []
+    for build, map_path, image, addresses in further:
+        if name not in addresses:
+            raise SystemExit(f"{name}: not in {map_path}: add its address for {build}, or null if the build has no such code")
+        other = addresses[name]
+        if other is None:
+            absent.append(build)
+        else:
+            placed.append((build, other, at(other, n, image, sections_by_build[build]) if n else None))
+    missing = ['absent = [' + ", ".join(f'"{build}"' for build in absent) + "]"] if absent else []
+    if len(placed) == 1:
+        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(placed[0][2])}"'] if n else []) + missing
     if not n:
-        return [f'build."{STEAM}" = {{ rva = 0x{rva:X} }}', f'build."{GOG}" = {{ rva = 0x{other:X} }}']
-    gog = at(other, n, gog_exe, gog_sections)
-    if gog == steam:
-        return [f'bytes = "{hexbytes(steam)}"', f'build."{STEAM}" = {{ rva = 0x{rva:X} }}',
-                f'build."{GOG}" = {{ rva = 0x{other:X} }}']
-    return [f'build."{STEAM}" = {{ rva = 0x{rva:X}, bytes = "{hexbytes(steam)}" }}',
-            f'build."{GOG}" = {{ rva = 0x{other:X}, bytes = "{hexbytes(gog)}" }}']
+        return [f'build."{build}" = {{ rva = 0x{place:X} }}' for build, place, _ in placed] + missing
+    if len({code for _, _, code in placed}) == 1:
+        return [f'bytes = "{hexbytes(placed[0][2])}"'] + [f'build."{build}" = {{ rva = 0x{place:X} }}' for build, place, _ in placed] + missing
+    return [f'build."{build}" = {{ rva = 0x{place:X}, bytes = "{hexbytes(code)}" }}' for build, place, code in placed] + missing
 
 
 def hexbytes(b):
@@ -198,12 +201,13 @@ consts = re.search(r"const DataPatch constants\[\]=\{(.*?)\};", plugin, re.S).gr
 for m in re.finditer(r"\{0x([0-9a-f]+),bytes\(\"([0-9a-f]+)\"\)", consts):
     patches.append((int(m.group(1), 16), bytes.fromhex(m.group(2))))
 
-if gog_map:
+if further:
     out = ["# Generated by tools/gen-symbols.py from the original's hook tables (upstream/, see",
            "# README.md for the commit), eu4.exe 1.37.5 Steam and, for the GOG build 1.37.5.2,",
            "# tools/gog-1.37.5.2.json. Do not edit by hand: change the generator or the map and run",
            "# `anvil check . --exe <eu4.exe>` once per build to write symbols.lock.",
-           f'builds = ["{STEAM}", "{GOG}"]', ""]
+           *(f"# Later builds: tools/{map_path.name}." for _, map_path, _, _ in further[1:]),
+           "builds = [" + ", ".join(f'"{build}"' for build in [STEAM] + [b[0] for b in further]) + "]", ""]
 else:
     out = ["# Generated by tools/gen-symbols.py from the original's hook tables (upstream/, see",
            "# README.md for the commit) and eu4.exe 1.37.5 Steam. Do not edit by hand: change the",
