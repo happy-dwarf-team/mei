@@ -23,7 +23,7 @@ restart = true
 [setting.utf8_scripts]
 type = "bool"
 # Needs utf8_localization, whose text blocks draw these names. Only the text of
-# names changes (README.md "Script and save lexer").
+# names changes (docs/port.md "Script and save lexer").
 default = true
 label = "UTF-8 in scripts and saves"
 description = "Script files and saves may be in UTF-8, with or without a signature, and EU4DLL escapes in them become UTF-8, so names from a supplementary translation mod show as they read. Saves written with it keep those names in UTF-8."
