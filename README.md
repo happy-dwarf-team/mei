@@ -32,10 +32,11 @@ With the default settings:
   such letters, it uses [Mei's fonts](fonts/README.md), from Source Han Sans (about 13,000
   characters).
 - **Map labels.** Country names on the map read right, spaced by character.
-- **Search.** The diplomacy country list and the province finder match Chinese characters, full
-  pinyin, initials and mixed input, with one typo allowed in long pinyin.
-- **Typing.** Typed and IME-committed text reaches text fields. Keys, the mouse, selection, undo,
-  copy and paste work by character.
+- **Search.** The province finder matches Chinese characters, full pinyin, initials and mixed
+  input, with one typo allowed in long pinyin. The diplomacy country list uses the same search,
+  but was not checked in the game.
+- **Typing.** Finished text reaches text fields, as an IME commits it. Keys, the mouse, selection,
+  undo, copy and paste work by character.
 
 ## Install
 
