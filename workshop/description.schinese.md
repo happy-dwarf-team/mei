@@ -43,6 +43,9 @@ Mei 是在游戏内运行的真正程序，不只是一堆文本文件。Anvil �
 ### 为什么叫"Mei"？
 銘（日文读作 *mei*）是刀匠刻在刀茎上的署名。同一个字在中文里写作"铭"（*míng*），在韩文里是 명（*myeong*），意思都是"铭文"：中日韩三种语言共用这一个字，正如 Mei 服务于这三种语言。我们团队的名字都来自铁匠铺。
 
+### 遇到问题，去哪里提问？
+请在我们的 [Discord 服务器](https://discord.happydwarf.dev/)的 **#help-and-bugs** 论坛发帖（选择 Mei 标签；服务器使用英语），或在 [GitHub](https://github.com/happy-dwarf-team/mei/issues/new/choose) 上提交问题报告。我们在 Discord 上确认的问题也会记录到 GitHub。
+
 ### 缩略图上那个小矮人头像是什么？
 看看这个 Mod 的 GitHub 页面，你会发现仓库属于 Happy Dwarf Team。
 

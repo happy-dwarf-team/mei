@@ -43,6 +43,9 @@ Yes, on the GOG build 1.37.5.2. GOG has no Workshop, so install Mei from the **C
 ### Why "Mei"?
 銘 (*mei* in Japanese) is the signature a swordsmith cuts into the tang of a blade. The same character, 铭 (*míng*) in Chinese and 銘 (*myeong*, 명) in Korean, means "inscription": one character that all three languages share, as Mei serves all three. Our team names come from the forge.
 
+### Something's wrong. Where do I ask?
+In **#help-and-bugs** on our [Discord server](https://discord.happydwarf.dev/) (pick the Mei tag), or in a [GitHub issue](https://github.com/happy-dwarf-team/mei/issues/new/choose). What we confirm on Discord goes to GitHub too.
+
 ### What is that little dwarf head on the thumbnail?
 If you check the mod's GitHub page, you will notice the repository belongs to Happy Dwarf Team.
 

@@ -89,6 +89,14 @@ A `pinyin.txt` in the plugin folder adds readings, as in the original.
 - **Not ported:** the original's dates, Rich Presence and save names. Name order, which changes
   generated characters, would be a separate plugin.
 
+## Help and bug reports
+
+Questions go to the `#help-and-bugs` forum on the team's
+[Discord server](https://discord.happydwarf.dev/) (Mei tag; the server is in English). Bugs go to
+an [issue](https://github.com/happy-dwarf-team/mei/issues/new/choose) with `anvil/anvil.log` and
+the translation mods of the playset; what the team confirms on Discord is tracked in an issue too.
+Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
+
 ## State
 
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
