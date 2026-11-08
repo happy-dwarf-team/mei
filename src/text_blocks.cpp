@@ -123,7 +123,8 @@ void main_copy(Cpu& c) noexcept {
     c.rsi = low(c.rsi + glyph_copy.extra + 1);
     c.r9 += glyph_copy.extra;
     c.rax = glyph_copy.index;
-    if (glyph_copy.index > 0xFF) c.rip = g.main_measure_entry;
+    // The game's code after this block reads the byte at r9, the character's last.
+    if (glyph_copy.index > 0xFF || !reaches_format_check(glyph_copy)) c.rip = g.main_measure_entry;
 }
 
 void main_measure(Cpu& c) noexcept {

@@ -78,6 +78,13 @@ TextState& text_state() noexcept;
 // copy_scalar: copies the character at `source` to `destination` when it fits
 // and remembers its glyph for the measuring block after it.
 Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, std::size_t available) noexcept;
+// Whether the main text routine's own check for $ @ £ ¤ § may see a copied character.
+// After the copy block the game reads the character's last byte: right for § £ ¤
+// (C2 A7, C2 A3, C2 A4) and a single byte, but a character of several bytes that
+// ends in A3, A4 or A7 (控 E6 8E A7, ä C3 A4) would be taken for one of them, and
+// the line it is on measured wrongly. The original never gets there with
+// characters above U+00FF, whose index is the character itself.
+bool reaches_format_check(const Glyph& glyph) noexcept;
 
 // formatted_boundaries: where Unicode's line breaking rules (UAX #14, the original's
 // formatted_text.cpp) allow a line to break in `text`, cached by text; nothing for
