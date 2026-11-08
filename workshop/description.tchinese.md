@@ -32,6 +32,8 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 [![](https://anvil.happydwarf.dev/workshop/mei-tchinese-docs.png)](https://anvil.happydwarf.dev/plugins/mei/) [![](https://anvil.happydwarf.dev/workshop/mei-tchinese-github.png)](https://github.com/happy-dwarf-team/mei)
 
+[![](https://anvil.happydwarf.dev/workshop/discord-tchinese.png)](https://discord.happydwarf.dev/)
+
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-faq.png)
 
 ### 為什麼需要核准？

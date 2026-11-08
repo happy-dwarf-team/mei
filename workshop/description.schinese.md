@@ -32,6 +32,8 @@ Mei 让游戏能够显示、换行、搜索和输入中文、日文或韩文汉�
 
 [![](https://anvil.happydwarf.dev/workshop/mei-schinese-docs.png)](https://anvil.happydwarf.dev/plugins/mei/) [![](https://anvil.happydwarf.dev/workshop/mei-schinese-github.png)](https://github.com/happy-dwarf-team/mei)
 
+[![](https://anvil.happydwarf.dev/workshop/discord-schinese.png)](https://discord.happydwarf.dev/)
+
 ![](https://anvil.happydwarf.dev/workshop/mei-schinese-faq.png)
 
 ### 为什么需要批准？

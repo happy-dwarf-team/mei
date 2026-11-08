@@ -32,6 +32,8 @@ We found no Japanese translation for EU4 1.37 on the Workshop. Mei drew our Japa
 
 [![](https://anvil.happydwarf.dev/workshop/mei-docs.png)](https://anvil.happydwarf.dev/plugins/mei/) [![](https://anvil.happydwarf.dev/workshop/mei-github.png)](https://github.com/happy-dwarf-team/mei)
 
+[![](https://anvil.happydwarf.dev/workshop/discord-en.png)](https://discord.happydwarf.dev/)
+
 ![](https://anvil.happydwarf.dev/workshop/mei-faq.png)
 
 ### Why do I have to approve it?
