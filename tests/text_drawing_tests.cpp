@@ -128,6 +128,22 @@ int text_drawing_tests() {
           "a character that does not fit is not copied");
     check(text_state().last_bytes == 2, "the block remembers how many bytes the character had");
 
+    // The main routine's check for $ @ £ ¤ § after the copy reads the character's last
+    // byte: only § £ ¤ themselves and single bytes may reach it (mei#38).
+    const auto copied = [&](std::string_view s) { return copy_glyph(s.data(), s.size(), buffer, sizeof buffer); };
+    check(reaches_format_check(copied(utf8(u8"§Y"))) && reaches_format_check(copied(utf8(u8"£icon£"))) &&
+              reaches_format_check(copied(utf8(u8"¤"))),
+          "the game's format introducers in UTF-8 reach its check");
+    check(reaches_format_check(copied("$")) && reaches_format_check(copied("a")) &&
+              reaches_format_check(copied("\xA7Y")),
+          "single bytes, Windows-1252 § among them, reach it");
+    check(!reaches_format_check(copied(utf8(u8"控制"))) && !reaches_format_check(copied(utf8(u8"代表"))) &&
+              !reaches_format_check(copied(utf8(u8"令"))) && !reaches_format_check(copied(utf8(u8"中"))),
+          "a Chinese character, ending in A7, A3, A4 or not, does not");
+    check(!reaches_format_check(copied(utf8(u8"ä"))) && !reaches_format_check(copied(utf8(u8"ç"))) &&
+              !reaches_format_check(copied(utf8(u8"ã"))),
+          "nor does a Latin letter ending in A4, A7 or A3");
+
     // Line breaks: a paragraph without spaces may break between Chinese characters, not
     // before closing punctuation; Latin text is left to the game, which breaks at spaces.
     const auto paragraph = utf8(u8"奥斯曼军队，取得胜利。");

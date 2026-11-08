@@ -180,6 +180,10 @@ Glyph copy_glyph(const char* source, std::size_t remaining, char* destination, s
     return {g_state.last_index, consumed - 1, g_state.last_scalar};
 }
 
+bool reaches_format_check(const Glyph& glyph) noexcept {
+    return glyph.extra == 0 || glyph.scalar == 0xA3 || glyph.scalar == 0xA4 || glyph.scalar == 0xA7;
+}
+
 std::shared_ptr<const eu4unicode::FormattedText> line_breaks(std::string_view text) noexcept {
     text = text.substr(0, bounded_text_length(text));
     bool wide = false;
