@@ -358,7 +358,7 @@ loaded, the same 229,719 tokens were decoded and the save holds the same names (
 git submodule update --init upstream
 git -C upstream submodule update --init vendor/utfcpp
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
-cmake --build build --config Release
+cmake --build build --config Release --parallel
 ctest --test-dir build -C Release --output-on-failure
 ```
 

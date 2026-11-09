@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.25)
 project(mei LANGUAGES CXX)
 
+if(MSVC)
+    # Compile a target's sources on every core; the Visual Studio generator runs cl one file at a time.
+    add_compile_options(/MP)
+endif()
+
 include(FetchContent)
 
 # The Anvil SDK: the AnvilPlugin CMake package (anvil_add_plugin) and anvil.exe,
