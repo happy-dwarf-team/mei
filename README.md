@@ -42,7 +42,7 @@ With the default settings:
 
 - [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer in the game folder, and EU4 1.37.5
   (Steam, or the GOG build 1.37.5.2 or 1.37.5.0 with the GitHub release and a local mod for the fonts;
-  1.37.5.0 needs Anvil 1.16 or newer).
+  1.37.5.0 needs Anvil 1.15 or newer).
 - Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the `plugins` folder of
   EU4DLL or the original). It and Anvil both use `version.dll`.
 - **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3832685486):** subscribe to Mei and a translation mod, enable both in the playset,
