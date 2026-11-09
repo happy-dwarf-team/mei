@@ -46,6 +46,14 @@ label = "UTF-8 text input"
 description = "Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character."
 restart = true
 
+[setting.utf8_save_names]
+type = "bool"
+# Needs utf8_localization: the names are UTF-8 only with it (README.md "Limitations").
+default = true
+label = "UTF-8 save names"
+description = "Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled."
+restart = true
+
 [setting.typo_tolerance]
 type = "bool"
 default = true

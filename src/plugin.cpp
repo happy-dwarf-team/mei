@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <exception>
 #include <filesystem>
+#include <string_view>
 #include <vector>
 
 #include "settings.gen.hpp"
@@ -34,6 +35,7 @@
 #include "text_input.hpp"
 #include "search_resources.hpp"
 #include "unicode_search.hpp"
+#include "unicode_text.hpp"
 
 #pragma intrinsic(_ReturnAddress)
 
@@ -83,6 +85,18 @@ void* on_colorless_text(const void* source, void* target) noexcept {
                                                 static_cast<eu4unicode::EngineString*>(target));
 }
 void colour_warning(const char* message) { anvil::Host{}.warn("{}", message); }
+
+// Save names: the game turns a save's name into Latin letters (CString::RemoveSpecialCharacters),
+// so a Chinese country's default save became aaa1444_11_11.eu4. As in the original, the calls
+// of the save menus, the ironman dialog and the save path skip it; the path keeps it unless it
+// is a save's path in UTF-8, and the file system's own check of illegal characters stays.
+anvil::FunctionHook<void(void* text)> g_save_path;
+void on_save_path(void* text) noexcept {
+    const auto* path = static_cast<const eu4unicode::EngineString*>(text);
+    const std::string_view value(path->data(), static_cast<std::size_t>(path->size));
+    if (value.starts_with("save games/") && eu4unicode::valid_utf8(value)) return;
+    g_save_path.next(text);
+}
 
 void* on_presence_conversion(void* target, const void* source) noexcept {
     auto* text = static_cast<eu4unicode::EngineString*>(target);
@@ -136,6 +150,7 @@ struct UnicodePatch : anvil::Plugin {
     // case- and accent-insensitively themselves.
     std::array<anvil::Change, 19> search_calls;
     std::vector<anvil::Change> text_blocks;
+    std::array<anvil::Change, 7> save_name_calls;
 
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
@@ -143,6 +158,7 @@ struct UnicodePatch : anvil::Plugin {
         if (cfg::utf8_localization.get()) {
             load_localisation(host);
             if (cfg::utf8_scripts.get()) host.info("script lexer: {} hooks", unicode_patch::load_script_lexer(host));
+            if (cfg::utf8_save_names.get()) load_save_names(host);
         }
         if (cfg::search.get()) load_search(host);
         if (cfg::utf8_input.get())
@@ -181,6 +197,20 @@ struct UnicodePatch : anvil::Plugin {
         eu4unicode::native_color_log = &colour_warning;
         host.hook(g_colorless, sym::construct_colorless_text, on_colorless_text);
         host.info("colour stripping by character: 1 hook");
+    }
+
+    void load_save_names(anvil::Host& host) {
+        std::size_t i = 0;
+        const auto nop = [&](const auto&... sites) {
+            ((save_name_calls[i++] = host.patch(sites, {0x90, 0x90, 0x90, 0x90, 0x90})), ...);
+        };
+        // The in-game save and load menus, the ironman dialog and the front end's selection.
+        nop(sym::save_transliterate_call_1174a99, sym::save_transliterate_call_1174e95,
+            sym::save_transliterate_call_117519e, sym::save_transliterate_call_1175c2c,
+            sym::save_transliterate_call_13b8de1, sym::save_transliterate_call_13b8f6c,
+            sym::save_transliterate_call_13b9567);
+        host.redirect(g_save_path, sym::save_path_transliterate_call_5ca246, on_save_path);
+        host.info("UTF-8 save names: {} calls and 1 redirect", i);
     }
 
     // The UTF-8 text reaches Steam's Rich Presence as it is. Only the Steam build has
