@@ -92,6 +92,7 @@ SIGNATURES = {
     "find_country_name": "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)",
     "find_province_distance": "int64_t (const void* name, const void* query)",
     "construct_colorless_text": "void* (const void* source, void* target)",
+    "format_localized_battle_title": "void* (const void* combat, void* result)",
     "import_legacy_localization": "void (const void* key, const void* value, int version, int unused, const void* context)",
     "parse_utf8_yaml": "void (void* file, const void* input, const char* name, void* language, void* key, void* context)",
     "destroy_font_table": "void (void* table)",
@@ -174,6 +175,21 @@ PREFIX_BLOCKS = {
 # Calls the original picks by where they return on Steam and the plugin redirects instead, so its
 # target sees only that caller (Anvil's redirect_call); a map gives null where a build has no such call.
 REDIRECTS = {
+    0x1432256: ("topbar_date_call_1432256",
+                "CTopbarGui::RefreshSpeedControlsWindow: format_localized_date on the top bar's date, which the "
+                "original picks by its return 0x143225B"),
+    0x6E5CEF: ("end_of_month_date_call_6e5cef",
+               "CEU3Date::GetEndOfMonthString: concat_localized_date of a month and a year, which the original "
+               "picks by its return 0x6E5CF4"),
+    0x6E61B9: ("month_year_date_call_6e61b9",
+               "CEU3Date::GetLongStringMonthYear: concat_localized_date of a month and a year, which the original "
+               "picks by its return 0x6E61BE"),
+    0xA52956: ("claim_strength_date_call_a52956",
+               "CMonarchInWaiting::GetClaimStrengthString: concat_localized_date of a month and a year (EU4DLL's M, Y)"),
+    0x12BA0E6: ("rebel_date_call_12ba0e6",
+                "CRebelFactionMember::Update: concat_localized_date of a month and a year (EU4DLL's M, Y)"),
+    0x1133A58: ("game_setup_date_call_1133a58",
+                "the game set-up's date: concat_localized_date of a month and a year (EU4DLL's M Y)"),
     0x5CA246: ("save_path_transliterate_call_5ca246",
                "EU4SaveGameHelper::BuildFullSavePath: transliterate_save_path on the save's path, which the original "
                "picks by its return 0x5CA24B"),

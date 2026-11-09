@@ -24,6 +24,7 @@
 #include "settings.gen.hpp"
 #include "symbols.gen.hpp"
 
+#include "dates_titles.hpp"
 #include "fonts.hpp"
 #include "game_text.hpp"
 #include "localisation.hpp"
@@ -159,6 +160,8 @@ struct UnicodePatch : anvil::Plugin {
             load_localisation(host);
             if (cfg::utf8_scripts.get()) host.info("script lexer: {} hooks", unicode_patch::load_script_lexer(host));
             if (cfg::utf8_save_names.get()) load_save_names(host);
+            if (cfg::cjk_dates.get())
+                host.info("dates and combat titles in CJK word order: {} changes", unicode_patch::load_dates_titles(host));
         }
         if (cfg::search.get()) load_search(host);
         if (cfg::utf8_input.get())

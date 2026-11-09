@@ -106,6 +106,18 @@ target_compile_features(port_localisation PUBLIC cxx_std_20)
 target_link_libraries(port_localisation PUBLIC legacy_text)
 target_compile_options(port_localisation PRIVATE /W4 /utf-8 /EHsc)
 
+# Dates and combat titles in CJK word order, shared with port_tests: the original's
+# localized_format.cpp and Mei's Korean and title rules.
+add_library(localized_format STATIC ${UPSTREAM}/src/localized_format.cpp)
+target_include_directories(localized_format PUBLIC ${UPSTREAM}/include)
+set_target_properties(localized_format PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_compile_options(localized_format PRIVATE /W4 /utf-8 /EHsc)
+add_library(port_cjk_format STATIC src/cjk_format.cpp)
+target_include_directories(port_cjk_format PUBLIC src)
+target_compile_features(port_cjk_format PUBLIC cxx_std_20)
+target_link_libraries(port_cjk_format PUBLIC localized_format)
+target_compile_options(port_cjk_format PRIVATE /W4 /utf-8 /EHsc)
+
 # The decoding of the per-glyph text blocks, shared with port_tests.
 add_library(port_text_drawing STATIC src/text_drawing.cpp)
 target_include_directories(port_text_drawing PUBLIC src)
@@ -113,9 +125,10 @@ target_compile_features(port_text_drawing PUBLIC cxx_std_20)
 target_link_libraries(port_text_drawing PUBLIC formatted_text)
 target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
-anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp)
+anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp
+    src/dates_titles.cpp)
 target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor
-    native_steam_presence native_color_strip)
+    native_steam_presence native_color_strip port_cjk_format)
 
 # The release package (`cmake --install build --component plugin --prefix dist/package`):
 # mei/ as Anvil loads it, with the licences of the code it holds. Mei's fonts are built
@@ -131,7 +144,7 @@ install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENA
 enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
              legacy_text glyph_registry native_script_bom unicode_editor native_editor_select_all native_steam_presence
-             native_color_strip)
+             native_color_strip localized_format)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
     set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
@@ -147,14 +160,16 @@ target_link_libraries(unicode_editor_tests PRIVATE unicode_editor)
 target_link_libraries(native_editor_select_all_tests PRIVATE unicode_editor)
 target_link_libraries(native_steam_presence_tests PRIVATE native_steam_presence)
 target_link_libraries(native_color_strip_tests PRIVATE native_color_strip)
+target_link_libraries(localized_format_tests PRIVATE localized_format)
 foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()
 
 # This plugin's own glue: the detours pick the same callers as the original, the
 # localisation import keeps the game's text in UTF-8, and the text blocks decode it.
-add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp tests/text_drawing_tests.cpp)
+add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp tests/text_drawing_tests.cpp
+    tests/cjk_format_tests.cpp)
 target_compile_features(port_tests PRIVATE cxx_std_20)
-target_link_libraries(port_tests PRIVATE port_search port_localisation port_text_drawing)
+target_link_libraries(port_tests PRIVATE port_search port_localisation port_text_drawing port_cjk_format)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)
 add_test(NAME port COMMAND port_tests)

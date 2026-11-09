@@ -27,6 +27,9 @@ With the default settings:
   `?`, and decodes the escapes of EU4DLL translation packs.
 - **Names show too.** Names in scripts and saves work the same way, so rulers, capitals and
   provinces of a supplementary translation mod read as they should.
+- **Dates and battles.** With a Chinese, Japanese or Korean translation the top bar reads
+  `1444年11月11日` or `1444년 11월 11일`, months with a year read `1447年4月`, and battles,
+  sieges and occupations put the place first (`瓦尔纳战役`, `바르나 전투`), as with EU4DLL.
 - **Save names.** A save keeps the country's name and the name you type, such as
   `奥斯曼1444_11_11.eu4`, instead of Latin letters (`aaa1444_11_11.eu4`), and overwriting a
   chosen save keeps its name.
@@ -71,6 +74,7 @@ Anvil overlay or `anvil/data/mei/settings.toml`. Every setting applies at the ne
 | `utf8_scripts` | on | Script files and saves may be in UTF-8, and EU4DLL escapes in them become UTF-8. Needs `utf8_localization`. Saves written with it keep those names in UTF-8 |
 | `bundled_fonts` | on | Uses Mei's fonts where the game would use its own. Needs `utf8_localization` |
 | `utf8_input` | on | Typed and IME-committed text reaches text fields as UTF-8 |
+| `cjk_dates` | on | Dates and battle, siege and occupation titles in the word order of a Chinese, Japanese or Korean translation. Needs `utf8_localization` |
 | `utf8_save_names` | on | Save files keep their names in UTF-8 instead of Latin letters. Needs `utf8_localization` |
 | `typo_tolerance` | on | Full pinyin of 5 or more letters still matches with one letter wrong, missing, added or two neighbours swapped |
 | `fuzzy_pinyin` | off | zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other |
@@ -98,7 +102,7 @@ A `pinyin.txt` in the plugin folder adds readings, as in the original.
 - **Not tested:** a Japanese translation mod (there is none for 1.37 on the Workshop, though the
   probe text in Japanese drew right), the search in the diplomacy country list, a text field of
   several rows, selecting with a mouse drag, and long play.
-- **Not ported:** the original's dates. Name order, which changes
+- **Not ported:** name order, which changes
   generated characters, would be a separate plugin.
 
 ## Help and bug reports
@@ -114,10 +118,11 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with the original's 315 symbols and 2 call sites | `anvil check --exe` OK |
+| `symbols.toml` with the original's 315 symbols and 8 call sites | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
+| Dates and combat titles: 6 redirects, 1 hook | on with `utf8_localization` (`cjk_dates`) |
 | Save names: 7 calls, 1 redirect | on with `utf8_localization` (`utf8_save_names`) |
 | Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
 | Colour stripping by character: 1 hook | on with `utf8_localization` |
@@ -126,7 +131,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Map labels: 17 blocks | on with `utf8_localization` |
 | Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
 | Steam Rich Presence: 1 call (Steam only) | on with `utf8_localization` |
-| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence, colour stripping), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 15/15 (Release, MSVC 2022) |
+| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence, colour stripping, dates), `tests/port_tests.cpp`, `tests/localisation_tests.cpp`, `tests/text_drawing_tests.cpp` and `tests/cjk_format_tests.cpp` | `ctest` 16/16 (Release, MSVC 2022) |
 | In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
 | In-game test of the script and save lexer (4.11.2026, Anvil 1.9.0, Tongs 0.26.0, Steam and GOG) | names of the supplementary Chinese mod shown; state unchanged but for names; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
@@ -136,7 +141,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (its own font atlases, the IME composition display, dates) | not started; see [Next steps](docs/port.md#next-steps) |
+| The rest of the original (its own font atlases, the IME composition display) | not started; see [Next steps](docs/port.md#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test with translation mods

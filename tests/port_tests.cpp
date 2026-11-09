@@ -26,6 +26,7 @@ void check(bool ok, const char* what) {
 
 int localisation_tests();  // localisation_tests.cpp: its failures
 int text_drawing_tests();  // text_drawing_tests.cpp: its failures
+int cjk_format_tests();    // cjk_format_tests.cpp: its failures
 
 int main() {
     using eu4unicode::display_search_contains;
@@ -132,6 +133,7 @@ int main() {
 
     g_failures += localisation_tests();
     g_failures += text_drawing_tests();
+    g_failures += cjk_format_tests();
     std::printf("%s\n", g_failures == 0 ? "ok" : "failed");
     return g_failures == 0 ? 0 : 1;
 }
