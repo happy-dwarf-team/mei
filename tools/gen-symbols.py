@@ -170,6 +170,12 @@ PREFIX_BLOCKS = {
     0x153A717: ("prefix_assign_block_153a717", "CTextBuffer::AppendTextToString"),
     0x153A99B: ("prefix_assign_block_153a99b", "CTextBuffer::InsertStringInToText"),
 }
+# Calls the original picks by where they return on Steam and the plugin redirects instead, so its
+# target sees only that caller (Anvil's redirect_call); a map gives null where a build has no such call.
+REDIRECTS = {
+    0xA901FE: ("presence_conversion_call_a901fe",
+               "the Steam Rich Presence text: convert_steam_presence, which the original picks by its return 0xA90203"),
+}
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
     "main_copy_block": ['values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }'],
@@ -248,6 +254,8 @@ for name, (rva, kind, note) in INLINE.items():
 for rva, (name, size, note) in CALL_SITES.items():
     out += [f"[symbol.{name}]", *where(name, rva, size), 'memory = "code"',
             f'note = "{note}; the plugin maps where it returns to the Steam address the original checks"', ""]
+for rva, (name, note) in REDIRECTS.items():
+    out += [f"[symbol.{name}]", *where(name, rva, 5), 'memory = "code"', f'note = "{note}; the plugin redirects it"', ""]
 for rva, (name, where_from) in PREFIX_BLOCKS.items():
     out += [f"[symbol.{name}]", *where(name, rva, 5), 'memory = "code"',
             f'note = "{where_from}: call of assign_editor_prefix with a byte-limited prefix"', ""]

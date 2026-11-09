@@ -1459,6 +1459,13 @@ build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
 memory = "code"
 note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
+[symbol.presence_conversion_call_a901fe]
+rva = 0xA901FE
+bytes = "E8 0D 5E C7 00"
+absent = ["eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
+memory = "code"
+note = "the Steam Rich Presence text: convert_steam_presence, which the original picks by its return 0xA90203; the plugin redirects it"
+
 [symbol.prefix_assign_block_153a306]
 build."eu4-1.37.5-steam-win64" = { rva = 0x153A306, bytes = "E8 05 AE B5 FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }

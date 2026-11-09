@@ -37,6 +37,8 @@ With the default settings:
   but was not checked in the game.
 - **Typing.** Finished text reaches text fields, as an IME commits it. Keys, the mouse, selection,
   undo, copy and paste work by character.
+- **Steam status.** The game's Rich Presence text, which Steam friends see, reaches Steam in
+  UTF-8, so a Chinese country name reads as it should (Steam only; GOG has no such text).
 
 ## Install
 
@@ -87,7 +89,7 @@ A `pinyin.txt` in the plugin folder adds readings, as in the original.
 - **Not tested:** a Japanese translation mod (there is none for 1.37 on the Workshop, though the
   probe text in Japanese drew right), the search in the diplomacy country list, a text field of
   several rows, selecting with a mouse drag, and long play.
-- **Not ported:** the original's dates, Rich Presence and save names. Name order, which changes
+- **Not ported:** the original's dates and save names. Name order, which changes
   generated characters, would be a separate plugin.
 
 ## Help and bug reports
@@ -103,7 +105,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with all 311 symbols | `anvil check --exe` OK |
+| `symbols.toml` with the original's 311 symbols and 1 call site | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
@@ -112,7 +114,8 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
 | Map labels: 17 blocks | on with `utf8_localization` |
 | Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
-| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 13/13 (Release, MSVC 2022) |
+| Steam Rich Presence: 1 call (Steam only) | on with `utf8_localization` |
+| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 14/14 (Release, MSVC 2022) |
 | In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
 | In-game test of the script and save lexer (4.11.2026, Anvil 1.9.0, Tongs 0.26.0, Steam and GOG) | names of the supplementary Chinese mod shown; state unchanged but for names; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
@@ -122,7 +125,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (its own font atlases, the IME composition display, dates, Rich Presence, save names) | not started; see [Next steps](docs/port.md#next-steps) |
+| The rest of the original (its own font atlases, the IME composition display, dates, save names) | not started; see [Next steps](docs/port.md#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test with translation mods
