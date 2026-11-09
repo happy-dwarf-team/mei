@@ -4,7 +4,7 @@
 
 ### Features
 
-* Save names keep Chinese, Japanese and Korean characters. Before, the game turned each such character into one Latin letter, so the Ottomans' default save with a Chinese translation mod was `aaa1444_11_11.eu4`; now it is `奥斯曼1444_11_11.eu4`, and the save and load menus show and load such names. The new setting `utf8_save_names` (on) turns it off. Saves named this way show garbled names in a game that uses EU4DLL, and a multiplayer group should switch together. Tested in the lab on Steam with Chinese translation mods: the load menu lists and loads a Chinese-named save, and saving over it asks first and writes the UTF-8 name. Not tested: ironman, and GOG in game. ([#51](https://github.com/happy-dwarf-team/mei/issues/51))
+* Save names keep Chinese, Japanese and Korean characters. Before, the game turned each such character into one Latin letter, so the Ottomans' (奥斯曼) default save with a Chinese translation mod was `aaa1444_11_11.eu4`. Now the name stays as the game shows it, for example `俄罗斯1719_03_17.eu4` for Russia, and the save and load menus show and load such names. The new setting `utf8_save_names` (on) turns it off. Saves named this way show garbled names in a game that uses EU4DLL, and a multiplayer group should switch together. Tested in the lab on Steam with Chinese translation mods: the load menu lists and loads a Chinese-named save, and saving over it asks first and writes the UTF-8 name. Not tested: ironman, and GOG in game. ([#51](https://github.com/happy-dwarf-team/mei/issues/51))
 
 ## [0.4.0](https://github.com/happy-dwarf-team/mei/compare/v0.3.2...v0.4.0) (2026-11-09)
 
