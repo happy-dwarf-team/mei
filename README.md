@@ -5,7 +5,7 @@ Mei does not translate the game. It lets the game show, wrap, search and type th
 translation mod.
 
 Mei is an [Anvil](https://anvil.happydwarf.dev/) plugin for EU4 1.37.5 (Steam, and the GOG
-build 1.37.5.2, Windows x64). It is a port of
+builds 1.37.5.2 and 1.37.5.0, Windows x64). It is a port of
 [EU4 Unicode Patch](https://github.com/YozoraTempest/EU4-Unicode-Patch) by VulonLok (MIT), so
 that Chinese, Japanese and Korean players no longer choose between their text patch and Anvil
 ([anvil#104](https://github.com/happy-dwarf-team/anvil/issues/104)). Not affiliated with
@@ -41,7 +41,8 @@ With the default settings:
 ## Install
 
 - [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer in the game folder, and EU4 1.37.5
-  (Steam, or the GOG build 1.37.5.2 with the GitHub release and a local mod for the fonts).
+  (Steam, or the GOG build 1.37.5.2 or 1.37.5.0 with the GitHub release and a local mod for the fonts;
+  1.37.5.0 needs Anvil 1.15 or newer).
 - Remove an old double-byte patch first (`version.dll`, `d3d9.dll` and the `plugins` folder of
   EU4DLL or the original). It and Anvil both use `version.dll`.
 - **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3832685486):** subscribe to Mei and a translation mod, enable both in the playset,
@@ -365,9 +366,10 @@ ctest --test-dir build -C Release --output-on-failure
 Regenerate the symbols after moving `upstream/` to another commit:
 
 ```
-python -I tools/gen-symbols.py "<EU4 Steam>/eu4.exe" upstream --build "<EU4 GOG>/eu4.exe" tools/gog-1.37.5.2.json > symbols.toml
+python -I tools/gen-symbols.py "<EU4 Steam>/eu4.exe" upstream --build "<EU4 GOG 1.37.5.2>/eu4.exe" tools/gog-1.37.5.2.json --build "<EU4 GOG 1.37.5.0>/eu4.exe" tools/gog-1.37.5.0.json > symbols.toml
 build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 Steam>/eu4.exe"
-build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 GOG>/eu4.exe"
+build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 GOG 1.37.5.2>/eu4.exe"
+build/_deps/anvil_sdk-src/bin/anvil.exe check . --exe "<EU4 GOG 1.37.5.0>/eu4.exe"
 ```
 
 For a new game build, `anvil port symbols.toml --from <old eu4.exe> --to <new eu4.exe> --build <id> --format json > tools/<id>.json`

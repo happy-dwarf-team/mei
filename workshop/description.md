@@ -15,7 +15,7 @@ Every step below is written out; the pictures only help, so you can follow it wi
 
 ![](https://anvil.happydwarf.dev/workshop/mei-steps.png)
 
-For EU4 1.37.5 on Steam, and the GOG build 1.37.5.2 (see the FAQ).
+For EU4 1.37.5 on Steam, and the GOG builds 1.37.5.2 and 1.37.5.0 (see the FAQ).
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tiles-title.png)
 
@@ -59,7 +59,7 @@ Still stuck? Leave a comment below (see "Something's wrong. Where do I ask?" in 
 Mei is a real program running inside your game, not just a pile of text files. Anvil makes sure nothing like that runs without your nod. Trust, but verify. Dwarf law.
 
 ### I play on GOG. Can I use it?
-Yes, on the GOG build 1.37.5.2. GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases). The same mark, whichever gate you came through.
+Yes, on the GOG builds 1.37.5.2 and 1.37.5.0 (1.37.5.0 needs Anvil 1.15 or newer). GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases). The same mark, whichever gate you came through.
 
 ### Why "Mei"?
 銘 (*mei* in Japanese) is the signature a swordsmith cuts into the tang of a blade. The same character, 铭 (*míng*) in Chinese and 銘 (*myeong*, 명) in Korean, means "inscription": one character that all three languages share, as Mei serves all three. Our team names come from the forge.

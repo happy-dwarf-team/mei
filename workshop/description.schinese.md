@@ -15,7 +15,7 @@ Mei 让游戏能够显示、换行、搜索和输入中文、日文或韩文汉�
 
 ![](https://anvil.happydwarf.dev/workshop/mei-schinese-steps.png)
 
-支持 EU4 1.37.5（Steam），也支持 GOG 版 1.37.5.2（见常见问题）。
+支持 EU4 1.37.5（Steam），也支持 GOG 版 1.37.5.2 和 1.37.5.0（见常见问题）。
 
 ![](https://anvil.happydwarf.dev/workshop/mei-schinese-tiles-title.png)
 
@@ -59,7 +59,7 @@ Mei 让游戏能够显示、换行、搜索和输入中文、日文或韩文汉�
 Mei 是在游戏内运行的真正程序，不只是一堆文本文件。Anvil 确保这样的程序不会未经你点头就运行。信任，但要核实。这是矮人的规矩。
 
 ### 我玩的是 GOG 版，可以用吗？
-可以，支持 GOG 版 1.37.5.2。GOG 没有创意工坊，请在 Anvil Manager 的 **Catalog**（目录）选项卡中安装 Mei，或使用 GitHub 上的发布版本压缩包：https://github.com/happy-dwarf-team/mei/releases
+可以，支持 GOG 版 1.37.5.2 和 1.37.5.0（1.37.5.0 需要 Anvil 1.15 或更新版本）。GOG 没有创意工坊，请在 Anvil Manager 的 **Catalog**（目录）选项卡中安装 Mei，或使用 GitHub 上的发布版本压缩包：https://github.com/happy-dwarf-team/mei/releases
 
 ### 为什么叫"Mei"？
 銘（日文读作 *mei*）是刀匠刻在刀茎上的署名。同一个字在中文里写作"铭"（*míng*），在韩文里是 명（*myeong*），意思都是"铭文"：中日韩三种语言共用这一个字，正如 Mei 服务于这三种语言。我们团队的名字都来自铁匠铺。
