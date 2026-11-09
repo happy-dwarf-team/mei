@@ -2,16 +2,14 @@
 
 ## [0.4.0](https://github.com/happy-dwarf-team/mei/compare/v0.3.2...v0.4.0) (2026-11-09)
 
-
 ### Features
 
-* run on the GOG build 1.37.5.0 ([#46](https://github.com/happy-dwarf-team/mei/issues/46)) ([5f40585](https://github.com/happy-dwarf-team/mei/commit/5f405851bc6af9669358792ca6044c57a677c0d4))
-
+* Mei runs on the GOG build 1.37.5.0, the version GOG Galaxy installs when you roll EU4 back. On that build it loads with Anvil 1.15.0 or later, which knows the build. Tested in the lab on a copy of a GOG 1.37.5.0 install together with Bellows, Tongs and Hamweard. ([#46](https://github.com/happy-dwarf-team/mei/issues/46))
 
 ### Bug Fixes
 
-* send the Steam Rich Presence text in UTF-8 ([#49](https://github.com/happy-dwarf-team/mei/issues/49)) ([a264546](https://github.com/happy-dwarf-team/mei/commit/a264546a4c03a3e89c89439689cbb6236bb372d9))
-* strip colour markers by character, with upstream/ at v0.1.16 ([#50](https://github.com/happy-dwarf-team/mei/issues/50)) ([1628c57](https://github.com/happy-dwarf-team/mei/commit/1628c578a4e9d78d643b096fac29640ee6305d1f))
+* Steam friends see your country's name in your Steam status as you see it in the game. Before, a Chinese, Japanese or Korean name from a translation mod showed up as Latin letters such as `å¤§æ˜Ž`. Steam only; GOG has no Steam status. ([#49](https://github.com/happy-dwarf-team/mei/issues/49))
+* Text the game strips of colour, such as the name of a hired mercenary company and some tooltips, no longer loses half of a Chinese, Japanese or Korean character or keeps a stray byte after an English coloured name. This follows the fix in EU4 Unicode Patch 0.1.16, which Mei now builds on. ([#50](https://github.com/happy-dwarf-team/mei/issues/50))
 
 ## [0.3.2](https://github.com/happy-dwarf-team/mei/compare/v0.3.1...v0.3.2) (2026-11-09)
 
