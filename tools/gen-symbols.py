@@ -91,6 +91,7 @@ FUNCTION_BYTES = {0x16FD650: 20, 0x1705180: 21, 0x1704AF0: 17, 0x159B470: 18, 0x
 SIGNATURES = {
     "find_country_name": "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)",
     "find_province_distance": "int64_t (const void* name, const void* query)",
+    "construct_colorless_text": "void* (const void* source, void* target)",
     "import_legacy_localization": "void (const void* key, const void* value, int version, int unused, const void* context)",
     "parse_utf8_yaml": "void (void* file, const void* input, const char* name, void* language, void* key, void* context)",
     "destroy_font_table": "void (void* table)",

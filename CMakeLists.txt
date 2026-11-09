@@ -50,6 +50,9 @@ set_source_files_properties(${UPSTREAM}/src/unicode_pinyin.cpp PROPERTIES COMPIL
 
 add_library(formatted_text STATIC ${UPSTREAM}/src/formatted_text.cpp ${UPSTREAM}/src/formatted_text_cache.cpp)
 target_link_libraries(formatted_text PUBLIC unicode_services)
+# The game's colour stripping by character instead of by byte.
+add_library(native_color_strip STATIC ${UPSTREAM}/src/native_color_strip.cpp)
+target_link_libraries(native_color_strip PUBLIC formatted_text)
 add_library(unicode_editor STATIC ${UPSTREAM}/src/unicode_editor.cpp ${UPSTREAM}/src/editor_document.cpp
     ${UPSTREAM}/src/native_editor_text.cpp)
 target_link_libraries(unicode_editor PUBLIC unicode_services)
@@ -82,7 +85,7 @@ target_link_libraries(legacy_text PUBLIC unicode_text native_script_bom)
 
 # C++17 as in the original: its u8"" literals are char there, char8_t in C++20.
 foreach(target unicode_text unicode_services unicode_search formatted_text unicode_editor glyph_registry native_script_bom
-               legacy_text native_steam_presence)
+               legacy_text native_steam_presence native_color_strip)
     set_target_properties(${target} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${target} PRIVATE /W4 /utf-8 /EHsc)
 endforeach()
@@ -112,7 +115,7 @@ target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
 anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp)
 target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor
-    native_steam_presence)
+    native_steam_presence native_color_strip)
 
 # The release package (`cmake --install build --component plugin --prefix dist/package`):
 # mei/ as Anvil loads it, with the licences of the code it holds. Mei's fonts are built
@@ -123,11 +126,12 @@ install(FILES ${UPSTREAM}/THIRD_PARTY_NOTICES.md DESTINATION mei/third-party COM
 install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENAME utfcpp-LICENSE.txt COMPONENT plugin)
 
 # The original's own unit tests of the parts this plugin uses: UTF-8 text, the
-# EU4DLL escape conversion, search, pinyin, the glyph registry and the Rich Presence text.
+# EU4DLL escape conversion, search, pinyin, the glyph registry, the Rich Presence text and colour stripping.
 # They run on this build of them.
 enable_testing()
 foreach(test unicode_text unicode_services unicode_search native_search pinyin_fuzzy search_resources yaml_input
-             legacy_text glyph_registry native_script_bom unicode_editor native_editor_select_all native_steam_presence)
+             legacy_text glyph_registry native_script_bom unicode_editor native_editor_select_all native_steam_presence
+             native_color_strip)
     add_executable(${test}_tests ${UPSTREAM}/tests/${test}_tests.cpp)
     set_target_properties(${test}_tests PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     target_compile_options(${test}_tests PRIVATE /W4 /utf-8 /EHsc /D_CRT_SECURE_NO_WARNINGS)
@@ -142,6 +146,7 @@ target_link_libraries(native_script_bom_tests PRIVATE native_script_bom)
 target_link_libraries(unicode_editor_tests PRIVATE unicode_editor)
 target_link_libraries(native_editor_select_all_tests PRIVATE unicode_editor)
 target_link_libraries(native_steam_presence_tests PRIVATE native_steam_presence)
+target_link_libraries(native_color_strip_tests PRIVATE native_color_strip)
 foreach(test unicode_search native_search pinyin_fuzzy search_resources)
     target_link_libraries(${test}_tests PRIVATE unicode_search)
 endforeach()

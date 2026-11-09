@@ -105,17 +105,18 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with the original's 311 symbols and 1 call site | `anvil check --exe` OK |
+| `symbols.toml` with the original's 315 symbols and 1 call site | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
 | Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
+| Colour stripping by character: 1 hook | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
 | Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
 | Map labels: 17 blocks | on with `utf8_localization` |
 | Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
 | Steam Rich Presence: 1 call (Steam only) | on with `utf8_localization` |
-| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 14/14 (Release, MSVC 2022) |
+| The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence, colour stripping), `tests/port_tests.cpp`, `tests/localisation_tests.cpp` and `tests/text_drawing_tests.cpp` | `ctest` 15/15 (Release, MSVC 2022) |
 | In-game test with translation mods (3.11.2026, Anvil 1.8.0, Tongs 0.25.1) | Simplified and Traditional Chinese and Korean shown, wrapped and searched with the defaults; see below |
 | In-game test of the script and save lexer (4.11.2026, Anvil 1.9.0, Tongs 0.26.0, Steam and GOG) | names of the supplementary Chinese mod shown; state unchanged but for names; see below |
 | In-game test of the province finder (2.11.2026, Anvil 1.6.0, Tongs 0.24.0, Russia 1719 save, English) | the regression found on 1.11 is fixed; see below |
@@ -379,7 +380,8 @@ For a new game build, `anvil port symbols.toml --from <old eu4.exe> --to <new eu
 gives the map. Add the symbols the report leaves by hand to its `symbols`, each with its address or `null`, and add one more
 `--build "<new eu4.exe>" tools/<id>.json`, after the GOG one. `check` needs an SDK whose Anvil knows the build.
 
-`upstream/` is pinned to `50515b8` (v0.1.15 and one fix, 27.10.2026).
+`upstream/` is pinned to `d237415` (v0.1.16, 3.11.2026). It moves to the original's latest release at each
+release of Mei, after a review of its changelog, not at each release of the original.
 
 How the port works, symbol by symbol, why it is a plugin of its own and what could come next:
 [docs/port.md](docs/port.md).

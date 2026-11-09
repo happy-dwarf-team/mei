@@ -27,6 +27,7 @@
 #include "game_text.hpp"
 #include "localisation.hpp"
 #include "native_search.hpp"
+#include "native_color_strip.hpp"
 #include "native_steam_presence.hpp"
 #include "script_lexer.hpp"
 #include "text_blocks.hpp"
@@ -43,6 +44,7 @@ anvil::HookOf<sym::find_country_name> g_find_country;
 anvil::HookOf<sym::find_province_distance> g_province_distance;
 anvil::HookOf<sym::import_legacy_localization> g_import_localisation;
 anvil::HookOf<sym::parse_utf8_yaml> g_parse_yaml;
+anvil::HookOf<sym::construct_colorless_text> g_colorless;
 
 // The game's own functions for the original's typed calls.
 std::uint64_t native_find(const char* name, std::uint64_t length, std::uint64_t start, const char* query,
@@ -72,6 +74,16 @@ eu4unicode::EngineString* native_presence(eu4unicode::EngineString* target, cons
 eu4unicode::EngineString* native_assign(eu4unicode::EngineString* target, const char* text, std::uint64_t size) {
     return static_cast<eu4unicode::EngineString*>(g_assign_text(target, text, size));
 }
+// The game's CString::RemoveTextColoring drops a 0xA7 byte and the byte after it, which in
+// UTF-8 is the end of a character such as 大 and the start of the next one, and leaves the
+// 0xC2 of a UTF-8 colour marker. The original's replacement strips whole colour markers
+// (mercenary company names, institution tooltips, the game set-up's names, /save).
+void* on_colorless_text(const void* source, void* target) noexcept {
+    return eu4unicode::construct_colorless_text(static_cast<const eu4unicode::EngineString*>(source),
+                                                static_cast<eu4unicode::EngineString*>(target));
+}
+void colour_warning(const char* message) { anvil::Host{}.warn("{}", message); }
+
 void* on_presence_conversion(void* target, const void* source) noexcept {
     auto* text = static_cast<eu4unicode::EngineString*>(target);
     const auto* from = static_cast<const eu4unicode::EngineString*>(source);
@@ -164,6 +176,11 @@ struct UnicodePatch : anvil::Plugin {
         });
         host.info("localisation import: 2 hooks; text drawing: {} blocks; font loader: {} changes", blocks, loader);
         load_rich_presence(host);
+        eu4unicode::native_color_assign =
+            reinterpret_cast<eu4unicode::ColorStringAssign>(host.function(sym::assign_editor_prefix));
+        eu4unicode::native_color_log = &colour_warning;
+        host.hook(g_colorless, sym::construct_colorless_text, on_colorless_text);
+        host.info("colour stripping by character: 1 hook");
     }
 
     // The UTF-8 text reaches Steam's Rich Presence as it is. Only the Steam build has
