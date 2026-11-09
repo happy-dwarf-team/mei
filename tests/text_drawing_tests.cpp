@@ -154,6 +154,19 @@ int text_drawing_tests() {
     check(line_breaks("Ottoman army") == nullptr && line_breaks(ostra) == nullptr, "Latin text keeps the game's breaks");
     check(!line_before(nullptr, 3), "no breaks, no break");
 
+    // The game ends a line after its candidate glyph, so a glyph is one where the rules
+    // allow a break after it. The 1444 introduction of the Chinese mod ended a line with
+    // 「 and began the next with 」， when the rules were asked before the glyph.
+    const auto quoted = utf8(u8"为了「大突厥」，奥斯曼");  // 为 了 「 大 突 厥 」 ， 奥 斯 曼, 3 bytes each
+    const auto q = line_breaks(quoted);
+    const auto after = [&](std::size_t glyph) { return wrap_after(q.get(), (glyph + 1) * 3, false); };
+    check(after(0) && after(1), "a line may end after a Chinese character");
+    check(!after(2), "not after an opening bracket");
+    check(!after(5) && !after(6), "not before a closing bracket or a comma");
+    check(after(7), "but after the comma");
+    check(wrap_after(nullptr, 1, true) && !wrap_after(nullptr, 1, false), "Latin text wraps at spaces only");
+    check(wrap_after(q.get(), 1, true), "a space always ends a line");
+
     // The state between a routine's blocks is the thread's own, as the original's: text
     // laid out on another thread does not change what this one's next block reads.
     text_state() = TextState{};

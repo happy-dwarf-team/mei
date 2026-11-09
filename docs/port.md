@@ -113,15 +113,19 @@ stays one byte per glyph, so both encodings draw side by side. The decoder is th
 plugin's own: the original's throws a C++ exception on every byte that is not UTF-8,
 which here would be every accented name of a save in every frame.
 
-The game breaks a line only before a glyph whose width field is 0, a space, so a Chinese
-or Japanese paragraph has nowhere to break; a long one (the 1444 bookmark's description
-in a Chinese translation) crashed the game in the lobby, with or without this plugin
+The game ends a line only after a glyph whose height field is 0, a space, and moves the
+glyphs after it to the next line, so a Chinese or Japanese paragraph has nowhere to break;
+a long one (the 1444 bookmark's description in a Chinese translation) crashed the game in
+the lobby, with or without this plugin
 ([the test](../README.md#in-game-test-with-translation-mods)). Three more blocks of the original
-(`main_wrap_hook`, `button_wrap_hook`, `popup_wrap_hook`) let a line break before or
-after a character above U+00FF where Unicode's line breaking rules allow it (UAX #14
-through the original's `formatted_text.cpp`, so not before a comma or a full stop).
-Text without a character of three or more bytes keeps the game's breaks and costs
-nothing.
+(`main_wrap_hook`, `button_wrap_hook`, `popup_wrap_hook`) let a line also end after any
+glyph where Unicode's line breaking rules allow a break after it (UAX #14 through the
+original's `formatted_text.cpp`, so not before a comma, a full stop or a closing bracket,
+and not after an opening one). The original's main and button blocks ask the rules about
+the break before a character above U+00FF, while the game puts the break after it, so a
+line could start with ，or 」 and end with 「; Mei asks about the break after the glyph in
+all three. Text without a character of three or more bytes keeps the game's breaks and
+costs nothing.
 
 ### CJK fonts
 

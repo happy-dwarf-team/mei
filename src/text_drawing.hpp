@@ -94,5 +94,12 @@ bool reaches_format_check(const Glyph& glyph) noexcept;
 std::shared_ptr<const eu4unicode::FormattedText> line_breaks(std::string_view text) noexcept;
 // FormattedText::line_before for `breaks` that may be empty.
 bool line_before(const eu4unicode::FormattedText* breaks, std::size_t offset) noexcept;
+// Whether a wrapping routine of the game may end a line after the glyph that ends at
+// byte `end`. The game's routines take a space (`space`, a glyph whose height is 0) as
+// the last glyph of a line and move the text after it to the next one, so with `breaks`
+// the glyph may also end a line where the rules allow a break after it, not before it:
+// asking before it put a comma or a closing bracket first on the next line and left an
+// opening bracket last on this one.
+bool wrap_after(const eu4unicode::FormattedText* breaks, std::size_t end, bool space) noexcept;
 
 }  // namespace unicode_patch
