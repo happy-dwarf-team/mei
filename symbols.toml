@@ -2,11 +2,13 @@
 # README.md for the commit), eu4.exe 1.37.5 Steam and, for the GOG build 1.37.5.2,
 # tools/gog-1.37.5.2.json. Do not edit by hand: change the generator or the map and run
 # `anvil check . --exe <eu4.exe>` once per build to write symbols.lock.
-builds = ["eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64"]
+# Later builds: tools/gog-1.37.5.0.json.
+builds = ["eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 
 [symbol.person_name_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0xA4B48C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 4A 7E 64 FF" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A44C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 BA 8E 64 FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xA4A44C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 BA 8E 64 FF" }
 memory = "code"
 resume = "person_name_return"
 note = "text_hooks.asm person_name_hook"
@@ -14,6 +16,7 @@ note = "text_hooks.asm person_name_hook"
 [symbol.speed_increase_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x816DD5, bytes = "3C 2B 75 39 80 BE F1 19 00 00 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x816135, bytes = "3C 2B 75 39 80 BE E1 19 00 00 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x816135, bytes = "3C 2B 75 39 80 BE E1 19 00 00 00" }
 memory = "code"
 resume = "speed_increase_return"
 note = "text_hooks.asm speed_increase_hook; also continues at speed_other_return"
@@ -21,6 +24,7 @@ note = "text_hooks.asm speed_increase_hook; also continues at speed_other_return
 [symbol.generated_name_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x3142F2, bytes = "48 8D 4C 24 30 E8 F4 EF D7 FF 0F 10 44 24 30" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x314282, bytes = "48 8D 4C 24 30 E8 94 F0 D7 FF 0F 10 44 24 30" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x314282, bytes = "48 8D 4C 24 30 E8 94 F0 D7 FF 0F 10 44 24 30" }
 memory = "code"
 resume = "generated_name_return"
 note = "text_hooks.asm generated_name_hook"
@@ -29,6 +33,7 @@ note = "text_hooks.asm generated_name_hook"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FD650 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E74A0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E74A0 }
 memory = "code"
 signature = "void (const void* key, const void* value, int version, int unused, const void* context)"
 note = "function hook of the original that does not call the game function (import_legacy_localization)"
@@ -36,6 +41,7 @@ note = "function hook of the original that does not call the game function (impo
 [symbol.main_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x15995B0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 08 A7 E9 00 42 88 04 19 FF C6" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15900D0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 68 7A E8 00 42 88 04 19 FF C6" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15900D0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 68 7A E8 00 42 88 04 19 FF C6" }
 memory = "code"
 resume = "main_copy_return"
 values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }
@@ -45,6 +51,7 @@ note = "text_hooks.asm main_copy_hook; also continues at main_measure_entry"
 bytes = "41 0F B6 01 49 8B 8C C6 20 01 00 00 48 89 4D 00 48 85 C9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1599728 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590248 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590248 }
 memory = "code"
 resume = "main_measure_return"
 note = "text_hooks.asm main_measure_hook"
@@ -53,6 +60,7 @@ note = "text_hooks.asm main_measure_hook"
 bytes = "46 0F B6 04 09 F3 41 0F 10 9E 68 09 00 00 4B 8B 94 C6 20 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A796 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912B6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912B6 }
 memory = "code"
 resume = "main_draw_return"
 note = "text_hooks.asm main_draw_hook"
@@ -61,6 +69,7 @@ note = "text_hooks.asm main_draw_hook"
 bytes = "0F B6 04 07 49 8B 8C C6 20 01 00 00 48 85 C9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B687 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15921A7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15921A7 }
 memory = "code"
 resume = "bitmap_measure_return"
 note = "text_hooks.asm bitmap_measure_hook"
@@ -69,6 +78,7 @@ note = "text_hooks.asm bitmap_measure_hook"
 bytes = "8B 5C 24 48 83 C3 06"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159AF87 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591AA7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591AA7 }
 memory = "code"
 resume = "main_page_return"
 note = "text_hooks.asm main_page_hook"
@@ -77,6 +87,7 @@ note = "text_hooks.asm main_page_hook"
 bytes = "8B 95 C8 21 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15986F6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F216 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F216 }
 memory = "code"
 resume = "button_page_return"
 note = "text_hooks.asm button_page_hook"
@@ -85,6 +96,7 @@ note = "text_hooks.asm button_page_hook"
 bytes = "4C 8B E2 4C 8B F1"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598963 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F483 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F483 }
 memory = "code"
 resume = "main_geometry_entry_return"
 note = "text_hooks.asm main_geometry_entry_hook"
@@ -93,6 +105,7 @@ note = "text_hooks.asm main_geometry_entry_hook"
 bytes = "4C 8D 9C 24 08 24 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B3B0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591ED0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591ED0 }
 memory = "code"
 resume = "main_geometry_end_return"
 note = "text_hooks.asm main_geometry_end_hook"
@@ -101,6 +114,7 @@ note = "text_hooks.asm main_geometry_end_hook"
 bytes = "49 8B D8 48 8B F9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15966EC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D20C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D20C }
 memory = "code"
 resume = "button_geometry_entry_return"
 note = "text_hooks.asm button_geometry_entry_hook"
@@ -109,6 +123,7 @@ note = "text_hooks.asm button_geometry_entry_hook"
 bytes = "4C 8D 9C 24 60 22 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598841 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F361 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F361 }
 memory = "code"
 resume = "button_geometry_end_return"
 note = "text_hooks.asm button_geometry_end_hook"
@@ -117,6 +132,7 @@ note = "text_hooks.asm button_geometry_end_hook"
 bytes = "F3 41 0F 10 B6 48 08 00 00 0F B6 04 02 4D 8B 3C C6 4D 85 FF"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF48 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A68 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A68 }
 memory = "code"
 resume = "bitmap_split_return"
 note = "text_hooks.asm bitmap_split_hook"
@@ -125,6 +141,7 @@ note = "text_hooks.asm bitmap_split_hook"
 bytes = "FF C7 8B D7 44 8B 53 10 41 3B FA"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F1DB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595CFB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595CFB }
 memory = "code"
 resume = "bitmap_advance_return"
 note = "layout_hooks.asm bitmap_advance_hook"
@@ -133,6 +150,7 @@ note = "layout_hooks.asm bitmap_advance_hook"
 bytes = "4C 8B 45 B8 F3 41 0F 10 B0 48 08 00 00 0F B6 04 10 4D 8B 24 C0 4D 85 E4"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F87D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159639D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159639D }
 memory = "code"
 resume = "list_measure_return"
 note = "layout_hooks.asm list_measure_hook"
@@ -141,6 +159,7 @@ note = "layout_hooks.asm list_measure_hook"
 bytes = "FF C3 8B F3 8B 4F 10 44 0F B6 8D 48 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159FDE5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596905 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596905 }
 memory = "code"
 resume = "list_advance_return"
 note = "layout_hooks.asm list_advance_hook"
@@ -149,6 +168,7 @@ note = "layout_hooks.asm list_advance_hook"
 bytes = "48 8B CB 4C 8B 4B 18 49 83 F9 10 72 03 48 8B 0B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EDDD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15958FD }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15958FD }
 memory = "code"
 resume = "split_format_return"
 note = "layout_hooks.asm split_format_hook; also continues at split_plain_entry"
@@ -157,6 +177,7 @@ note = "layout_hooks.asm split_format_hook; also continues at split_plain_entry"
 bytes = "48 8B CF 4C 8B 47 18 49 83 F8 10 72 03 48 8B 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F6EF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159620F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159620F }
 memory = "code"
 resume = "list_format_return"
 note = "layout_hooks.asm list_format_hook; also continues at list_plain_entry"
@@ -165,6 +186,7 @@ note = "layout_hooks.asm list_format_hook; also continues at list_plain_entry"
 bytes = "0F B6 04 2B 3C A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B85C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159237C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159237C }
 memory = "code"
 resume = "alternate_format_return"
 note = "layout_hooks.asm alternate_format_hook; also continues at alternate_plain_entry, alternate_end"
@@ -173,6 +195,7 @@ note = "layout_hooks.asm alternate_format_hook; also continues at alternate_plai
 bytes = "FF C7 48 FF C3"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B999 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924B9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924B9 }
 memory = "code"
 resume = "alternate_advance_return"
 note = "layout_hooks.asm alternate_advance_hook"
@@ -181,6 +204,7 @@ note = "layout_hooks.asm alternate_advance_hook"
 bytes = "E8 5E 53 FF FF F3 0F 58 F8 F3 44 0F 58 C0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F06D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595B8D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595B8D }
 memory = "code"
 resume = "split_kern_return"
 note = "layout_hooks.asm split_kern_hook"
@@ -189,6 +213,7 @@ note = "layout_hooks.asm split_kern_hook"
 bytes = "E8 22 4A FF FF F3 0F 58 F8 F3 44 0F 58 C0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F9A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15964C9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15964C9 }
 memory = "code"
 resume = "list_kern_return"
 note = "layout_hooks.asm list_kern_hook"
@@ -197,6 +222,7 @@ note = "layout_hooks.asm list_kern_hook"
 bytes = "E8 71 8A FF FF F3 0F 58 F0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B95A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159247A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159247A }
 memory = "code"
 resume = "alternate_kern_return"
 note = "layout_hooks.asm alternate_kern_hook"
@@ -205,6 +231,7 @@ note = "layout_hooks.asm alternate_kern_hook"
 bytes = "66 41 83 7B 06 00 0F 85 E0 03 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15970DF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DBFF }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DBFF }
 memory = "code"
 resume = "button_wrap_return"
 note = "layout_hooks.asm button_wrap_hook; also continues at button_wrap_branch"
@@ -212,6 +239,7 @@ note = "layout_hooks.asm button_wrap_hook; also continues at button_wrap_branch"
 [symbol.popup_entry_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C677, bytes = "48 8B CA E8 61 90 AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593197, bytes = "48 8B CA E8 71 25 B0 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593197, bytes = "48 8B CA E8 71 25 B0 FE" }
 memory = "code"
 resume = "popup_entry_return"
 note = "popup_hooks.asm popup_entry_hook"
@@ -220,6 +248,7 @@ note = "popup_hooks.asm popup_entry_hook"
 bytes = "4C 8D 9C 24 38 04 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CD75 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593895 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593895 }
 memory = "code"
 resume = "popup_end_return"
 note = "popup_hooks.asm popup_end_hook"
@@ -227,6 +256,7 @@ note = "popup_hooks.asm popup_end_hook"
 [symbol.popup_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C6D8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 5B 4B AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 98 3D AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15931F8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 6B E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 A8 D2 AF FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15931F8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 6B E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 A8 D2 AF FE" }
 memory = "code"
 resume = "popup_copy_return"
 note = "popup_hooks.asm popup_copy_hook"
@@ -234,6 +264,7 @@ note = "popup_hooks.asm popup_copy_hook"
 [symbol.popup_color_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C72B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 08 4B AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 45 3D AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159324B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 18 E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 55 D2 AF FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159324B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 18 E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 55 D2 AF FE" }
 memory = "code"
 resume = "popup_color_copy_return"
 note = "popup_hooks.asm popup_color_copy_hook"
@@ -241,6 +272,7 @@ note = "popup_hooks.asm popup_color_copy_hook"
 [symbol.popup_icon_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C79A, bytes = "0F B6 1C 07 48 8D 4D 50 E8 99 4A AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 D6 3C AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15932BA, bytes = "0F B6 1C 07 48 8D 4D 50 E8 A9 DF AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 E6 D1 AF FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15932BA, bytes = "0F B6 1C 07 48 8D 4D 50 E8 A9 DF AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 E6 D1 AF FE" }
 memory = "code"
 resume = "popup_icon_copy_return"
 note = "popup_hooks.asm popup_icon_copy_hook"
@@ -248,6 +280,7 @@ note = "popup_hooks.asm popup_icon_copy_hook"
 [symbol.popup_format_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C713, bytes = "48 8B CE E8 C5 8F AF FE 48 8B CE 80 3C 07 A7" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593233, bytes = "48 8B CE E8 D5 24 B0 FE 48 8B CE 80 3C 07 A7" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593233, bytes = "48 8B CE E8 D5 24 B0 FE 48 8B CE 80 3C 07 A7" }
 memory = "code"
 resume = "popup_format_return"
 note = "popup_hooks.asm popup_format_hook; also continues at popup_plain_entry"
@@ -256,6 +289,7 @@ note = "popup_hooks.asm popup_format_hook; also continues at popup_plain_entry"
 bytes = "0F B6 04 07 4D 8B A4 C7 20 01 00 00 4D 85 E4"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C833 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593353 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593353 }
 memory = "code"
 resume = "popup_measure_return"
 note = "popup_hooks.asm popup_measure_hook"
@@ -264,6 +298,7 @@ note = "popup_hooks.asm popup_measure_hook"
 bytes = "66 41 83 7C 24 06 00 0F 85 EE 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933C6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933C6 }
 memory = "code"
 resume = "popup_wrap_return"
 note = "popup_hooks.asm popup_wrap_hook; also continues at popup_advance_entry"
@@ -272,6 +307,7 @@ note = "popup_hooks.asm popup_wrap_hook; also continues at popup_advance_entry"
 bytes = "FF C7 3B 7E 10"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C1 }
 memory = "code"
 resume = "popup_advance_return"
 note = "popup_hooks.asm popup_advance_hook"
@@ -280,6 +316,7 @@ note = "popup_hooks.asm popup_advance_hook"
 bytes = "48 8D 44 24 60 49 83 F8 10 49 0F 43 C1 80 3C 30 A7 48 8D 44 24 60"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CBB3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15936D3 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15936D3 }
 memory = "code"
 resume = "popup_draw_format_return"
 note = "popup_hooks.asm popup_draw_format_hook; also continues at popup_draw_plain_entry"
@@ -288,6 +325,7 @@ note = "popup_hooks.asm popup_draw_format_hook; also continues at popup_draw_pla
 bytes = "0F B6 04 06 4D 8B AC C7 20 01 00 00 4D 85 ED"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CEC5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939E5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939E5 }
 memory = "code"
 resume = "popup_draw_return"
 note = "popup_hooks.asm popup_draw_hook"
@@ -296,6 +334,7 @@ note = "popup_hooks.asm popup_draw_hook"
 bytes = "C6 44 15 90 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CE31 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593951 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593951 }
 memory = "code"
 resume = "popup_icon_end_return"
 note = "popup_hooks.asm popup_icon_end_hook"
@@ -304,6 +343,7 @@ note = "popup_hooks.asm popup_icon_end_hook"
 bytes = "E8 32 7B FF FF F3 0F 58 F0 F3 0F 58 F8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C899 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933B9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933B9 }
 memory = "code"
 resume = "popup_measure_kern_return"
 note = "popup_hooks.asm popup_measure_kern_hook"
@@ -312,6 +352,7 @@ note = "popup_hooks.asm popup_measure_kern_hook"
 bytes = "E8 BA 69 FF FF F3 44 0F 58 E8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DA11 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594531 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594531 }
 memory = "code"
 resume = "popup_draw_kern_return"
 note = "popup_hooks.asm popup_draw_kern_hook"
@@ -320,6 +361,7 @@ note = "popup_hooks.asm popup_draw_kern_hook"
 bytes = "8B 8D 88 03 00 00 83 C1 06"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159D9A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15944C0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15944C0 }
 memory = "code"
 resume = "popup_page_return"
 note = "popup_hooks.asm popup_page_hook"
@@ -327,6 +369,7 @@ note = "popup_hooks.asm popup_page_hook"
 [symbol.heap_zero_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1A683AE, bytes = "48 8B 0D 9B 54 8D 00 4C 8B C3 33 D2 FF 15 B0 E1 0F 00 48 85 C0" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1A51FFE, bytes = "48 8B 0D CB F6 8C 00 4C 8B C3 33 D2 FF 15 80 D2 0F 00 48 85 C0" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1A51FFE, bytes = "48 8B 0D CB F6 8C 00 4C 8B C3 33 D2 FF 15 80 D2 0F 00 48 85 C0" }
 memory = "code"
 resume = "heap_return"
 note = "text_hooks.asm heap_zero_hook"
@@ -334,6 +377,7 @@ note = "text_hooks.asm heap_zero_hook"
 [symbol.button_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596858, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 B4 9A AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D378, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 C4 2F B0 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D378, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 C4 2F B0 FE" }
 memory = "code"
 resume = "button_copy_return"
 note = "text_hooks.asm button_copy_hook"
@@ -342,6 +386,7 @@ note = "text_hooks.asm button_copy_hook"
 bytes = "45 8B CE 41 0F B6 04 01 4C 8B 1C C1 4D 85 DB"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597071 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DB91 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DB91 }
 memory = "code"
 resume = "button_measure_return"
 note = "text_hooks.asm button_measure_hook"
@@ -350,6 +395,7 @@ note = "text_hooks.asm button_measure_hook"
 bytes = "41 8B CF F3 44 0F 10 9A 48 08 00 00 0F B6 04 01 4C 8B 04 C2 4C 89 45 58"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15983A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EEC1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EEC1 }
 memory = "code"
 resume = "button_draw_return"
 note = "text_hooks.asm button_draw_hook"
@@ -358,6 +404,7 @@ note = "text_hooks.asm button_draw_hook"
 bytes = "41 FF C6 44 3B 75 D8 0F 8C 59 F3 FF FF 44 8B BD C8 21 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15974CB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFEB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFEB }
 memory = "code"
 resume = "button_end"
 note = "text_hooks.asm button_advance_hook; also continues at button_loop"
@@ -366,6 +413,7 @@ note = "text_hooks.asm button_advance_hook; also continues at button_loop"
 bytes = "0F B6 14 2B 49 8D 8F 20 01 00 00 4C 8B 1C D1 4D 85 DB"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B91A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159243A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159243A }
 memory = "code"
 resume = "alternate_measure_return"
 note = "text_hooks.asm alternate_measure_hook; also continues at alternate_end"
@@ -374,6 +422,7 @@ note = "text_hooks.asm alternate_measure_hook; also continues at alternate_end"
 bytes = "66 83 79 06 00 0F 85 13 01 00 00 8D 04 1B 66 0F 6E C8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15997A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15902C9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15902C9 }
 memory = "code"
 resume = "wrap_return"
 note = "text_hooks.asm main_wrap_hook; also continues at wrap_branch"
@@ -382,6 +431,7 @@ note = "text_hooks.asm main_wrap_hook; also continues at wrap_branch"
 bytes = "4E 8D 04 09 41 0F B6 00 3C A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A240 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590D60 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590D60 }
 memory = "code"
 resume = "main_format_return"
 note = "text_hooks.asm main_format_hook; also continues at main_plain_entry"
@@ -390,6 +440,7 @@ note = "text_hooks.asm main_format_hook; also continues at main_plain_entry"
 bytes = "C6 84 15 D0 01 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15996B1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15901D1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15901D1 }
 memory = "code"
 resume = "main_icon_copy_return"
 note = "text_hooks.asm main_icon_copy_hook"
@@ -398,6 +449,7 @@ note = "text_hooks.asm main_icon_copy_hook"
 bytes = "C6 84 0D D0 01 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A45F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590F7F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590F7F }
 memory = "code"
 resume = "main_icon_draw_return"
 note = "text_hooks.asm main_icon_draw_hook"
@@ -406,6 +458,7 @@ note = "text_hooks.asm main_icon_draw_hook"
 bytes = "48 8D 45 C8 49 83 FF 10 49 0F 43 C4 80 3C 03 A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15968E1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D401 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D401 }
 memory = "code"
 resume = "button_format_return"
 note = "text_hooks.asm button_format_hook; also continues at button_plain_entry"
@@ -414,6 +467,7 @@ note = "text_hooks.asm button_format_hook; also continues at button_plain_entry"
 bytes = "C6 84 15 A0 00 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596E83 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D9A3 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D9A3 }
 memory = "code"
 resume = "button_icon_copy_return"
 note = "text_hooks.asm button_icon_copy_hook"
@@ -422,6 +476,7 @@ note = "text_hooks.asm button_icon_copy_hook"
 bytes = "C6 84 15 A0 00 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598110 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EC30 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EC30 }
 memory = "code"
 resume = "button_icon_draw_return"
 note = "text_hooks.asm button_icon_draw_hook"
@@ -430,6 +485,7 @@ note = "text_hooks.asm button_icon_draw_hook"
 bytes = "48 8D 45 A0 49 83 FC 10 49 0F 43 C5 41 8B CF 80 3C 08 A7 48 8D 45 A0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597D7D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158E89D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158E89D }
 memory = "code"
 resume = "button_draw_format_return"
 note = "text_hooks.asm button_draw_format_hook; also continues at button_draw_plain_entry"
@@ -438,6 +494,7 @@ note = "text_hooks.asm button_draw_format_hook; also continues at button_draw_pl
 bytes = "4C 8B 4B 18 48 8B CB 49 83 F9 10 72 03 48 8B 0B 80 3C 0F A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B539 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592059 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592059 }
 memory = "code"
 resume = "bitmap_format_return"
 note = "text_hooks.asm bitmap_format_hook; also continues at bitmap_plain_entry"
@@ -446,6 +503,7 @@ note = "text_hooks.asm bitmap_format_hook; also continues at bitmap_plain_entry"
 bytes = "49 8B 06 48 8D 54 24 20 C6 44 0C 20 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B61E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159213E }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159213E }
 memory = "code"
 resume = "bitmap_icon_end_return"
 note = "text_hooks.asm bitmap_icon_end_hook"
@@ -453,6 +511,7 @@ note = "text_hooks.asm bitmap_icon_end_hook"
 [symbol.map_copy_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DB79, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 93 27 AF FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594699, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 A3 BC AF FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594699, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 A3 BC AF FE" }
 memory = "code"
 resume = "map_copy_return"
 note = "map_hooks.asm map_copy_hook"
@@ -461,6 +520,7 @@ note = "map_hooks.asm map_copy_hook"
 bytes = "41 0F B6 04 07 4D 8B 9C C1 20 01 00 00 4D 85 DB"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DC03 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594723 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594723 }
 memory = "code"
 resume = "map_measure_return"
 note = "map_hooks.asm map_measure_hook"
@@ -469,6 +529,7 @@ note = "map_hooks.asm map_measure_hook"
 bytes = "F3 0F 11 5D A0 41 0F B6 04 01 49 8B 14 C7 48 85 D2"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DF89 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594AA9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594AA9 }
 memory = "code"
 resume = "map_draw_return"
 note = "map_hooks.asm map_draw_hook"
@@ -477,6 +538,7 @@ note = "map_hooks.asm map_draw_hook"
 bytes = "48 8D 4C 24 78 48 83 FB 10 48 0F 43 CE 44 0F B6 04 08 48 8D 44 24 78 48 0F 43 C6 42 0F B6 14 08 49 8B CF E8 72 5F FF FF"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E436 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F56 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F56 }
 memory = "code"
 resume = "map_kern_return"
 note = "map_hooks.asm map_kern_hook"
@@ -485,6 +547,7 @@ note = "map_hooks.asm map_kern_hook"
 bytes = "0F B6 04 01 88 85 08 08 00 00 F3 44 0F 10 A2 48 08 00 00 4C 8B 34 C2 4D 85 F6"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3F40 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2750 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2750 }
 memory = "code"
 resume = "map_justify_draw_return"
 note = "map_hooks.asm map_justify_draw_hook"
@@ -493,6 +556,7 @@ note = "map_hooks.asm map_justify_draw_hook"
 bytes = "48 8B 4F 10 48 89 8D 68 01 00 00 8D 41 FE"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3EEA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD26FA }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD26FA }
 memory = "code"
 resume = "map_justify_count_return"
 note = "map_hooks.asm map_justify_count_hook"
@@ -501,6 +565,7 @@ note = "map_hooks.asm map_justify_count_hook"
 bytes = "83 7F 10 01 7E 1B 66 0F 6E F6 0F 5B F6 48 8B 85 68 01 00 00 FF C8 66 0F 6E C8"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD413E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD294E }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD294E }
 memory = "code"
 resume = "map_justify_measure_return"
 note = "map_hooks.asm map_justify_measure_hook; also continues at map_justify_single_return"
@@ -509,6 +574,7 @@ note = "map_hooks.asm map_justify_measure_hook; also continues at map_justify_si
 bytes = "FF C6 89 B5 E8 07 00 00 48 FF C1 48 89 8D 18 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53C4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BD4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BD4 }
 memory = "code"
 resume = "map_justify_advance_return"
 note = "map_hooks.asm map_justify_advance_hook"
@@ -517,6 +583,7 @@ note = "map_hooks.asm map_justify_advance_hook"
 bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 0F B6 04 18 88 45 00 48 8D 45 00 49 C7 C0 FF FF FF FF 49 FF C0 42 80 3C 00 00 75 F6"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6680 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E90 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E90 }
 memory = "code"
 resume = "map_adjust_copy_return"
 note = "map_hooks.asm map_adjust_copy_hook"
@@ -525,6 +592,7 @@ note = "map_hooks.asm map_adjust_copy_hook"
 bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 0F B6 04 08 49 8B 14 C6"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6BC0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD53D0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD53D0 }
 memory = "code"
 resume = "map_adjust_glyph_return"
 note = "map_hooks.asm map_adjust_glyph_hook"
@@ -533,6 +601,7 @@ note = "map_hooks.asm map_adjust_glyph_hook"
 bytes = "48 8D 43 10 49 83 F9 10 72 04 48 8B 43 10 0F B6 04 01 49 8B 94 C4 20 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7330 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B40 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B40 }
 memory = "code"
 resume = "map_vertex_count_return"
 note = "map_hooks.asm map_vertex_count_hook"
@@ -541,6 +610,7 @@ note = "map_hooks.asm map_vertex_count_hook"
 bytes = "83 C7 06 0F BF 42 0C 66 0F 6E C0 0F 5B C0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E400 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F20 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F20 }
 memory = "code"
 resume = "map_page_tag_return"
 note = "map_hooks.asm map_page_tag_hook"
@@ -549,6 +619,7 @@ note = "map_hooks.asm map_page_tag_hook"
 bytes = "41 83 C5 06 48 8B 8D 18 01 00 00 48 8B BD C8 07 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53A5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BB5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BB5 }
 memory = "code"
 resume = "map_justify_page_tag_return"
 note = "map_hooks.asm map_justify_page_tag_hook"
@@ -557,6 +628,7 @@ note = "map_hooks.asm map_justify_page_tag_hook"
 bytes = "48 8B C3 4C 8B 43 18 49 83 F8 10 72 03 48 8B 03 8B D7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E60D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159512D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159512D }
 memory = "code"
 resume = "map_fit_format_return"
 note = "map_hooks.asm map_fit_format_hook; also continues at map_fit_plain_entry"
@@ -565,6 +637,7 @@ note = "map_hooks.asm map_fit_format_hook; also continues at map_fit_plain_entry
 bytes = "44 8B F9 41 8B F4 41 8B FC 44 8B 4B 10"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E5C4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15950E4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15950E4 }
 memory = "code"
 resume = "map_fit_begin_return"
 note = "map_hooks.asm map_fit_begin_hook"
@@ -573,6 +646,7 @@ note = "map_hooks.asm map_fit_begin_hook"
 bytes = "0F 5B C0 F3 0F 59 C1 41 0F 2E C0 7A 53 75 51"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7E1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595301 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595301 }
 memory = "code"
 resume = "map_fit_wrap_allow"
 note = "map_hooks.asm map_fit_wrap_hook; also continues at map_fit_wrap_skip"
@@ -581,6 +655,7 @@ note = "map_hooks.asm map_fit_wrap_hook; also continues at map_fit_wrap_skip"
 bytes = "0F B6 04 10 4D 8B 9C C5 20 01 00 00 F3 41 0F 10 8D 68 09 00 00 4D 85 DB"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E75D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159527D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159527D }
 memory = "code"
 resume = "map_fit_measure_return"
 note = "map_hooks.asm map_fit_measure_hook"
@@ -589,6 +664,7 @@ note = "map_hooks.asm map_fit_measure_hook"
 bytes = "E8 06 5C FF FF F3 0F 58 F0 F3 0F 58 F8 8B 8D 70 10 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7C5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15952E5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15952E5 }
 memory = "code"
 resume = "map_fit_kern_return"
 note = "map_hooks.asm map_fit_kern_hook"
@@ -597,6 +673,7 @@ note = "map_hooks.asm map_fit_kern_hook"
 bytes = "44 88 64 0C 40 49 8B 45 00 48 8D 54 24 40 49 8B CD"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E6F1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595211 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595211 }
 memory = "code"
 resume = "map_fit_icon_end_return"
 note = "map_hooks.asm map_fit_icon_end_hook"
@@ -605,6 +682,7 @@ note = "map_hooks.asm map_fit_icon_end_hook"
 bytes = "8B 85 A0 00 00 00 FF C8 4C 63 E0"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6600 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E10 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E10 }
 memory = "code"
 resume = "map_adjust_gap_end_return"
 note = "map_hooks.asm map_adjust_gap_end_hook"
@@ -613,6 +691,7 @@ note = "map_hooks.asm map_adjust_gap_end_hook"
 bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 48 63 8D A0 00 00 00 0F B6 44 08 FF 88 45 00 48 8D 45 00 49 C7 C0 FF FF FF FF 0F 1F 00 49 FF C0 42 80 3C 00 00 75 F6"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD66E4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4EF4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4EF4 }
 memory = "code"
 resume = "map_adjust_last_return"
 note = "map_hooks.asm map_adjust_last_hook"
@@ -621,6 +700,7 @@ note = "map_hooks.asm map_adjust_last_hook"
 bytes = "48 C7 85 F8 00 00 00 00 00 00 00 48 C7 45 20 00 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD64CA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4CDA }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4CDA }
 memory = "code"
 resume = "country_shape_return"
 note = "map_hooks.asm country_shape_hook"
@@ -629,6 +709,7 @@ note = "map_hooks.asm country_shape_hook"
 bytes = "4C 63 43 20 41 8B FD"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7315 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B25 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B25 }
 memory = "code"
 resume = "province_shape_return"
 note = "map_hooks.asm province_shape_hook"
@@ -637,6 +718,7 @@ note = "map_hooks.asm province_shape_hook"
 bytes = "44 0F 2F E1 0F 86 D1 02 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD65E8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4DF8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4DF8 }
 memory = "code"
 resume = "country_gap_return"
 note = "map_hooks.asm country_shape_gap_hook; also continues at country_gap_skip"
@@ -644,6 +726,7 @@ note = "map_hooks.asm country_shape_gap_hook; also continues at country_gap_skip
 [symbol.map_upper_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x14BA825, bytes = "0F BE 0C 28 48 8D 1C 28 E8 36 06 59 00 FF C7 88 03 8B C7" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4685, bytes = "0F BE 0C 28 48 8D 1C 28 E8 56 04 58 00 FF C7 88 03 8B C7" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4685, bytes = "0F BE 0C 28 48 8D 1C 28 E8 56 04 58 00 FF C7 88 03 8B C7" }
 memory = "code"
 resume = "map_upper_return"
 note = "map_hooks.asm map_upper_hook"
@@ -651,6 +734,7 @@ note = "map_hooks.asm map_upper_hook"
 [symbol.map_lower_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1550425, bytes = "0F BE 0C 28 48 8D 1C 28 E8 0A AA 4F 00 FF C7 88 03 8B C7" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547345, bytes = "0F BE 0C 28 48 8D 1C 28 E8 6A D7 4E 00 FF C7 88 03 8B C7" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547345, bytes = "0F BE 0C 28 48 8D 1C 28 E8 6A D7 4E 00 FF C7 88 03 8B C7" }
 memory = "code"
 resume = "map_lower_return"
 note = "map_hooks.asm map_lower_hook"
@@ -659,6 +743,7 @@ note = "map_hooks.asm map_lower_hook"
 bytes = "B8 00 7D 00 00 44 3B F8 44 0F 4D F8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15989D8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F4F8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F4F8 }
 memory = "code"
 resume = "text_limit_return"
 note = "text_hooks.asm text_limit_hook"
@@ -667,6 +752,7 @@ note = "text_hooks.asm text_limit_hook"
 bytes = "48 8B 85 30 11 00 00 48 83 BC F8 20 01 00 00 00 75 5A"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595C9B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7BB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7BB }
 memory = "code"
 resume = "font_allocate"
 note = "font_hooks.asm font_lookup_hook; also continues at font_duplicate"
@@ -674,6 +760,7 @@ note = "font_hooks.asm font_lookup_hook; also continues at font_duplicate"
 [symbol.font_allocate_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CAD, bytes = "B9 10 00 00 00 E8 1D D6 49 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7CD, bytes = "B9 10 00 00 00 E8 7D 07 49 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7CD, bytes = "B9 10 00 00 00 E8 7D 07 49 00" }
 memory = "code"
 resume = "font_initialize"
 values.engine_new = { at = 6, rip_relative = 10 }
@@ -683,6 +770,7 @@ note = "font_hooks.asm font_allocate_hook; also continues at font_skip"
 bytes = "4C 8B BD 30 11 00 00 49 89 84 FF 20 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CEB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C80B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C80B }
 memory = "code"
 resume = "font_store_return"
 note = "font_hooks.asm font_store_hook"
@@ -691,6 +779,7 @@ note = "font_hooks.asm font_store_hook"
 bytes = "8B CA 49 83 C3 02 C1 E1 0A 0B C8 85 C9 74 17"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FC097 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5D17 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5D17 }
 memory = "code"
 resume = "path_pair_return"
 note = "path_hooks.asm path_pair_hook"
@@ -699,6 +788,7 @@ note = "path_hooks.asm path_pair_hook"
 bytes = "C1 E1 0A 0B C8 EB 05 B9 3F 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBC23 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E58A3 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E58A3 }
 memory = "code"
 resume = "wide_compare_left_return"
 note = "path_hooks.asm wide_compare_left_hook"
@@ -707,6 +797,7 @@ note = "path_hooks.asm wide_compare_left_hook"
 bytes = "C1 E1 0A 0B C8 EB 05 B9 3F 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBCA2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5922 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5922 }
 memory = "code"
 resume = "wide_compare_right_return"
 note = "path_hooks.asm wide_compare_right_hook"
@@ -714,6 +805,7 @@ note = "path_hooks.asm wide_compare_right_hook"
 [symbol.transliterate_save_path]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1705180, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 5B 29 53 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EEF30, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 6B 19 53 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EEF30, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 6B 19 53 00" }
 memory = "code"
 note = "function hook of the original (transliterate_save_path)"
 
@@ -721,6 +813,7 @@ note = "function hook of the original (transliterate_save_path)"
 bytes = "48 89 5C 24 08 57 48 83 EC 40 48 8B DA 44 3B 49 10"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1704AF0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EE8A0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EE8A0 }
 memory = "code"
 note = "function hook of the original (layout_substring)"
 
@@ -728,6 +821,7 @@ note = "function hook of the original (layout_substring)"
 bytes = "48 8B C4 41 56 48 81 EC F0 00 00 00 0F 29 70 C8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B7C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15922E0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15922E0 }
 memory = "code"
 note = "function hook of the original (measure_paragraph_text)"
 
@@ -735,6 +829,7 @@ note = "function hook of the original (measure_paragraph_text)"
 bytes = "4C 8B DC 49 89 5B 20 55 57 41 56 48 81 EC 00 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B470 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591F90 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591F90 }
 memory = "code"
 note = "function hook of the original (measure_paragraph_height)"
 
@@ -742,6 +837,7 @@ note = "function hook of the original (measure_paragraph_height)"
 bytes = "4C 89 4C 24 20 4C 89 44 24 18 48 89 54 24 10 48 89 4C 24 08"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FC3D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E6220 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E6220 }
 memory = "code"
 signature = "void (void* file, const void* input, const char* name, void* language, void* key, void* context)"
 note = "function hook of the original (parse_utf8_yaml)"
@@ -750,6 +846,7 @@ note = "function hook of the original (parse_utf8_yaml)"
 bytes = "48 89 5C 24 20 48 89 54 24 10 55 56 57 41 56 41 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x170CD10 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6930 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6930 }
 memory = "code"
 signature = "void* (void* lexer, void* path)"
 note = "function hook of the original (construct_script_file)"
@@ -758,6 +855,7 @@ note = "function hook of the original (construct_script_file)"
 bytes = "48 89 5C 24 18 48 89 6C 24 20 48 89 54 24 10 56"
 build."eu4-1.37.5-steam-win64" = { rva = 0x170CA20 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6640 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6640 }
 memory = "code"
 signature = "void* (void* lexer, void* path, int mode)"
 note = "function hook of the original (construct_script_file_mode)"
@@ -765,6 +863,7 @@ note = "function hook of the original (construct_script_file_mode)"
 [symbol.construct_script_stream]
 build."eu4-1.37.5-steam-win64" = { rva = 0x170D1D0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 BB 27 6B 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6DF0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 93 F4 6A 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6DF0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 93 F4 6A 00" }
 memory = "code"
 signature = "void* (void* lexer, void* input, bool own_input)"
 note = "function hook of the original (construct_script_stream)"
@@ -773,6 +872,7 @@ note = "function hook of the original (construct_script_stream)"
 bytes = "40 57 48 83 EC 40 80 B9 1C 02 00 00 01 48 8B F9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x170E700 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F8320 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F8320 }
 memory = "code"
 signature = "int (void* lexer)"
 note = "function hook of the original (read_legacy_script_token)"
@@ -781,6 +881,7 @@ note = "function hook of the original (read_legacy_script_token)"
 bytes = "48 89 5C 24 20 55 56 57 48 8B EC 48 83 EC 40 48 8B D9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x170EBF0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F8810 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F8810 }
 memory = "code"
 signature = "int (void* lexer)"
 note = "function hook of the original (read_legacy_binary_token)"
@@ -789,6 +890,7 @@ note = "function hook of the original (read_legacy_binary_token)"
 bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 74 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1506D30 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1500920 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1500920 }
 memory = "code"
 note = "function hook of the original (initialize_mod_registry)"
 
@@ -796,6 +898,7 @@ note = "function hook of the original (initialize_mod_registry)"
 bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1508860 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1502450 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1502450 }
 memory = "code"
 note = "function hook of the original (scan_mod_registry)"
 
@@ -803,13 +906,14 @@ note = "function hook of the original (scan_mod_registry)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15105B0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15074B0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15074B0 }
 memory = "code"
 note = "function hook of the original (insert_mod_registry)"
 
 [symbol.convert_steam_presence]
 rva = 0x1706010
 bytes = "48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 57"
-absent = ["eu4-1.37.5.2-gog-win64"]
+absent = ["eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 memory = "code"
 note = "function hook of the original (convert_steam_presence)"
 
@@ -817,6 +921,7 @@ note = "function hook of the original (convert_steam_presence)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x17061A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EFDC0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EFDC0 }
 memory = "code"
 signature = "uint64_t (const char* name, uint64_t length, uint64_t start, const char* query, uint64_t query_length)"
 note = "function hook of the original (find_country_name)"
@@ -825,6 +930,7 @@ note = "function hook of the original (find_country_name)"
 bytes = "40 55 56 57 41 54 41 55 41 56 41 57 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x171F880 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1709500 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1709500 }
 memory = "code"
 signature = "int64_t (const void* name, const void* query)"
 note = "function hook of the original (find_province_distance)"
@@ -833,6 +939,7 @@ note = "function hook of the original (find_province_distance)"
 bytes = "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 48 8B F1"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1594360 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158AE80 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158AE80 }
 memory = "code"
 signature = "void (void* table)"
 note = "function hook of the original (destroy_font_table)"
@@ -841,6 +948,7 @@ note = "function hook of the original (destroy_font_table)"
 bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 48 89 4C 24 08"
 build."eu4-1.37.5-steam-win64" = { rva = 0x14C7890 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14C1400 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14C1400 }
 memory = "code"
 note = "function hook of the original (format_localized_date)"
 
@@ -848,6 +956,7 @@ note = "function hook of the original (format_localized_date)"
 bytes = "48 89 5C 24 10 48 89 4C 24 08 57 48 83 EC 50 48 8B D9"
 build."eu4-1.37.5-steam-win64" = { rva = 0xE3D40 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xE3D70 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xE3D70 }
 memory = "code"
 note = "function hook of the original (concat_localized_date)"
 
@@ -855,6 +964,7 @@ note = "function hook of the original (concat_localized_date)"
 bytes = "48 89 5C 24 08 48 89 74 24 18 48 89 54 24 10 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x23A900 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x23A8C0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x23A8C0 }
 memory = "code"
 note = "function hook of the original (format_localized_battle_title)"
 
@@ -862,6 +972,7 @@ note = "function hook of the original (format_localized_battle_title)"
 bytes = "48 89 5C 24 08 57 48 81 EC 80 00 00 00 48 8B F9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15953C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158BEE0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158BEE0 }
 memory = "code"
 signature = "void (void* font)"
 note = "function hook of the original (load_font_atlas)"
@@ -870,6 +981,7 @@ note = "function hook of the original (load_font_atlas)"
 bytes = "40 53 55 56 57 41 56 48 83 EC 70 48 8B F9 85 D2"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16C3F10 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16ADD60 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16ADD60 }
 memory = "code"
 note = "function hook of the original (synchronize_font_texture)"
 
@@ -877,6 +989,7 @@ note = "function hook of the original (synchronize_font_texture)"
 bytes = "4C 89 44 24 18 48 89 54 24 10 48 89 4C 24 08 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7200 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5A10 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5A10 }
 memory = "code"
 note = "function hook of the original (build_map_font_geometry)"
 
@@ -884,6 +997,7 @@ note = "function hook of the original (build_map_font_geometry)"
 bytes = "44 89 4C 24 20 44 89 44 24 18 48 89 54 24 10 48 89 4C 24 08"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD5B70 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4380 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4380 }
 memory = "code"
 note = "function hook of the original (build_country_font_geometry)"
 
@@ -891,6 +1005,7 @@ note = "function hook of the original (build_country_font_geometry)"
 bytes = "48 85 D2 0F 84 A6 00 00 00 48 89 74 24 18 57 48 83 EC 30"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D6640 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16C0490 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16C0490 }
 memory = "code"
 note = "function hook of the original (upload_map_font_vertices)"
 
@@ -898,6 +1013,7 @@ note = "function hook of the original (upload_map_font_vertices)"
 bytes = "48 89 5C 24 10 44 89 4C 24 20 44 89 44 24 18 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D5F20 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16BFD70 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16BFD70 }
 memory = "code"
 note = "function hook of the original (create_font_vertices)"
 
@@ -905,12 +1021,14 @@ note = "function hook of the original (create_font_vertices)"
 bytes = "48 85 C9 74 5B 53 48 83 EC 20 48 8B D9 48 8B 09"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D65D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16C0420 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16C0420 }
 memory = "code"
 note = "function hook of the original (release_font_vertices)"
 
 [symbol.pump_native_keyboard]
 build."eu4-1.37.5-steam-win64" = { rva = 0x173AB00, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 F8 BB 42 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1724780, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 B0 AD 42 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1724780, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 B0 AD 42 00" }
 memory = "code"
 note = "function hook of the original (pump_native_keyboard)"
 
@@ -918,6 +1036,7 @@ note = "function hook of the original (pump_native_keyboard)"
 bytes = "40 53 48 83 EC 20 48 8B D9 E8 E2 81 FE FF 48 85 C0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1765850 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174F4D0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x174F4D0 }
 memory = "code"
 note = "function hook of the original (start_native_ime)"
 
@@ -925,6 +1044,7 @@ note = "function hook of the original (start_native_ime)"
 bytes = "40 55 56 41 55 41 56 41 57 48 83 EC 20 48 8B 6C 24 70"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1764940 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174E5C0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x174E5C0 }
 memory = "code"
 signature = "int (void* window, uint32_t message, uint64_t parameter, void* flags, void* video)"
 note = "function hook of the original (show_native_ime_candidates)"
@@ -933,6 +1053,7 @@ note = "function hook of the original (show_native_ime_candidates)"
 bytes = "40 53 48 83 EC 40 48 8B 99 90 03 00 00 48 85 D2"
 build."eu4-1.37.5-steam-win64" = { rva = 0x17657C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174F440 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x174F440 }
 memory = "code"
 note = "function hook of the original (position_native_ime_candidates)"
 
@@ -940,6 +1061,7 @@ note = "function hook of the original (position_native_ime_candidates)"
 bytes = "8B 45 BC 32 DB"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1569F91 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1560AB1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1560AB1 }
 memory = "code"
 note = "text_hooks.asm input_hook; also continues at input_return"
 
@@ -947,6 +1069,7 @@ note = "text_hooks.asm input_hook; also continues at input_return"
 bytes = "48 8B 07 48 8B CF FF 90 38 01 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536E51 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DD51 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DD51 }
 memory = "code"
 resume = "editor_fit_return"
 note = "text_hooks.asm editor_fit_hook"
@@ -955,6 +1078,7 @@ note = "text_hooks.asm editor_fit_hook"
 bytes = "48 89 5C 24 08 48 89 6C 24 18 48 89 74 24 20 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15366C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152D5C0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152D5C0 }
 memory = "code"
 signature = "bool (void* widget, const void* event)"
 note = "function hook of the original (editor_key)"
@@ -963,6 +1087,7 @@ note = "function hook of the original (editor_key)"
 bytes = "40 57 48 83 EC 20 0F B7 41 54 48 8B F9 66 85 C0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15384D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152F3D0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152F3D0 }
 memory = "code"
 signature = "void (void* widget)"
 note = "function hook of the original (editor_left)"
@@ -971,6 +1096,7 @@ note = "function hook of the original (editor_left)"
 bytes = "48 89 5C 24 08 57 48 83 EC 40 44 0F B7 41 56 48 8D 54 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15385A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152F4A0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152F4A0 }
 memory = "code"
 signature = "void (void* widget)"
 note = "function hook of the original (editor_right)"
@@ -979,6 +1105,7 @@ note = "function hook of the original (editor_right)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x153B170 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1532070 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1532070 }
 memory = "code"
 signature = "void (void* widget)"
 note = "function hook of the original (editor_selection)"
@@ -987,6 +1114,7 @@ note = "function hook of the original (editor_selection)"
 bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 20 4C 89 44 24 18"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15361F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152D0F0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152D0F0 }
 memory = "code"
 signature = "void (void* widget, const void* row, const void* point)"
 note = "function hook of the original (editor_point)"
@@ -995,6 +1123,7 @@ note = "function hook of the original (editor_point)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536060 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152CF60 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152CF60 }
 memory = "code"
 signature = "void* (void* widget, void* result)"
 note = "function hook of the original (editor_caret_position)"
@@ -1003,6 +1132,7 @@ note = "function hook of the original (editor_caret_position)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1535EB0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152CDB0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152CDB0 }
 memory = "code"
 note = "function hook of the original (editor_anchor_position)"
 
@@ -1010,6 +1140,7 @@ note = "function hook of the original (editor_anchor_position)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1537210 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152E110 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152E110 }
 memory = "code"
 signature = "int (void* widget, const void* text)"
 note = "function hook of the original (editor_width_fit)"
@@ -1018,6 +1149,7 @@ note = "function hook of the original (editor_width_fit)"
 bytes = "48 89 5C 24 18 48 89 6C 24 20 57 41 54 41 57 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539820 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530720 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530720 }
 memory = "code"
 signature = "int (void* widget, const void* text, int fit)"
 note = "function hook of the original (editor_word_break)"
@@ -1026,6 +1158,7 @@ note = "function hook of the original (editor_word_break)"
 bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539620 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530520 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530520 }
 memory = "code"
 signature = "void* (void* row, const void* source)"
 note = "function hook of the original (construct_editor_space_row)"
@@ -1034,6 +1167,7 @@ note = "function hook of the original (construct_editor_space_row)"
 bytes = "40 53 48 83 EC 40 48 8B D9 C6 81 90 00 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539240 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530140 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530140 }
 memory = "code"
 signature = "void (void* widget)"
 note = "function hook of the original that does not call the game function (paste_editor_clipboard)"
@@ -1042,6 +1176,7 @@ note = "function hook of the original that does not call the game function (past
 bytes = "48 89 5C 24 20 55 56 57 41 56 41 57 48 8B EC 48 83 EC 40"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534250 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152B150 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152B150 }
 memory = "code"
 note = "function hook of the original (paint_editor_ime_rect)"
 
@@ -1049,6 +1184,7 @@ note = "function hook of the original (paint_editor_ime_rect)"
 bytes = "48 89 5C 24 18 48 89 74 24 20 55 57 41 54 41 56"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534BB0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152BAB0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152BAB0 }
 memory = "code"
 note = "function hook of the original (draw_editor_text)"
 
@@ -1056,6 +1192,7 @@ note = "function hook of the original (draw_editor_text)"
 bytes = "48 89 5C 24 18 89 54 24 10 55 56 57 41 54 41 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534F90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152BE90 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152BE90 }
 memory = "code"
 note = "function hook of the original (draw_editor_lines)"
 
@@ -1063,6 +1200,7 @@ note = "function hook of the original (draw_editor_lines)"
 bytes = "40 57 48 83 EC 30 80 B9 61 02 00 00 00 48 8B F9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1535250 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C150 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C150 }
 memory = "code"
 signature = "void (void* outer)"
 note = "function hook of the original (focus_editor_ime_rect)"
@@ -1071,6 +1209,7 @@ note = "function hook of the original (focus_editor_ime_rect)"
 bytes = "48 89 5C 24 10 57 48 83 EC 20 80 B9 70 02 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15353F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C2F0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C2F0 }
 memory = "code"
 signature = "void (void* outer)"
 note = "function hook of the original (blur_editor_ime_rect)"
@@ -1079,6 +1218,7 @@ note = "function hook of the original (blur_editor_ime_rect)"
 bytes = "48 89 5C 24 10 44 88 4C 24 20 55 56 57 41 56 41 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x14DB940 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14D54B0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14D54B0 }
 memory = "code"
 note = "function hook of the original (create_editor_sprite)"
 
@@ -1086,6 +1226,7 @@ note = "function hook of the original (create_editor_sprite)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1533D90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AC90 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152AC90 }
 memory = "code"
 signature = "void (void* outer)"
 note = "function hook of the original (destroy_editor)"
@@ -1094,6 +1235,7 @@ note = "function hook of the original (destroy_editor)"
 bytes = "40 53 48 83 EC 20 C6 81 C5 00 00 00 00 48 8B D9"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15340A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AFA0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152AFA0 }
 memory = "code"
 signature = "void (void* outer)"
 note = "function hook of the original (hide_editor)"
@@ -1102,6 +1244,7 @@ note = "function hook of the original (hide_editor)"
 bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 91 98 02 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534100 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152B000 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152B000 }
 memory = "code"
 note = "function hook of the original (setup_editor)"
 
@@ -1109,6 +1252,7 @@ note = "function hook of the original (setup_editor)"
 bytes = "48 89 5C 24 10 48 89 6C 24 18 56 57 41 57 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x95110 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x95140 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x95140 }
 memory = "code"
 signature = "void* (void* target, const char* text, uint64_t size)"
 note = "function hook of the original (assign_editor_prefix)"
@@ -1117,6 +1261,7 @@ note = "function hook of the original (assign_editor_prefix)"
 bytes = "40 53 56 57 41 54 48 83 EC 48 48 83 7A 18 10 4C 8B E1"
 build."eu4-1.37.5-steam-win64" = { rva = 0xB19590 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xB17FB0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xB17FB0 }
 memory = "code"
 signature = "void (void* text, const void* blacklist)"
 note = "function hook of the original (filter_editor_text)"
@@ -1125,6 +1270,7 @@ note = "function hook of the original (filter_editor_text)"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15354E0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C3E0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C3E0 }
 memory = "code"
 signature = "bool (void* callback, const char* character)"
 note = "function hook of the original (consume_editor_commit)"
@@ -1133,6 +1279,7 @@ note = "function hook of the original (consume_editor_commit)"
 bytes = "48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 4C 89 60 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536B80 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DA80 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DA80 }
 memory = "code"
 signature = "void (void* widget, const void* text)"
 note = "function hook of the original (insert_editor_commit)"
@@ -1141,6 +1288,7 @@ note = "function hook of the original (insert_editor_commit)"
 bytes = "44 89 4C 24 20 4C 89 44 24 18 53 57 41 55 41 56"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FA8D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E4720 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E4720 }
 memory = "code"
 signature = "void (void* collection, const char* key, const char* value, int line, int version, bool replace)"
 note = "the game's registration of one localisation value, which import_legacy_localization calls"
@@ -1149,6 +1297,7 @@ note = "the game's registration of one localisation value, which import_legacy_l
 bytes = "48 89 5C 24 18 55 56 57 41 54 41 56 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x90320 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x90350 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x90350 }
 memory = "code"
 signature = "char* (void* target, uint64_t count, uint8_t character)"
 note = "the game's std::string assign of count copies of a character, which the copy blocks call"
@@ -1157,6 +1306,7 @@ note = "the game's std::string assign of count copies of a character, which the 
 bytes = "48 89 5C 24 18 55 56 57 41 55 41 56 48 83 EC 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x932F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x93320 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x93320 }
 memory = "code"
 signature = "void* (void* target, const char* text, uint64_t size)"
 note = "the game's std::string append, which button_icon_copy_block calls"
@@ -1165,6 +1315,7 @@ note = "the game's std::string append, which button_icon_copy_block calls"
 bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x14DB3C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14D4F30 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14D4F30 }
 memory = "code"
 signature = "void* (void* set, const void* key)"
 note = "the game's set lookup that consume_editor_commit calls for its seven-character restriction"
@@ -1173,6 +1324,7 @@ note = "the game's set lookup that consume_editor_commit calls for its seven-cha
 bytes = "40 53 48 83 EC 20 48 8B 51 18 48 8B D9 48 83 FA 10"
 build."eu4-1.37.5-steam-win64" = { rva = 0x95660 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x95690 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x95690 }
 memory = "code"
 signature = "void (void* target)"
 note = "the game's std::string destructor (native_editor_text.cpp)"
@@ -1181,6 +1333,7 @@ note = "the game's std::string destructor (native_editor_text.cpp)"
 bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 64 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536F50 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DE50 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DE50 }
 memory = "code"
 signature = "void (void* widget, uint32_t offset)"
 note = "the text field's caret move to a byte offset (native_editor_text.cpp)"
@@ -1189,6 +1342,7 @@ note = "the text field's caret move to a byte offset (native_editor_text.cpp)"
 bytes = "40 55 48 83 EC 60 48 8D 6C 24 20 48 89 5D 58 48 89 75 60"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FAD70 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E49F0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E49F0 }
 memory = "code"
 signature = "const void* (const char* path)"
 note = "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"
@@ -1196,6 +1350,7 @@ note = "the game's resource resolver: the first mounted source of a path (the or
 [symbol.clipboard_text]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1734490, bytes = "48 FF 25 59 BD 87 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x171E110, bytes = "48 FF 25 D9 60 87 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x171E110, bytes = "48 FF 25 D9 60 87 00" }
 memory = "code"
 signature = "char* ()"
 note = "SDL_GetClipboardText, which the original's paste calls"
@@ -1203,6 +1358,7 @@ note = "SDL_GetClipboardText, which the original's paste calls"
 [symbol.clipboard_free]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1735E00, bytes = "48 FF 25 99 AC 87 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x171FA80, bytes = "48 FF 25 19 50 87 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x171FA80, bytes = "48 FF 25 19 50 87 00" }
 memory = "code"
 signature = "void (void* text)"
 note = "SDL_free, which the original's paste calls"
@@ -1211,6 +1367,7 @@ note = "SDL_free, which the original's paste calls"
 bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x153AA90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531990 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531990 }
 memory = "code"
 signature = "uint32_t (void* widget, uint32_t row, uint32_t column)"
 note = "the text field's byte offset of a row and column (the original's trim_editor_grapheme)"
@@ -1218,6 +1375,7 @@ note = "the text field's byte offset of a row and column (the original's trim_ed
 [symbol.editor_restricted_characters]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1D91328 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1D796F0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1D796F0 }
 memory = "read"
 type = "char"
 note = "the seven characters a restricted text field refuses (consume_editor_commit)"
@@ -1225,30 +1383,35 @@ note = "the seven characters a restricted text field refuses (consume_editor_com
 [symbol.country_find_call_efc38f]
 build."eu4-1.37.5-steam-win64" = { rva = 0xEFC38F, bytes = "E8 0C 9E 80 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAB3F, bytes = "E8 7C 52 7F 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAB3F, bytes = "E8 7C 52 7F 00" }
 memory = "code"
 note = "lobby search: find_country_name on a country's name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.country_find_call_1141fe6]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141FE6, bytes = "E8 B5 41 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C356, bytes = "E8 65 3A 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C356, bytes = "E8 65 3A 5B 00" }
 memory = "code"
 note = "goto box: find_country_name on a name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.country_find_call_11420dd]
 build."eu4-1.37.5-steam-win64" = { rva = 0x11420DD, bytes = "E8 BE 40 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C44D, bytes = "E8 6E 39 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C44D, bytes = "E8 6E 39 5B 00" }
 memory = "code"
 note = "goto box: find_country_name on a second name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.province_distance_call_114218d]
 build."eu4-1.37.5-steam-win64" = { rva = 0x114218D, bytes = "E8 EE D6 5D 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C4FD, bytes = "E8 FE CF 5C 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C4FD, bytes = "E8 FE CF 5C 00" }
 memory = "code"
 note = "goto box: find_province_distance on a name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.province_distance_call_11421ad]
 build."eu4-1.37.5-steam-win64" = { rva = 0x11421AD, bytes = "E8 CE D6 5D 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C51D, bytes = "E8 DE CF 5C 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C51D, bytes = "E8 DE CF 5C 00" }
 memory = "code"
 note = "goto box: find_province_distance on a second name; the plugin maps where it returns to the Steam address the original checks"
 
@@ -1256,6 +1419,7 @@ note = "goto box: find_province_distance on a second name; the plugin maps where
 bytes = "FF 50 08"
 build."eu4-1.37.5-steam-win64" = { rva = 0x14E9CB3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14E3823 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14E3823 }
 memory = "code"
 note = "the input queue's type-2 consumer: consume_editor_commit through the callback; the plugin maps where it returns to the Steam address the original checks"
 
@@ -1263,48 +1427,56 @@ note = "the input queue's type-2 consumer: consume_editor_commit through the cal
 bytes = "FF 90 A0 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x153560F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C50F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C50F }
 memory = "code"
 note = "consume_editor_commit's insertion: insert_editor_commit through the widget; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.write_filter_call_1536c32]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536C32, bytes = "E8 59 29 5E FF" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DB32, bytes = "E8 79 A4 5E FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DB32, bytes = "E8 79 A4 5E FF" }
 memory = "code"
 note = "the field's refused characters in insert_editor_commit: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.font_filter_call_15a05a8]
 build."eu4-1.37.5-steam-win64" = { rva = 0x15A05A8, bytes = "E8 E3 8F 57 FF" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15970C8, bytes = "E8 E3 0E 58 FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15970C8, bytes = "E8 E3 0E 58 FF" }
 memory = "code"
 note = "the font's refused characters: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.tooltip_insert_call_1415f33]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1415F33, bytes = "E8 48 0C 12 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x140FED3, bytes = "E8 A8 DB 11 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x140FED3, bytes = "E8 A8 DB 11 00" }
 memory = "code"
 note = "a tooltip's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.lobby_chat_insert_call_83eadb]
 build."eu4-1.37.5-steam-win64" = { rva = 0x83EADB, bytes = "E8 A0 80 CF 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
 memory = "code"
 note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.prefix_assign_block_153a306]
 build."eu4-1.37.5-steam-win64" = { rva = 0x153A306, bytes = "E8 05 AE B5 FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }
 memory = "code"
 note = "CTextBuffer::TryToAppendStringToText: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.prefix_assign_block_153a717]
 build."eu4-1.37.5-steam-win64" = { rva = 0x153A717, bytes = "E8 F4 A9 B5 FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531617, bytes = "E8 24 3B B6 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531617, bytes = "E8 24 3B B6 FE" }
 memory = "code"
 note = "CTextBuffer::AppendTextToString: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.prefix_assign_block_153a99b]
 build."eu4-1.37.5-steam-win64" = { rva = 0x153A99B, bytes = "E8 70 A7 B5 FE" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x153189B, bytes = "E8 A0 38 B6 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x153189B, bytes = "E8 A0 38 B6 FE" }
 memory = "code"
 note = "CTextBuffer::InsertStringInToText: call of assign_editor_prefix with a byte-limited prefix"
 
@@ -1312,6 +1484,7 @@ note = "CTextBuffer::InsertStringInToText: call of assign_editor_prefix with a b
 bytes = "0F 11 07 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0x314301 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x314291 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x314291 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1319,6 +1492,7 @@ note = "where a replaced block continues"
 bytes = "74 26 48 8B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x816DE0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x816140 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x816140 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1326,6 +1500,7 @@ note = "where a replaced block continues"
 bytes = "3C 2D 75 3E"
 build."eu4-1.37.5-steam-win64" = { rva = 0x816E12 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x816172 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x816172 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1333,6 +1508,7 @@ note = "where a replaced block continues"
 bytes = "C7 45 B0 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0xA4B4A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A466 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xA4A466 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1340,6 +1516,7 @@ note = "where a replaced block continues"
 bytes = "85 C0 41 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3EF8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2708 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2708 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1347,6 +1524,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 64 14"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3F5A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD276A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD276A }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1354,6 +1532,7 @@ note = "where a replaced block continues"
 bytes = "0F 5B C9 F3"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD4158 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2968 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2968 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1361,6 +1540,7 @@ note = "where a replaced block continues"
 bytes = "F2 0F 10 85"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD415F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD296F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD296F }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1368,6 +1548,7 @@ note = "where a replaced block continues"
 bytes = "8B B5 E8 07"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53B7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BC7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BC7 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1375,6 +1556,7 @@ note = "where a replaced block continues"
 bytes = "48 3B 8D 60"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53D6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BE6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BE6 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1382,6 +1564,7 @@ note = "where a replaced block continues"
 bytes = "4C 8B A5 40"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD64DD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4CED }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4CED }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1389,6 +1572,7 @@ note = "where a replaced block continues"
 bytes = "44 0F 28 E1"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD65F2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E02 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E02 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1396,6 +1580,7 @@ note = "where a replaced block continues"
 bytes = "0F 1F 44 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD660B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E1B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E1B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1403,6 +1588,7 @@ note = "where a replaced block continues"
 bytes = "48 8D 55 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD66AB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4EBB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4EBB }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1410,6 +1596,7 @@ note = "where a replaced block continues"
 bytes = "48 8D 55 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD671A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4F2A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4F2A }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1417,6 +1604,7 @@ note = "where a replaced block continues"
 bytes = "41 8B 54 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD68C3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD50D3 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD50D3 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1424,6 +1612,7 @@ note = "where a replaced block continues"
 bytes = "48 85 D2 74"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6BD7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD53E7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD53E7 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1431,6 +1620,7 @@ note = "where a replaced block continues"
 bytes = "4D 85 C0 7E"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD731C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B2C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B2C }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1438,6 +1628,7 @@ note = "where a replaced block continues"
 bytes = "48 85 D2 74"
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD734A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B5A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B5A }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1445,6 +1636,7 @@ note = "where a replaced block continues"
 bytes = "80 3C 2F 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x14BA838 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4698 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4698 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1452,6 +1644,7 @@ note = "where a replaced block continues"
 bytes = "EB A1 48 8B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536E5D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DD5D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DD5D }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1459,12 +1652,14 @@ note = "where a replaced block continues"
 bytes = "80 3C 2F 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1550438 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547358 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547358 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.input_return]
 build."eu4-1.37.5-steam-win64" = { rva = 0x156A22A, bytes = "48 8D 1D 27" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1560D4A, bytes = "48 8D 1D C7" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1560D4A, bytes = "48 8D 1D C7" }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1472,6 +1667,7 @@ note = "where a replaced block continues"
 bytes = "B9 10 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CAD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7CD }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7CD }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1479,6 +1675,7 @@ note = "where a replaced block continues"
 bytes = "48 89 85 B0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CB7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7D7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7D7 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1486,18 +1683,21 @@ note = "where a replaced block continues"
 bytes = "4C 8B 74 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CFA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C81A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C81A }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_duplicate]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595D07, bytes = "E8 34 C0 17" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C827, bytes = "E8 94 F1 16" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C827, bytes = "E8 94 F1 16" }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_skip]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595F01, bytes = "E8 3A BE 17" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158CA21, bytes = "E8 9A EF 16" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158CA21, bytes = "E8 9A EF 16" }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1505,6 +1705,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 95 C8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15966F2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D212 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D212 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1512,6 +1713,7 @@ note = "where a replaced block continues"
 bytes = "48 8D 45 C8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596831 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D351 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D351 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1519,6 +1721,7 @@ note = "where a replaced block continues"
 bytes = "90 48 8D 54"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159686C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D38C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D38C }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1526,6 +1729,7 @@ note = "where a replaced block continues"
 bytes = "0F 85 A1 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15968F1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D411 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D411 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1533,6 +1737,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 07 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596E8B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D9AB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D9AB }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1540,6 +1745,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 5C 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597059 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DB79 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DB79 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1547,6 +1753,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 E2 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597080 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DBA0 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DBA0 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1554,6 +1761,7 @@ note = "where a replaced block continues"
 bytes = "83 7D B0 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15970EB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DC0B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DC0B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1561,12 +1769,14 @@ note = "where a replaced block continues"
 bytes = "41 FF C6 44"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15974CB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFEB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFEB }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_end]
 build."eu4-1.37.5-steam-win64" = { rva = 0x15974DF, bytes = "48 8D 0D 12" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFFF, bytes = "48 8D 0D D2" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFFF, bytes = "48 8D 0D D2" }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1574,6 +1784,7 @@ note = "where a replaced block continues"
 bytes = "0F 85 04 02"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597D94 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158E8B4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158E8B4 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1581,6 +1792,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 07 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598118 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EC38 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EC38 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1588,6 +1800,7 @@ note = "where a replaced block continues"
 bytes = "48 8D 97 20"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159838A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EEAA }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EEAA }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1595,6 +1808,7 @@ note = "where a replaced block continues"
 bytes = "4D 85 C0 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15983B9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EED9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EED9 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1602,6 +1816,7 @@ note = "where a replaced block continues"
 bytes = "FF C2 89 95"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15986FC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F21C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F21C }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1609,12 +1824,14 @@ note = "where a replaced block continues"
 bytes = "49 8B 5B 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598849 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F369 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F369 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_geometry_entry_return]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598969, bytes = "48 8B 0D 38" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F489, bytes = "48 8B 0D 98" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F489, bytes = "48 8B 0D 98" }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1622,6 +1839,7 @@ note = "where a replaced block continues"
 bytes = "4C 89 7C 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15989E4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F504 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F504 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1629,6 +1847,7 @@ note = "where a replaced block continues"
 bytes = "80 BD A0 23"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15995CE }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15900EE }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15900EE }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1636,6 +1855,7 @@ note = "where a replaced block continues"
 bytes = "49 8B 06 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15996B9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15901D9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15901D9 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1643,6 +1863,7 @@ note = "where a replaced block continues"
 bytes = "41 0F B6 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1599728 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590248 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590248 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1650,6 +1871,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 3B 02"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159973B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159025B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159025B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1657,12 +1879,14 @@ note = "where a replaced block continues"
 bytes = "0F 5B C9 F3"
 build."eu4-1.37.5-steam-win64" = { rva = 0x15997BB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15902DB }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15902DB }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.wrap_branch]
 build."eu4-1.37.5-steam-win64" = { rva = 0x15998C7, bytes = "80 3D C2 26" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15903E7, bytes = "80 3D 22 FA" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15903E7, bytes = "80 3D 22 FA" }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1670,6 +1894,7 @@ note = "where a replaced block continues"
 bytes = "75 73 41 FF"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A24A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590D6A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590D6A }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1677,6 +1902,7 @@ note = "where a replaced block continues"
 bytes = "49 8B 06 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A467 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590F87 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590F87 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1684,6 +1910,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 44 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A791 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912B1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912B1 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1691,6 +1918,7 @@ note = "where a replaced block continues"
 bytes = "48 89 55 38"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A7AC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912CC }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912CC }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1698,6 +1926,7 @@ note = "where a replaced block continues"
 bytes = "89 5C 24 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159AF8E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591AAE }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591AAE }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1705,6 +1934,7 @@ note = "where a replaced block continues"
 bytes = "41 0F 28 73"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B3B8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591ED8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591ED8 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1712,6 +1942,7 @@ note = "where a replaced block continues"
 bytes = "75 07 FF C7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B54D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159206D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159206D }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1719,6 +1950,7 @@ note = "where a replaced block continues"
 bytes = "49 8B CE FF"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B62B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159214B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159214B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1726,6 +1958,7 @@ note = "where a replaced block continues"
 bytes = "4C 8B 5B 18"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B677 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592197 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592197 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1733,6 +1966,7 @@ note = "where a replaced block continues"
 bytes = "74 72 80 79"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B696 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15921B6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15921B6 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1740,6 +1974,7 @@ note = "where a replaced block continues"
 bytes = "75 0A FF C7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B862 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592382 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592382 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1747,6 +1982,7 @@ note = "where a replaced block continues"
 bytes = "0F B6 14 2B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B91A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159243A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159243A }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1754,6 +1990,7 @@ note = "where a replaced block continues"
 bytes = "74 51 41 80"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B92C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159244C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159244C }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1761,6 +1998,7 @@ note = "where a replaced block continues"
 bytes = "66 41 83 7B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B963 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592483 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592483 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1768,6 +2006,7 @@ note = "where a replaced block continues"
 bytes = "49 B8 FF FF"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B99E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924BE }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924BE }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1775,6 +2014,7 @@ note = "where a replaced block continues"
 bytes = "44 0F 28 84"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B9B1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924D1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924D1 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1782,6 +2022,7 @@ note = "where a replaced block continues"
 bytes = "80 38 00 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C67F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159319F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159319F }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1789,6 +2030,7 @@ note = "where a replaced block continues"
 bytes = "90 48 8D 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C6F8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593218 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593218 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1796,6 +2038,7 @@ note = "where a replaced block continues"
 bytes = "75 47 FF C7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C722 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593242 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593242 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1803,6 +2046,7 @@ note = "where a replaced block continues"
 bytes = "90 48 8D 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C74B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159326B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159326B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1810,6 +2054,7 @@ note = "where a replaced block continues"
 bytes = "90 48 8D 55"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C7BA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15932DA }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15932DA }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1817,6 +2062,7 @@ note = "where a replaced block continues"
 bytes = "48 8B CE E8"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C82B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159334B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159334B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1824,6 +2070,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 F0 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C842 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593362 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593362 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1831,6 +2078,7 @@ note = "where a replaced block continues"
 bytes = "66 41 83 7C"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933C6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933C6 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1838,6 +2086,7 @@ note = "where a replaced block continues"
 bytes = "44 8B A5 98"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8B3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933D3 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933D3 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1845,6 +2094,7 @@ note = "where a replaced block continues"
 bytes = "FF C7 3B 7E"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C1 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1852,6 +2102,7 @@ note = "where a replaced block continues"
 bytes = "0F 8C 24 FD"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C6 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1859,6 +2110,7 @@ note = "where a replaced block continues"
 bytes = "0F 85 F9 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CBC9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15936E9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15936E9 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1866,6 +2118,7 @@ note = "where a replaced block continues"
 bytes = "41 0F 28 73"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CD7D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159389D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159389D }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1873,6 +2126,7 @@ note = "where a replaced block continues"
 bytes = "49 8B 07 4C"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CE36 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593956 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593956 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1880,6 +2134,7 @@ note = "where a replaced block continues"
 bytes = "48 8D 44 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CEAF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939CF }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939CF }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1887,6 +2142,7 @@ note = "where a replaced block continues"
 bytes = "75 54 48 8D"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CED4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939F4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939F4 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1894,6 +2150,7 @@ note = "where a replaced block continues"
 bytes = "89 8D 88 03"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159D9A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15944C9 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15944C9 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1901,6 +2158,7 @@ note = "where a replaced block continues"
 bytes = "F3 44 0F 10"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DA1B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159453B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159453B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1908,6 +2166,7 @@ note = "where a replaced block continues"
 bytes = "90 48 8D 54"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DB8D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15946AD }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15946AD }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1915,6 +2174,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 C9 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DC13 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594733 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594733 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1922,6 +2182,7 @@ note = "where a replaced block continues"
 bytes = "75 73 48 8D"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DF9A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594ABA }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594ABA }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1929,6 +2190,7 @@ note = "where a replaced block continues"
 bytes = "F3 0F 59 45"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E40E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F2E }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F2E }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1936,6 +2198,7 @@ note = "where a replaced block continues"
 bytes = "F3 0F 58 D0"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E45E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F7E }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F7E }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1943,6 +2206,7 @@ note = "where a replaced block continues"
 bytes = "45 85 C9 0F"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E5D1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15950F1 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15950F1 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1950,6 +2214,7 @@ note = "where a replaced block continues"
 bytes = "80 3C 10 A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E61F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159513F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159513F }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1957,6 +2222,7 @@ note = "where a replaced block continues"
 bytes = "FF 90 E8 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E702 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595222 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595222 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1964,6 +2230,7 @@ note = "where a replaced block continues"
 bytes = "48 8B C3 49"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E751 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595271 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595271 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1971,6 +2238,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 19 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E775 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595295 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595295 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1978,6 +2246,7 @@ note = "where a replaced block continues"
 bytes = "41 0F BF 43"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7D8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15952F8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15952F8 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1985,6 +2254,7 @@ note = "where a replaced block continues"
 bytes = "66 0F 6E 85"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595310 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595310 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1992,6 +2262,7 @@ note = "where a replaced block continues"
 bytes = "48 8B 85 90"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E841 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595361 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595361 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -1999,6 +2270,7 @@ note = "where a replaced block continues"
 bytes = "80 3C 0A A7"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EDED }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159590D }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159590D }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2006,6 +2278,7 @@ note = "where a replaced block continues"
 bytes = "48 8B C3 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF38 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A58 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A58 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2013,6 +2286,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 74 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF5C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A7C }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A7C }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2020,6 +2294,7 @@ note = "where a replaced block continues"
 bytes = "EB 07 4D 8D"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F07B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595B9B }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595B9B }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2027,6 +2302,7 @@ note = "where a replaced block continues"
 bytes = "0F 8D 17 02"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F1E6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595D06 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595D06 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2034,6 +2310,7 @@ note = "where a replaced block continues"
 bytes = "8B C6 80 3C"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F6FF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159621F }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159621F }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2041,6 +2318,7 @@ note = "where a replaced block continues"
 bytes = "48 8B C7 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F849 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596369 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596369 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2048,6 +2326,7 @@ note = "where a replaced block continues"
 bytes = "0F 84 40 03"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F895 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15963B5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15963B5 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2055,6 +2334,7 @@ note = "where a replaced block continues"
 bytes = "45 8B F7 66"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F9B7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15964D7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15964D7 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2062,6 +2342,7 @@ note = "where a replaced block continues"
 bytes = "45 33 D2 3B"
 build."eu4-1.37.5-steam-win64" = { rva = 0x159FDF4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596914 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596914 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2069,6 +2350,7 @@ note = "where a replaced block continues"
 bytes = "4C 8B FA 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBC2F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E58AF }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E58AF }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2076,6 +2358,7 @@ note = "where a replaced block continues"
 bytes = "4C 8B EA 48"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBCAE }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E592E }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E592E }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2083,6 +2366,7 @@ note = "where a replaced block continues"
 bytes = "4C 8D 44 24"
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FC0A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5D26 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5D26 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2090,6 +2374,7 @@ note = "where a replaced block continues"
 bytes = "74 D4 EB 0D"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1A683C3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1A52013 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1A52013 }
 memory = "code"
 note = "where a replaced block continues"
 
@@ -2097,6 +2382,7 @@ note = "where a replaced block continues"
 bytes = "FF 00 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595C88 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7A8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7A8 }
 memory = "code"
 note = "imm32 of cmp edi, 0xFF in the font loader; the original makes it 0x10FFFF"
 
@@ -2104,6 +2390,7 @@ note = "imm32 of cmp edi, 0xFF in the font loader; the original makes it 0x10FFF
 bytes = "00 00 00 01"
 build."eu4-1.37.5-steam-win64" = { rva = 0x16C2CBA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16ACB0A }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16ACB0A }
 memory = "code"
 note = "imm32 of cmp r14d, 0x1000000 before PHYSFS_read; the original makes it 0x4000000"
 
@@ -2111,143 +2398,167 @@ note = "imm32 of cmp r14d, 0x1000000 before PHYSFS_read; the original makes it 0
 bytes = "4C 8D B3 68 15 00 00"
 build."eu4-1.37.5-steam-win64" = { rva = 0x1764E56 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174EAD6 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x174EAD6 }
 memory = "code"
 note = "lea r14,[rbx+1568h] in the SDL IME set-up; the original jumps past the UI-less TSF manager"
 
 [symbol.save_transliterate_call_1174e95]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1174E95, bytes = "E8 E6 02 59 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_13b9567]
 build."eu4-1.37.5-steam-win64" = { rva = 0x13B9567, bytes = "E8 14 BC 34 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B36C7, bytes = "E8 64 B8 33 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B36C7, bytes = "E8 64 B8 33 00" }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_117519e]
 build."eu4-1.37.5-steam-win64" = { rva = 0x117519E, bytes = "E8 DD FF 58 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F4FE, bytes = "E8 2D FA 57 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F4FE, bytes = "E8 2D FA 57 00" }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_1175c2c]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1175C2C, bytes = "E8 4F F5 58 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x116FF8C, bytes = "E8 9F EF 57 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116FF8C, bytes = "E8 9F EF 57 00" }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.search_lower_call_efc33b]
 build."eu4-1.37.5-steam-win64" = { rva = 0xEFC33B, bytes = "E8 B0 40 65 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAEB, bytes = "E8 20 C8 64 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAEB, bytes = "E8 20 C8 64 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_efc344]
 build."eu4-1.37.5-steam-win64" = { rva = 0xEFC344, bytes = "E8 27 8A 80 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAF4, bytes = "E8 27 40 7F 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAF4, bytes = "E8 27 40 7F 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_f16156]
 build."eu4-1.37.5-steam-win64" = { rva = 0xF16156, bytes = "E8 95 A2 63 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xF14906, bytes = "E8 05 2A 63 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xF14906, bytes = "E8 05 2A 63 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_f1615e]
 build."eu4-1.37.5-steam-win64" = { rva = 0xF1615E, bytes = "E8 0D EC 7E 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xF1490E, bytes = "E8 0D A2 7D 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xF1490E, bytes = "E8 0D A2 7D 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141475]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141475, bytes = "E8 76 EF 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7E5, bytes = "E8 26 BB 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7E5, bytes = "E8 26 BB 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_114147e]
 build."eu4-1.37.5-steam-win64" = { rva = 0x114147E, bytes = "E8 ED 38 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7EE, bytes = "E8 2D 33 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7EE, bytes = "E8 2D 33 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_11414be]
 build."eu4-1.37.5-steam-win64" = { rva = 0x11414BE, bytes = "E8 2D EF 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B82E, bytes = "E8 DD BA 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B82E, bytes = "E8 DD BA 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_11414c7]
 build."eu4-1.37.5-steam-win64" = { rva = 0x11414C7, bytes = "E8 A4 38 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B837, bytes = "E8 E4 32 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B837, bytes = "E8 E4 32 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_114187b]
 build."eu4-1.37.5-steam-win64" = { rva = 0x114187B, bytes = "E8 70 EB 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBEB, bytes = "E8 20 B7 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBEB, bytes = "E8 20 B7 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141884]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141884, bytes = "E8 E7 34 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBF4, bytes = "E8 27 2F 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBF4, bytes = "E8 27 2F 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141b98]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141B98, bytes = "E8 53 E8 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF08, bytes = "E8 03 B4 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF08, bytes = "E8 03 B4 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141ba1]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141BA1, bytes = "E8 CA 31 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF11, bytes = "E8 0A 2C 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF11, bytes = "E8 0A 2C 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141e9c]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141E9C, bytes = "E8 4F E5 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C20C, bytes = "E8 FF B0 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C20C, bytes = "E8 FF B0 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141ea6]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1141EA6, bytes = "E8 C5 2E 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C216, bytes = "E8 05 29 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C216, bytes = "E8 05 29 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_11434c8]
 build."eu4-1.37.5-steam-win64" = { rva = 0x11434C8, bytes = "E8 23 CF 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113D838, bytes = "E8 D3 9A 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113D838, bytes = "E8 D3 9A 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1143a7c]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1143A7C, bytes = "E8 6F C9 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDEC, bytes = "E8 1F 95 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDEC, bytes = "E8 1F 95 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1143a86]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1143A86, bytes = "E8 E5 12 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDF6, bytes = "E8 25 0D 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDF6, bytes = "E8 25 0D 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1144338]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1144338, bytes = "E8 B3 C0 40 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6A8, bytes = "E8 63 8C 40 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6A8, bytes = "E8 63 8C 40 00" }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1144341]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1144341, bytes = "E8 2A 0A 5C 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6B1, bytes = "E8 6A 04 5B 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6B1, bytes = "E8 6A 04 5B 00" }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"

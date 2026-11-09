@@ -8,7 +8,7 @@ Mei lets the game show, wrap, search and type the text of a Chinese, Japanese or
 
 **Remove the old double-byte patch first** (`version.dll`, `d3d9.dll` and the `plugins` folder it put in the game folder). It and Anvil both use `version.dll`, so only one of them can be there.
 
-Needs [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer and EU4 1.37.5 (Steam; the GOG build 1.37.5.2 too, see the FAQ). If Windows warns about Anvil, choose **More info**, then **Run anyway**.
+Needs [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer and EU4 1.37.5 (Steam; GOG's 1.37.5.2 and 1.37.5.0 too, see the FAQ). If Windows warns about Anvil, choose **More info**, then **Run anyway**.
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tiles-title.png)
 
@@ -40,7 +40,7 @@ We found no Japanese translation for EU4 1.37 on the Workshop. Mei drew our Japa
 Mei is a real program running inside your game, not just a pile of text files. Anvil makes sure nothing like that runs without your nod. Trust, but verify. Dwarf law.
 
 ### I play on GOG. Can I use it?
-Yes, on the GOG build 1.37.5.2. GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases). The same mark, whichever gate you came through.
+Yes, on the GOG builds 1.37.5.2 and 1.37.5.0 (1.37.5.0 needs Anvil 1.16 or newer). GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases). The same mark, whichever gate you came through.
 
 ### Why "Mei"?
 銘 (*mei* in Japanese) is the signature a swordsmith cuts into the tang of a blade. The same character, 铭 (*míng*) in Chinese and 銘 (*myeong*, 명) in Korean, means "inscription": one character that all three languages share, as Mei serves all three. Our team names come from the forge.
