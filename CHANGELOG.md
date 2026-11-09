@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/happy-dwarf-team/mei/compare/v0.3.0...v0.3.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* centre and wrap text with characters ending in a format byte ([#40](https://github.com/happy-dwarf-team/mei/issues/40)) ([8982797](https://github.com/happy-dwarf-team/mei/commit/8982797b1e58cf277befb836a2d0d8fe792f5d73)), closes [#38](https://github.com/happy-dwarf-team/mei/issues/38)
+
 ## [0.3.0](https://github.com/happy-dwarf-team/mei/compare/v0.2.0...v0.3.0) (2026-11-04)
 
 
