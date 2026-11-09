@@ -21,6 +21,7 @@
 #include <string_view>
 #include <vector>
 
+#include "mei/mei_text.h"
 #include "settings.gen.hpp"
 #include "symbols.gen.hpp"
 
@@ -145,6 +146,13 @@ std::int64_t on_province_distance(const void* name, const void* query) noexcept 
     }
 }
 
+// mei.text v1 (include/mei/mei_text.h): whether the game keeps its text in UTF-8, for
+// plugins that hand the game text of their own. The setting takes effect at a restart,
+// so the answer holds for the process.
+bool g_text_utf8 = false;
+int game_text_utf8() noexcept { return g_text_utf8 ? 1 : 0; }
+const MeiTextService kTextService{sizeof(MeiTextService), &game_text_utf8};
+
 struct UnicodePatch : anvil::Plugin {
     // The original NOPs these calls: they lower-case and strip Latin-1 accents
     // from search keys in place, which breaks UTF-8. The detours above match
@@ -156,6 +164,8 @@ struct UnicodePatch : anvil::Plugin {
     void load(anvil::Host& host) override {
         g_image = reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
         record_callers(host);
+        g_text_utf8 = cfg::utf8_localization.get();
+        host.register_service(MEI_TEXT_SERVICE, MEI_TEXT_SERVICE_VERSION, kTextService);
         if (cfg::utf8_localization.get()) {
             load_localisation(host);
             if (cfg::utf8_scripts.get()) host.info("script lexer: {} hooks", unicode_patch::load_script_lexer(host));

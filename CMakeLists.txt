@@ -127,6 +127,7 @@ target_compile_options(port_text_drawing PRIVATE /W4 /utf-8 /EHsc)
 
 anvil_add_plugin(mei SOURCES src/plugin.cpp src/text_blocks.cpp src/text_input.cpp src/fonts.cpp src/script_lexer.cpp
     src/dates_titles.cpp)
+target_include_directories(mei PRIVATE include)
 target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawing glyph_registry unicode_editor
     native_steam_presence native_color_strip port_cjk_format)
 
