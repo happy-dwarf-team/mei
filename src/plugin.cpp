@@ -5,8 +5,8 @@
 //
 // So far: the localisation import that keeps the game's text in UTF-8, the
 // script and save lexer, the per-glyph text and map blocks that draw and wrap it,
-// the font loader with Mei's bundled fonts, Chinese and pinyin search, and UTF-8
-// text input. Every symbol of
+// the font loader with Mei's bundled fonts, Chinese and pinyin search, UTF-8
+// text input and the Steam Rich Presence text. Every symbol of
 // the original is declared and verified in symbols.toml, so later features only
 // add changes here.
 #include <anvil/anvil.hpp>
@@ -27,6 +27,7 @@
 #include "game_text.hpp"
 #include "localisation.hpp"
 #include "native_search.hpp"
+#include "native_steam_presence.hpp"
 #include "script_lexer.hpp"
 #include "text_blocks.hpp"
 #include "text_input.hpp"
@@ -56,6 +57,33 @@ void native_parse_yaml(void* file, const void* input, const char* name, void* la
     g_parse_yaml.next(file, input, name, language, key, context);
 }
 void import_warning(const std::string& message) { anvil::Host{}.warn("{}", message); }
+
+// The Steam Rich Presence text (a country's name, say) goes through the game's
+// Windows-1252 to UTF-8 conversion before it reaches Steam, so a name that is
+// already UTF-8 reached friends as Latin-1 letters. The call is redirected, so
+// only that caller sees the original's construct_steam_presence: UTF-8 as it is,
+// anything else through the game's conversion.
+anvil::FunctionHook<void*(void* target, const void* source)> g_presence;
+sym::Types::assign_editor_prefix::Pointer g_assign_text = nullptr;
+
+eu4unicode::EngineString* native_presence(eu4unicode::EngineString* target, const eu4unicode::EngineString* source) {
+    return static_cast<eu4unicode::EngineString*>(g_presence.next(target, source));
+}
+eu4unicode::EngineString* native_assign(eu4unicode::EngineString* target, const char* text, std::uint64_t size) {
+    return static_cast<eu4unicode::EngineString*>(g_assign_text(target, text, size));
+}
+void* on_presence_conversion(void* target, const void* source) noexcept {
+    auto* text = static_cast<eu4unicode::EngineString*>(target);
+    const auto* from = static_cast<const eu4unicode::EngineString*>(source);
+    try {
+        // The original picks this call by its return address; the redirect is that call alone.
+        return eu4unicode::construct_steam_presence(text, from, eu4unicode::steam_presence_conversion_return,
+                                                    &native_presence, &native_assign);
+    } catch (...) {
+        anvil::Host{}.warn("Rich Presence text not kept in UTF-8; the game converts it");
+        return g_presence.next(target, source);
+    }
+}
 
 std::uintptr_t caller_rva(void* return_address) {
     return unicode_patch::steam_caller(reinterpret_cast<std::uintptr_t>(return_address) - g_image);
@@ -135,6 +163,20 @@ struct UnicodePatch : anvil::Plugin {
             if (cfg::bundled_fonts.get()) anvil::Host{}.info("{}", unicode_patch::font_redirect_summary());
         });
         host.info("localisation import: 2 hooks; text drawing: {} blocks; font loader: {} changes", blocks, loader);
+        load_rich_presence(host);
+    }
+
+    // The UTF-8 text reaches Steam's Rich Presence as it is. Only the Steam build has
+    // the call (symbols.toml declares it absent on the GOG builds).
+    void load_rich_presence(anvil::Host& host) {
+        try {
+            g_assign_text = host.function(sym::assign_editor_prefix);
+            host.redirect(g_presence, sym::presence_conversion_call_a901fe, on_presence_conversion);
+            host.info("Steam Rich Presence in UTF-8: 1 call");
+        } catch (const anvil::Error& e) {
+            if (e.result() != ANVIL_ERROR_NOT_DECLARED) throw;
+            host.info("Steam Rich Presence: no such call on this build");
+        }
     }
 
     // Where the calls the original recognises return in this build: their call
