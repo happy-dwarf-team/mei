@@ -23,7 +23,7 @@ author's agreement.
 
 ## What it does so far
 
-Eight features of the original.
+Nine features of the original.
 
 ### Search
 
@@ -212,6 +212,23 @@ shows (not checked with a real IME).
 Not ported yet: the composition display, how it works with Anvil's overlay, which takes
 text input too, and the original's selection boxes, which only shaped paragraphs and fields
 of several rows need.
+
+### Save names (`utf8_save_names`)
+
+The game turns a save's name into Latin letters before it builds the file name
+(`CString::RemoveSpecialCharacters`, `transliterate_save_path` `0x1705180`): it replaces the
+lead byte of each UTF-8 character by a letter and drops the rest, so the Ottomans of a
+Chinese translation (奥斯曼) got `aaa1444_11_11.eu4`, and different countries could get the
+same file name. As in the original:
+
+| Symbol | The game | The plugin |
+| --- | --- | --- |
+| 7 × `save_transliterate_call_*` | transliterate the name in the in-game save and load menus, the ironman dialog and the front end's selection and confirmation | NOPs; the name is UTF-8 already. The three calls of v0.1.16 keep a chosen Chinese save's name when it is overwritten |
+| `save_path_transliterate_call_5ca246` | `EU4SaveGameHelper::BuildFullSavePath` transliterates the path | redirected: a path that starts with `save games/` and is valid UTF-8 stays, any other goes to the game's function (the original picks this call by its return address `0x5CA24B`) |
+
+The game's other callers of the function (the save folder, settings, the multiplayer view,
+the nation designer, the idler's name, the set-up's control sequences) keep it, and so does
+the file system's own check of illegal characters. EU4DLL names save files in UTF-8 too.
 
 ### Steam Rich Presence (with `utf8_localization`)
 

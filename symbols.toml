@@ -1468,6 +1468,13 @@ build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
 memory = "code"
 note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
+[symbol.save_path_transliterate_call_5ca246]
+build."eu4-1.37.5-steam-win64" = { rva = 0x5CA246, bytes = "E8 35 AF 13 01" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x5C9D16, bytes = "E8 15 52 12 01" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x5C9D16, bytes = "E8 15 52 12 01" }
+memory = "code"
+note = "EU4SaveGameHelper::BuildFullSavePath: transliterate_save_path on the save's path, which the original picks by its return 0x5CA24B; the plugin redirects it"
+
 [symbol.presence_conversion_call_a901fe]
 rva = 0xA901FE
 bytes = "E8 0D 5E C7 00"

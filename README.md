@@ -27,6 +27,9 @@ With the default settings:
   `?`, and decodes the escapes of EU4DLL translation packs.
 - **Names show too.** Names in scripts and saves work the same way, so rulers, capitals and
   provinces of a supplementary translation mod read as they should.
+- **Save names.** A save keeps the country's name and the name you type, such as
+  `奥斯曼1444_11_11.eu4`, instead of Latin letters (`aaa1444_11_11.eu4`), and overwriting a
+  chosen save keeps its name.
 - **Lines wrap.** Chinese and Japanese paragraphs break where Unicode's rules allow.
 - **Fonts.** A translation mod's fonts stay. Where the game would use its own, which have no
   such letters, it uses [Mei's fonts](fonts/README.md), from Source Han Sans (about 13,000
@@ -68,6 +71,7 @@ Anvil overlay or `anvil/data/mei/settings.toml`. Every setting applies at the ne
 | `utf8_scripts` | on | Script files and saves may be in UTF-8, and EU4DLL escapes in them become UTF-8. Needs `utf8_localization`. Saves written with it keep those names in UTF-8 |
 | `bundled_fonts` | on | Uses Mei's fonts where the game would use its own. Needs `utf8_localization` |
 | `utf8_input` | on | Typed and IME-committed text reaches text fields as UTF-8 |
+| `utf8_save_names` | on | Save files keep their names in UTF-8 instead of Latin letters. Needs `utf8_localization` |
 | `typo_tolerance` | on | Full pinyin of 5 or more letters still matches with one letter wrong, missing, added or two neighbours swapped |
 | `fuzzy_pinyin` | off | zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other |
 
@@ -77,6 +81,11 @@ A `pinyin.txt` in the plugin folder adds readings, as in the original.
 
 - **Saves.** A save written with `utf8_scripts` holds these names in UTF-8, which a game without
   Mei shows as Latin-1 letters. Files are not touched, so the game's checksum stays.
+- **Save names and EU4DLL.** With `utf8_save_names` a save's file name is UTF-8, as EU4DLL
+  writes it, so EU4DLL's saves keep their names in Mei. Saves made with Mei show garbled names
+  in a game with EU4DLL; there is no way back but the old saves.
+- **Multiplayer groups switch together.** Every player of a group needs Mei, or the others see
+  the names garbled.
 - **Multiplayer: not tested.** No multiplayer session was run. Every player needs the same mods
   anyway, and a player without Mei sees such names wrongly. Whether names can feed the game's
   checks for desynchronised games is not checked.
@@ -89,7 +98,7 @@ A `pinyin.txt` in the plugin folder adds readings, as in the original.
 - **Not tested:** a Japanese translation mod (there is none for 1.37 on the Workshop, though the
   probe text in Japanese drew right), the search in the diplomacy country list, a text field of
   several rows, selecting with a mouse drag, and long play.
-- **Not ported:** the original's dates and save names. Name order, which changes
+- **Not ported:** the original's dates. Name order, which changes
   generated characters, would be a separate plugin.
 
 ## Help and bug reports
@@ -105,10 +114,11 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with the original's 315 symbols and 1 call site | `anvil check --exe` OK |
+| `symbols.toml` with the original's 315 symbols and 2 call sites | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
+| Save names: 7 calls, 1 redirect | on with `utf8_localization` (`utf8_save_names`) |
 | Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
 | Colour stripping by character: 1 hook | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
@@ -126,7 +136,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list | not done |
-| The rest of the original (its own font atlases, the IME composition display, dates, save names) | not started; see [Next steps](docs/port.md#next-steps) |
+| The rest of the original (its own font atlases, the IME composition display, dates) | not started; see [Next steps](docs/port.md#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
 ### In-game test with translation mods

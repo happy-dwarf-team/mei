@@ -174,6 +174,9 @@ PREFIX_BLOCKS = {
 # Calls the original picks by where they return on Steam and the plugin redirects instead, so its
 # target sees only that caller (Anvil's redirect_call); a map gives null where a build has no such call.
 REDIRECTS = {
+    0x5CA246: ("save_path_transliterate_call_5ca246",
+               "EU4SaveGameHelper::BuildFullSavePath: transliterate_save_path on the save's path, which the original "
+               "picks by its return 0x5CA24B"),
     0xA901FE: ("presence_conversion_call_a901fe",
                "the Steam Rich Presence text: convert_steam_presence, which the original picks by its return 0xA90203"),
 }
