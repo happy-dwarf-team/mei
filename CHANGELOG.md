@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/happy-dwarf-team/mei/compare/v0.4.0...v0.5.0) (2026-11-09)
+
+
+### Features
+
+* keep save names in UTF-8 ([#51](https://github.com/happy-dwarf-team/mei/issues/51)) ([08c0930](https://github.com/happy-dwarf-team/mei/commit/08c093079d5347a980963d44ee07d625c7f351e3))
+
 ## [0.4.0](https://github.com/happy-dwarf-team/mei/compare/v0.3.2...v0.4.0) (2026-11-09)
 
 ### Features
