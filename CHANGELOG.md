@@ -8,7 +8,7 @@
 
 ### Bug Fixes
 
-* Steam friends see your country's name in your Steam status as you see it in the game. Before, a Chinese, Japanese or Korean name from a translation mod showed up as Latin letters such as `å¤§æ˜Ž`. Steam only; GOG has no Steam status. ([#49](https://github.com/happy-dwarf-team/mei/issues/49))
+* Steam friends see your country's name in your Steam status as you see it in the game. Before, a Chinese, Japanese or Korean name from a translation mod showed up as Latin letters such as `å¤§æ˜Ž`. Steam only; GOG has no Steam status. Checked in the lab that the game's call goes through Mei; the status itself was not looked at from a friend's account. ([#49](https://github.com/happy-dwarf-team/mei/issues/49))
 * Text the game strips of colour, such as the name of a hired mercenary company and some tooltips, no longer loses half of a Chinese, Japanese or Korean character or keeps a stray byte after an English coloured name. This follows the fix in EU4 Unicode Patch 0.1.16, which Mei now builds on. ([#50](https://github.com/happy-dwarf-team/mei/issues/50))
 
 ## [0.3.2](https://github.com/happy-dwarf-team/mei/compare/v0.3.1...v0.3.2) (2026-11-09)
