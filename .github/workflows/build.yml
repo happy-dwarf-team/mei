@@ -79,10 +79,11 @@ jobs:
             if ($name -and $null -ne $value -and [Environment]::GetEnvironmentVariable($name) -ne $value) { "$name=$value" }
           } | Out-File (Join-Path $env:RUNNER_TEMP msvc.env) -Encoding utf8
 
-      # A release build (release.yml passes a ref) neither reads nor writes the
-      # cache: its package is compiled from the sources alone.
+      # Only pushes and pull requests use the caches: a release build (release.yml
+      # passes a ref) is compiled from the sources alone, and a run by hand builds
+      # the fonts of any branch.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        if: ${{ inputs.ref == '' }}
+        if: ${{ inputs.ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
         with:
           path: ${{ runner.temp }}/sccache
           key: sccache-${{ runner.os }}-${{ github.run_id }}
@@ -91,7 +92,7 @@ jobs:
       # The sources FetchContent downloads and their sub-builds, keyed on the CMake
       # files that pin them: Configure then skips the clones and downloads.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        if: ${{ inputs.ref == '' }}
+        if: ${{ inputs.ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
         with:
           path: |
             build/_deps/*-src
