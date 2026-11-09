@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.0](https://github.com/happy-dwarf-team/mei/compare/v0.5.0...v0.6.0) (2026-11-09)
+
+### Features
+
+* Dates and the titles of battles, sieges and occupations follow the word order of a Chinese, Japanese or Korean translation, as EU4DLL shows them. The top bar shows `1719年3月17日` instead of `17 3月 1719`, month and year read `1447年4月`, and a battle is `Medine战役` instead of `战役 Medine`. Korean gets `1444년 11월 11일` and a space before the title word. The new setting `cjk_dates` (on) turns it off. Tested in the lab on Steam with the Chinese translation mod: the top bar, two battle titles and a siege title. Not tested yet: Korean in game, and GOG in game. ([#52](https://github.com/happy-dwarf-team/mei/issues/52))
+
 ## [0.5.0](https://github.com/happy-dwarf-team/mei/compare/v0.4.0...v0.5.0) (2026-11-09)
 
 ### Features

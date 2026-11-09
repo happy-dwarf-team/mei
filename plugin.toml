@@ -1,6 +1,6 @@
 id = "mei"
 name = "Mei"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["VulonLok (EU4 Unicode Patch)", "Happy Dwarf Team"]
 description = "Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok."
 api = 2
