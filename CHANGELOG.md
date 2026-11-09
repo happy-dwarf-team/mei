@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0](https://github.com/happy-dwarf-team/mei/compare/v0.3.2...v0.4.0) (2026-11-09)
+
+
+### Features
+
+* run on the GOG build 1.37.5.0 ([#46](https://github.com/happy-dwarf-team/mei/issues/46)) ([5f40585](https://github.com/happy-dwarf-team/mei/commit/5f405851bc6af9669358792ca6044c57a677c0d4))
+
+
+### Bug Fixes
+
+* send the Steam Rich Presence text in UTF-8 ([#49](https://github.com/happy-dwarf-team/mei/issues/49)) ([a264546](https://github.com/happy-dwarf-team/mei/commit/a264546a4c03a3e89c89439689cbb6236bb372d9))
+* strip colour markers by character, with upstream/ at v0.1.16 ([#50](https://github.com/happy-dwarf-team/mei/issues/50)) ([1628c57](https://github.com/happy-dwarf-team/mei/commit/1628c578a4e9d78d643b096fac29640ee6305d1f))
+
 ## [0.3.2](https://github.com/happy-dwarf-team/mei/compare/v0.3.1...v0.3.2) (2026-11-09)
 
 
