@@ -975,6 +975,7 @@ build."eu4-1.37.5-steam-win64" = { rva = 0x23A900 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x23A8C0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x23A8C0 }
 memory = "code"
+signature = "void* (const void* combat, void* result)"
 note = "function hook of the original (format_localized_battle_title)"
 
 [symbol.load_font_atlas]
@@ -1467,6 +1468,48 @@ build."eu4-1.37.5.2-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
 memory = "code"
 note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
+
+[symbol.topbar_date_call_1432256]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1432256, bytes = "E8 35 56 09 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x142C1F6, bytes = "E8 05 52 09 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x142C1F6, bytes = "E8 05 52 09 00" }
+memory = "code"
+note = "CTopbarGui::RefreshSpeedControlsWindow: format_localized_date on the top bar's date, which the original picks by its return 0x143225B; the plugin redirects it"
+
+[symbol.end_of_month_date_call_6e5cef]
+build."eu4-1.37.5-steam-win64" = { rva = 0x6E5CEF, bytes = "E8 4C E0 9F FF" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E57BF, bytes = "E8 AC E5 9F FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E57BF, bytes = "E8 AC E5 9F FF" }
+memory = "code"
+note = "CEU3Date::GetEndOfMonthString: concat_localized_date of a month and a year, which the original picks by its return 0x6E5CF4; the plugin redirects it"
+
+[symbol.month_year_date_call_6e61b9]
+build."eu4-1.37.5-steam-win64" = { rva = 0x6E61B9, bytes = "E8 82 DB 9F FF" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E5C89, bytes = "E8 E2 E0 9F FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E5C89, bytes = "E8 E2 E0 9F FF" }
+memory = "code"
+note = "CEU3Date::GetLongStringMonthYear: concat_localized_date of a month and a year, which the original picks by its return 0x6E61BE; the plugin redirects it"
+
+[symbol.claim_strength_date_call_a52956]
+build."eu4-1.37.5-steam-win64" = { rva = 0xA52956, bytes = "E8 E5 13 69 FF" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xA51916, bytes = "E8 55 24 69 FF" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xA51916, bytes = "E8 55 24 69 FF" }
+memory = "code"
+note = "CMonarchInWaiting::GetClaimStrengthString: concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
+
+[symbol.rebel_date_call_12ba0e6]
+build."eu4-1.37.5-steam-win64" = { rva = 0x12BA0E6, bytes = "E8 55 9C E2 FE" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x12B4246, bytes = "E8 25 FB E2 FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x12B4246, bytes = "E8 25 FB E2 FE" }
+memory = "code"
+note = "CRebelFactionMember::Update: concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
+
+[symbol.game_setup_date_call_1133a58]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1133A58, bytes = "E8 E3 02 FB FE" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x112DDC8, bytes = "E8 A3 5F FB FE" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x112DDC8, bytes = "E8 A3 5F FB FE" }
+memory = "code"
+note = "the game set-up's date: concat_localized_date of a month and a year (EU4DLL's M Y); the plugin redirects it"
 
 [symbol.save_path_transliterate_call_5ca246]
 build."eu4-1.37.5-steam-win64" = { rva = 0x5CA246, bytes = "E8 35 AF 13 01" }

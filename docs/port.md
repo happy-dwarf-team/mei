@@ -23,7 +23,7 @@ author's agreement.
 
 ## What it does so far
 
-Nine features of the original.
+Ten features of the original.
 
 ### Search
 
@@ -212,6 +212,29 @@ shows (not checked with a real IME).
 Not ported yet: the composition display, how it works with Anvil's overlay, which takes
 text input too, and the original's selection boxes, which only shaped paragraphs and fields
 of several rows need.
+
+### Dates and combat titles (`cjk_dates`, with `utf8_localization`)
+
+The game builds dates and titles in English order ("11 November 1444", "Battle of Varna"),
+and a translation mod changes only the words, so a Chinese one read "11 11月 1444" and
+"战役 瓦尔纳". The long date of the localisation (`LONG_EU3_DATE_STRING`) is a translation's
+own: the Chinese mod already writes `$YYYY$年$MONTH$$DD$日`. For the rest, `src/cjk_format.cpp`
+puts the words in the translation's order, and takes the language from the words: a month
+that ends with 月 is Chinese or Japanese (the original's `localized_format.cpp`), one that
+ends with 월 Korean; a title's prefix in Han or kana is Chinese or Japanese, one in Hangul
+Korean. Anything else keeps the game's text.
+
+| Symbol | The game | The plugin |
+| --- | --- | --- |
+| `topbar_date_call_1432256` | `CGregorianDate::GetString` with "d w mw w y" for the top bar | "1444年11月11日" or "1444년 11월 11일" (the original picks this call by its return address) |
+| `end_of_month_date_call_6e5cef`, `month_year_date_call_6e61b9` | `operator+` of a month ("4月 ," or "4月 ") and a year in `CEU3Date::GetEndOfMonthString` and `GetLongStringMonthYear` | "1447年4月" or "1447년 4월" (the original's two calls) |
+| `claim_strength_date_call_a52956`, `rebel_date_call_12ba0e6`, `game_setup_date_call_1133a58` | the same join in a claim's strength, the rebels' outliner entry and the game set-up | the same; EU4DLL changes these three too |
+| `format_localized_battle_title` `0x23A900` | `CCombat::GetName`: `BATTLE_OF`, `SIEGE_OF` or `OCCUPATION_OF`, a space and the place | place first: "瓦尔纳战役", "君士坦丁堡围攻", "北京占领", "바르나 전투" |
+
+The original turns only the titles 之战 and 之围 round and leaves occupations; the current
+Chinese translation (2976470733) writes 战役, 围攻 and 占领, and EU4DLL turns every title round,
+so Mei does as EU4DLL for any Chinese or Japanese prefix and adds the Korean order with a space.
+The place is read as the original reads it (`_pLocation`, its `_Template` and the name).
 
 ### Save names (`utf8_save_names`)
 

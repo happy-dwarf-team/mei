@@ -54,6 +54,14 @@ label = "UTF-8 save names"
 description = "Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled."
 restart = true
 
+[setting.cjk_dates]
+type = "bool"
+# Needs utf8_localization; the order follows the translation's words (src/cjk_format.hpp).
+default = true
+label = "Dates and battle titles in CJK word order"
+description = "With a Chinese, Japanese or Korean translation, dates read 1444年11月11日 or 1444년 11월 11일, and battles, sieges and occupations put the place first, such as 瓦尔纳战役 or 바르나 전투."
+restart = true
+
 [setting.typo_tolerance]
 type = "bool"
 default = true
