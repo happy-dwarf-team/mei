@@ -79,25 +79,17 @@ jobs:
             if ($name -and $null -ne $value -and [Environment]::GetEnvironmentVariable($name) -ne $value) { "$name=$value" }
           } | Out-File (Join-Path $env:RUNNER_TEMP msvc.env) -Encoding utf8
 
-      # Only pushes and pull requests use the caches: a release build (release.yml
+      # Only pushes and pull requests use the cache: a release build (release.yml
       # passes a ref) is compiled from the sources alone, and a run by hand builds
-      # the fonts of any branch.
+      # the fonts of any branch. FetchContent fetches only the Anvil SDK here, so
+      # build/_deps is not cached (CodeQL counts a workspace cache in a workflow
+      # with workflow_dispatch as cache poisoning, whatever its condition).
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: ${{ inputs.ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
         with:
           path: ${{ runner.temp }}/sccache
           key: sccache-${{ runner.os }}-${{ github.run_id }}
           restore-keys: sccache-${{ runner.os }}-
-
-      # The sources FetchContent downloads and their sub-builds, keyed on the CMake
-      # files that pin them: Configure then skips the clones and downloads.
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        if: ${{ inputs.ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
-        with:
-          path: |
-            build/_deps/*-src
-            build/_deps/*-subbuild
-          key: fetchcontent-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
       - name: Configure
         shell: pwsh
