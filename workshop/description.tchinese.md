@@ -7,7 +7,7 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-install.png)
 
 1. **刪除舊的雙字節補丁。** 在 Steam 收藏庫中以右鍵點擊 Europa Universalis IV，選擇「管理」→「瀏覽本機檔案」，刪除遊戲資料夾中的 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾（EU4DLL 或原版 EU4 Unicode Patch 放進去的檔案）。舊補丁和 Anvil 都使用 `version.dll`，兩者只能保留一個。
-2. **下載 Anvil Manager。** 從 GitHub 下載 `AnvilManager.exe`：https://github.com/happy-dwarf-team/anvil/releases/latest 。如果 GitHub 打不開，請稍後重試或使用加速器。
+2. **下載 Anvil Manager。** 鏡像：https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe 。這是 GitHub 上同一檔案的鏡像，每次發行後自動複製，並核對 SHA-256 一致。原始位址（GitHub）：https://github.com/happy-dwarf-team/anvil/releases/latest 。如果一個連結打不開，請試另一個，或稍後重試。
 3. **執行 Manager。** 如果 Windows 顯示「Windows 已保護您的電腦」，請點擊 **其他資訊**，再點擊 **仍要執行**。
 4. **安裝 Anvil。** Manager 會找到遊戲資料夾。在 **Anvil** 分頁中點擊 **Install Anvil**（安裝 Anvil）。如果它提示 `version.dll` 不屬於 Anvil，表示舊補丁的檔案還在：讓 Manager 取代它，或回到第 1 步。需要 Anvil 1.9 或更新版本。
 5. **訂閱 Mei 和一個中文化 Mod**（見下文），並在啟動器的遊玩組合（Playset）中同時啟用它們。
