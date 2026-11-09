@@ -5,6 +5,15 @@
 # Later builds: tools/gog-1.37.5.0.json.
 builds = ["eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 
+[symbol.construct_colorless_text]
+bytes = "48 89 5C 24 08 48 89 6C 24 18 48 89 54 24 10 56"
+build."eu4-1.37.5-steam-win64" = { rva = 0x17046A0 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EE470 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EE470 }
+memory = "code"
+signature = "void* (const void* source, void* target)"
+note = "function hook of the original that does not call the game function (construct_colorless_text)"
+
 [symbol.person_name_block]
 build."eu4-1.37.5-steam-win64" = { rva = 0xA4B48C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 4A 7E 64 FF" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A44C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 BA 8E 64 FF" }
@@ -2409,10 +2418,31 @@ build."eu4-1.37.5.0-gog-win64" = { rva = 0x174EAD6 }
 memory = "code"
 note = "lea r14,[rbx+1568h] in the SDL IME set-up; the original jumps past the UI-less TSF manager"
 
+[symbol.save_transliterate_call_1174a99]
+build."eu4-1.37.5-steam-win64" = { rva = 0x1174A99, bytes = "E8 E2 06 59 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x116EDF9, bytes = "E8 32 01 58 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116EDF9, bytes = "E8 32 01 58 00" }
+memory = "code"
+note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
+
 [symbol.save_transliterate_call_1174e95]
 build."eu4-1.37.5-steam-win64" = { rva = 0x1174E95, bytes = "E8 E6 02 59 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
+memory = "code"
+note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
+
+[symbol.save_transliterate_call_13b8de1]
+build."eu4-1.37.5-steam-win64" = { rva = 0x13B8DE1, bytes = "E8 9A C3 34 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B2F41, bytes = "E8 EA BF 33 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B2F41, bytes = "E8 EA BF 33 00" }
+memory = "code"
+note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
+
+[symbol.save_transliterate_call_13b8f6c]
+build."eu4-1.37.5-steam-win64" = { rva = 0x13B8F6C, bytes = "E8 0F C2 34 00" }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B30CC, bytes = "E8 5F BE 33 00" }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B30CC, bytes = "E8 5F BE 33 00" }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
