@@ -372,6 +372,27 @@ so nothing was expected per frame.
 With Bellows 0.19.0 next to Mei (both Chinese mods) the game started in 14.7 s, 5 plugins
 loaded, the same 229,719 tokens were decoded and the save holds the same names (one start).
 
+## For plugin authors: `mei.text`
+
+A plugin that hands the game text of its own (a tooltip, a map mode's legend) needs to know
+how the game keeps its text. Mei registers the service `mei.text` version 1
+([`include/mei/mei_text.h`](include/mei/mei_text.h), plain C11): `game_text_utf8()` answers
+nonzero when the game keeps and draws its localisation in UTF-8 (`utf8_localization`, on by
+default), so text goes to the game as UTF-8 and Mei draws it. Zero, or no service (no Mei, or a
+Mei from before it), means Windows-1252, with `?` for a character it lacks. The answer holds
+for the process. Read the service, never Mei's `settings.toml`.
+
+```cpp
+#include "mei/mei_text.h"  // copy the header; it is MIT
+
+const auto* mei = host.service<MeiTextService>(MEI_TEXT_SERVICE, MEI_TEXT_SERVICE_VERSION);
+const bool utf8 = mei != nullptr && MEI_TEXT_HAS(mei, game_text_utf8) && mei->game_text_utf8() != 0;
+```
+
+Mei registers it in its own load (phase `early`), so a plugin of phase `main` finds it in its
+`anvil_plugin_load`; declare `mei` as an optional dependency. Within version 1 fields are only
+appended (check `size`, `MEI_TEXT_HAS`).
+
 ## Build
 
 ```
