@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/happy-dwarf-team/mei/compare/v0.5.0...v0.6.0) (2026-11-09)
+
+
+### Features
+
+* dates and battle titles in CJK word order ([#52](https://github.com/happy-dwarf-team/mei/issues/52)) ([53ad911](https://github.com/happy-dwarf-team/mei/commit/53ad91179b532395d7e6fbe58c8152a1fcfd6a4f))
+
 ## [0.5.0](https://github.com/happy-dwarf-team/mei/compare/v0.4.0...v0.5.0) (2026-11-09)
 
 ### Features
