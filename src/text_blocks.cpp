@@ -162,19 +162,15 @@ void main_icon_draw(Cpu& c) noexcept {
     at<std::uint8_t>(c.rbp + c.rcx + 0x1D0) = 0;
 }
 
-// The game breaks a line before a glyph whose width field (+6) is 0, a space; the
-// original asks the line breaking rules before a character above U+00FF.
+// The game ends a line after a glyph whose height field (+6) is 0, a space, and moves
+// the glyphs after it to the next line; with Unicode's rules, also after any glyph where
+// they allow a break after it (wrap_after). RDI is the glyph's last byte. The original
+// asks before a character above U+00FF, which left 「 last on a line and put 」 and ，
+// first on the next.
 void main_wrap(Cpu& c) noexcept {
-    const auto& s = text_state();
-    bool allow;
-    if (s.last_scalar > 0xFF) {
-        const auto last_byte = static_cast<std::uint32_t>(c.rdi);
-        allow = last_byte + 1 >= s.last_bytes && line_before(g_main_breaks.get(), last_byte + 1 - s.last_bytes);
-    } else {
-        const auto width = at<std::uint16_t>(c.rcx + 6);
-        compare_flags<std::uint16_t>(c, width, 0);
-        allow = width == 0;
-    }
+    const auto height = at<std::uint16_t>(c.rcx + 6);
+    compare_flags<std::uint16_t>(c, height, 0);
+    const bool allow = wrap_after(g_main_breaks.get(), static_cast<std::uint32_t>(c.rdi) + 1, height == 0);
     if (!allow) {
         c.rip = g.wrap_branch;
         return;
@@ -252,17 +248,12 @@ void button_advance(Cpu& c) noexcept {
     c.rip = g.button_end;
 }
 
+// As main_wrap; R14 is the glyph's first byte until the advance block.
 void button_wrap(Cpu& c) noexcept {
-    const auto& s = text_state();
-    bool allow;
-    if (s.button_scalar > 0xFF) {
-        allow = line_before(g_button_breaks.get(), static_cast<std::uint32_t>(c.r14) + s.button_extra + 1);
-    } else {
-        const auto width = at<std::uint16_t>(c.r11 + 6);
-        compare_flags<std::uint16_t>(c, width, 0);
-        allow = width == 0;
-    }
-    if (!allow) c.rip = g.button_wrap_branch;
+    const auto height = at<std::uint16_t>(c.r11 + 6);
+    compare_flags<std::uint16_t>(c, height, 0);
+    const auto end = static_cast<std::uint32_t>(c.r14) + text_state().button_extra + 1;
+    if (!wrap_after(g_button_breaks.get(), end, height == 0)) c.rip = g.button_wrap_branch;
 }
 
 void button_draw_format(Cpu& c) noexcept {

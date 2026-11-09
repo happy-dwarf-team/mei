@@ -202,4 +202,8 @@ bool line_before(const eu4unicode::FormattedText* breaks, std::size_t offset) no
     return breaks && breaks->line_before(offset);
 }
 
+bool wrap_after(const eu4unicode::FormattedText* breaks, std::size_t end, bool space) noexcept {
+    return space || line_before(breaks, end);
+}
+
 }  // namespace unicode_patch
