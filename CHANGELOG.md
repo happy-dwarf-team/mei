@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/happy-dwarf-team/mei/compare/v0.3.1...v0.3.2) (2026-11-09)
+
+
+### Bug Fixes
+
+* end a line after the glyph where the rules allow a break ([#47](https://github.com/happy-dwarf-team/mei/issues/47)) ([eed4052](https://github.com/happy-dwarf-team/mei/commit/eed40522ad4d225a6e275d18de274f6b0b288fc8))
+
 ## [0.3.1](https://github.com/happy-dwarf-team/mei/compare/v0.3.0...v0.3.1) (2026-11-08)
 
 
