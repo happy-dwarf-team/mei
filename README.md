@@ -128,7 +128,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Colour stripping by character: 1 hook | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
 | Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
-| Map labels: 17 blocks | on with `utf8_localization` |
+| Map labels: 15 blocks, and the game's two ASCII case functions replaced whole (2 hooks) | on with `utf8_localization` |
 | Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
 | Steam Rich Presence: 1 call (Steam only) | on with `utf8_localization` |
 | The original's unit tests (UTF-8, EU4DLL escapes, script signature, editor, search, pinyin, YAML, Rich Presence, colour stripping, dates), `tests/port_tests.cpp`, `tests/localisation_tests.cpp`, `tests/text_drawing_tests.cpp` and `tests/cjk_format_tests.cpp` | `ctest` 16/16 (Release, MSVC 2022) |
@@ -290,6 +290,10 @@ from `fontpack` (339 characters, 22 UI fonts), laid out as `tools/make-font-mod.
   12,000 frames, the lobby open most of it) the map blocks ran about 2.6 million times and
   the lower-case block 46.2 million times: `0x15503F0` lowers strings byte by byte for more
   than the map (searches, string comparisons), so its block is the busiest of the plugin.
+  Since lab #140 (10.11.2026) the plugin replaces that function and its upper-case twin
+  (`0x14BA7F0`) whole, one call per text instead of a block per byte: in a 1444 game with the
+  Simplified Chinese mods the game lowered about 10,000 bytes a frame, 95% of all the
+  plugin's block calls, and main-thread CPU per frame on the map fell from 4.40 to 4.26 ms.
 - Clicking the lobby's Back ended that game: it exited by itself through `ExitProcess` (Anvil
   wrote its call counts), with no crash report. The build before the map blocks does the
   same in this profile, so it is not the map blocks; why the game exits there is not known.
