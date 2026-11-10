@@ -7,7 +7,7 @@ Every step below is written out; the pictures only help, so you can follow it wi
 ![](https://anvil.happydwarf.dev/workshop/mei-install.png)
 
 1. **Remove the old double-byte patch.** In your Steam library, right-click Europa Universalis IV, then Manage → Browse local files, and delete `version.dll`, `d3d9.dll` and the `plugins` folder (what EU4DLL or the original EU4 Unicode Patch put there). It and Anvil both use `version.dll`, so only one of them can be there.
-2. **Download Anvil Manager:** `AnvilManager.exe` from GitHub, https://github.com/happy-dwarf-team/anvil/releases/latest
+2. **Download Anvil Manager:** `AnvilManager.exe` from GitHub, https://github.com/happy-dwarf-team/anvil/releases/latest (or the same file from our mirror, https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe)
 3. **Run the Manager.** If Windows says "Windows protected your PC", choose **More info**, then **Run anyway**.
 4. **Install Anvil.** The Manager finds the game folder. On the **Anvil** tab, click **Install Anvil**. If it says `version.dll` is not Anvil's, the old patch is still there: let the Manager replace it, or go back to step 1. Mei needs Anvil 1.9 or newer.
 5. **Subscribe to Mei and a translation mod** (below) and enable both in the launcher's playset.
@@ -30,6 +30,8 @@ We tested Mei with these, each with Mei alone and the default settings:
 - Korean: [Korean Language Mod - stability](https://steamcommunity.com/sharedfiles/filedetails/?id=2714934430) (2714934430)
 
 We found no Japanese translation for EU4 1.37 on the Workshop. Mei drew our Japanese test text, but no full translation was tried.
+
+Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of `aaa1444_11_11.eu4`), lets your Steam friends read your country's name, and writes dates and the titles of battles and sieges in the translation's word order (`1719年3月17日` instead of `17 3月 1719`, `Medine战役`), as EU4DLL did. The dates were tested with the Simplified Chinese mod on Steam; Korean dates not yet in the game.
 
 ## If something is wrong
 
