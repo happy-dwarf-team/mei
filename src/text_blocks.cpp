@@ -640,21 +640,23 @@ void map_adjust_last(Cpu& c) noexcept {
 }
 
 // Upper and lower case of ASCII letters only: the C runtime's byte-wise case
-// change would alter UTF-8 bytes.
-void map_upper(Cpu& c) noexcept {
-    c.rbx = c.rax + c.rbp;
-    auto& letter = at<std::uint8_t>(c.rbx);
-    if (letter >= 'a' && letter <= 'z') letter = static_cast<std::uint8_t>(letter - 0x20);
-    c.rdi = low(c.rdi + 1);
-    c.rax = low(c.rdi);
+// change would alter UTF-8 bytes. The original replaces the loop body of the
+// game's two functions (map_upper_block, map_lower_block), one block per byte;
+// these replace the functions whole, one call per text. The game lowers about
+// 10,000 bytes a frame this way (lab #140), so the per-byte blocks cost more than
+// all the text drawing blocks together.
+anvil::HookOf<sym::lower_ascii_text> g_lower_text;
+anvil::HookOf<sym::upper_ascii_text> g_upper_text;
+
+// The game's loop: from the first byte while it is not zero and below size.
+void upper_text(char* text, std::uint64_t size) noexcept {
+    for (std::uint64_t i = 0; i < size && text[i]; ++i)
+        if (text[i] >= 'a' && text[i] <= 'z') text[i] = static_cast<char>(text[i] - 0x20);
 }
 
-void map_lower(Cpu& c) noexcept {
-    c.rbx = c.rax + c.rbp;
-    auto& letter = at<std::uint8_t>(c.rbx);
-    if (letter >= 'A' && letter <= 'Z') letter = static_cast<std::uint8_t>(letter + 0x20);
-    c.rdi = low(c.rdi + 1);
-    c.rax = low(c.rdi);
+void lower_text(char* text, std::uint64_t size) noexcept {
+    for (std::uint64_t i = 0; i < size && text[i]; ++i)
+        if (text[i] >= 'A' && text[i] <= 'Z') text[i] = static_cast<char>(text[i] + 0x20);
 }
 
 // --- the font loader (0x1595570) ---
@@ -751,9 +753,9 @@ std::size_t load_map_blocks(anvil::Host& host, std::vector<anvil::Change>& chang
     replace(sym::map_adjust_glyph_block, map_adjust_glyph);
     replace(sym::map_adjust_gap_end_block, map_adjust_gap_end);
     replace(sym::map_adjust_last_block, map_adjust_last);
-    replace(sym::map_upper_block, map_upper);
-    replace(sym::map_lower_block, map_lower);
-    return changes.size() - start;
+    host.hook(g_upper_text, sym::upper_ascii_text, upper_text);
+    host.hook(g_lower_text, sym::lower_ascii_text, lower_text);
+    return changes.size() - start + 2;
 }
 
 std::string font_loader_summary() {

@@ -150,6 +150,16 @@ INLINE = {
     "editor_restricted_characters": (0x1D91328, 'type = "char"',
                                      "the seven characters a restricted text field refuses (consume_editor_commit)"),
 }
+# Game functions this plugin hooks whole where the original replaces a block in their loop, with
+# their C signatures: one call per text instead of one block per byte (lab #140).
+OWN_HOOKS = {
+    "lower_ascii_text": (0x15503F0, "void (char* text, uint64_t size)",
+                         "lowers a text in place with the C runtime's tolower up to its first zero or size bytes "
+                         "(map_lower_block is its loop body); the plugin replaces it whole and lowers ASCII only"),
+    "upper_ascii_text": (0x14BA7F0, "void (char* text, uint64_t size)",
+                         "uppers a text in place with the C runtime's toupper up to its first zero or size bytes "
+                         "(map_upper_block is its loop body); the plugin replaces it whole and uppers ASCII only"),
+}
 # Calls the original recognises by where they return on Steam (native_search.cpp, and plugin.cpp
 # for text input): their call instructions, so that the plugin finds them on every build.
 CALL_SITES = {
@@ -271,6 +281,9 @@ for name, (rva, kind, note) in INLINE.items():
                 f'note = "{note}"', ""]
     else:
         out += [f"[symbol.{name}]", *where(name, rva, 0), 'memory = "read"', kind, f'note = "{note}"', ""]
+for name, (rva, signature, note) in OWN_HOOKS.items():
+    out += [f"[symbol.{name}]", *where(name, rva, 16), 'memory = "code"', f'signature = "{signature}"',
+            f'note = "{note}"', ""]
 for rva, (name, size, note) in CALL_SITES.items():
     out += [f"[symbol.{name}]", *where(name, rva, size), 'memory = "code"',
             f'note = "{note}; the plugin maps where it returns to the Steam address the original checks"', ""]

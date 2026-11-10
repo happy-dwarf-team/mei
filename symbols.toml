@@ -1390,6 +1390,24 @@ memory = "read"
 type = "char"
 note = "the seven characters a restricted text field refuses (consume_editor_commit)"
 
+[symbol.lower_ascii_text]
+bytes = "48 83 FA 01 72 5C 48 89 6C 24 18 56 48 83 EC 20"
+build."eu4-1.37.5-steam-win64" = { rva = 0x15503F0 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547310 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547310 }
+memory = "code"
+signature = "void (char* text, uint64_t size)"
+note = "lowers a text in place with the C runtime's tolower up to its first zero or size bytes (map_lower_block is its loop body); the plugin replaces it whole and lowers ASCII only"
+
+[symbol.upper_ascii_text]
+bytes = "48 83 FA 01 72 5C 48 89 6C 24 18 56 48 83 EC 20"
+build."eu4-1.37.5-steam-win64" = { rva = 0x14BA7F0 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4650 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4650 }
+memory = "code"
+signature = "void (char* text, uint64_t size)"
+note = "uppers a text in place with the C runtime's toupper up to its first zero or size bytes (map_upper_block is its loop body); the plugin replaces it whole and uppers ASCII only"
+
 [symbol.country_find_call_efc38f]
 build."eu4-1.37.5-steam-win64" = { rva = 0xEFC38F, bytes = "E8 0C 9E 80 00" }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAB3F, bytes = "E8 7C 52 7F 00" }
