@@ -163,7 +163,8 @@ fonts from the system's fonts.
 ### Map labels (with `utf8_localization`)
 
 Country names on the map come from the localisation and go through their own routines.
-17 of the original's map blocks (`map_hooks.asm`) decode them as the text blocks do:
+15 of the original's map blocks (`map_hooks.asm`) decode them as the text blocks do, and two hooks
+replace the case change:
 
 | Game routine | Blocks |
 | --- | --- |
@@ -171,7 +172,7 @@ Country names on the map come from the localisation and go through their own rou
 | the label fit `0x159E510` | format, measure, icon end |
 | country labels along their curve `0xFD3850`, `0xFD5B70` | draw, character count (the letter spacing divides by characters, not bytes), spacing, advance |
 | letter spacing `0xFD7200` | copy, glyph, gap end, last character, vertex count |
-| case change of label text `0x14BA7F0`, `0x15503F0` | upper and lower case of ASCII letters only, as in the original (the C runtime's byte-wise change would alter UTF-8 bytes) |
+| case change of label text `0x14BA7F0`, `0x15503F0` | upper and lower case of ASCII letters only, as in the original (the C runtime's byte-wise change would alter UTF-8 bytes); the original replaces the loop body with a block per byte, Mei hooks both functions whole (mei#61) |
 
 As for the interface, the original's whole-label shaping, atlas page tags and kerning for
 characters above U+00FF are not ported. Mei's map atlas (for Mapfont and tahoma_60) is

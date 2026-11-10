@@ -9,8 +9,8 @@
 // characters every atlas holds U+0020-U+007E and U+00A0-U+00FF, and at 0x80-0x9F the
 // Windows-1252 characters of those bytes, where the game's own fonts hold them: text that
 // is not UTF-8 (names from scripts and saves) is drawn one byte per glyph.
-// bc3 stores the alpha in 4x4 blocks (one byte a pixel instead of four), for the large map
-// atlas; mips adds the mip chain the game's own Mapfont has. A character the font files
+// bc3 stores the alpha in 4x4 blocks (one byte a pixel instead of four), as the Simplified
+// Chinese mod's fonts are stored; argb keeps it exact at four times the size. mips adds the mip chain the game's own Mapfont has. A character the font files
 // lack is left out (and counted), so the game draws it as it draws any missing glyph.
 #include "unicode_layout.hpp"
 #include "unicode_text.hpp"
