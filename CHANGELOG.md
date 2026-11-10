@@ -2,15 +2,13 @@
 
 ## [0.7.0](https://github.com/happy-dwarf-team/mei/compare/v0.6.0...v0.7.0) (2026-11-10)
 
-
 ### Features
 
-* the mei.text service for other plugins ([#53](https://github.com/happy-dwarf-team/mei/issues/53)) ([f554a4e](https://github.com/happy-dwarf-team/mei/commit/f554a4ed7e869ce0d8c34dec817c05be1b94f8ef))
-
+* Plugins that write their own text into the game, such as map mode names from Anvil's `anvil-map` and the tooltip lines of `anvil-script` effects, now learn from Mei that the game shows text in UTF-8, so Chinese, Japanese and Korean names from those plugins come out right instead of garbled. Before, with no way to ask, they wrote Windows-1252 even with Mei on. For plugin authors this is the new service `mei.text` (version 1, header `mei_text.h`). Nothing changes for players without such plugins. Tested in the lab on Steam 1.37.5: Anvil lists the service at start. Not checked in the game yet: a plugin reading the answer and its Chinese text on screen. ([#53](https://github.com/happy-dwarf-team/mei/issues/53))
 
 ### Performance
 
-* change the case of a text in one call instead of a block per byte ([#61](https://github.com/happy-dwarf-team/mei/issues/61)) ([1aa9901](https://github.com/happy-dwarf-team/mei/commit/1aa9901a57c459f737d66b385d29ccea99140557))
+* Mei changes the case of a text in one call instead of one call per letter. The game lowers and uppers short texts all the time, and Mei used to handle each letter on its own: about 10,000 letters a frame in a game with the Chinese translation mods. In the lab, on the same walk through the menu, a new 1444 game, an event, the province finder and the load dialog, Mei's calls for this went from 298 million to 23 million, and the texts looked the same. The main thread's time per frame on the paused map went from 4.40 to 4.26 ms, a small gain about the size of the spread between runs. Tested on Steam 1.37.5; on GOG only checked against the game's code, not in the game. ([#61](https://github.com/happy-dwarf-team/mei/issues/61))
 
 ## [0.6.0](https://github.com/happy-dwarf-team/mei/compare/v0.5.0...v0.6.0) (2026-11-09)
 
