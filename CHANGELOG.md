@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/happy-dwarf-team/mei/compare/v0.6.0...v0.7.0) (2026-11-10)
+
+
+### Features
+
+* the mei.text service for other plugins ([#53](https://github.com/happy-dwarf-team/mei/issues/53)) ([f554a4e](https://github.com/happy-dwarf-team/mei/commit/f554a4ed7e869ce0d8c34dec817c05be1b94f8ef))
+
+
+### Performance
+
+* change the case of a text in one call instead of a block per byte ([#61](https://github.com/happy-dwarf-team/mei/issues/61)) ([1aa9901](https://github.com/happy-dwarf-team/mei/commit/1aa9901a57c459f737d66b385d29ccea99140557))
+
 ## [0.6.0](https://github.com/happy-dwarf-team/mei/compare/v0.5.0...v0.6.0) (2026-11-09)
 
 ### Features
