@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/happy-dwarf-team/mei/compare/v0.7.0...v0.7.1) (2026-11-11)
+
+
+### Performance
+
+* store the interface font atlases as BC3 ([#62](https://github.com/happy-dwarf-team/mei/issues/62)) ([cccadfe](https://github.com/happy-dwarf-team/mei/commit/cccadfe448287daf925b409baa132d2fd02f3d2d))
+
 ## [0.7.0](https://github.com/happy-dwarf-team/mei/compare/v0.6.0...v0.7.0) (2026-11-10)
 
 ### Features
