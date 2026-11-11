@@ -2,10 +2,9 @@
 
 ## [0.7.1](https://github.com/happy-dwarf-team/mei/compare/v0.7.0...v0.7.1) (2026-11-11)
 
-
 ### Performance
 
-* store the interface font atlases as BC3 ([#62](https://github.com/happy-dwarf-team/mei/issues/62)) ([cccadfe](https://github.com/happy-dwarf-team/mei/commit/cccadfe448287daf925b409baa132d2fd02f3d2d))
+* Mei's fonts take half the space. Its interface font atlases are now stored compressed (BC3, the format the Chinese Language Mod uses for its own fonts) instead of uncompressed, so they take about 67 MB instead of 139 MB on disk and in the Workshop download. When the game draws Mei's interface fonts, it holds about 61 MB less memory in the main menu and 73 MB less on the map (7 starts each). The text looks the same: side by side at 2–3× zoom, Chinese, Japanese, Korean and Latin text matched, with under 0.1% of pixels off by more than 16 of 255. With the Chinese Language Mod, which brings its own fonts, Mei draws none of these atlases and nothing changes; with the Korean mod it draws two of them, and text and memory were the same with both formats. Tested on Steam 1.37.5. The start time was not measured closely enough to show a difference. ([#62](https://github.com/happy-dwarf-team/mei/issues/62)) ([cccadfe](https://github.com/happy-dwarf-team/mei/commit/cccadfe448287daf925b409baa132d2fd02f3d2d))
 
 ## [0.7.0](https://github.com/happy-dwarf-team/mei/compare/v0.6.0...v0.7.0) (2026-11-10)
 
