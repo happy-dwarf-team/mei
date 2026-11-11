@@ -38,7 +38,7 @@ if ($LASTEXITCODE) { throw 'mei-charset.py failed' }
 # atlas is smaller than the original's 88 pixels so that all characters fit one page.
 New-Item -ItemType Directory $Out -Force | Out-Null
 & $MeiFonts $chars $Out --font $font `
-    ui-14=14,2048,argb,white ui-16=16,2048,argb,white ui-18=18,2048,argb,white ui-24=24,2048,argb,white `
+    ui-14=14,2048,bc3,white ui-16=16,2048,bc3,white ui-18=18,2048,bc3,white ui-24=24,2048,bc3,white `
     map=48,4096,bc3,black,mips
 if ($LASTEXITCODE) { throw 'meifonts failed' }
 Copy-Item (Join-Path $root 'fonts/SourceHanSans-OFL.txt') (Join-Path $Out 'OFL.txt')
