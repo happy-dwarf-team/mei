@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/happy-dwarf-team/mei/compare/v0.7.1...v0.8.0) (2026-11-12)
+
+
+### Features
+
+* show the settings and the description in eight languages ([#65](https://github.com/happy-dwarf-team/mei/issues/65)) ([7f94cbb](https://github.com/happy-dwarf-team/mei/commit/7f94cbbe97d615dfa36d3f178eb311fa68f61c56))
+
 ## [0.7.1](https://github.com/happy-dwarf-team/mei/compare/v0.7.0...v0.7.1) (2026-11-11)
 
 ### Performance
