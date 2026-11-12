@@ -1,0 +1,25 @@
+# The plugin's texts in French: the description in plugin.toml and the
+# settings' texts in settings.toml, each by its English words.
+# Change them together with the English text: anvil check reports an entry that no longer matches.
+status = "draft"            # "checked" once a native speaker checked it
+
+[text]
+"Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok." = "Texte chinois, japonais et coréen pour un mod de traduction : encodages UTF-8 et EU4DLL, polices, retours à la ligne, recherche en pinyin et saisie. Portage d'EU4 Unicode Patch de VulonLok."
+"Chinese and pinyin search" = "Recherche en chinois et en pinyin"
+"The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input." = "La liste des pays de la diplomatie et la recherche de provinces reconnaissent aussi les caractères chinois, le pinyin complet, les initiales et les saisies mixtes."
+"UTF-8 localisation" = "Localisation en UTF-8"
+"The game keeps its localisation in UTF-8 and draws it, and EU4DLL translation packs' escapes become UTF-8. Keep the search on with it: the game's own search misses accented names in UTF-8." = "Le jeu conserve sa localisation en UTF-8 et l'affiche, et les séquences d'échappement des packs de traduction EU4DLL deviennent de l'UTF-8. Gardez la recherche activée avec ce réglage : la recherche du jeu ne trouve pas les noms accentués en UTF-8."
+"UTF-8 in scripts and saves" = "UTF-8 dans les scripts et les sauvegardes"
+"Script files and saves may be in UTF-8, with or without a signature, and EU4DLL escapes in them become UTF-8, so names from a supplementary translation mod show as they read. Saves written with it keep those names in UTF-8." = "Les fichiers de script et les sauvegardes peuvent être en UTF-8, avec ou sans signature, et leurs séquences d'échappement EU4DLL deviennent de l'UTF-8 : les noms d'un mod de traduction complémentaire s'affichent tels qu'ils s'écrivent. Les sauvegardes écrites avec ce réglage gardent ces noms en UTF-8."
+"Mei's fonts" = "Polices de Mei"
+"Where the game would use one of its own fonts, which have no Chinese, Japanese or Korean letters, it uses Mei's (Source Han Sans) instead. Fonts that a translation mod brings with such letters stay." = "Là où le jeu utiliserait l'une de ses propres polices, qui n'ont pas de caractères chinois, japonais ou coréens, il utilise celles de Mei (Source Han Sans). Les polices qu'un mod de traduction apporte avec ces caractères restent."
+"UTF-8 text input" = "Saisie de texte en UTF-8"
+"Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character." = "Le texte tapé et celui validé par l'IME arrivent dans les champs de texte en UTF-8 : on peut donc écrire en chinois, en japonais et en coréen. Les touches, la souris, les sélections, l'annulation et le collage avancent caractère par caractère."
+"UTF-8 save names" = "Noms de sauvegarde en UTF-8"
+"Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled." = "Les sauvegardes gardent le nom du pays et le nom que vous tapez tels qu'ils s'écrivent, par exemple 奥斯曼1444_11_11.eu4, au lieu de lettres latines : deux pays n'obtiennent plus le même nom de fichier. Un jeu avec EU4DLL affiche ces noms de façon illisible."
+"Dates and battle titles in CJK word order" = "Dates et titres de batailles dans l'ordre des mots CJC"
+"With a Chinese, Japanese or Korean translation, dates read 1444年11月11日 or 1444년 11월 11일, and battles, sieges and occupations put the place first, such as 瓦尔纳战役 or 바르나 전투." = "Avec une traduction chinoise, japonaise ou coréenne, les dates s'écrivent 1444年11月11日 ou 1444년 11월 11일, et les batailles, sièges et occupations mettent le lieu en premier, par exemple 瓦尔纳战役 ou 바르나 전투."
+"Allow one typo in long pinyin" = "Tolérer une faute de frappe dans un long pinyin"
+"Full pinyin of 5 or more letters still matches with one letter inserted, deleted, replaced or two neighbours swapped." = "Un pinyin complet de 5 lettres ou plus correspond encore avec une lettre ajoutée, supprimée ou remplacée, ou deux lettres voisines inversées."
+"Fuzzy pinyin" = "Pinyin approximatif"
+"zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other." = "zh/z, ch/c, sh/s, n/l, en/eng et in/ing se correspondent."

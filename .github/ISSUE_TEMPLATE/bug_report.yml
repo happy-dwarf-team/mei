@@ -62,7 +62,7 @@ body:
     id: versions
     attributes:
       label: Plugin and Anvil versions
-      description: "From `anvil/anvil.log`, e.g. `Anvil 1.10.0` and `mei 0.3.0: loaded`."
+      description: "From `anvil/anvil.log`, e.g. `Anvil 1.20.0` and `mei 0.7.1: loaded`."
     validations:
       required: true
   - type: input
