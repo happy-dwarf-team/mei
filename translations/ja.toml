@@ -1,0 +1,25 @@
+# The plugin's texts in Japanese: the description in plugin.toml and the
+# settings' texts in settings.toml, each by its English words.
+# Change them together with the English text: anvil check reports an entry that no longer matches.
+status = "draft"            # "checked" once a native speaker checked it
+
+[text]
+"Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok." = "翻訳 MOD のための中国語・日本語・韓国語テキスト対応：UTF-8 と EU4DLL のエンコーディング、フォント、改行、ピンイン検索、文字入力。VulonLok 氏の EU4 Unicode Patch の移植です。"
+"Chinese and pinyin search" = "中国語とピンインの検索"
+"The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input." = "外交の国家リストとプロヴィンス検索で、漢字、ピンインの全綴り、頭文字、それらを混ぜた入力でも一致するようにします。"
+"UTF-8 localisation" = "UTF-8 ローカライズ"
+"The game keeps its localisation in UTF-8 and draws it, and EU4DLL translation packs' escapes become UTF-8. Keep the search on with it: the game's own search misses accented names in UTF-8." = "ゲームがローカライズテキストを UTF-8 のまま保持して表示し、EU4DLL 翻訳パックのエスケープは UTF-8 に変換されます。この設定と一緒に検索もオンにしてください。ゲーム本来の検索は UTF-8 のアクセント付きの名前を見つけられません。"
+"UTF-8 in scripts and saves" = "スクリプトとセーブの UTF-8"
+"Script files and saves may be in UTF-8, with or without a signature, and EU4DLL escapes in them become UTF-8, so names from a supplementary translation mod show as they read. Saves written with it keep those names in UTF-8." = "スクリプトファイルとセーブを UTF-8（BOM の有無を問わず）で扱えるようにし、その中の EU4DLL のエスケープを UTF-8 に変換します。補助翻訳 MOD の名前が正しく表示されます。この設定で書き込んだセーブは、それらの名前を UTF-8 のまま保持します。"
+"Mei's fonts" = "Mei のフォント"
+"Where the game would use one of its own fonts, which have no Chinese, Japanese or Korean letters, it uses Mei's (Source Han Sans) instead. Fonts that a translation mod brings with such letters stay." = "ゲームが本来の（中国語・日本語・韓国語の文字を含まない）フォントを使う箇所で、代わりに Mei のフォント（源ノ角ゴシック）を使います。翻訳 MOD が同梱する、これらの文字を含むフォントはそのまま使われます。"
+"UTF-8 text input" = "UTF-8 テキスト入力"
+"Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character." = "キー入力した文字と IME で確定した文字が UTF-8 のままテキスト欄に届くので、中国語・日本語・韓国語を入力できます。キー操作、マウス、選択、元に戻す、貼り付けは文字単位で動きます。"
+"UTF-8 save names" = "UTF-8 のセーブ名"
+"Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled." = "セーブに国名と入力した名前をラテン文字にせずそのまま残します（例: 奥斯曼1444_11_11.eu4）。2 つの国が同じファイル名になることはなくなります。EU4DLL を使うゲームでは、こうした名前は文字化けして表示されます。"
+"Dates and battle titles in CJK word order" = "日付と戦闘の題名を日中韓の語順で表示"
+"With a Chinese, Japanese or Korean translation, dates read 1444年11月11日 or 1444년 11월 11일, and battles, sieges and occupations put the place first, such as 瓦尔纳战役 or 바르나 전투." = "中国語・日本語・韓国語の翻訳では、日付が 1444年11月11日 や 1444년 11월 11일 のように表示され、戦闘・包囲・占領は 瓦尔纳战役 や 바르나 전투 のように地名が先に来ます。"
+"Allow one typo in long pinyin" = "長いピンインで 1 文字の誤入力を許す"
+"Full pinyin of 5 or more letters still matches with one letter inserted, deleted, replaced or two neighbours swapped." = "5 文字以上のピンインの全綴りは、1 文字の挿入・削除・置き換え、または隣り合う 2 文字の入れ替えがあっても一致します。"
+"Fuzzy pinyin" = "あいまいピンイン"
+"zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other." = "zh/z、ch/c、sh/s、n/l、en/eng、in/ing を互いに一致させます。"

@@ -13,8 +13,8 @@ include(FetchContent)
 # from the SDK archive of an Anvil release. URL_HASH is the archive's line in
 # the release's SHA256SUMS.txt.
 FetchContent_Declare(anvil_sdk
-    URL https://github.com/happy-dwarf-team/anvil/releases/download/v1.9.0/anvil-sdk-windows-x64.zip
-    URL_HASH SHA256=307efed144e4ff6e543ce28d435ab1820803cffb98b8efd5b37d3271944268ab)
+    URL https://github.com/happy-dwarf-team/anvil/releases/download/v1.20.0/anvil-sdk-windows-x64.zip
+    URL_HASH SHA256=4a42d527018b143051c2c0c12ea40aa8096c7b108b7f24b2fb941530e1e2b7dd)
 FetchContent_MakeAvailable(anvil_sdk)
 
 # The original's text logic, built from the upstream/ submodule as its own
@@ -136,6 +136,7 @@ target_link_libraries(mei PRIVATE port_search port_localisation port_text_drawin
 # apart (tools/build-fonts.ps1) and go to the Workshop mod's gfx/fonts/mei/.
 install(TARGETS mei RUNTIME DESTINATION mei COMPONENT plugin)
 install(FILES plugin.toml symbols.toml settings.toml LICENSE DESTINATION mei COMPONENT plugin)
+install(DIRECTORY translations DESTINATION mei COMPONENT plugin FILES_MATCHING PATTERN "*.toml")
 install(FILES ${UPSTREAM}/THIRD_PARTY_NOTICES.md DESTINATION mei/third-party COMPONENT plugin)
 install(FILES ${UPSTREAM}/vendor/utfcpp/LICENSE DESTINATION mei/third-party RENAME utfcpp-LICENSE.txt COMPONENT plugin)
 

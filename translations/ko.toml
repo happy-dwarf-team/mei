@@ -1,0 +1,25 @@
+# The plugin's texts in Korean: the description in plugin.toml and the
+# settings' texts in settings.toml, each by its English words.
+# Change them together with the English text: anvil check reports an entry that no longer matches.
+status = "draft"            # "checked" once a native speaker checked it
+
+[text]
+"Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok." = "번역 모드를 위한 중국어, 일본어, 한국어 텍스트 지원: UTF-8과 EU4DLL 인코딩, 글꼴, 줄 바꿈, 병음 검색, 입력. VulonLok의 EU4 Unicode Patch를 이식했습니다."
+"Chinese and pinyin search" = "중국어와 병음 검색"
+"The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input." = "외교 화면의 국가 목록과 프로빈스 찾기에서 한자, 전체 병음, 머리글자, 섞어 쓴 입력도 찾습니다."
+"UTF-8 localisation" = "UTF-8 현지화"
+"The game keeps its localisation in UTF-8 and draws it, and EU4DLL translation packs' escapes become UTF-8. Keep the search on with it: the game's own search misses accented names in UTF-8." = "게임이 현지화 텍스트를 UTF-8로 유지하고 표시하며, EU4DLL 번역 팩의 이스케이프는 UTF-8로 바뀝니다. 이 설정과 함께 검색을 켜 두세요. 게임 자체 검색은 UTF-8의 악센트가 있는 이름을 찾지 못합니다."
+"UTF-8 in scripts and saves" = "스크립트와 세이브의 UTF-8"
+"Script files and saves may be in UTF-8, with or without a signature, and EU4DLL escapes in them become UTF-8, so names from a supplementary translation mod show as they read. Saves written with it keep those names in UTF-8." = "스크립트 파일과 세이브가 UTF-8(BOM 유무와 관계없이)일 수 있고, 그 안의 EU4DLL 이스케이프는 UTF-8로 바뀌어 보조 번역 모드의 이름이 제대로 보입니다. 이 설정으로 저장한 세이브는 그 이름을 UTF-8로 유지합니다."
+"Mei's fonts" = "Mei 글꼴"
+"Where the game would use one of its own fonts, which have no Chinese, Japanese or Korean letters, it uses Mei's (Source Han Sans) instead. Fonts that a translation mod brings with such letters stay." = "게임이 중국어, 일본어, 한국어 문자가 없는 자체 글꼴을 쓰는 곳에서 대신 Mei의 글꼴(본고딕)을 사용합니다. 번역 모드가 가져온, 이런 문자가 있는 글꼴은 그대로 둡니다."
+"UTF-8 text input" = "UTF-8 텍스트 입력"
+"Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character." = "직접 입력하거나 IME로 확정한 텍스트가 UTF-8로 텍스트 칸에 들어가므로 중국어, 일본어, 한국어를 입력할 수 있습니다. 키, 마우스, 선택, 실행 취소, 붙여넣기는 글자 단위로 움직입니다."
+"UTF-8 save names" = "UTF-8 세이브 이름"
+"Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled." = "세이브가 국가 이름과 입력한 이름을 라틴 문자 대신 그대로 유지합니다(예: 奥斯曼1444_11_11.eu4). 두 국가가 같은 파일 이름을 받는 일이 없어집니다. EU4DLL을 쓰는 게임에서는 이런 이름이 깨져 보입니다."
+"Dates and battle titles in CJK word order" = "날짜와 전투 제목을 한중일 어순으로"
+"With a Chinese, Japanese or Korean translation, dates read 1444年11月11日 or 1444년 11월 11일, and battles, sieges and occupations put the place first, such as 瓦尔纳战役 or 바르나 전투." = "중국어, 일본어, 한국어 번역에서는 날짜가 1444年11月11日 또는 1444년 11월 11일로 표시되고, 전투, 포위, 점령은 瓦尔纳战役이나 바르나 전투처럼 장소가 먼저 옵니다."
+"Allow one typo in long pinyin" = "긴 병음에서 오타 하나 허용"
+"Full pinyin of 5 or more letters still matches with one letter inserted, deleted, replaced or two neighbours swapped." = "5글자 이상의 전체 병음은 한 글자를 넣거나 빼거나 바꾸거나 이웃한 두 글자를 바꿔도 찾습니다."
+"Fuzzy pinyin" = "퍼지 병음"
+"zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other." = "zh/z, ch/c, sh/s, n/l, en/eng, in/ing를 서로 같은 것으로 찾습니다."

@@ -110,15 +110,17 @@ jobs:
       - name: Tests
         run: ctest --test-dir build -C Release --output-on-failure
 
-      # CI has no eu4.exe, so `anvil check` checks the schemas and that
-      # symbols.lock matches symbols.toml with result = "ok".
+      # CI has no eu4.exe, so `anvil check` checks the schemas, that every text
+      # of plugin.toml and settings.toml has a translation in all eight files of
+      # translations/ (--complete-translations), and that symbols.lock matches
+      # symbols.toml with result = "ok".
       - name: anvil check
         shell: pwsh
         run: |
           $anvil = 'build/_deps/anvil_sdk-src/bin/anvil.exe'
           if (-not (Test-Path $anvil)) { Write-Output "::error::$anvil not found"; exit 1 }
           & $anvil --version
-          & $anvil check . --format github
+          & $anvil check . --format github --complete-translations
           exit $LASTEXITCODE
 
       # mei/ as Anvil loads it, with the package's SHA256SUMS.txt.

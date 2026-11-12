@@ -81,6 +81,11 @@ Anvil overlay or `anvil/data/mei/settings.toml`. Every setting applies at the ne
 
 A `pinyin.txt` in the plugin folder adds readings, as in the original.
 
+With Anvil 1.20 or newer, the Anvil panel and Anvil Manager show these settings and Mei's description in the player's
+language: French, German, Spanish, Simplified and Traditional Chinese, Japanese, Korean or
+Polish, from [`translations/`](translations/). The translations are drafts that native speakers
+have not checked yet; a correction is welcome in an issue or a pull request.
+
 ## Limitations
 
 - **Saves.** A save written with `utf8_scripts` holds these names in UTF-8, which a game without

@@ -1,0 +1,25 @@
+# The plugin's texts in Simplified Chinese: the description in plugin.toml and the
+# settings' texts in settings.toml, each by its English words.
+# Change them together with the English text: anvil check reports an entry that no longer matches.
+status = "draft"            # "checked" once a native speaker checked it
+
+[text]
+"Chinese, Japanese and Korean text for a translation mod: UTF-8 and EU4DLL encodings, fonts, line breaks, pinyin search and typing. A port of EU4 Unicode Patch by VulonLok." = "为汉化模组提供中文、日文和韩文文本支持：UTF-8 与 EU4DLL 编码、字体、换行、拼音搜索和输入。移植自 VulonLok 的 EU4 Unicode Patch。"
+"Chinese and pinyin search" = "中文与拼音搜索"
+"The diplomacy country list and the province finder also match Chinese characters, full pinyin, initials and mixed input." = "外交界面的国家列表和省份查找也能匹配汉字、全拼、首字母以及混合输入。"
+"UTF-8 localisation" = "UTF-8 本地化"
+"The game keeps its localisation in UTF-8 and draws it, and EU4DLL translation packs' escapes become UTF-8. Keep the search on with it: the game's own search misses accented names in UTF-8." = "游戏以 UTF-8 保存并显示本地化文本，EU4DLL 汉化包的转义字符也会转换为 UTF-8。开启此项时请保持搜索开启：游戏自带的搜索在 UTF-8 下找不到带重音符号的名称。"
+"UTF-8 in scripts and saves" = "脚本和存档中的 UTF-8"
+"Script files and saves may be in UTF-8, with or without a signature, and EU4DLL escapes in them become UTF-8, so names from a supplementary translation mod show as they read. Saves written with it keep those names in UTF-8." = "脚本文件和存档可以使用 UTF-8（带或不带 BOM），其中的 EU4DLL 转义字符会转换为 UTF-8，因此补充汉化模组中的名称会正常显示。开启此项后写入的存档会以 UTF-8 保留这些名称。"
+"Mei's fonts" = "Mei 的字体"
+"Where the game would use one of its own fonts, which have no Chinese, Japanese or Korean letters, it uses Mei's (Source Han Sans) instead. Fonts that a translation mod brings with such letters stay." = "游戏原本使用自带字体（不含中文、日文或韩文字符）的地方，会改用 Mei 的字体（思源黑体）。汉化模组自带的含有这些字符的字体保持不变。"
+"UTF-8 text input" = "UTF-8 文本输入"
+"Typed and IME-committed text reaches text fields as UTF-8, so Chinese, Japanese and Korean can be typed. Keys, the mouse, selections, undo and paste step by character." = "键入的文字和输入法上屏的文字以 UTF-8 送入文本框，因此可以输入中文、日文和韩文。按键、鼠标、选择、撤销和粘贴都按字符移动。"
+"UTF-8 save names" = "UTF-8 存档名称"
+"Saves keep the country's name and the name you type as they read, such as 奥斯曼1444_11_11.eu4, instead of Latin letters, so two countries no longer get the same file name. A game with EU4DLL shows such names garbled." = "存档会按原样保留国家名称和你输入的名称，例如 奥斯曼1444_11_11.eu4，而不是转换为拉丁字母，因此两个国家不会再得到相同的文件名。使用 EU4DLL 的游戏会把这类名称显示为乱码。"
+"Dates and battle titles in CJK word order" = "按中日韩语序显示日期和战役标题"
+"With a Chinese, Japanese or Korean translation, dates read 1444年11月11日 or 1444년 11월 11일, and battles, sieges and occupations put the place first, such as 瓦尔纳战役 or 바르나 전투." = "使用中文、日文或韩文翻译时，日期显示为 1444年11月11日 或 1444년 11월 11일，战役、围城和占领会把地名放在前面，例如 瓦尔纳战役 或 바르나 전투。"
+"Allow one typo in long pinyin" = "长拼音允许一处错字"
+"Full pinyin of 5 or more letters still matches with one letter inserted, deleted, replaced or two neighbours swapped." = "5 个及以上字母的全拼在多一个、少一个、错一个字母或相邻两个字母颠倒时仍能匹配。"
+"Fuzzy pinyin" = "模糊拼音"
+"zh/z, ch/c, sh/s, n/l, en/eng and in/ing match each other." = "zh/z、ch/c、sh/s、n/l、en/eng 和 in/ing 互相匹配。"
