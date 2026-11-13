@@ -6,11 +6,11 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-steps.png)
 
-**舊補丁**在遊戲資料夾中：在 Steam 收藏庫中以右鍵點擊 Europa Universalis IV，選擇「管理」→「瀏覽本機檔案」。刪除 `version.dll`、`d3d9.dll` 和 `plugins` 資料夾（EU4DLL 或原版 EU4 Unicode Patch 放進去的檔案）。Anvil 也使用 `version.dll`，兩者只能保留一個。
+**Anvil Manager：** 鏡像：https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe 。這是 GitHub 上同一檔案的鏡像，每次發行後自動複製，並核對 SHA-256 一致。原始位址（GitHub）：https://github.com/happy-dwarf-team/anvil/releases/latest 。如果一個連結打不開，請試另一個，或稍後重試。如果 Windows 顯示「Windows 已保護您的電腦」，請點擊 **其他資訊**，再點擊 **仍要執行**。
 
-**Anvil Manager：** 鏡像：https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe 。這是 GitHub 上同一檔案的鏡像，每次發行後自動複製，並核對 SHA-256 一致。原始位址（GitHub）：https://github.com/happy-dwarf-team/anvil/releases/latest 。如果一個連結打不開，請試另一個，或稍後重試。如果 Windows 顯示「Windows 已保護您的電腦」，請點擊 **其他資訊**，再點擊 **仍要執行**。如果 Manager 提示 `version.dll` 不屬於 Anvil，表示舊補丁的檔案還在：讓 Manager 取代它即可。
+**裝過舊的雙字節補丁？** 不用手動刪除任何檔案。Manager 會在遊戲資料夾中找到 EU4DLL 或原版 EU4 Unicode Patch，並顯示 **取代 EU4DLL**（或 **取代 EU4 Unicode Patch**），而不是「安裝 Anvil」：點擊它即可。舊補丁的檔案會移動到遊戲資料夾中的 `anvil-legacy-backup`，解除安裝 Anvil 時可以放回原處。
 
-需要 Anvil 1.9 或更新版本（建議用最新版）。支援 EU4 1.37.5（Steam），也支援 GOG 版 1.37.5.2 和 1.37.5.0（見常見問題）。
+需要 Anvil 1.16 或更新版本（建議用最新版；更早的 Manager 不會取代舊補丁）。支援 EU4 1.37.5（Steam），也支援 GOG 版 1.37.5.2 和 1.37.5.0（見常見問題）。
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-tiles-title.png)
 
@@ -32,10 +32,10 @@ Mei 還讓存檔名保留原文（如 `奧斯曼1444_11_11.eu4`），Steam 好�
 
 | 現象 | 原因和解決方法 |
 | --- | --- |
-| 文字顯示為亂碼或問號 | Mei 沒有執行。請確認已經核准 Mei（第 4 步）、中文化 Mod 已在遊玩組合中啟用，並且舊補丁已經刪除。 |
-| 遊戲啟動後跳回桌面 | 通常是舊補丁的殘留，或中文化 Mod 的安裝包又放回了 `version.dll`。請再次刪除第 1 步中的檔案，然後在 Manager 中重新安裝 Anvil。 |
-| Manager 提示 `version.dll` 不屬於 Anvil | 這是舊補丁的 `version.dll`。讓 Manager 取代它，或先手動刪除。 |
-| Mei 顯示「等待核准」（waiting） | Mei 還沒有被核准。請按第 4 步核准，然後重新啟動遊戲。 |
+| 文字顯示為亂碼或問號 | Mei 沒有執行。請確認已經核准 Mei（第 3 步），並且中文化 Mod 已在遊玩組合中啟用。 |
+| 遊戲啟動後跳回桌面 | 通常是中文化 Mod 的安裝包又放回了舊補丁。請開啟 Anvil Manager，再點擊一次 **取代**：你的外掛和設定都還在。 |
+| Manager 提示 `version.dll` 不屬於 Anvil | 其他 Mod 或工具放了自己的 `version.dll`。兩者只能保留一個：勾選 **取代另一個 version.dll**，然後安裝 Anvil。 |
+| Mei 顯示「等待核准」（waiting） | Mei 還沒有被核准。請按第 3 步核准，然後重新啟動遊戲。 |
 
 仍未解決？請在本頁面下方留言（見常見問題「遇到問題，去哪裡提問？」）。
 
