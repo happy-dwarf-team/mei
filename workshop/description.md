@@ -6,11 +6,11 @@ Mei lets the game show, wrap, search and type the text of a Chinese, Japanese or
 
 ![](https://anvil.happydwarf.dev/workshop/mei-steps.png)
 
-**The old patch** is in the game folder: in your Steam library, right-click Europa Universalis IV, then Manage → Browse local files. Delete `version.dll`, `d3d9.dll` and the `plugins` folder; Anvil uses `version.dll` too, so only one of them can be there.
+**Anvil Manager:** `AnvilManager.exe` from [GitHub](https://github.com/happy-dwarf-team/anvil/releases/latest), or the same file from our mirror, https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe. If Windows says "Windows protected your PC", choose **More info**, then **Run anyway**.
 
-**Anvil Manager:** `AnvilManager.exe` from [GitHub](https://github.com/happy-dwarf-team/anvil/releases/latest), or the same file from our mirror, https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe. If Windows says "Windows protected your PC", choose **More info**, then **Run anyway**. If the Manager says `version.dll` is not Anvil's, the old patch is still there: let the Manager replace it.
+**Old double-byte patch?** No need to delete anything by hand. The Manager finds EU4DLL or the original EU4 Unicode Patch in the game folder and offers **Replace EU4DLL** (or **Replace EU4 Unicode Patch**) instead of Install Anvil: click it. Their files move to `anvil-legacy-backup` in the game folder, and uninstalling Anvil can put them back.
 
-Mei needs Anvil 1.9 or newer (take the latest) and EU4 1.37.5 on Steam, or the GOG builds 1.37.5.2 and 1.37.5.0 (see the FAQ).
+Mei needs Anvil 1.16 or newer (take the latest; older Managers don't replace the old patch) and EU4 1.37.5 on Steam, or the GOG builds 1.37.5.2 and 1.37.5.0 (see the FAQ).
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tiles-title.png)
 
@@ -32,10 +32,10 @@ Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of
 
 | What you see | Why, and what to do |
 | --- | --- |
-| Garbled text or question marks | Mei is not running. Check that you approved it (step 4), the translation mod is in the playset, and the old patch is gone. |
-| The game closes to the desktop at start | Usually leftovers of the old patch, or a translation mod's package put its `version.dll` back. Delete the files of step 1 again and reinstall Anvil in the Manager. |
-| The Manager says `version.dll` is not Anvil's | That is the old patch's `version.dll`. Let the Manager replace it, or delete it first. |
-| Mei says "waiting for approval" | Approve it as in step 4 and restart the game. |
+| Garbled text or question marks | Mei is not running. Check that you approved it (step 3) and that the translation mod is in the playset. |
+| The game closes to the desktop at start | Usually a translation mod's package put the old patch back. Open Anvil Manager and click **Replace** again: your plugins and settings are still there. |
+| The Manager says `version.dll` is not Anvil's | Another mod or tool put its own `version.dll` there. Only one can be there: tick **Replace the other version.dll** and install Anvil. |
+| Mei says "waiting for approval" | Approve it as in step 3 and restart the game. |
 
 Still stuck? Leave a comment below (see "Something's wrong. Where do I ask?" in the FAQ).
 
