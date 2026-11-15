@@ -8,9 +8,7 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 **Anvil Manager：** 鏡像：https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe 。這是 GitHub 上同一檔案的鏡像，每次發行後自動複製，並核對 SHA-256 一致。原始位址（GitHub）：https://github.com/happy-dwarf-team/anvil/releases/latest 。如果一個連結打不開，請試另一個，或稍後重試。如果 Windows 顯示「Windows 已保護您的電腦」，請點擊 **其他資訊**，再點擊 **仍要執行**。
 
-**裝過舊的雙字節補丁？** 不用手動刪除任何檔案。Manager 會在遊戲資料夾中找到 EU4DLL 或原版 EU4 Unicode Patch，並顯示 **取代 EU4DLL**（或 **取代 EU4 Unicode Patch**），而不是「安裝 Anvil」：點擊它即可。舊補丁的檔案會移動到遊戲資料夾中的 `anvil-legacy-backup`，解除安裝 Anvil 時可以放回原處。
-
-需要 Anvil 1.16 或更新版本（建議用最新版；更早的 Manager 不會取代舊補丁）。支援 EU4 1.37.5（Steam），也支援 GOG 版 1.37.5.2 和 1.37.5.0（見常見問題）。
+需要 Anvil 1.16 或更新版本（建議用最新版）。支援 EU4 1.37.5（Steam），也支援 GOG 版 1.37.5.2 和 1.37.5.0（見常見問題）。
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-tiles-title.png)
 
@@ -26,14 +24,14 @@ Mei 讓遊戲能夠顯示、換行、搜尋和輸入中文、日文或韓文中�
 
 工作坊上沒有找到適用於 1.37 的日文翻譯。Mei 能顯示我們的日文測試文字，但尚未用完整的翻譯測試。
 
-Mei 還讓存檔名保留原文（如 `奧斯曼1444_11_11.eu4`），Steam 好友能看懂你的國家名，日期和戰役標題也按譯文的語序顯示（`1719年3月17日`、`Medine戰役`），與 EU4DLL 相同。日期已用 Steam 上的簡體中文 Mod 測試；韓文日期尚未在遊戲中測試。
+Mei 還讓存檔名保留原文（如 `奧斯曼1444_11_11.eu4`），Steam 好友能看懂你的國家名，日期和戰役標題也按譯文的語序顯示（`1719年3月17日`、`Medine戰役`）。日期已用 Steam 上的簡體中文 Mod 測試；韓文日期尚未在遊戲中測試。
 
 ## 發生問題時
 
 | 現象 | 原因和解決方法 |
 | --- | --- |
 | 文字顯示為亂碼或問號 | Mei 沒有執行。請確認已經核准 Mei（第 3 步），並且中文化 Mod 已在遊玩組合中啟用。 |
-| 遊戲啟動後跳回桌面 | 通常是中文化 Mod 的安裝包又放回了舊補丁。請開啟 Anvil Manager，再點擊一次 **取代**：你的外掛和設定都還在。 |
+| 遊戲啟動後跳回桌面 | 通常是中文化 Mod 的安裝包自帶了雙字節補丁。請開啟 Anvil Manager，點擊 **取代**：你的外掛和設定都會保留。 |
 | Manager 提示 `version.dll` 不屬於 Anvil | 其他 Mod 或工具放了自己的 `version.dll`。兩者只能保留一個：勾選 **取代另一個 version.dll**，然後安裝 Anvil。 |
 | Mei 顯示「等待核准」（waiting） | Mei 還沒有被核准。請按第 3 步核准，然後重新啟動遊戲。 |
 
@@ -41,7 +39,6 @@ Mei 還讓存檔名保留原文（如 `奧斯曼1444_11_11.eu4`），Steam 好�
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tchinese-extra1.png)
 
-- **改用 Mei 是單向的：** 用 Mei 儲存的存檔，在裝有 EU4DLL 的遊戲中名稱會顯示為亂碼。連線遊戲時，所有玩家需要一起改用 Mei。
 - **輸入法：** 沒有用真實的輸入法測試。測試時直接向視窗傳送已完成的文字，所以候選視窗和正在組字的內容尚未測試。
 - Mei 自帶字型中的**日文漢字**採用簡體中文字形（思源黑體 SC）。
 
@@ -53,6 +50,9 @@ Mei 還讓存檔名保留原文（如 `奧斯曼1444_11_11.eu4`），Steam 好�
 
 ### 為什麼需要核准？
 Mei 是在遊戲內執行的真正程式，不只是一堆文字檔。Anvil 確保這樣的程式不會未經你點頭就執行。信任，但要查證。這是矮人的規矩。
+
+### 以前用過 EU4DLL 或 EU4 Unicode Patch，怎麼辦？
+在 Anvil Manager 中點擊 **取代 EU4DLL**（或 **取代 EU4 Unicode Patch**）：舊檔案會移到 `anvil-legacy-backup`，解除安裝 Anvil 時可以放回原處。用 Mei 儲存的存檔在 EU4DLL 中名稱會顯示為亂碼，所以連線遊戲時所有玩家要一起改用 Mei。
 
 ### 我玩的是 GOG 版，可以用嗎？
 可以，支援 1.37.5.2 和 1.37.5.0：GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog**（目錄）頁面安裝。無論從哪道門進來，都是同一個銘。

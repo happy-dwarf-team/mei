@@ -8,9 +8,7 @@ Mei lets the game show, wrap, search and type the text of a Chinese, Japanese or
 
 **Anvil Manager:** `AnvilManager.exe` from [GitHub](https://github.com/happy-dwarf-team/anvil/releases/latest), or the same file from our mirror, https://dl.happydwarf.dev/anvil/latest/AnvilManager.exe. If Windows says "Windows protected your PC", choose **More info**, then **Run anyway**.
 
-**Old double-byte patch?** No need to delete anything by hand. The Manager finds EU4DLL or the original EU4 Unicode Patch in the game folder and offers **Replace EU4DLL** (or **Replace EU4 Unicode Patch**) instead of Install Anvil: click it. Their files move to `anvil-legacy-backup` in the game folder, and uninstalling Anvil can put them back.
-
-Mei needs Anvil 1.16 or newer (take the latest; older Managers don't replace the old patch) and EU4 1.37.5 on Steam, or the GOG builds 1.37.5.2 and 1.37.5.0 (see the FAQ).
+Mei needs Anvil 1.16 or newer (take the latest) and EU4 1.37.5 on Steam, or the GOG builds 1.37.5.2 and 1.37.5.0 (see the FAQ).
 
 ![](https://anvil.happydwarf.dev/workshop/mei-tiles-title.png)
 
@@ -26,14 +24,14 @@ We tested Mei with these, each with Mei alone and the default settings:
 
 We found no Japanese translation for EU4 1.37 on the Workshop. Mei shows our Japanese test text, but no full translation was tried.
 
-Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of `aaa1444_11_11.eu4`), lets your Steam friends read your country's name, and writes dates and the titles of battles and sieges in the translation's word order (`1719年3月17日` instead of `17 3月 1719`, `Medine战役`), as EU4DLL did. The dates were tested with the Simplified Chinese mod on Steam; Korean dates not yet in the game.
+Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of `aaa1444_11_11.eu4`), lets your Steam friends read your country's name, and writes dates and the titles of battles and sieges in the translation's word order (`1719年3月17日` instead of `17 3月 1719`, `Medine战役`). The dates were tested with the Simplified Chinese mod on Steam; Korean dates not yet in the game.
 
 ## If something is wrong
 
 | What you see | Why, and what to do |
 | --- | --- |
 | Garbled text or question marks | Mei is not running. Check that you approved it (step 3) and that the translation mod is in the playset. |
-| The game closes to the desktop at start | Usually a translation mod's package put the old patch back. Open Anvil Manager and click **Replace** again: your plugins and settings are still there. |
+| The game closes to the desktop at start | Usually a translation mod's package brought its own double-byte patch. Open Anvil Manager and click **Replace**: your plugins and settings stay. |
 | The Manager says `version.dll` is not Anvil's | Another mod or tool put its own `version.dll` there. Only one can be there: tick **Replace the other version.dll** and install Anvil. |
 | Mei says "waiting for approval" | Approve it as in step 3 and restart the game. |
 
@@ -41,7 +39,6 @@ Still stuck? Leave a comment below (see "Something's wrong. Where do I ask?" in 
 
 ![](https://anvil.happydwarf.dev/workshop/mei-extra1.png)
 
-- **Switching is one-way:** saves made with Mei show garbled names in a game with EU4DLL, and a multiplayer group switches to Mei together.
 - **IME:** no real IME was used. The tests sent finished text to the window, so the candidate window and the text you are still composing were not checked.
 - **Japanese kanji** in Mei's own fonts take their Simplified Chinese shapes (Source Han Sans SC).
 
@@ -53,6 +50,9 @@ Still stuck? Leave a comment below (see "Something's wrong. Where do I ask?" in 
 
 ### Why do I have to approve it?
 Mei is a real program running inside your game, not just a pile of text files. Anvil makes sure nothing like that runs without your nod. Trust, but verify. Dwarf law.
+
+### I used EU4DLL or the EU4 Unicode Patch. What now?
+Click **Replace EU4DLL** (or **Replace EU4 Unicode Patch**) in Anvil Manager: the old files move to `anvil-legacy-backup`, and uninstalling Anvil can put them back. Saves made with Mei show garbled names with EU4DLL, so a multiplayer group switches together.
 
 ### I play on GOG. Can I use it?
 Yes, 1.37.5.2 and 1.37.5.0: GOG has no Workshop, so install it from the **Catalog** page of Anvil Manager. The same mark, whichever gate you came through.
