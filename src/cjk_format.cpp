@@ -9,7 +9,27 @@ namespace unicode_patch {
 
 namespace {
 
-constexpr std::string_view korean_month = "\xEC\x9B\x94";  // 월
+// The words of a Korean date: year, month and day.
+struct KoreanWords {
+    std::string_view year;
+    std::string_view month;
+    std::string_view day;
+};
+
+// In Hangul: 년, 월, 일.
+constexpr KoreanWords hangul_words{"\xEB\x85\x84", "\xEC\x9B\x94", "\xEC\x9D\xBC"};
+// As the Korean Language Mod (Workshop 2714934430) writes them: it draws Hangul from Latin-1
+// letters of its own fonts, so its 년, 월 and 일 are "¥ÀÒ", "±ÈÖ" and "±ÎÖ" (in UTF-8 here).
+constexpr KoreanWords latin_pair_words{"\xC2\xA5\xC3\x80\xC3\x92", "\xC2\xB1\xC3\x88\xC3\x96",
+                                       "\xC2\xB1\xC3\x8E\xC3\x96"};
+
+// The words a Korean month is written with, or none.
+const KoreanWords* korean_words(std::string_view month) {
+    for (const KoreanWords* words : {&hangul_words, &latin_pair_words}) {
+        if (month.ends_with(words->month) && month.size() > words->month.size()) return words;
+    }
+    return nullptr;
+}
 
 std::string_view trim(std::string_view value) {
     while (!value.empty() && (value.front() == ' ' || value.front() == ',')) value.remove_prefix(1);
@@ -46,11 +66,8 @@ bool han_or_kana(char32_t c) {
            (c >= 0xF900 && c <= 0xFAFF) || (c >= 0x20000 && c <= 0x3134F);
 }
 
-std::string korean_month_year(std::string_view month, std::string_view year) {
-    month = trim(month);
-    year = trim(year);
-    if (!number(year) || !month.ends_with(korean_month) || month.size() == korean_month.size()) return {};
-    return std::string(year) + "\xEB\x85\x84 " + std::string(month);  // 년
+std::string korean_month_year(const KoreanWords& words, std::string_view month, std::string_view year) {
+    return std::string(year) + std::string(words.year) + " " + std::string(month);
 }
 
 }  // namespace
@@ -58,14 +75,20 @@ std::string korean_month_year(std::string_view month, std::string_view year) {
 std::string cjk_date(std::string_view day, std::string_view month, std::string_view year) {
     if (auto chinese = eu4unicode::chinese_date(day, month, year); !chinese.empty()) return chinese;
     day = trim(day);
-    auto result = korean_month_year(month, year);
-    if (result.empty() || !number(day)) return {};
-    return result + " " + std::string(day) + "\xEC\x9D\xBC";  // 일
+    month = trim(month);
+    year = trim(year);
+    const KoreanWords* words = korean_words(month);
+    if (words == nullptr || !number(year) || !number(day)) return {};
+    return korean_month_year(*words, month, year) + " " + std::string(day) + std::string(words->day);
 }
 
 std::string cjk_month_year(std::string_view month, std::string_view year) {
     if (auto chinese = eu4unicode::chinese_month_year(month, year); !chinese.empty()) return chinese;
-    return korean_month_year(month, year);
+    month = trim(month);
+    year = trim(year);
+    const KoreanWords* words = korean_words(month);
+    if (words == nullptr || !number(year)) return {};
+    return korean_month_year(*words, month, year);
 }
 
 std::string cjk_combat_title(std::string_view prefix, std::string_view place) {

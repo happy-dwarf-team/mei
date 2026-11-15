@@ -147,6 +147,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
 | In-game test of the diplomacy country list (15.11.2026, Mei 0.8.0, Anvil 1.23.0, Tongs 0.35.0) | full pinyin, initials, mixed input and one typo find the countries in Simplified Chinese; see below |
+| In-game test of the dates (15.11.2026, the same builds) | Chinese on Steam and GOG 1.37.5.2; Korean with the Korean mod only after this fix; see below |
 | The rest of the original (its own font atlases, the IME composition display) | not started; see [Next steps](docs/port.md#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
@@ -250,6 +251,24 @@ the list read from `diploopinion_list`.
 - `anvil.log` has no "search failed" warning.
 - Not checked: Chinese characters typed into the field (the test sends Latin-1 text only), and
   the game's own search without Mei on the same profile.
+
+### In-game test of the dates
+
+On 15.11.2026 with Anvil 1.23.0 and Tongs 0.35.0, the same profiles and steps as the country
+list test, the top bar's date (`speed_controls/DateText`) of a new 1444 game read by Tongs and
+seen in a screenshot.
+
+| Game | Translation | Mei | Top bar |
+| --- | --- | --- | --- |
+| Steam 1.37.5 | Korean Language Mod (2714934430) and Mei's fonts | 0.8.0 | `11 11월 1444`, the game's order |
+| Steam 1.37.5 | the same | after mei#73 | `1444년 11월 11일` |
+| GOG 1.37.5.2 | Simplified Chinese with its supplementary mod and Mei's fonts | 0.8.0 | `1444年11月11日` |
+
+- The Korean mod has no Hangul in its files: it draws Hangul from Latin-1 letters of its own
+  fonts, so its 월 is `±ÈÖ`, and Mei 0.8.0 did not see a Korean month. Mei now also reads the
+  mod's 년, 월 and 일 (`¥ÀÒ`, `±ÈÖ`, `±ÎÖ`) and writes the date with them.
+- Not checked in the game: a month with a year (`1447년 4월`) and Korean battle titles. The
+  Korean mod writes its battle prefix in its own letters too, so Mei keeps the game's order there.
 
 ### In-game test of the localisation import
 
