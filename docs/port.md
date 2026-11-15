@@ -278,12 +278,11 @@ passes on the Steam `eu4.exe` (SHA-256 `9AD3EFE1…D771A`); `symbols.lock` is co
 
 ## Next steps
 
-A plan only; none of it is ported. The original's order, from the lab's analysis:
+What is left, in the original's order from the lab's analysis; none of it is ported. The
+first step of that order, the lower-case block's cost, is done: Mei hooks the case functions
+whole (mei#61, "Map labels" above).
 
-1. **The lower-case block's cost**: 46 million calls in a short session. Lowering the
-   string in one callback for the whole loop, instead of a block per byte, would cut the
-   calls by the string's length; it needs the loop's exit continuation.
-2. **The original's own font atlases** (in place of Mei's fixed ones): at start-up it
+1. **The original's own font atlases** (in place of Mei's fixed ones): at start-up it
    draws its atlases with DirectWrite from the system's fonts (`font_atlas_assets.cpp`),
    adds glyphs that are missing while the game runs into the
    reserved part of the texture (`native_font_atlas.cpp`, the texture synchronisation and
@@ -295,7 +294,7 @@ A plan only; none of it is ported. The original's order, from the lab's analysis
    `eu4.exe`). Then every character has a glyph, in the shapes of the player's own
    script, and the text blocks can give a character above U+00FF its own index, as the
    original does, with its shaped-paragraph and kerning blocks.
-3. **The IME**: the composition display and how it works with Anvil's overlay, which also
+2. **The IME**: the composition display and how it works with Anvil's overlay, which also
    takes text input; then a test with a real IME (Microsoft Pinyin, Microsoft IME for Japanese and Korean). After this the typed query
    is always UTF-8 and the Windows-1252 conversion of `src/game_text.cpp` can go.
 
