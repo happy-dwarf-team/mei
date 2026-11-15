@@ -29,7 +29,8 @@ With the default settings:
   provinces of a supplementary translation mod read as they should.
 - **Dates and battles.** With a Chinese, Japanese or Korean translation the top bar reads
   `1444年11月11日` or `1444년 11월 11일`, months with a year read `1447年4月`, and battles,
-  sieges and occupations put the place first (`瓦尔纳战役`, `바르나 전투`), as with EU4DLL.
+  sieges and occupations put the place first (`瓦尔纳战役`, `바르나 전투`), as with EU4DLL. The
+  Korean Language Mod writes its battle titles in its own letters, so they keep the game's order.
 - **Save names.** A save keeps the country's name and the name you type, such as
   `奥斯曼1444_11_11.eu4`, instead of Latin letters (`aaa1444_11_11.eu4`), and overwriting a
   chosen save keeps its name.

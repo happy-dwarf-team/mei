@@ -41,6 +41,7 @@ int cjk_format_tests() {
     check(cjk_date("11", utf8(u8"11±ÈÖ"), "1444") == utf8(u8"1444¥ÀÒ 11±ÈÖ 11±ÎÖ"), "Korean mod's date");
     check(cjk_month_year(utf8(u8"4±ÈÖ ,"), "1447") == utf8(u8"1447¥ÀÒ 4±ÈÖ"), "Korean mod's M, Y");
     check(cjk_date("11", utf8(u8"±ÈÖ"), "1444").empty(), "the Korean mod's month without its number");
+    check(cjk_date(" 11", utf8(u8"11±ÈÖ ,"), " 1444") == utf8(u8"1444¥ÀÒ 11±ÈÖ 11±ÎÖ"), "Korean mod's date, trimmed");
     check(cjk_month_year(utf8(u8"4月 "), "year").empty(), "a year that is not a number");
 
     check(cjk_combat_title(utf8(u8"之战 "), utf8(u8"巴黎")) == utf8(u8"巴黎之战"), "the original's 之战");
