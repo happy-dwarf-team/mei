@@ -261,7 +261,7 @@ seen in a screenshot.
 | Game | Translation | Mei | Top bar |
 | --- | --- | --- | --- |
 | Steam 1.37.5 | Korean Language Mod (2714934430) and Mei's fonts | 0.8.0 | `11 11월 1444`, the game's order |
-| Steam 1.37.5 | the same | this fix | `1444년 11월 11일` |
+| Steam 1.37.5 | the same | after mei#73 | `1444년 11월 11일` |
 | GOG 1.37.5.2 | Simplified Chinese with its supplementary mod and Mei's fonts | 0.8.0 | `1444年11月11日` |
 
 - The Korean mod has no Hangul in its files: it draws Hangul from Latin-1 letters of its own
