@@ -223,7 +223,10 @@ own: the Chinese mod already writes `$YYYY$年$MONTH$$DD$日`. For the rest, `sr
 puts the words in the translation's order, and takes the language from the words: a month
 that ends with 月 is Chinese or Japanese (the original's `localized_format.cpp`), one that
 ends with 월 Korean; a title's prefix in Han or kana is Chinese or Japanese, one in Hangul
-Korean. Anything else keeps the game's text.
+Korean. Anything else keeps the game's text. The Korean Language Mod (2714934430) writes no
+Hangul: its fonts draw Hangul from Latin-1 letters, so its 년, 월 and 일 are `¥ÀÒ`, `±ÈÖ` and
+`±ÎÖ`. A month that ends with its `±ÈÖ` is Korean too, and the date takes the mod's year and
+day words.
 
 | Symbol | The game | The plugin |
 | --- | --- | --- |
