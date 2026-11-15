@@ -39,8 +39,7 @@ With the default settings:
   characters).
 - **Map labels.** Country names on the map read right, spaced by character.
 - **Search.** The province finder matches Chinese characters, full pinyin, initials and mixed
-  input, with one typo allowed in long pinyin. The diplomacy country list uses the same search,
-  but was not checked in the game.
+  input, with one typo allowed in long pinyin. The diplomacy country list uses the same search.
 - **Typing.** Finished text reaches text fields, as an IME commits it. Keys, the mouse, selection,
   undo, copy and paste work by character.
 - **Steam status.** The game's Rich Presence text, which Steam friends see, reaches Steam in
@@ -107,8 +106,8 @@ have not checked yet; a correction is welcome in an issue or a pull request.
 - **IME.** The composition display is not ported, and typing with a real IME is not tested: the
   tests sent finished text to the window.
 - **Not tested:** a Japanese translation mod (there is none for 1.37 on the Workshop, though the
-  probe text in Japanese drew right), the search in the diplomacy country list, a text field of
-  several rows, selecting with a mouse drag, and long play.
+  probe text in Japanese drew right), a text field of several rows, selecting with a mouse drag,
+  and long play.
 - **Not ported:** name order, which changes
   generated characters, would be a separate plugin.
 
@@ -147,7 +146,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | In-game test of CJK fonts from a mod (2.11.2026) | Chinese, Japanese and Korean drawn right in the UI and, with the map blocks, on the map; see below |
 | In-game test of the text field (4.11.2026, Steam and GOG) | selection, undo, redo, paste, cut and copy by character; a field of several rows and a mouse drag not checked; see below |
 | In-game test of the text input (2.11.2026) | typed Chinese, Japanese and accented text reaches the field whole and is found; IME composition not checked; see below |
-| In-game test of the diplomacy country list | not done |
+| In-game test of the diplomacy country list (15.11.2026, Mei 0.8.0, Anvil 1.23.0, Tongs 0.35.0) | full pinyin, initials, mixed input and one typo find the countries in Simplified Chinese; see below |
 | The rest of the original (its own font atlases, the IME composition display) | not started; see [Next steps](docs/port.md#next-steps) |
 | Name order (a separate plugin with `affects_gameplay = true`) and the mod registry fix | not started; the mod registry fix decides which mods load and does not belong here |
 
@@ -225,8 +224,32 @@ Screenshots, logs and conditions are in the EU4 engine lab (`docs/anvil-unicode-
   (Östra Götaland 2nd instead of 5th, Østjylland in the first 8), probably because the original's
   Latin keys fold more letters than the game's accent stripping (not checked in the game's
   code).
-- Not checked yet: the diplomacy country list, Chinese and pinyin search (they need the
-  localisation import), and a comparison with the original patch itself.
+- Not checked yet: a comparison with the original patch itself. The diplomacy country list
+  with Chinese and pinyin search is checked below.
+
+### In-game test of the diplomacy country list
+
+On 15.11.2026 with Mei 0.8.0, Anvil 1.23.0, Tongs 0.35.0 and the default settings, in a
+junction copy of the Steam 1.37.5 game with a private game profile: the Simplified Chinese mod,
+its supplementary mod and a local mod with Mei's fonts. A new game at 1444 as the Ottomans; the
+country view's diplomacy tab, queries typed into `countrydiplomacyview/sort_search_edit` and
+the list read from `diploopinion_list`.
+
+| Query | What it is | The list |
+| --- | --- | --- |
+| `bulaimei`, `blm`, `bulaim` | full pinyin, initials, mixed | 不来梅 |
+| `bulaimai` | full pinyin with one letter wrong | 不来梅 |
+| `yemen`, `ym` | full pinyin, initials | 也门 |
+| `dongfulisilan`, `dfl` | full pinyin, initials | 东弗里斯兰 |
+| `wu` | one syllable | 乌兹别克, 乌尔姆, 乌尔比诺, 乌得勒支, 鲁乌 |
+| `dong` | one syllable | 东察合台, 东弗里斯兰, 栋古拉 |
+| `san` | one syllable | 三发, 三同盟, 哈桑凯伊夫, 瓦尔桑盖利 |
+| `bremen`, `xxxqqq` | the English name, nothing | empty |
+
+- The list drew the matches in Chinese with their opinions; the top bar read `1444年11月11日`.
+- `anvil.log` has no "search failed" warning.
+- Not checked: Chinese characters typed into the field (the test sends Latin-1 text only), and
+  the game's own search without Mei on the same profile.
 
 ### In-game test of the localisation import
 
