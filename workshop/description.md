@@ -24,7 +24,7 @@ We tested Mei with these, each with Mei alone and the default settings:
 
 We found no Japanese translation for EU4 1.37 on the Workshop. Mei shows our Japanese test text, but no full translation was tried.
 
-Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of `aaa1444_11_11.eu4`), lets your Steam friends read your country's name, and writes dates and the titles of battles and sieges in the translation's word order (`1719年3月17日` instead of `17 3月 1719`, `Medine战役`). The dates were tested with the Simplified Chinese mod on Steam; Korean dates not yet in the game.
+Mei also keeps save names in your language (`奥斯曼1444_11_11.eu4` instead of `aaa1444_11_11.eu4`), lets your Steam friends read your country's name, and writes dates and the titles of battles and sieges in the translation's word order (`1719年3月17日` instead of `17 3月 1719`, `Medine战役`). The dates were tested in the game with the Simplified Chinese mod and the Korean Language Mod on Steam. The Korean Language Mod's dates follow its word order in Mei versions after 0.8.0, and its battle titles keep the game's order.
 
 ## If something is wrong
 
