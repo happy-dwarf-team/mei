@@ -55,13 +55,13 @@ Mei 还让存档名保留原文（如 `奥斯曼1444_11_11.eu4`），Steam 好�
 Mei 是在游戏内运行的真正程序，不只是一堆文本文件。Anvil 确保这样的程序不会未经你点头就运行。信任，但要核实。这是矮人的规矩。
 
 ### 我玩的是 GOG 版，可以用吗？
-可以，支持 GOG 版 1.37.5.2 和 1.37.5.0，请使用最新版 Anvil。GOG 没有创意工坊，请在 Anvil Manager 的 **Catalog**（目录）选项卡中安装 Mei，或使用 GitHub 上的发布版本压缩包：https://github.com/happy-dwarf-team/mei/releases
+可以，支持 1.37.5.2 和 1.37.5.0：GOG 没有创意工坊，请在 Anvil Manager 的 **Catalog**（目录）页面中安装。无论从哪道门进来，都是同一个铭。
 
 ### 为什么叫"Mei"？
-銘（日文读作 *mei*）是刀匠刻在刀茎上的署名。同一个字在中文里写作"铭"（*míng*），在韩文里是 명（*myeong*），意思都是"铭文"：中日韩三种语言共用这一个字，正如 Mei 服务于这三种语言。我们团队的名字都来自铁匠铺。
+銘（日文读作 *mei*）是日本刀匠刻在刀上的署名，在中文（铭，*míng*）和韩文（명，*myeong*）里意思是"铭文"：Mei 服务的三种语言共用这一个字。
 
 ### 遇到问题，去哪里提问？
-请先**在本页面下方留言**，或在本页面“讨论”中的求助帖里提问，可以直接用中文。也可以在 [GitHub](https://github.com/happy-dwarf-team/mei/issues/new/choose) 上用中文提交问题（请附上游戏目录中的 `anvil/anvil.log`，并写明你用的汉化 Mod）。我们的 [Discord 服务器](https://discord.happydwarf.dev/)使用英语（**#help-and-bugs** 论坛，Mei 标签）。
+请**在本页面下方留言**，或在 [GitHub](https://github.com/happy-dwarf-team/mei/issues/new/choose) 上提交问题并附上游戏目录中的 `anvil/anvil.log`，两处都可以用中文。我们的 [Discord 服务器](https://discord.happydwarf.dev/)使用英语（**#help-and-bugs**，Mei 标签）。
 
 ### 缩略图上那个小矮人头像是什么？
 看看这个 Mod 的 GitHub 页面，你会发现仓库属于 Happy Dwarf Team。

@@ -55,13 +55,13 @@ Still stuck? Leave a comment below (see "Something's wrong. Where do I ask?" in 
 Mei is a real program running inside your game, not just a pile of text files. Anvil makes sure nothing like that runs without your nod. Trust, but verify. Dwarf law.
 
 ### I play on GOG. Can I use it?
-Yes, on the GOG builds 1.37.5.2 and 1.37.5.0, with the latest Anvil. GOG has no Workshop, so install Mei from the **Catalog** tab in Anvil Manager, or from the release zip on [GitHub](https://github.com/happy-dwarf-team/mei/releases). The same mark, whichever gate you came through.
+Yes, 1.37.5.2 and 1.37.5.0: GOG has no Workshop, so install it from the **Catalog** page of Anvil Manager. The same mark, whichever gate you came through.
 
 ### Why "Mei"?
-銘 (*mei* in Japanese) is the signature a swordsmith cuts into the tang of a blade. The same character, 铭 (*míng*) in Chinese and 銘 (*myeong*, 명) in Korean, means "inscription": one character that all three languages share, as Mei serves all three. Our team names come from the forge.
+銘 (*mei*) is the signature a Japanese swordsmith cuts into a blade, and in Chinese (铭, *míng*) and Korean (명, *myeong*) it means "inscription": one character for the three languages Mei serves.
 
 ### Something's wrong. Where do I ask?
-**Leave a comment below** first, or ask in the help thread under this item's Discussions; Chinese is welcome. Or open a [GitHub issue](https://github.com/happy-dwarf-team/mei/issues/new/choose), in Chinese too, with `anvil/anvil.log` from the game folder and the translation mods you use. Our [Discord server](https://discord.happydwarf.dev/) is in English (**#help-and-bugs**, pick the Mei tag).
+**Leave a comment below**, or open a [GitHub issue](https://github.com/happy-dwarf-team/mei/issues/new/choose) with `anvil/anvil.log` from the game folder; Chinese is welcome in both. Our [Discord server](https://discord.happydwarf.dev/) is in English (**#help-and-bugs**, pick the Mei tag).
 
 ### What is that little dwarf head on the thumbnail?
 If you check the mod's GitHub page, you will notice the repository belongs to Happy Dwarf Team.
