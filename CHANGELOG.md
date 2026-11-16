@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/happy-dwarf-team/mei/compare/v0.8.0...v0.8.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* read the Korean Language Mod's own date words ([#73](https://github.com/happy-dwarf-team/mei/issues/73)) ([502a0d3](https://github.com/happy-dwarf-team/mei/commit/502a0d3bc379a38688bb48c3ff42c332b9ce1b9a))
+
 ## [0.8.0](https://github.com/happy-dwarf-team/mei/compare/v0.7.1...v0.8.0) (2026-11-12)
 
 ### Features
