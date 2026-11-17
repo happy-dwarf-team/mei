@@ -15,10 +15,13 @@ namespace {
 
 ParseYaml g_parse_yaml = nullptr;
 ImportWarning g_warn = nullptr;
-std::atomic<std::uint64_t> g_values{0}, g_signed_files{0}, g_logged{0};
+std::atomic<std::uint64_t> g_values{0}, g_signed_files{0}, g_logged{0}, g_rejected_values{0};
 
 // The original's message (plugin.cpp, legacy_import_error), logged up to kLoggedRejections times.
+// The original counts every rejection in one counter; a localisation value's source is
+// "localization", a token's is its file (native_legacy_import.cpp), so the values are counted here.
 void rejected(std::string_view source, int line, std::string_view key, std::size_t offset, const char* error) {
+    if (source == "localization") g_rejected_values.fetch_add(1, std::memory_order_relaxed);
     const auto n = g_logged.fetch_add(1, std::memory_order_relaxed);
     if (!g_warn || n > kLoggedRejections) return;
     if (n == kLoggedRejections) {
@@ -67,8 +70,8 @@ void parse_localisation_file(void* file, const void* input, const char* name, vo
 
 LocalisationCounts localisation_counts() noexcept {
     const auto legacy = eu4unicode::legacy_import_counts();
-    return {g_values.load(std::memory_order_relaxed), legacy.localization, legacy.rejected,
-            g_signed_files.load(std::memory_order_relaxed)};
+    return {g_values.load(std::memory_order_relaxed), legacy.localization,
+            g_rejected_values.load(std::memory_order_relaxed), g_signed_files.load(std::memory_order_relaxed)};
 }
 
 std::string localisation_summary() {
@@ -87,13 +90,14 @@ bool token_has_legacy_escape(const char* text, std::size_t capacity) noexcept {
 
 LexerCounts lexer_counts() noexcept {
     const auto legacy = eu4unicode::legacy_import_counts();
-    return {legacy.script, legacy.binary, legacy.rejected};
+    const auto values = g_rejected_values.load(std::memory_order_relaxed);
+    return {legacy.script, legacy.binary, legacy.rejected - std::min(legacy.rejected, values)};
 }
 
 std::string lexer_summary() {
     const auto c = lexer_counts();
-    return std::format("script lexer: {} script tokens and {} save tokens decoded from EU4DLL escapes, {} values and "
-                       "tokens rejected",
+    return std::format("script lexer: {} script tokens and {} save tokens decoded from EU4DLL escapes, {} tokens "
+                       "rejected",
                        c.script, c.binary, c.rejected);
 }
 

@@ -49,7 +49,7 @@ bool token_has_legacy_escape(const char* text, std::size_t capacity) noexcept;
 struct LexerCounts {
     std::uint64_t script;    // script tokens decoded from EU4DLL escapes
     std::uint64_t binary;    // binary save tokens decoded from them
-    std::uint64_t rejected;  // localisation values and tokens rejected, as in LocalisationCounts
+    std::uint64_t rejected;  // tokens rejected (invalid UTF-8 or a bad escape)
 };
 LexerCounts lexer_counts() noexcept;
 std::string lexer_summary();

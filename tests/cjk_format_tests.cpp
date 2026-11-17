@@ -52,6 +52,8 @@ int cjk_format_tests() {
     check(cjk_combat_title(utf8(u8"の戦い "), utf8(u8"京都")) == utf8(u8"京都の戦い"), "Japanese kana");
     check(cjk_combat_title(utf8(u8"전투 "), utf8(u8"바르나")) == utf8(u8"바르나 전투"), "Korean, with a space");
     check(cjk_combat_title("Battle of ", "Varna").empty(), "English keeps the game's order");
+    check(cjk_combat_title(utf8(u8"ÀüÅõ "), utf8(u8"¹Ù¸£³ª")).empty(),
+          "so does the Korean Language Mod's title in its own Latin-1 letters");
     check(cjk_combat_title(utf8(u8"战役 "), "").empty(), "no place");
     check(cjk_combat_title("", utf8(u8"北京")).empty(), "no prefix");
     return g_failures;
