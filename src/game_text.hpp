@@ -1,9 +1,9 @@
 // The game's own text as the original's search code expects it. The original
 // converts the game's localisation to UTF-8 when it loads (its localisation
 // import), so its search code rejects any other text: a name that is not valid
-// UTF-8 throws. This port does not carry that import yet, so the game's names
-// and the typed query are still Windows-1252 (Östergötland is "\xD6sterg\xF6tland")
-// and are converted here before they reach the original's code.
+// UTF-8 throws. Mei carries that import (utf8_localization), but text it does not
+// reach can still be Windows-1252 (Östergötland is "\xD6sterg\xF6tland"): such text
+// is converted here before it reaches the original's code.
 #pragma once
 
 #include <cstdint>
