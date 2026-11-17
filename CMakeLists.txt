@@ -170,7 +170,7 @@ endforeach()
 # This plugin's own glue: the detours pick the same callers as the original, the
 # localisation import keeps the game's text in UTF-8, and the text blocks decode it.
 add_executable(port_tests tests/port_tests.cpp tests/localisation_tests.cpp tests/text_drawing_tests.cpp
-    tests/cjk_format_tests.cpp)
+    tests/cjk_format_tests.cpp tests/settings_notes_tests.cpp)
 target_compile_features(port_tests PRIVATE cxx_std_20)
 target_link_libraries(port_tests PRIVATE port_search port_localisation port_text_drawing port_cjk_format)
 target_compile_options(port_tests PRIVATE /W4 /utf-8 /EHsc)

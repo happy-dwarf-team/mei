@@ -34,6 +34,7 @@
 #include "native_color_strip.hpp"
 #include "native_steam_presence.hpp"
 #include "script_lexer.hpp"
+#include "settings_notes.hpp"
 #include "text_blocks.hpp"
 #include "text_input.hpp"
 #include "search_resources.hpp"
@@ -179,6 +180,11 @@ struct UnicodePatch : anvil::Plugin {
             host.info("UTF-8 text input: {} changes", unicode_patch::load_text_input(host, text_blocks));
         host.info("UTF-8 localisation {}, search {}", cfg::utf8_localization.get() ? "on" : "off",
                   cfg::search.get() ? "on" : "off");
+        const unicode_patch::SettingState state{cfg::utf8_localization.get(), cfg::search.get(),
+                                                cfg::utf8_scripts.get(),      cfg::bundled_fonts.get(),
+                                                cfg::cjk_dates.get(),         cfg::utf8_save_names.get()};
+        if (const auto note = unicode_patch::skipped_settings_note(state); !note.empty()) host.info("{}", note);
+        if (const auto note = unicode_patch::search_off_note(state); !note.empty()) host.warn("{}", note);
     }
 
     // phase = "early": in place before the game reads its localisation.
