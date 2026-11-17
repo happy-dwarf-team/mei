@@ -51,6 +51,20 @@ int text_drawing_tests() {
           "the rest of Windows-1252 is drawn from its byte");
     check(glyph_index(0x4E2D) == '?' && glyph_index(0x81) == '?' && glyph_index(0x20BAF) == '?',
           "characters the game's fonts lack are '?'");
+    // Latin letters outside Windows-1252 draw their plain letter, as the game writes them
+    // without the UTF-8 import (Władysław reads Wladyslaw).
+    check(glyph_index(0x0142) == 'l' && glyph_index(0x0141) == 'L', "ł and Ł are l and L");
+    check(glyph_index(0x0101) == 'a' && glyph_index(0x0131) == 'i' && glyph_index(0x0113) == 'e' &&
+              glyph_index(0x014D) == 'o' && glyph_index(0x0151) == 'o' && glyph_index(0x0219) == 's',
+          "ā, ı, ē, ō, ő and ș are plain letters");
+    check(glyph_index(0x0161) == 0x9A && glyph_index(0x017D) == 0x8E, "Windows-1252 letters keep their byte");
+    check(plain_letter(0x0161) == 's' && plain_letter(0x0160) == 'S' && plain_letter(0x017E) == 'z' &&
+              plain_letter(0x017D) == 'Z' && plain_letter(0x0178) == 'Y' && plain_letter(0x02C6) == '^' &&
+              plain_letter(0x02DC) == '~',
+          "but have a plain letter for a font without them");
+    check(plain_letter(0x4E2D) == 0 && plain_letter(0xF6) == 0 && plain_letter(0x0250) == 0 && plain_letter(0x2019) == 0,
+          "no plain letter outside Latin");
+    check(same(decode_glyph(utf8(u8"ł").c_str()), 'l', 1), "UTF-8 ł is the glyph l of two bytes");
 
     // decode_z: the localisation's UTF-8 and the game's Windows-1252 side by side.
     const auto ostra = utf8(u8"Östra Götaland");

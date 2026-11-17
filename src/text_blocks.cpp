@@ -82,7 +82,12 @@ std::uintptr_t glyph(std::uintptr_t table, const Glyph& g) noexcept {
     if (g.scalar > 0xFF)
         if (void* own = eu4unicode::find_unicode_glyph(reinterpret_cast<void* const*>(table), g.scalar))
             return reinterpret_cast<std::uintptr_t>(own);
-    return at<std::uintptr_t>(table + g.index * 8);
+    const auto native = at<std::uintptr_t>(table + g.index * 8);
+    // A font without this glyph (Mei's atlases have no Š, š, Ž, ž or Ÿ) draws its plain
+    // letter, as the game's own conversion to Windows-1252 would have written it.
+    if (native == 0)
+        if (const auto plain = plain_letter(g.scalar)) return at<std::uintptr_t>(table + plain * 8);
+    return native;
 }
 // A UTF-8 '£' (C2 A3), the icon delimiter.
 bool icon_tail(std::uintptr_t address) noexcept {
