@@ -149,5 +149,12 @@ int localisation_tests() {
     check(!unicode_patch::token_has_legacy_escape(full, sizeof full), "the check ends at the buffer's end");
     check(unicode_patch::lexer_summary().find("0 script tokens") != std::string::npos, "the lexer's summary");
 
+    // A token's rejection, which the original reports through the same diagnostic, is not
+    // a localisation value's.
+    eu4unicode::legacy_import_diagnostic("common/test.txt", 3, "script token", 0, "truncated legacy escape");
+    check(unicode_patch::localisation_counts().rejected == 32, "a token's rejection is not a value's");
+    check(unicode_patch::localisation_summary().find("5 values kept in UTF-8") != std::string::npos,
+          "and keeps the stored values' count");
+
     return g_failures;
 }
