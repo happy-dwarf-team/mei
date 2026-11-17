@@ -13,6 +13,7 @@
 // without them a Chinese paragraph has no place to wrap.
 #include "text_blocks.hpp"
 
+#include <atomic>
 #include <cstdint>
 #include <cstring>
 #include <format>
@@ -692,7 +693,8 @@ void font_allocate(Cpu& c) noexcept {
     c.rip = c.rax ? g.font_initialize : g.font_skip;
 }
 
-std::uint64_t g_failed_bindings = 0;
+// Atomic like the redirect counters (fonts.cpp), which the same loader updates.
+std::atomic<std::uint64_t> g_failed_bindings{0};
 
 void font_store(Cpu& c) noexcept {
     c.r15 = at<std::uintptr_t>(c.rbp + 0x1130);
@@ -701,7 +703,8 @@ void font_store(Cpu& c) noexcept {
     if (id > 0xFF) return;  // the registry already holds it
     at<std::uintptr_t>(table + id * 8) = c.rax;
     // 'A' names the font for the glyphs read before it (bind_unicode_font).
-    if (id == 0x41 && !eu4unicode::bind_unicode_font(reinterpret_cast<void* const*>(table))) ++g_failed_bindings;
+    if (id == 0x41 && !eu4unicode::bind_unicode_font(reinterpret_cast<void* const*>(table)))
+        g_failed_bindings.fetch_add(1, std::memory_order_relaxed);
 }
 
 anvil::HookOf<sym::destroy_font_table> g_destroy_font;
@@ -760,8 +763,9 @@ std::size_t load_map_blocks(anvil::Host& host, std::vector<anvil::Change>& chang
 
 std::string font_loader_summary() {
     const auto usage = eu4unicode::unicode_glyph_usage();
+    const auto failed = g_failed_bindings.load(std::memory_order_relaxed);
     return std::format("font loader: {} glyphs above U+00FF in {} fonts{}", usage.glyphs, usage.fonts,
-                       g_failed_bindings ? std::format(", {} fonts not bound", g_failed_bindings) : "");
+                       failed ? std::format(", {} fonts not bound", failed) : "");
 }
 
 std::size_t load_text_blocks(anvil::Host& host, std::vector<anvil::Change>& changes) {
