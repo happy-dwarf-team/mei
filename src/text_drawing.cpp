@@ -14,6 +14,32 @@ constexpr std::uint16_t kWindows1252High[32] = {
     0x20AC, 0,      0x201A, 0x0192, 0x201E, 0x2026, 0x2020, 0x2021, 0x02C6, 0x2030, 0x0160, 0x2039, 0x0152, 0,      0x017D, 0,
     0,      0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2013, 0x2014, 0x02DC, 0x2122, 0x0161, 0x203A, 0x0153, 0,      0x017E, 0x0178};
 
+// The plain letter of U+0100-024F, 0 where there is none: the first character of the
+// canonical decomposition, and the letters with a stroke or hook by their shape.
+constexpr char kPlainLatin[0x150] = {
+    'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd',  // U+0100
+    'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g',  // U+0110
+    'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i',  // U+0120
+    'I', 'i', 0, 0, 'J', 'j', 'K', 'k', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L',  // U+0130
+    'l', 'L', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'N', 'n', 'O', 'o', 'O', 'o',  // U+0140
+    'O', 'o', 0, 0, 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's',  // U+0150
+    'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u',  // U+0160
+    'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's',  // U+0170
+    'b', 'B', 0, 0, 0, 0, 0, 'C', 'c', 'D', 'D', 0, 0, 0, 0, 0,  // U+0180
+    0, 'F', 'f', 'G', 0, 0, 0, 'I', 'K', 'k', 'l', 0, 0, 'N', 'n', 0,  // U+0190
+    'O', 'o', 0, 0, 'P', 'p', 0, 0, 0, 0, 0, 't', 'T', 't', 'T', 'U',  // U+01A0
+    'u', 0, 'V', 'Y', 'y', 'Z', 'z', 0, 0, 0, 0, 0, 0, 0, 0, 0,  // U+01B0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'A', 'a', 'I',  // U+01C0
+    'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 0, 'A', 'a',  // U+01D0
+    'A', 'a', 0, 0, 'G', 'g', 'G', 'g', 'K', 'k', 'O', 'o', 'O', 'o', 0, 0,  // U+01E0
+    'j', 0, 0, 0, 'G', 'g', 0, 0, 'N', 'n', 'A', 'a', 0, 0, 0, 0,  // U+01F0
+    'A', 'a', 'A', 'a', 'E', 'e', 'E', 'e', 'I', 'i', 'I', 'i', 'O', 'o', 'O', 'o',  // U+0200
+    'R', 'r', 'R', 'r', 'U', 'u', 'U', 'u', 'S', 's', 'T', 't', 0, 0, 'H', 'h',  // U+0210
+    0, 0, 0, 0, 0, 0, 'A', 'a', 'E', 'e', 'O', 'o', 'O', 'o', 'O', 'o',  // U+0220
+    'O', 'o', 'Y', 'y', 0, 0, 't', 'j', 0, 0, 'A', 'C', 'c', 'L', 'T', 0,  // U+0230
+    0, 0, 0, 'B', 0, 0, 'E', 'e', 'J', 'j', 0, 0, 'R', 'r', 'Y', 'y',  // U+0240
+};
+
 struct Decoded {
     std::uint32_t value;
     std::uint32_t bytes;
@@ -79,7 +105,15 @@ std::uint32_t glyph_index(std::uint32_t scalar) noexcept {
     if (scalar < 0x80 || (scalar >= 0xA0 && scalar <= 0xFF)) return scalar;
     for (std::uint32_t i = 0; i < 32; ++i)
         if (kWindows1252High[i] != 0 && kWindows1252High[i] == scalar) return 0x80 + i;
+    if (const auto plain = plain_letter(scalar)) return plain;
     return '?';
+}
+
+std::uint32_t plain_letter(std::uint32_t scalar) noexcept {
+    if (scalar >= 0x100 && scalar < 0x250) return static_cast<unsigned char>(kPlainLatin[scalar - 0x100]);
+    if (scalar == 0x02C6) return '^';
+    if (scalar == 0x02DC) return '~';
+    return 0;
 }
 
 Glyph decode_glyph(const char* text) noexcept {

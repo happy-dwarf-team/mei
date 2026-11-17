@@ -27,8 +27,16 @@ class FormattedText;
 
 namespace unicode_patch {
 
-// The index of a character's glyph in the game's fonts.
+// The index of a character's glyph in the game's fonts: Latin-1 and Windows-1252 at
+// their byte, a Latin letter outside them at its plain letter (plain_letter), anything
+// else '?'.
 std::uint32_t glyph_index(std::uint32_t scalar) noexcept;
+
+// The plain ASCII letter of a Latin letter with a mark (U+0100-024F, as `ł` -> `l`) and of
+// the Windows-1252 letters and accents that Mei's atlases leave out (Š, š, Ž, ž, Ÿ, ˆ, ˜);
+// 0 for any other character. The game's own conversion to Windows-1252 writes `ł` as `l`:
+// with the localisation kept in UTF-8, a font without the glyph draws the plain letter.
+std::uint32_t plain_letter(std::uint32_t scalar) noexcept;
 
 // One character of text: the index of its glyph in the font's 256-entry table,
 // its bytes after the first, and the character (the byte itself for text that
