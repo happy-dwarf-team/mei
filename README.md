@@ -134,7 +134,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Text drawing: 36 blocks and 3 line break blocks | on with `utf8_localization` |
 | Colour stripping by character: 1 hook | on with `utf8_localization` |
 | Font loader: the U+10FFFF limit, the 64 MiB texture limit, 3 blocks, 1 hook, the glyph registry | on with `utf8_localization` |
-| Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on (`bundled_fonts`) |
+| Mei's fonts: the font loader's entry, 5 atlases (`tools/meifonts.cpp`, `tools/build-fonts.ps1`) | on with `utf8_localization` (`bundled_fonts`) |
 | Map labels: 15 blocks, and the game's two ASCII case functions replaced whole (2 hooks) | on with `utf8_localization` |
 | Text input: 5 blocks, 17 hooks, the IME patch | on (`utf8_input`) |
 | Steam Rich Presence: 1 call (Steam only) | on with `utf8_localization` |

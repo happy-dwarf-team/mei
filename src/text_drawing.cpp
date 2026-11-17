@@ -186,8 +186,11 @@ bool reaches_format_check(const Glyph& glyph) noexcept {
 
 std::shared_ptr<const eu4unicode::FormattedText> line_breaks(std::string_view text) noexcept {
     text = text.substr(0, bounded_text_length(text));
+    // Only a UTF-8 character of three or more bytes: a Windows-1252 letter from à to ÿ
+    // (E0-FF) is a single byte that keeps the game's breaks.
     bool wide = false;
-    for (const char c : text) wide = wide || static_cast<unsigned char>(c) >= 0xE0;
+    for (std::size_t i = 0; i < text.size() && !wide; ++i)
+        wide = static_cast<unsigned char>(text[i]) >= 0xE0 && decode_utf8(text.substr(i)).valid;
     if (!wide) return {};
     // Per thread, as the original's (the game lays text out on its main thread).
     thread_local eu4unicode::FormattedTextCache cache;

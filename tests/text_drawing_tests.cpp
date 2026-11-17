@@ -152,6 +152,10 @@ int text_drawing_tests() {
     check(line_before(breaks.get(), 3) && line_before(breaks.get(), 6), "a line may break between characters");
     check(!line_before(breaks.get(), 15) && !line_before(breaks.get(), 30), "not before a comma or a full stop");
     check(line_breaks("Ottoman army") == nullptr && line_breaks(ostra) == nullptr, "Latin text keeps the game's breaks");
+    check(line_breaks("Jean-Fran\xE7ois de Lorraine") == nullptr && line_breaks("Gr\xE0" "ce \xE0 Dieu") == nullptr,
+          "so does Windows-1252 text with a letter from E0 to FF");
+    check(line_breaks(std::string("Jean-Fran\xE7ois ") + paragraph) != nullptr,
+          "but not when it also holds a Chinese character");
     check(!line_before(nullptr, 3), "no breaks, no break");
 
     // The game ends a line after its candidate glyph, so a glyph is one where the rules

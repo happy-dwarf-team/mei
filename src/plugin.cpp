@@ -6,7 +6,8 @@
 // So far: the localisation import that keeps the game's text in UTF-8, the
 // script and save lexer, the per-glyph text and map blocks that draw and wrap it,
 // the font loader with Mei's bundled fonts, Chinese and pinyin search, UTF-8
-// text input and the Steam Rich Presence text. Every symbol of
+// text input, dates and combat titles, save names, colour stripping by character
+// and the Steam Rich Presence text. Every symbol of
 // the original is declared and verified in symbols.toml, so later features only
 // add changes here.
 #include <anvil/anvil.hpp>
