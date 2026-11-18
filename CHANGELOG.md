@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.0](https://github.com/happy-dwarf-team/mei/compare/v0.8.1...v0.9.0) (2026-11-18)
+
+
+### Features
+
+* log settings that do nothing as set ([#82](https://github.com/happy-dwarf-team/mei/issues/82)) ([d7d804e](https://github.com/happy-dwarf-team/mei/commit/d7d804ee74eca9774bb8c761dd4100f8ff930e20))
+
+
+### Bug Fixes
+
+* count only localisation values in the import's rejected count ([#80](https://github.com/happy-dwarf-team/mei/issues/80)) ([79e5ef0](https://github.com/happy-dwarf-team/mei/commit/79e5ef00e120668815c375346772be20d493cd02))
+* count unbound fonts in an atomic counter ([#81](https://github.com/happy-dwarf-team/mei/issues/81)) ([8ba6e48](https://github.com/happy-dwarf-team/mei/commit/8ba6e480dc763bc4a0e5d20c3bc995becd091e8e))
+* draw the plain letter for Latin letters a font lacks ([#83](https://github.com/happy-dwarf-team/mei/issues/83)) ([a911b20](https://github.com/happy-dwarf-team/mei/commit/a911b2052c7865aef6c448b7feca72c42e9c863b))
+* keep the game's line breaks for Windows-1252 letters from à to ÿ ([#78](https://github.com/happy-dwarf-team/mei/issues/78)) ([7a063cb](https://github.com/happy-dwarf-team/mei/commit/7a063cb77ec0285bd3c018a16a2e5b1be5a7a89c))
+* let the Paradox launcher see the Workshop item as made for 1.37 ([#87](https://github.com/happy-dwarf-team/mei/issues/87)) ([f8e1adc](https://github.com/happy-dwarf-team/mei/commit/f8e1adc7bd8b3ed851722d49dc961ef5d29f6a3b))
+
 ## [0.8.1](https://github.com/happy-dwarf-team/mei/compare/v0.8.0...v0.8.1) (2026-11-15)
 
 
