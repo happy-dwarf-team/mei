@@ -57,6 +57,9 @@ Mei 是在遊戲內執行的真正程式，不只是一堆文字檔。Anvil 確�
 ### 我玩的是 GOG 版，可以用嗎？
 可以，支援 1.37.5.2 和 1.37.5.0：GOG 沒有工作坊，請在 Anvil Manager 的 **Catalog**（目錄）頁面安裝。無論從哪道門進來，都是同一個銘。
 
+### 我在 Linux 上玩，可以用嗎？
+大概可以，需透過 Proton：Anvil 已在桌面版 Linux 上執行，但 Mei 及其中文文字尚未在 Proton 下測試，Steam Deck 也未測試。請為 EU4 強制使用 Proton，用壓縮檔安裝 Anvil，並加入啟動選項 `WINEDLLOVERRIDES="version=n,b" %command%`（[步驟](https://anvil.happydwarf.dev/docs/install/#on-linux-with-proton)）。在 Proton 下核准工作坊外掛尚未嘗試；如不成功，請手動安裝外掛的壓縮檔，並像 GOG 版那樣把字型做成一個小的本機模組（[Mei 的頁面](https://anvil.happydwarf.dev/plugins/mei/)）。
+
 ### 為什麼叫「Mei」？
 銘（日文讀作 *mei*）是日本刀匠刻在刀上的署名，在中文（*míng*）和韓文（명，*myeong*）裡意思是「銘文」：Mei 服務的三種語言共用這一個字。
 
