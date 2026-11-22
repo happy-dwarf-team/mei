@@ -58,7 +58,7 @@ Click **Replace EU4DLL** (or **Replace EU4 Unicode Patch**) in Anvil Manager: th
 Yes, 1.37.5.2 and 1.37.5.0: GOG has no Workshop, so install it from the **Catalog** page of Anvil Manager. The same mark, whichever gate you came through.
 
 ### I play on Linux. Can I use it?
-Probably, through Proton: Anvil runs there on desktop Linux, but nobody has tested Mei and its Chinese text under Proton yet, nor the Steam Deck. Force Proton for EU4, install Anvil from its zip and add the launch option `WINEDLLOVERRIDES="version=n,b" %command%` ([the steps](https://anvil.happydwarf.dev/docs/install/#on-linux-with-proton)). Plugins from the Workshop work there too: approve them in the Anvil panel.
+Not tested: Anvil runs under Proton on desktop Linux in a team member's tests, but nobody has tried Mei there yet, nor the Steam Deck. Force Proton, install Anvil from its zip and add one launch option ([the steps](https://anvil.happydwarf.dev/docs/install/#on-linux-with-proton)).
 
 ### Why "Mei"?
 銘 (*mei*) is the signature a Japanese swordsmith cuts into a blade, and in Chinese (铭, *míng*) and Korean (명, *myeong*) it means "inscription": one character for the three languages Mei serves.
