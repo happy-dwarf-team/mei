@@ -244,6 +244,12 @@ CONSTANTS = {0x1595C88: ("font_codepoint_limit", "the font loader's highest code
              0x16C2CBA: ("texture_file_limit", "the largest texture file read through PHYSFS_read, 0x1000000, as a 32-bit immediate; the original makes it 0x4000000"),
              0x1764E56: ("sdl_ime_ui_less", "an address computation in the SDL IME set-up; the original jumps past the UI-less TSF manager")}
 
+# Hooks of the original that Mei leaves out, with why. Their block and the continuations only they jump to are not
+# written: anvil check --exe would report them, and no change of the plugin uses them.
+LEFT_OUT = {"speed_increase_hook": "its block has a short branch before the last of its first 5 bytes, which Anvil "
+                                   "cannot relocate (Anvil 1.26); Mei does not port the original's '=' alias of "
+                                   "the speed-up key"}
+
 asm = {}
 for f in sorted(src.glob("src/*_hooks.asm")):
     for m in re.finditer(r"^(\w+) PROC\b(.*?)^\1 ENDP", f.read_text(encoding="utf-8", errors="replace"), re.S | re.M):
@@ -275,6 +281,8 @@ else:
            f'build = "{STEAM}"', ""]
 continuations = {}
 for rva, callback, trampoline in hooks:
+    if callback in LEFT_OUT:
+        continue
     if callback in asm:
         stub, targets = asm[callback]
         conts = sorted((returns[g], g) for g in targets)
