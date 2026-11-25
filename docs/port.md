@@ -252,7 +252,7 @@ same file name. As in the original:
 | Symbol | The game | The plugin |
 | --- | --- | --- |
 | 7 × `save_transliterate_call_*` | transliterate the name in the in-game save and load menus, the ironman dialog and the front end's selection and confirmation | NOPs; the name is UTF-8 already. The three calls of v0.1.16 keep a chosen Chinese save's name when it is overwritten |
-| `save_path_transliterate_call_5ca246` | `EU4SaveGameHelper::BuildFullSavePath` transliterates the path | redirected: a path that starts with `save games/` and is valid UTF-8 stays, any other goes to the game's function (the original picks this call by its return address `0x5CA24B`) |
+| `save_path_transliterate_call_5ca246` | the builder of a save's full path transliterates it | redirected: a path that starts with `save games/` and is valid UTF-8 stays, any other goes to the game's function (the original picks this call by its return address `0x5CA24B`) |
 
 The game's other callers of the function (the save folder, settings, the multiplayer view,
 the nation designer, the idler's name, the set-up's control sequences) keep it, and so does
