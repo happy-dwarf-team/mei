@@ -48,7 +48,7 @@ With the default settings:
 
 ## Install
 
-- [Anvil](https://anvil.happydwarf.dev/) 1.9 or newer in the game folder, and EU4 1.37.5
+- [Anvil](https://anvil.happydwarf.dev/) 1.10 or newer in the game folder, and EU4 1.37.5
   (Steam, or the GOG build 1.37.5.2 or 1.37.5.0 with the GitHub release and a local mod for the fonts;
   1.37.5.0 needs Anvil 1.15 or newer).
 - An old double-byte patch (EU4DLL or the original) and Anvil both use `version.dll`. Anvil
