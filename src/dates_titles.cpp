@@ -63,8 +63,9 @@ void* month_year(void* result, const void* month, const void* year) noexcept {
     return output;
 }
 
-// CCombat::GetName: a localised prefix, a space and the place, which the game reads
-// from _pLocation (0x30), its _Template (0x28) and the name there (0x10), as the original.
+// The combat's title (0x23A900): a localised prefix, a space and the place, which the game
+// reads from the combat's location (0x30), its template (0x28) and the name there (0x10), as
+// the original.
 void* combat_title(const void* combat, void* result) noexcept {
     void* output = g_combat_title.next(combat, result);
     try {

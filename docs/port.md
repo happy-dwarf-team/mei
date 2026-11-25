@@ -127,8 +127,8 @@ line could start with ，or 」 and end with 「; Mei asks about the break after
 all three. Text without a character of three or more bytes keeps the game's breaks and
 costs nothing.
 
-The game strips colour markers (`CString::RemoveTextColoring`, `construct_colorless_text`
-`0x17046A0`) byte by byte: it drops a 0xA7 byte and the byte after it. In UTF-8 that is the
+The game's routine that strips colour markers (`construct_colorless_text` `0x17046A0`) works
+byte by byte: it drops a 0xA7 byte and the byte after it. In UTF-8 that is the
 last byte of a character such as 大 or 控 and the first byte of the next one, and of a
 marker `§Y` it leaves the 0xC2, so a stripped name showed stray letters or broken text
 (mercenary company names, institution tooltips, the game set-up's names, `/save`). As in
@@ -137,7 +137,7 @@ markers go, every other byte stays, single-byte markers of the game's own text t
 
 ### CJK fonts
 
-The game's font loader drops every glyph above U+00FF (`cmp edi, 0xFF`), and the Steam
+The game's font loader drops every glyph above U+00FF (`font_codepoint_limit`), and the Steam
 1.37.5 fonts have none. As in the original, the limit becomes U+10FFFF together with the
 loader's lookup, allocation and store blocks (`font_hooks.asm`) and the original's glyph
 registry (`glyph_registry.cpp`), which keeps those glyphs apart from the font's table of
@@ -230,20 +230,21 @@ day words.
 
 | Symbol | The game | The plugin |
 | --- | --- | --- |
-| `topbar_date_call_1432256` | `CGregorianDate::GetString` with "d w mw w y" for the top bar | "1444年11月11日" or "1444년 11월 11일" (the original picks this call by its return address) |
-| `end_of_month_date_call_6e5cef`, `month_year_date_call_6e61b9` | `operator+` of a month ("4月 ," or "4月 ") and a year in `CEU3Date::GetEndOfMonthString` and `GetLongStringMonthYear` | "1447年4月" or "1447년 4월" (the original's two calls) |
+| `topbar_date_call_1432256` | the date's text with "d w mw w y" for the top bar | "1444年11月11日" or "1444년 11월 11일" (the original picks this call by its return address) |
+| `end_of_month_date_call_6e5cef`, `month_year_date_call_6e61b9` | `operator+` of a month ("4月 ," or "4月 ") and a year in the date's end-of-month and long month-and-year texts (`0x6E5CEF`, `0x6E61B9`) | "1447年4月" or "1447년 4월" (the original's two calls) |
 | `claim_strength_date_call_a52956`, `rebel_date_call_12ba0e6`, `game_setup_date_call_1133a58` | the same join in a claim's strength, the rebels' outliner entry and the game set-up | the same; EU4DLL changes these three too |
-| `format_localized_battle_title` `0x23A900` | `CCombat::GetName`: `BATTLE_OF`, `SIEGE_OF` or `OCCUPATION_OF`, a space and the place | place first: "瓦尔纳战役", "君士坦丁堡围攻", "北京占领", "바르나 전투" |
+| `format_localized_battle_title` `0x23A900` | the combat's title: `BATTLE_OF`, `SIEGE_OF` or `OCCUPATION_OF`, a space and the place | place first: "瓦尔纳战役", "君士坦丁堡围攻", "北京占领", "바르나 전투" |
 
 The original turns only the titles 之战 and 之围 round and leaves occupations; the current
 Chinese translation (2976470733) writes 战役, 围攻 and 占领, and EU4DLL turns every title round,
 so Mei does as EU4DLL for any Chinese or Japanese prefix and adds the Korean order with a space.
-The place is read as the original reads it (`_pLocation`, its `_Template` and the name).
+The place is read as the original reads it (the combat's location at +0x30, its template at +0x28
+and the name there at +0x10).
 
 ### Save names (`utf8_save_names`)
 
 The game turns a save's name into Latin letters before it builds the file name
-(`CString::RemoveSpecialCharacters`, `transliterate_save_path` `0x1705180`): it replaces the
+(`transliterate_save_path` `0x1705180`): it replaces the
 lead byte of each UTF-8 character by a letter and drops the rest, so the Ottomans of a
 Chinese translation (奥斯曼) got `aaa1444_11_11.eu4`, and different countries could get the
 same file name. As in the original:

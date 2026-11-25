@@ -80,7 +80,7 @@ eu4unicode::EngineString* native_presence(eu4unicode::EngineString* target, cons
 eu4unicode::EngineString* native_assign(eu4unicode::EngineString* target, const char* text, std::uint64_t size) {
     return static_cast<eu4unicode::EngineString*>(g_assign_text(target, text, size));
 }
-// The game's CString::RemoveTextColoring drops a 0xA7 byte and the byte after it, which in
+// The game's colour-marker stripping (0x17046A0) drops a 0xA7 byte and the byte after it, which in
 // UTF-8 is the end of a character such as 大 and the start of the next one, and leaves the
 // 0xC2 of a UTF-8 colour marker. The original's replacement strips whole colour markers
 // (mercenary company names, institution tooltips, the game set-up's names, /save).
@@ -90,7 +90,7 @@ void* on_colorless_text(const void* source, void* target) noexcept {
 }
 void colour_warning(const char* message) { anvil::Host{}.warn("{}", message); }
 
-// Save names: the game turns a save's name into Latin letters (CString::RemoveSpecialCharacters),
+// Save names: the game turns a save's name into Latin letters (transliterate_save_path),
 // so a Chinese country's default save became aaa1444_11_11.eu4. As in the original, the calls
 // of the save menus, the ironman dialog and the save path skip it; the path keeps it unless it
 // is a save's path in UTF-8, and the file system's own check of illegal characters stays.
