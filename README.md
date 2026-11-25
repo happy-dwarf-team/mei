@@ -457,7 +457,8 @@ cmake --build build --config Release --parallel
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-Regenerate the symbols after moving `upstream/` to another commit:
+Regenerate the symbols after moving `upstream/` to another commit. The generator reads each symbol's bytes from the
+game and writes only their digest (`sha256` and `size`, Anvil 1.10 or newer), so the file holds no code of eu4.exe:
 
 ```
 python -I tools/gen-symbols.py "<EU4 Steam>/eu4.exe" upstream --build "<EU4 GOG 1.37.5.2>/eu4.exe" tools/gog-1.37.5.2.json --build "<EU4 GOG 1.37.5.0>/eu4.exe" tools/gog-1.37.5.0.json > symbols.toml

@@ -21,3 +21,10 @@ minor version.
 
 When you change `symbols.toml`, run the `-check` target with `EU4_EXE` set and commit
 the new `symbols.lock` in the same pull request; CI fails on a stale lock.
+
+**Game code and names.** This repository holds no code of eu4.exe and no names from its debug symbols.
+`symbols.toml` verifies each address with `sha256` and `size`, not with the game's bytes; write `bytes` while you
+work and run Anvil's `tools/symbols-to-digest.py` before you commit. Name the game's functions, classes and
+fields by their address and what they do, unless eu4.exe itself shows the name (its RTTI or its own log and
+assert texts). Our own symbol keys, addresses, offsets and signatures are fine. In Mei, `tools/gen-symbols.py`
+writes the digests itself: change the generator, not `symbols.toml`.

@@ -6,7 +6,8 @@
 builds = ["eu4-1.37.5-steam-win64", "eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 
 [symbol.construct_colorless_text]
-bytes = "48 89 5C 24 08 48 89 6C 24 18 48 89 54 24 10 56"
+sha256 = "6E43DC950F0B12131052ED9D8C7781250BEE9F5C70B00ECF3D7B27EBED572A91"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x17046A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EE470 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EE470 }
@@ -15,31 +16,32 @@ signature = "void* (const void* source, void* target)"
 note = "function hook of the original that does not call the game function (construct_colorless_text)"
 
 [symbol.person_name_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0xA4B48C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 4A 7E 64 FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A44C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 BA 8E 64 FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xA4A44C, bytes = "48 8D 55 B8 48 83 7D D0 10 48 0F 43 55 B8 4C 8B 45 C8 48 8B CB E8 BA 8E 64 FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xA4B48C, sha256 = "ED07C7919201D8330C29CAA4A14741D1D517D92747563264246F875F3D31C295", size = 26 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A44C, sha256 = "A328E47AF554269884B6668E31AB6943A21129B062AA7BB1DEECCFAF3C9E4603", size = 26 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xA4A44C, sha256 = "A328E47AF554269884B6668E31AB6943A21129B062AA7BB1DEECCFAF3C9E4603", size = 26 }
 memory = "code"
 resume = "person_name_return"
 note = "text_hooks.asm person_name_hook"
 
 [symbol.speed_increase_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x816DD5, bytes = "3C 2B 75 39 80 BE F1 19 00 00 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x816135, bytes = "3C 2B 75 39 80 BE E1 19 00 00 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x816135, bytes = "3C 2B 75 39 80 BE E1 19 00 00 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x816DD5, sha256 = "47E292441D2332BE67839B79C0C6D9F5D5919084AEB7B9DAD105E24F5962F991", size = 11 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x816135, sha256 = "E983E0A38413D7F9E97E678544433F68375A42336EFE74ACDF1A14C5FC3DC4D7", size = 11 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x816135, sha256 = "E983E0A38413D7F9E97E678544433F68375A42336EFE74ACDF1A14C5FC3DC4D7", size = 11 }
 memory = "code"
 resume = "speed_increase_return"
 note = "text_hooks.asm speed_increase_hook; also continues at speed_other_return"
 
 [symbol.generated_name_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x3142F2, bytes = "48 8D 4C 24 30 E8 F4 EF D7 FF 0F 10 44 24 30" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x314282, bytes = "48 8D 4C 24 30 E8 94 F0 D7 FF 0F 10 44 24 30" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x314282, bytes = "48 8D 4C 24 30 E8 94 F0 D7 FF 0F 10 44 24 30" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x3142F2, sha256 = "C96D95D4951ED2EDCD29EFFA093A99E9A387DAC38EC35BBCD29019D813C2F38F", size = 15 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x314282, sha256 = "7CFDBC4DFDE95935A1BE13631CD8D861FCBB1BD66F60D06C3526BEB395CA04BC", size = 15 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x314282, sha256 = "7CFDBC4DFDE95935A1BE13631CD8D861FCBB1BD66F60D06C3526BEB395CA04BC", size = 15 }
 memory = "code"
 resume = "generated_name_return"
 note = "text_hooks.asm generated_name_hook"
 
 [symbol.import_legacy_localization]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FD650 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E74A0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E74A0 }
@@ -48,16 +50,17 @@ signature = "void (const void* key, const void* value, int version, int unused, 
 note = "function hook of the original that does not call the game function (import_legacy_localization)"
 
 [symbol.main_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x15995B0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 08 A7 E9 00 42 88 04 19 FF C6" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x15900D0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 68 7A E8 00 42 88 04 19 FF C6" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x15900D0, bytes = "4C 63 CF 48 8B 55 F8 4C 03 CA 48 63 CE 41 0F B6 01 4C 8D 1D 68 7A E8 00 42 88 04 19 FF C6" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x15995B0, sha256 = "92271170DB66CD167A7810AE9B5209318E7CF8630706C7956FB7AD4F091125D7", size = 30 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15900D0, sha256 = "F33D8A662035C715EF7EB7FCBE7DC16DC3CE13A3BDB641420A1533C8B7CBCD98", size = 30 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15900D0, sha256 = "F33D8A662035C715EF7EB7FCBE7DC16DC3CE13A3BDB641420A1533C8B7CBCD98", size = 30 }
 memory = "code"
 resume = "main_copy_return"
 values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }
 note = "text_hooks.asm main_copy_hook; also continues at main_measure_entry"
 
 [symbol.main_measure_block]
-bytes = "41 0F B6 01 49 8B 8C C6 20 01 00 00 48 89 4D 00 48 85 C9"
+sha256 = "FE93FB1455866772C7A8C6056BE9BEC0528FB5E9589BF242F93DBAD4126E348E"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x1599728 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590248 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590248 }
@@ -66,7 +69,8 @@ resume = "main_measure_return"
 note = "text_hooks.asm main_measure_hook"
 
 [symbol.main_draw_block]
-bytes = "46 0F B6 04 09 F3 41 0F 10 9E 68 09 00 00 4B 8B 94 C6 20 01 00 00"
+sha256 = "BA5C512A84D9A59C0035BE054C092EC8E237789FD8C8D27AEB182F642FAD665C"
+size = 22
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A796 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912B6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912B6 }
@@ -75,7 +79,8 @@ resume = "main_draw_return"
 note = "text_hooks.asm main_draw_hook"
 
 [symbol.bitmap_measure_block]
-bytes = "0F B6 04 07 49 8B 8C C6 20 01 00 00 48 85 C9"
+sha256 = "90F2E785DEF94DB5841E91A12B51E3D963A07495B98238C3B1156749D9966DC0"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B687 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15921A7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15921A7 }
@@ -84,7 +89,8 @@ resume = "bitmap_measure_return"
 note = "text_hooks.asm bitmap_measure_hook"
 
 [symbol.main_page_block]
-bytes = "8B 5C 24 48 83 C3 06"
+sha256 = "AB79E4979BB6DCF996CF2D09D20FEAD12EA095FF4A8A3FFF9DCA8A9D8F5B5B12"
+size = 7
 build."eu4-1.37.5-steam-win64" = { rva = 0x159AF87 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591AA7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591AA7 }
@@ -93,7 +99,8 @@ resume = "main_page_return"
 note = "text_hooks.asm main_page_hook"
 
 [symbol.button_page_block]
-bytes = "8B 95 C8 21 00 00"
+sha256 = "99CE20A5803713E0335116C4B3C7C5E85F1AF4EA8009D12211B69786655E664B"
+size = 6
 build."eu4-1.37.5-steam-win64" = { rva = 0x15986F6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F216 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F216 }
@@ -102,7 +109,8 @@ resume = "button_page_return"
 note = "text_hooks.asm button_page_hook"
 
 [symbol.main_geometry_entry_block]
-bytes = "4C 8B E2 4C 8B F1"
+sha256 = "0A191623A63B37AA8BE06E2E9E45CDB8400650A6B555749F57C91237D1095275"
+size = 6
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598963 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F483 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F483 }
@@ -111,7 +119,8 @@ resume = "main_geometry_entry_return"
 note = "text_hooks.asm main_geometry_entry_hook"
 
 [symbol.main_geometry_end_block]
-bytes = "4C 8D 9C 24 08 24 00 00"
+sha256 = "534113B2D86B1274615FB0F8B6F16796883931E72F25610564D6C41781DCC51A"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B3B0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591ED0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591ED0 }
@@ -120,7 +129,8 @@ resume = "main_geometry_end_return"
 note = "text_hooks.asm main_geometry_end_hook"
 
 [symbol.button_geometry_entry_block]
-bytes = "49 8B D8 48 8B F9"
+sha256 = "44183F062EE11CEC414A28A6CD98C0BE13C1DA23711ED18D4991642360976371"
+size = 6
 build."eu4-1.37.5-steam-win64" = { rva = 0x15966EC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D20C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D20C }
@@ -129,7 +139,8 @@ resume = "button_geometry_entry_return"
 note = "text_hooks.asm button_geometry_entry_hook"
 
 [symbol.button_geometry_end_block]
-bytes = "4C 8D 9C 24 60 22 00 00"
+sha256 = "5BAD4B0B4751696D92ADA32B7FB53626F2C73BC9CCA7435DB4EBE6876F6C2C04"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598841 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F361 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F361 }
@@ -138,7 +149,8 @@ resume = "button_geometry_end_return"
 note = "text_hooks.asm button_geometry_end_hook"
 
 [symbol.bitmap_split_block]
-bytes = "F3 41 0F 10 B6 48 08 00 00 0F B6 04 02 4D 8B 3C C6 4D 85 FF"
+sha256 = "8DCDD166CAC115CB0BA8D33CFCCC2D0F3B5534F92FBAFC3C55334E746C0B3058"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF48 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A68 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A68 }
@@ -147,7 +159,8 @@ resume = "bitmap_split_return"
 note = "text_hooks.asm bitmap_split_hook"
 
 [symbol.bitmap_advance_block]
-bytes = "FF C7 8B D7 44 8B 53 10 41 3B FA"
+sha256 = "8FAC2B421EF78FE8CF45226C9B6E48C237E4CF8640CAE24DFEAC9F4867793BAA"
+size = 11
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F1DB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595CFB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595CFB }
@@ -156,7 +169,8 @@ resume = "bitmap_advance_return"
 note = "layout_hooks.asm bitmap_advance_hook"
 
 [symbol.list_measure_block]
-bytes = "4C 8B 45 B8 F3 41 0F 10 B0 48 08 00 00 0F B6 04 10 4D 8B 24 C0 4D 85 E4"
+sha256 = "F766C34D34C43BDAFCD53F150D92064751099842F8689C3A784909EC0AA6FE13"
+size = 24
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F87D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159639D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159639D }
@@ -165,7 +179,8 @@ resume = "list_measure_return"
 note = "layout_hooks.asm list_measure_hook"
 
 [symbol.list_advance_block]
-bytes = "FF C3 8B F3 8B 4F 10 44 0F B6 8D 48 01 00 00"
+sha256 = "1D05E913B83733E80678BA84D868892BBB445ADCB434ECFFD013C13E74FC057C"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x159FDE5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596905 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596905 }
@@ -174,7 +189,8 @@ resume = "list_advance_return"
 note = "layout_hooks.asm list_advance_hook"
 
 [symbol.split_format_block]
-bytes = "48 8B CB 4C 8B 4B 18 49 83 F9 10 72 03 48 8B 0B"
+sha256 = "9045A4481899B9F12C19E2955905425B2D4CCDFDE91F3880DFCA33EE4480A235"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EDDD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15958FD }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15958FD }
@@ -183,7 +199,8 @@ resume = "split_format_return"
 note = "layout_hooks.asm split_format_hook; also continues at split_plain_entry"
 
 [symbol.list_format_block]
-bytes = "48 8B CF 4C 8B 47 18 49 83 F8 10 72 03 48 8B 0F"
+sha256 = "B408034AED0ACBB79ADACCA277914A0A4CE716D55A84C4C52268AF840D3D19F3"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F6EF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159620F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159620F }
@@ -192,7 +209,8 @@ resume = "list_format_return"
 note = "layout_hooks.asm list_format_hook; also continues at list_plain_entry"
 
 [symbol.alternate_format_block]
-bytes = "0F B6 04 2B 3C A7"
+sha256 = "6B74719865E00E1A242D793FFB90CB95402F736CC6521FB409DA1C4D25748AB6"
+size = 6
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B85C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159237C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159237C }
@@ -201,7 +219,8 @@ resume = "alternate_format_return"
 note = "layout_hooks.asm alternate_format_hook; also continues at alternate_plain_entry, alternate_end"
 
 [symbol.alternate_advance_block]
-bytes = "FF C7 48 FF C3"
+sha256 = "20C7CAA4A60972A3E7F1668867BD9CA7D40626158D5D88C5BCB7F62A717ECD6B"
+size = 5
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B999 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924B9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924B9 }
@@ -210,7 +229,8 @@ resume = "alternate_advance_return"
 note = "layout_hooks.asm alternate_advance_hook"
 
 [symbol.split_kern_block]
-bytes = "E8 5E 53 FF FF F3 0F 58 F8 F3 44 0F 58 C0"
+sha256 = "892E7C2DF55B1AA71245F2F48AF8B07094AFABF9C930CCC8D2A266F97711907F"
+size = 14
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F06D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595B8D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595B8D }
@@ -219,7 +239,8 @@ resume = "split_kern_return"
 note = "layout_hooks.asm split_kern_hook"
 
 [symbol.list_kern_block]
-bytes = "E8 22 4A FF FF F3 0F 58 F8 F3 44 0F 58 C0"
+sha256 = "C1A2AE2D0E8E5571B57E15D68EE9CE9059D75B57E72747F209AC4EDE770EA86E"
+size = 14
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F9A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15964C9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15964C9 }
@@ -228,7 +249,8 @@ resume = "list_kern_return"
 note = "layout_hooks.asm list_kern_hook"
 
 [symbol.alternate_kern_block]
-bytes = "E8 71 8A FF FF F3 0F 58 F0"
+sha256 = "241176706E789FB2604B33A24BC6C38033A48BF5B2FC872591BA65DFF534081B"
+size = 9
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B95A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159247A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159247A }
@@ -237,7 +259,8 @@ resume = "alternate_kern_return"
 note = "layout_hooks.asm alternate_kern_hook"
 
 [symbol.button_wrap_block]
-bytes = "66 41 83 7B 06 00 0F 85 E0 03 00 00"
+sha256 = "3148CBEA68B66B0196766C7C367917861D46275290E9F77EC51617B37C9C706E"
+size = 12
 build."eu4-1.37.5-steam-win64" = { rva = 0x15970DF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DBFF }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DBFF }
@@ -246,15 +269,16 @@ resume = "button_wrap_return"
 note = "layout_hooks.asm button_wrap_hook; also continues at button_wrap_branch"
 
 [symbol.popup_entry_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159C677, bytes = "48 8B CA E8 61 90 AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593197, bytes = "48 8B CA E8 71 25 B0 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593197, bytes = "48 8B CA E8 71 25 B0 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159C677, sha256 = "D847C6C37E9A39A7667778B56F86725050CCBFD20E2A47D9AAB79F68435D3C2A", size = 8 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593197, sha256 = "39FAB8BC6B8B47ABC3F1C60C4510E2ACC8F33452CFA792D2DFA4F6C202319152", size = 8 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593197, sha256 = "39FAB8BC6B8B47ABC3F1C60C4510E2ACC8F33452CFA792D2DFA4F6C202319152", size = 8 }
 memory = "code"
 resume = "popup_entry_return"
 note = "popup_hooks.asm popup_entry_hook"
 
 [symbol.popup_end_block]
-bytes = "4C 8D 9C 24 38 04 00 00"
+sha256 = "8015B580270A7ECD98B5D80B72E41E19057114B9F34A164DF86EA33196258E32"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CD75 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593895 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593895 }
@@ -263,39 +287,40 @@ resume = "popup_end_return"
 note = "popup_hooks.asm popup_end_hook"
 
 [symbol.popup_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159C6D8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 5B 4B AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 98 3D AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x15931F8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 6B E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 A8 D2 AF FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x15931F8, bytes = "0F B6 1C 07 48 8D 4D 50 E8 6B E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 A8 D2 AF FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159C6D8, sha256 = "ED0AC277136A04FB57AB14EE1B9B9E4203F3D63BEB8B049F0C01C90560D426C5", size = 32 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15931F8, sha256 = "BAFD2FD725B98FE61DBBBDA53BD75B576005A7B4B287DF16BF704A5251D23EE6", size = 32 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15931F8, sha256 = "BAFD2FD725B98FE61DBBBDA53BD75B576005A7B4B287DF16BF704A5251D23EE6", size = 32 }
 memory = "code"
 resume = "popup_copy_return"
 note = "popup_hooks.asm popup_copy_hook"
 
 [symbol.popup_color_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159C72B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 08 4B AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 45 3D AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x159324B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 18 E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 55 D2 AF FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x159324B, bytes = "0F B6 1C 07 48 8D 4D 50 E8 18 E0 AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 55 D2 AF FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159C72B, sha256 = "7F681E8D5E3D14963F465CDA570C8964E8E83CD370727C4CE72B3D7C9702328B", size = 32 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x159324B, sha256 = "587538442835CF97F80560C6C83E7ECC7F25241B584B53F459557C0D34C0C128", size = 32 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x159324B, sha256 = "587538442835CF97F80560C6C83E7ECC7F25241B584B53F459557C0D34C0C128", size = 32 }
 memory = "code"
 resume = "popup_color_copy_return"
 note = "popup_hooks.asm popup_color_copy_hook"
 
 [symbol.popup_icon_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159C79A, bytes = "0F B6 1C 07 48 8D 4D 50 E8 99 4A AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 D6 3C AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x15932BA, bytes = "0F B6 1C 07 48 8D 4D 50 E8 A9 DF AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 E6 D1 AF FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x15932BA, bytes = "0F B6 1C 07 48 8D 4D 50 E8 A9 DF AF FE 90 44 0F B6 C3 BA 01 00 00 00 48 8D 4D 50 E8 E6 D1 AF FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159C79A, sha256 = "BACEE1DD5232CC583B42C54B831561BA92178036D20BE39F8F402983E4B9E2F5", size = 32 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15932BA, sha256 = "41F70238197D336092CD7B28E15CF6D8252A20F306B357F842ED22E2CEEDA30E", size = 32 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15932BA, sha256 = "41F70238197D336092CD7B28E15CF6D8252A20F306B357F842ED22E2CEEDA30E", size = 32 }
 memory = "code"
 resume = "popup_icon_copy_return"
 note = "popup_hooks.asm popup_icon_copy_hook"
 
 [symbol.popup_format_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159C713, bytes = "48 8B CE E8 C5 8F AF FE 48 8B CE 80 3C 07 A7" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593233, bytes = "48 8B CE E8 D5 24 B0 FE 48 8B CE 80 3C 07 A7" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593233, bytes = "48 8B CE E8 D5 24 B0 FE 48 8B CE 80 3C 07 A7" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159C713, sha256 = "77828E0D6FD3B14734E15D028F3071B69EB6965F6C5B33D687BFB778E3CE9F86", size = 15 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593233, sha256 = "AC7D00950DD24E8943AB49973159EE652711427136C146A59D7907854EE93FD5", size = 15 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593233, sha256 = "AC7D00950DD24E8943AB49973159EE652711427136C146A59D7907854EE93FD5", size = 15 }
 memory = "code"
 resume = "popup_format_return"
 note = "popup_hooks.asm popup_format_hook; also continues at popup_plain_entry"
 
 [symbol.popup_measure_block]
-bytes = "0F B6 04 07 4D 8B A4 C7 20 01 00 00 4D 85 E4"
+sha256 = "37154AE139D55F4660CB457FD988CCAECEA0564C542F37734A37C7CB505F0104"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C833 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593353 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593353 }
@@ -304,7 +329,8 @@ resume = "popup_measure_return"
 note = "popup_hooks.asm popup_measure_hook"
 
 [symbol.popup_wrap_block]
-bytes = "66 41 83 7C 24 06 00 0F 85 EE 00 00 00"
+sha256 = "F610D6AFEB26CBAADE39F0EAA209C5AB7F58C8CB815D66B8B3110A6A01303681"
+size = 13
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933C6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933C6 }
@@ -313,7 +339,8 @@ resume = "popup_wrap_return"
 note = "popup_hooks.asm popup_wrap_hook; also continues at popup_advance_entry"
 
 [symbol.popup_advance_block]
-bytes = "FF C7 3B 7E 10"
+sha256 = "3ACE52E61F5EC6D732F0575CF8885D96252D223E40ADDDE3E09397FDA84B4158"
+size = 5
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C1 }
@@ -322,7 +349,8 @@ resume = "popup_advance_return"
 note = "popup_hooks.asm popup_advance_hook"
 
 [symbol.popup_draw_format_block]
-bytes = "48 8D 44 24 60 49 83 F8 10 49 0F 43 C1 80 3C 30 A7 48 8D 44 24 60"
+sha256 = "3B759EB7BA5D9012EDBDD80C0554B219C09F7137C159B12FAA90B0DAE6E263EF"
+size = 22
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CBB3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15936D3 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15936D3 }
@@ -331,7 +359,8 @@ resume = "popup_draw_format_return"
 note = "popup_hooks.asm popup_draw_format_hook; also continues at popup_draw_plain_entry"
 
 [symbol.popup_draw_block]
-bytes = "0F B6 04 06 4D 8B AC C7 20 01 00 00 4D 85 ED"
+sha256 = "E411D3CB0E998C749AEED606E88C071DC46B56D47438ABD19C8AF09B289DD24A"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CEC5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939E5 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939E5 }
@@ -340,7 +369,8 @@ resume = "popup_draw_return"
 note = "popup_hooks.asm popup_draw_hook"
 
 [symbol.popup_icon_end_block]
-bytes = "C6 44 15 90 00"
+sha256 = "887164B2FFA3D17A5AF535880E1B33E27A872B456D9CC5EC47ECA043CA04D792"
+size = 5
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CE31 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593951 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593951 }
@@ -349,7 +379,8 @@ resume = "popup_icon_end_return"
 note = "popup_hooks.asm popup_icon_end_hook"
 
 [symbol.popup_measure_kern_block]
-bytes = "E8 32 7B FF FF F3 0F 58 F0 F3 0F 58 F8"
+sha256 = "F83CBF8C8A5216CBF6C430A208DB0132919367C0D49AAB97170A072AC737C7F6"
+size = 13
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C899 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933B9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933B9 }
@@ -358,7 +389,8 @@ resume = "popup_measure_kern_return"
 note = "popup_hooks.asm popup_measure_kern_hook"
 
 [symbol.popup_draw_kern_block]
-bytes = "E8 BA 69 FF FF F3 44 0F 58 E8"
+sha256 = "8B3A142D2F45E6D5E8B3D47CF10A71524049476E1A7B7B56E02D13D631AEDE89"
+size = 10
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DA11 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594531 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594531 }
@@ -367,7 +399,8 @@ resume = "popup_draw_kern_return"
 note = "popup_hooks.asm popup_draw_kern_hook"
 
 [symbol.popup_page_block]
-bytes = "8B 8D 88 03 00 00 83 C1 06"
+sha256 = "8028F9DCD58490DB1E1A64A63D4DC61F8AE4E58C3973F50AD7C82AB0B8D4422D"
+size = 9
 build."eu4-1.37.5-steam-win64" = { rva = 0x159D9A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15944C0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15944C0 }
@@ -376,23 +409,24 @@ resume = "popup_page_return"
 note = "popup_hooks.asm popup_page_hook"
 
 [symbol.heap_zero_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1A683AE, bytes = "48 8B 0D 9B 54 8D 00 4C 8B C3 33 D2 FF 15 B0 E1 0F 00 48 85 C0" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1A51FFE, bytes = "48 8B 0D CB F6 8C 00 4C 8B C3 33 D2 FF 15 80 D2 0F 00 48 85 C0" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1A51FFE, bytes = "48 8B 0D CB F6 8C 00 4C 8B C3 33 D2 FF 15 80 D2 0F 00 48 85 C0" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1A683AE, sha256 = "F41FDDC441367D46601FA6B78D351596BF0BD2777F7AAE9CA37CED76D6BA3F23", size = 21 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1A51FFE, sha256 = "47EAD3855A4ED62682F0E70002328875DECCB9D3550A103C44684A0F7113C1C5", size = 21 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1A51FFE, sha256 = "47EAD3855A4ED62682F0E70002328875DECCB9D3550A103C44684A0F7113C1C5", size = 21 }
 memory = "code"
 resume = "heap_return"
 note = "text_hooks.asm heap_zero_hook"
 
 [symbol.button_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1596858, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 B4 9A AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D378, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 C4 2F B0 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D378, bytes = "44 0F B6 04 18 BA 01 00 00 00 48 8D 4C 24 48 E8 C4 2F B0 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1596858, sha256 = "C74004FF68534872A70B6E4BD3DBD0B73D6DE6460AE2D194193CFD89FA7456A7", size = 20 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D378, sha256 = "61B60BD9DB9E6617CB7570BB0E702F16739A69090FF71198CE8711873B7857F5", size = 20 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D378, sha256 = "61B60BD9DB9E6617CB7570BB0E702F16739A69090FF71198CE8711873B7857F5", size = 20 }
 memory = "code"
 resume = "button_copy_return"
 note = "text_hooks.asm button_copy_hook"
 
 [symbol.button_measure_block]
-bytes = "45 8B CE 41 0F B6 04 01 4C 8B 1C C1 4D 85 DB"
+sha256 = "3BA27DA3084941E9C18F8DEC51A1B66B521F4E5B259E526FFEB20ED4F3E5981C"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597071 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DB91 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DB91 }
@@ -401,7 +435,8 @@ resume = "button_measure_return"
 note = "text_hooks.asm button_measure_hook"
 
 [symbol.button_draw_block]
-bytes = "41 8B CF F3 44 0F 10 9A 48 08 00 00 0F B6 04 01 4C 8B 04 C2 4C 89 45 58"
+sha256 = "56D4D7CF0910C29457E5998A1F302CCEDFC3A919DB0C81412DC9A44D623833D3"
+size = 24
 build."eu4-1.37.5-steam-win64" = { rva = 0x15983A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EEC1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EEC1 }
@@ -410,7 +445,8 @@ resume = "button_draw_return"
 note = "text_hooks.asm button_draw_hook"
 
 [symbol.button_advance_block]
-bytes = "41 FF C6 44 3B 75 D8 0F 8C 59 F3 FF FF 44 8B BD C8 21 00 00"
+sha256 = "F0905C6AB09DA1645300971B177C58587DF71DE5ECCE551E67B38061BE01453B"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x15974CB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFEB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFEB }
@@ -419,7 +455,8 @@ resume = "button_end"
 note = "text_hooks.asm button_advance_hook; also continues at button_loop"
 
 [symbol.alternate_measure_block]
-bytes = "0F B6 14 2B 49 8D 8F 20 01 00 00 4C 8B 1C D1 4D 85 DB"
+sha256 = "F5CA5CEB84F8B873FE53FF897E3B293B0D1A42F95E83B0000E158AF2B8597435"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B91A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159243A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159243A }
@@ -428,7 +465,8 @@ resume = "alternate_measure_return"
 note = "text_hooks.asm alternate_measure_hook; also continues at alternate_end"
 
 [symbol.main_wrap_block]
-bytes = "66 83 79 06 00 0F 85 13 01 00 00 8D 04 1B 66 0F 6E C8"
+sha256 = "A1AEC40E900123005F57F72D68B403D0680AD87714D5B0E69CAA626757D728A7"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x15997A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15902C9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15902C9 }
@@ -437,7 +475,8 @@ resume = "wrap_return"
 note = "text_hooks.asm main_wrap_hook; also continues at wrap_branch"
 
 [symbol.main_format_block]
-bytes = "4E 8D 04 09 41 0F B6 00 3C A7"
+sha256 = "667172829B6F03964BEB3BF8551DEECE3974D63F7F0125389B17D8A3E640C663"
+size = 10
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A240 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590D60 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590D60 }
@@ -446,7 +485,8 @@ resume = "main_format_return"
 note = "text_hooks.asm main_format_hook; also continues at main_plain_entry"
 
 [symbol.main_icon_copy_block]
-bytes = "C6 84 15 D0 01 00 00 00"
+sha256 = "C0FB23789EF30E4A6C8A0194F59FE321EC2626C6EB5B68BD181B2BA164240836"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x15996B1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15901D1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15901D1 }
@@ -455,7 +495,8 @@ resume = "main_icon_copy_return"
 note = "text_hooks.asm main_icon_copy_hook"
 
 [symbol.main_icon_draw_block]
-bytes = "C6 84 0D D0 01 00 00 00"
+sha256 = "6E51B9DF2681298DED13D02F826B4794E214FE2AED962F5B3C6C331038F775CF"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A45F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590F7F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590F7F }
@@ -464,7 +505,8 @@ resume = "main_icon_draw_return"
 note = "text_hooks.asm main_icon_draw_hook"
 
 [symbol.button_format_block]
-bytes = "48 8D 45 C8 49 83 FF 10 49 0F 43 C4 80 3C 03 A7"
+sha256 = "15D620166C55293A15D93BA75138B4A8886044AE81671D2E8AB45A339CF5D7BC"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15968E1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D401 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D401 }
@@ -473,7 +515,8 @@ resume = "button_format_return"
 note = "text_hooks.asm button_format_hook; also continues at button_plain_entry"
 
 [symbol.button_icon_copy_block]
-bytes = "C6 84 15 A0 00 00 00 00"
+sha256 = "ADC4C6B50514A59CF055A944FA1E44D0B12369BD5F2FAFB36DCD9516067E1236"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596E83 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D9A3 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D9A3 }
@@ -482,7 +525,8 @@ resume = "button_icon_copy_return"
 note = "text_hooks.asm button_icon_copy_hook"
 
 [symbol.button_icon_draw_block]
-bytes = "C6 84 15 A0 00 00 00 00"
+sha256 = "ADC4C6B50514A59CF055A944FA1E44D0B12369BD5F2FAFB36DCD9516067E1236"
+size = 8
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598110 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EC30 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EC30 }
@@ -491,7 +535,8 @@ resume = "button_icon_draw_return"
 note = "text_hooks.asm button_icon_draw_hook"
 
 [symbol.button_draw_format_block]
-bytes = "48 8D 45 A0 49 83 FC 10 49 0F 43 C5 41 8B CF 80 3C 08 A7 48 8D 45 A0"
+sha256 = "B29F340E3F30EEDDB183CA21B80E2571250E0ECA8F5AE7ACB9355F0DB7FD8FA3"
+size = 23
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597D7D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158E89D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158E89D }
@@ -500,7 +545,8 @@ resume = "button_draw_format_return"
 note = "text_hooks.asm button_draw_format_hook; also continues at button_draw_plain_entry"
 
 [symbol.bitmap_format_block]
-bytes = "4C 8B 4B 18 48 8B CB 49 83 F9 10 72 03 48 8B 0B 80 3C 0F A7"
+sha256 = "ECD6593C4CC95BB9C63F47D36B0232A8450DD5BD1F76E257CE834DF01CA39C4C"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B539 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592059 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592059 }
@@ -509,7 +555,8 @@ resume = "bitmap_format_return"
 note = "text_hooks.asm bitmap_format_hook; also continues at bitmap_plain_entry"
 
 [symbol.bitmap_icon_end_block]
-bytes = "49 8B 06 48 8D 54 24 20 C6 44 0C 20 00"
+sha256 = "2643FEEC898FBE7115ED29BDBEC9DB45E973F7DBD470A9D7CF164D1BC7E3BCE5"
+size = 13
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B61E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159213E }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159213E }
@@ -518,15 +565,16 @@ resume = "bitmap_icon_end_return"
 note = "text_hooks.asm bitmap_icon_end_hook"
 
 [symbol.map_copy_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x159DB79, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 93 27 AF FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594699, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 A3 BC AF FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594699, bytes = "45 0F B6 04 07 BA 01 00 00 00 48 8D 4C 24 58 E8 A3 BC AF FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x159DB79, sha256 = "7B1D6B4C2F6E0B797255E67C25851FFCB73B906BE35872BE891D4E48CA8C8CB6", size = 20 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594699, sha256 = "38FA64582201E067DDD08133A3A747758502823626FF0F4457F9E7059DD03FBD", size = 20 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594699, sha256 = "38FA64582201E067DDD08133A3A747758502823626FF0F4457F9E7059DD03FBD", size = 20 }
 memory = "code"
 resume = "map_copy_return"
 note = "map_hooks.asm map_copy_hook"
 
 [symbol.map_measure_block]
-bytes = "41 0F B6 04 07 4D 8B 9C C1 20 01 00 00 4D 85 DB"
+sha256 = "2C92204B1B987DAC079B25735BE15899377638A0240311753D688C5C2CDDF66A"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DC03 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594723 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594723 }
@@ -535,7 +583,8 @@ resume = "map_measure_return"
 note = "map_hooks.asm map_measure_hook"
 
 [symbol.map_draw_block]
-bytes = "F3 0F 11 5D A0 41 0F B6 04 01 49 8B 14 C7 48 85 D2"
+sha256 = "C58496D2488565208667FE52B59143A877CF96EBCAA4FA1FAD15903A796D8533"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DF89 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594AA9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594AA9 }
@@ -544,7 +593,8 @@ resume = "map_draw_return"
 note = "map_hooks.asm map_draw_hook"
 
 [symbol.map_kern_block]
-bytes = "48 8D 4C 24 78 48 83 FB 10 48 0F 43 CE 44 0F B6 04 08 48 8D 44 24 78 48 0F 43 C6 42 0F B6 14 08 49 8B CF E8 72 5F FF FF"
+sha256 = "4142D32B390E7687A7739DC4CBD26507292DF69976EAFF7C701DF753CA368AA8"
+size = 40
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E436 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F56 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F56 }
@@ -553,7 +603,8 @@ resume = "map_kern_return"
 note = "map_hooks.asm map_kern_hook"
 
 [symbol.map_justify_draw_block]
-bytes = "0F B6 04 01 88 85 08 08 00 00 F3 44 0F 10 A2 48 08 00 00 4C 8B 34 C2 4D 85 F6"
+sha256 = "16EA3309F2E2D1339D91592AC81C50117A98AB2B524B83AC4F1530BBC89CD31A"
+size = 26
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3F40 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2750 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2750 }
@@ -562,7 +613,8 @@ resume = "map_justify_draw_return"
 note = "map_hooks.asm map_justify_draw_hook"
 
 [symbol.map_justify_count_block]
-bytes = "48 8B 4F 10 48 89 8D 68 01 00 00 8D 41 FE"
+sha256 = "9B6108BC8034FD4FCC1747BD7D50C2FB1AFEBE32128636678FCBA8B34EFCC7B4"
+size = 14
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3EEA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD26FA }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD26FA }
@@ -571,7 +623,8 @@ resume = "map_justify_count_return"
 note = "map_hooks.asm map_justify_count_hook"
 
 [symbol.map_justify_measure_block]
-bytes = "83 7F 10 01 7E 1B 66 0F 6E F6 0F 5B F6 48 8B 85 68 01 00 00 FF C8 66 0F 6E C8"
+sha256 = "CFCAAFAFAC81F2F19DDCF887213A29B428076798FDA8603EEE3DA3AD6685FD5B"
+size = 26
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD413E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD294E }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD294E }
@@ -580,7 +633,8 @@ resume = "map_justify_measure_return"
 note = "map_hooks.asm map_justify_measure_hook; also continues at map_justify_single_return"
 
 [symbol.map_justify_advance_block]
-bytes = "FF C6 89 B5 E8 07 00 00 48 FF C1 48 89 8D 18 01 00 00"
+sha256 = "2B490036D955CE260A18693C3530F34378F9E4BB20641A8F1CD3760D4E1FBCE4"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53C4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BD4 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BD4 }
@@ -589,7 +643,8 @@ resume = "map_justify_advance_return"
 note = "map_hooks.asm map_justify_advance_hook"
 
 [symbol.map_adjust_copy_block]
-bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 0F B6 04 18 88 45 00 48 8D 45 00 49 C7 C0 FF FF FF FF 49 FF C0 42 80 3C 00 00 75 F6"
+sha256 = "72362402CB476A9747E6E8B67645F2F3A79ED8D87EB0A2ADB5F1DB76680E2530"
+size = 43
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6680 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E90 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E90 }
@@ -598,7 +653,8 @@ resume = "map_adjust_copy_return"
 note = "map_hooks.asm map_adjust_copy_hook"
 
 [symbol.map_adjust_glyph_block]
-bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 0F B6 04 08 49 8B 14 C6"
+sha256 = "4FABCDA507278E1C23CC7E1E50B08C57DBF8A60D717BA080B6E1180357834395"
+size = 23
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6BC0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD53D0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD53D0 }
@@ -607,7 +663,8 @@ resume = "map_adjust_glyph_return"
 note = "map_hooks.asm map_adjust_glyph_hook"
 
 [symbol.map_vertex_count_block]
-bytes = "48 8D 43 10 49 83 F9 10 72 04 48 8B 43 10 0F B6 04 01 49 8B 94 C4 20 01 00 00"
+sha256 = "D93B5F9D66566B89CEE842F6296F8592EB8186047E4F124AA648949AC281048B"
+size = 26
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7330 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B40 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B40 }
@@ -616,7 +673,8 @@ resume = "map_vertex_count_return"
 note = "map_hooks.asm map_vertex_count_hook"
 
 [symbol.map_page_tag_block]
-bytes = "83 C7 06 0F BF 42 0C 66 0F 6E C0 0F 5B C0"
+sha256 = "06BCA5E043D3F3F227F3F59D0AA16E9E2D52B7F679CB3E57D7090CE60616D41E"
+size = 14
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E400 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F20 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F20 }
@@ -625,7 +683,8 @@ resume = "map_page_tag_return"
 note = "map_hooks.asm map_page_tag_hook"
 
 [symbol.map_justify_page_tag_block]
-bytes = "41 83 C5 06 48 8B 8D 18 01 00 00 48 8B BD C8 07 00 00"
+sha256 = "CC2F20077FF7D64A573846AC8F826F5B05547BE845B4036646200F7BEBBA36F2"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53A5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BB5 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BB5 }
@@ -634,7 +693,8 @@ resume = "map_justify_page_tag_return"
 note = "map_hooks.asm map_justify_page_tag_hook"
 
 [symbol.map_fit_format_block]
-bytes = "48 8B C3 4C 8B 43 18 49 83 F8 10 72 03 48 8B 03 8B D7"
+sha256 = "7AD4EED84583D27F3DB4EFCA8602F329443E15B8BDAF63B03B1DC63339C1F223"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E60D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159512D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159512D }
@@ -643,7 +703,8 @@ resume = "map_fit_format_return"
 note = "map_hooks.asm map_fit_format_hook; also continues at map_fit_plain_entry"
 
 [symbol.map_fit_begin_block]
-bytes = "44 8B F9 41 8B F4 41 8B FC 44 8B 4B 10"
+sha256 = "2FB3A116171AFEBDC39F96026CD51FEFA9F13DE98B0A2D0C12FCE21909192304"
+size = 13
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E5C4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15950E4 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15950E4 }
@@ -652,7 +713,8 @@ resume = "map_fit_begin_return"
 note = "map_hooks.asm map_fit_begin_hook"
 
 [symbol.map_fit_wrap_block]
-bytes = "0F 5B C0 F3 0F 59 C1 41 0F 2E C0 7A 53 75 51"
+sha256 = "20E29B2137F5C7081AE219A0D06BC463020A2B5A8BB51970A770F118BDCF497E"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7E1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595301 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595301 }
@@ -661,7 +723,8 @@ resume = "map_fit_wrap_allow"
 note = "map_hooks.asm map_fit_wrap_hook; also continues at map_fit_wrap_skip"
 
 [symbol.map_fit_measure_block]
-bytes = "0F B6 04 10 4D 8B 9C C5 20 01 00 00 F3 41 0F 10 8D 68 09 00 00 4D 85 DB"
+sha256 = "0EE2D8E043ADEE1420D38747FAEDCB2B33AF40ACABDBFE3A7E3DFC81E1BAF191"
+size = 24
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E75D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159527D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159527D }
@@ -670,7 +733,8 @@ resume = "map_fit_measure_return"
 note = "map_hooks.asm map_fit_measure_hook"
 
 [symbol.map_fit_kern_block]
-bytes = "E8 06 5C FF FF F3 0F 58 F0 F3 0F 58 F8 8B 8D 70 10 00 00"
+sha256 = "C72C6BF40C9DF5C79DFCEBEC7788CDDCCA9CA545DE28E8E524EAC4726F0A869C"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7C5 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15952E5 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15952E5 }
@@ -679,7 +743,8 @@ resume = "map_fit_kern_return"
 note = "map_hooks.asm map_fit_kern_hook"
 
 [symbol.map_fit_icon_end_block]
-bytes = "44 88 64 0C 40 49 8B 45 00 48 8D 54 24 40 49 8B CD"
+sha256 = "BB48959DD67AB4D66AD4D479960D9C468F8CDEAD4D66F9AE9FC1567C180D4240"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E6F1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595211 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595211 }
@@ -688,7 +753,8 @@ resume = "map_fit_icon_end_return"
 note = "map_hooks.asm map_fit_icon_end_hook"
 
 [symbol.map_adjust_gap_end_block]
-bytes = "8B 85 A0 00 00 00 FF C8 4C 63 E0"
+sha256 = "69E99FF0392D81CBCAEA5E9FD2FE79763FC6297773D3802882F4A50976B1BCF2"
+size = 11
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6600 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E10 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E10 }
@@ -697,7 +763,8 @@ resume = "map_adjust_gap_end_return"
 note = "map_hooks.asm map_adjust_gap_end_hook"
 
 [symbol.map_adjust_last_block]
-bytes = "48 8D 85 90 00 00 00 49 83 FD 10 48 0F 43 C6 48 63 8D A0 00 00 00 0F B6 44 08 FF 88 45 00 48 8D 45 00 49 C7 C0 FF FF FF FF 0F 1F 00 49 FF C0 42 80 3C 00 00 75 F6"
+sha256 = "2885C84DFC70C727D87D71267B9ABBDC47CAF7B504BD3DF91788452FA7DD9C56"
+size = 54
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD66E4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4EF4 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4EF4 }
@@ -706,7 +773,8 @@ resume = "map_adjust_last_return"
 note = "map_hooks.asm map_adjust_last_hook"
 
 [symbol.country_shape_block]
-bytes = "48 C7 85 F8 00 00 00 00 00 00 00 48 C7 45 20 00 00 00 00"
+sha256 = "F30CE8AA1A7FB9581947E5CA9EACA1C76EE91649B81E54F9D637677D3DDFD472"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD64CA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4CDA }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4CDA }
@@ -715,7 +783,8 @@ resume = "country_shape_return"
 note = "map_hooks.asm country_shape_hook"
 
 [symbol.province_shape_block]
-bytes = "4C 63 43 20 41 8B FD"
+sha256 = "08E6E01C4BF561435A74EB346A99733E0E93395E7074BCDB9D51514BBCC3DBA2"
+size = 7
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7315 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B25 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B25 }
@@ -724,7 +793,8 @@ resume = "province_shape_return"
 note = "map_hooks.asm province_shape_hook"
 
 [symbol.country_shape_gap_block]
-bytes = "44 0F 2F E1 0F 86 D1 02 00 00"
+sha256 = "66CEC8C120B8EE905D00E270B081E726717BDE1DE5346BEE73B0D0F2D9D84543"
+size = 10
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD65E8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4DF8 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4DF8 }
@@ -733,23 +803,24 @@ resume = "country_gap_return"
 note = "map_hooks.asm country_shape_gap_hook; also continues at country_gap_skip"
 
 [symbol.map_upper_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x14BA825, bytes = "0F BE 0C 28 48 8D 1C 28 E8 36 06 59 00 FF C7 88 03 8B C7" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4685, bytes = "0F BE 0C 28 48 8D 1C 28 E8 56 04 58 00 FF C7 88 03 8B C7" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4685, bytes = "0F BE 0C 28 48 8D 1C 28 E8 56 04 58 00 FF C7 88 03 8B C7" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x14BA825, sha256 = "2DBD74EAABB7B920C0229473F3C327D4112B856893EBC5B2B86C26D165D4D74B", size = 19 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4685, sha256 = "57A57DB12210B6FDC1454A97E445D4A5B099F04DB75039D69F674C3F925CA7CB", size = 19 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4685, sha256 = "57A57DB12210B6FDC1454A97E445D4A5B099F04DB75039D69F674C3F925CA7CB", size = 19 }
 memory = "code"
 resume = "map_upper_return"
 note = "map_hooks.asm map_upper_hook"
 
 [symbol.map_lower_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1550425, bytes = "0F BE 0C 28 48 8D 1C 28 E8 0A AA 4F 00 FF C7 88 03 8B C7" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547345, bytes = "0F BE 0C 28 48 8D 1C 28 E8 6A D7 4E 00 FF C7 88 03 8B C7" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547345, bytes = "0F BE 0C 28 48 8D 1C 28 E8 6A D7 4E 00 FF C7 88 03 8B C7" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1550425, sha256 = "FB3FEBCF32B4DB065CFF65B4E818B6FDDE3EEB9433B898789B1A6BE633411D23", size = 19 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547345, sha256 = "E1C80A7CE39365BF97C9CD03CDA8E18CD8A913909AAF874701F50C5DB71B12E5", size = 19 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547345, sha256 = "E1C80A7CE39365BF97C9CD03CDA8E18CD8A913909AAF874701F50C5DB71B12E5", size = 19 }
 memory = "code"
 resume = "map_lower_return"
 note = "map_hooks.asm map_lower_hook"
 
 [symbol.text_limit_block]
-bytes = "B8 00 7D 00 00 44 3B F8 44 0F 4D F8"
+sha256 = "7EB23129FF627B517D5E02F424558351B0ACBF7EE7D31A6C159EF3F07FACCCB2"
+size = 12
 build."eu4-1.37.5-steam-win64" = { rva = 0x15989D8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F4F8 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F4F8 }
@@ -758,7 +829,8 @@ resume = "text_limit_return"
 note = "text_hooks.asm text_limit_hook"
 
 [symbol.font_lookup_block]
-bytes = "48 8B 85 30 11 00 00 48 83 BC F8 20 01 00 00 00 75 5A"
+sha256 = "843035F2DFEBFABD527EA55E3EB510A159D7FB2C329CC2651A1465289CB11FF3"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595C9B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7BB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7BB }
@@ -767,16 +839,17 @@ resume = "font_allocate"
 note = "font_hooks.asm font_lookup_hook; also continues at font_duplicate"
 
 [symbol.font_allocate_block]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1595CAD, bytes = "B9 10 00 00 00 E8 1D D6 49 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7CD, bytes = "B9 10 00 00 00 E8 7D 07 49 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7CD, bytes = "B9 10 00 00 00 E8 7D 07 49 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1595CAD, sha256 = "B7BE5512911DCB884F9B6888E0AD9AF4BD77D07452ED033ACD7E66AEB681F889", size = 10 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7CD, sha256 = "C4162FD101B08824F5FDF4D302FE7B0EEE1B4378F1F408CE869CAD7718055EF5", size = 10 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7CD, sha256 = "C4162FD101B08824F5FDF4D302FE7B0EEE1B4378F1F408CE869CAD7718055EF5", size = 10 }
 memory = "code"
 resume = "font_initialize"
 values.engine_new = { at = 6, rip_relative = 10 }
 note = "font_hooks.asm font_allocate_hook; also continues at font_skip"
 
 [symbol.font_store_block]
-bytes = "4C 8B BD 30 11 00 00 49 89 84 FF 20 01 00 00"
+sha256 = "D3D18F5E24491A17B0925395DA0049F63297CD8C4D744A34B2F4AC9374C7475E"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CEB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C80B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C80B }
@@ -785,7 +858,8 @@ resume = "font_store_return"
 note = "font_hooks.asm font_store_hook"
 
 [symbol.path_pair_block]
-bytes = "8B CA 49 83 C3 02 C1 E1 0A 0B C8 85 C9 74 17"
+sha256 = "F987923AD677F6FB5567614DE1D2C66A716DE8399C22DE2E79269D360F4C249C"
+size = 15
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FC097 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5D17 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5D17 }
@@ -794,7 +868,8 @@ resume = "path_pair_return"
 note = "path_hooks.asm path_pair_hook"
 
 [symbol.wide_compare_left_block]
-bytes = "C1 E1 0A 0B C8 EB 05 B9 3F 00 00 00"
+sha256 = "2C3B112FA8201E31B2334DBA93A7F167BA0C6AD76CAD1A9CEFF31CE524684284"
+size = 12
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBC23 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E58A3 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E58A3 }
@@ -803,7 +878,8 @@ resume = "wide_compare_left_return"
 note = "path_hooks.asm wide_compare_left_hook"
 
 [symbol.wide_compare_right_block]
-bytes = "C1 E1 0A 0B C8 EB 05 B9 3F 00 00 00"
+sha256 = "2C3B112FA8201E31B2334DBA93A7F167BA0C6AD76CAD1A9CEFF31CE524684284"
+size = 12
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBCA2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5922 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5922 }
@@ -812,14 +888,15 @@ resume = "wide_compare_right_return"
 note = "path_hooks.asm wide_compare_right_hook"
 
 [symbol.transliterate_save_path]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1705180, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 5B 29 53 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EEF30, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 6B 19 53 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EEF30, bytes = "8B 41 10 85 C0 0F 84 0C 01 00 00 45 33 C0 4C 8D 1D 6B 19 53 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1705180, sha256 = "0C0018E0FD8DF5D78A1BC65919C625A8990F7AFF69F2920543D2985D28B644B5", size = 21 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EEF30, sha256 = "3D0BCF4A2761C640D251D579F78DD966E8568BBBDAAC5E69C6D90BD564CCF6DE", size = 21 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EEF30, sha256 = "3D0BCF4A2761C640D251D579F78DD966E8568BBBDAAC5E69C6D90BD564CCF6DE", size = 21 }
 memory = "code"
 note = "function hook of the original (transliterate_save_path)"
 
 [symbol.layout_substring]
-bytes = "48 89 5C 24 08 57 48 83 EC 40 48 8B DA 44 3B 49 10"
+sha256 = "46A52BA68FEF589D3148CB61CB76F5FAC2E3BB7CA58BA5217B4FB7376536DD19"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x1704AF0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EE8A0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EE8A0 }
@@ -827,7 +904,8 @@ memory = "code"
 note = "function hook of the original (layout_substring)"
 
 [symbol.measure_paragraph_text]
-bytes = "48 8B C4 41 56 48 81 EC F0 00 00 00 0F 29 70 C8"
+sha256 = "0F518F730357F3A106D41038253B1C2B6A724A475DE25D89B46BF89A4BA91F60"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B7C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15922E0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15922E0 }
@@ -835,7 +913,8 @@ memory = "code"
 note = "function hook of the original (measure_paragraph_text)"
 
 [symbol.measure_paragraph_height]
-bytes = "4C 8B DC 49 89 5B 20 55 57 41 56 48 81 EC 00 01 00 00"
+sha256 = "0547E75A9C720AFD57AD9121FFC679B5744F4892EFD8BB5137E416CE695F38FE"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B470 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591F90 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591F90 }
@@ -843,7 +922,8 @@ memory = "code"
 note = "function hook of the original (measure_paragraph_height)"
 
 [symbol.parse_utf8_yaml]
-bytes = "4C 89 4C 24 20 4C 89 44 24 18 48 89 54 24 10 48 89 4C 24 08"
+sha256 = "C102B82176167A6754B8E69EDA73A5BCE373F11337A44D35621D885CA4920C7E"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FC3D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E6220 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E6220 }
@@ -852,7 +932,8 @@ signature = "void (void* file, const void* input, const char* name, void* langua
 note = "function hook of the original (parse_utf8_yaml)"
 
 [symbol.construct_script_file]
-bytes = "48 89 5C 24 20 48 89 54 24 10 55 56 57 41 56 41 57"
+sha256 = "C95EF57E7223A697D3CAB5216EF4B18F5B94F67A9AA044F5ABF403222E0C23B6"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x170CD10 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6930 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6930 }
@@ -861,7 +942,8 @@ signature = "void* (void* lexer, void* path)"
 note = "function hook of the original (construct_script_file)"
 
 [symbol.construct_script_file_mode]
-bytes = "48 89 5C 24 18 48 89 6C 24 20 48 89 54 24 10 56"
+sha256 = "9DA14AE61E256488BD5332F13D3ACC5BBCF1EC8314A39F591A6A932F18384EEF"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x170CA20 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6640 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6640 }
@@ -870,15 +952,16 @@ signature = "void* (void* lexer, void* path, int mode)"
 note = "function hook of the original (construct_script_file_mode)"
 
 [symbol.construct_script_stream]
-build."eu4-1.37.5-steam-win64" = { rva = 0x170D1D0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 BB 27 6B 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6DF0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 93 F4 6A 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6DF0, bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 51 08 48 8D 05 93 F4 6A 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x170D1D0, sha256 = "23B06CD425EA3AE34D16DDEE0E3D790C2334AB60B1F605CD1FA2B45280B11DD5", size = 21 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F6DF0, sha256 = "129A6058B9176AD300F6D20A074A7303FD3A71876BC63E8B09EE93C12BA55BD4", size = 21 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F6DF0, sha256 = "129A6058B9176AD300F6D20A074A7303FD3A71876BC63E8B09EE93C12BA55BD4", size = 21 }
 memory = "code"
 signature = "void* (void* lexer, void* input, bool own_input)"
 note = "function hook of the original (construct_script_stream)"
 
 [symbol.read_legacy_script_token]
-bytes = "40 57 48 83 EC 40 80 B9 1C 02 00 00 01 48 8B F9"
+sha256 = "9265EFCA2038E95D9B797C4DC23C698419C4E03FFF5ABA352F91827DF458C34A"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x170E700 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F8320 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F8320 }
@@ -887,7 +970,8 @@ signature = "int (void* lexer)"
 note = "function hook of the original (read_legacy_script_token)"
 
 [symbol.read_legacy_binary_token]
-bytes = "48 89 5C 24 20 55 56 57 48 8B EC 48 83 EC 40 48 8B D9"
+sha256 = "D76821F8D54732B5E781F1E5491E4EB6FE9F3C743A463F3D3109C6B70BFD0847"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x170EBF0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16F8810 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16F8810 }
@@ -896,7 +980,8 @@ signature = "int (void* lexer)"
 note = "function hook of the original (read_legacy_binary_token)"
 
 [symbol.initialize_mod_registry]
-bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 74 24 20"
+sha256 = "0054B3D642F26AC2E7EFDB2F98065A4035CBD76B6A40EE373364679A84D75C8D"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x1506D30 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1500920 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1500920 }
@@ -904,7 +989,8 @@ memory = "code"
 note = "function hook of the original (initialize_mod_registry)"
 
 [symbol.scan_mod_registry]
-bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55"
+sha256 = "910387D611F5F9C79F433B80B3E779542995D6B5CC399DA69B3B45F860BCE871"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1508860 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1502450 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1502450 }
@@ -912,7 +998,8 @@ memory = "code"
 note = "function hook of the original (scan_mod_registry)"
 
 [symbol.insert_mod_registry]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x15105B0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15074B0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15074B0 }
@@ -921,13 +1008,15 @@ note = "function hook of the original (insert_mod_registry)"
 
 [symbol.convert_steam_presence]
 rva = 0x1706010
-bytes = "48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 57"
+sha256 = "5B9B29870CE509C64837D92B8C6A7B272E5C945BF117612186959417F78D535B"
+size = 16
 absent = ["eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 memory = "code"
 note = "function hook of the original (convert_steam_presence)"
 
 [symbol.find_country_name]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
+sha256 = "442A19659FE9096DE3A84E01A789D0005AB6710232EAA0A6A807AB732A813780"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x17061A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16EFDC0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16EFDC0 }
@@ -936,7 +1025,8 @@ signature = "uint64_t (const char* name, uint64_t length, uint64_t start, const 
 note = "function hook of the original (find_country_name)"
 
 [symbol.find_province_distance]
-bytes = "40 55 56 57 41 54 41 55 41 56 41 57 48 83 EC 20"
+sha256 = "C5F3F2E12981C71442C7DA105297BAEFE31798D90FC2665F0FDFD887C7CCD28C"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x171F880 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1709500 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1709500 }
@@ -945,7 +1035,8 @@ signature = "int64_t (const void* name, const void* query)"
 note = "function hook of the original (find_province_distance)"
 
 [symbol.destroy_font_table]
-bytes = "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 48 8B F1"
+sha256 = "5285676F858275B001CED25F0F3D8FE6C68C3AE9E47CDC889EBE2E334157E087"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x1594360 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158AE80 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158AE80 }
@@ -954,7 +1045,8 @@ signature = "void (void* table)"
 note = "function hook of the original (destroy_font_table)"
 
 [symbol.format_localized_date]
-bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 48 89 4C 24 08"
+sha256 = "4765B3E97357A21D8DEF24733C033932C0A12E6AC37799DC451659376B2F462C"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x14C7890 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14C1400 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14C1400 }
@@ -962,7 +1054,8 @@ memory = "code"
 note = "function hook of the original (format_localized_date)"
 
 [symbol.concat_localized_date]
-bytes = "48 89 5C 24 10 48 89 4C 24 08 57 48 83 EC 50 48 8B D9"
+sha256 = "85A7CE2B22591B7946226F3EF8C38BE0C3B972B1DE77FFE07D5E2C1DE9E99C3A"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0xE3D40 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xE3D70 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xE3D70 }
@@ -970,7 +1063,8 @@ memory = "code"
 note = "function hook of the original (concat_localized_date)"
 
 [symbol.format_localized_battle_title]
-bytes = "48 89 5C 24 08 48 89 74 24 18 48 89 54 24 10 55"
+sha256 = "249557F37076684F0B7824EEC5F71AB0F3752EC0356E14C464CEC3F05A7C3988"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x23A900 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x23A8C0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x23A8C0 }
@@ -979,7 +1073,8 @@ signature = "void* (const void* combat, void* result)"
 note = "function hook of the original (format_localized_battle_title)"
 
 [symbol.load_font_atlas]
-bytes = "48 89 5C 24 08 57 48 81 EC 80 00 00 00 48 8B F9"
+sha256 = "35E8B025FF9457667E83F873D6C922A45998AB4D7F591FB8DF95FA0E09805B9F"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15953C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158BEE0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158BEE0 }
@@ -988,7 +1083,8 @@ signature = "void (void* font)"
 note = "function hook of the original (load_font_atlas)"
 
 [symbol.synchronize_font_texture]
-bytes = "40 53 55 56 57 41 56 48 83 EC 70 48 8B F9 85 D2"
+sha256 = "5EFDEF1BB3F759567B1FAFAF11943CC42A45351CF2897E84D83ECF3A290F3209"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x16C3F10 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16ADD60 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16ADD60 }
@@ -996,7 +1092,8 @@ memory = "code"
 note = "function hook of the original (synchronize_font_texture)"
 
 [symbol.build_map_font_geometry]
-bytes = "4C 89 44 24 18 48 89 54 24 10 48 89 4C 24 08 55"
+sha256 = "61B6873E73E27F32610783EAE5D8126B06E5B4182F5C83703C2782F92CA5F35F"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD7200 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5A10 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5A10 }
@@ -1004,7 +1101,8 @@ memory = "code"
 note = "function hook of the original (build_map_font_geometry)"
 
 [symbol.build_country_font_geometry]
-bytes = "44 89 4C 24 20 44 89 44 24 18 48 89 54 24 10 48 89 4C 24 08"
+sha256 = "4527599D68B1C271BED9D820B29F326F3B2E9280C5E7062879878FD00E720280"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD5B70 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4380 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4380 }
@@ -1012,7 +1110,8 @@ memory = "code"
 note = "function hook of the original (build_country_font_geometry)"
 
 [symbol.upload_map_font_vertices]
-bytes = "48 85 D2 0F 84 A6 00 00 00 48 89 74 24 18 57 48 83 EC 30"
+sha256 = "21FC0B1DD3BE859DB1D520535CD2C071C037F62D04101FF36AA74755E94A8F6D"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D6640 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16C0490 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16C0490 }
@@ -1020,7 +1119,8 @@ memory = "code"
 note = "function hook of the original (upload_map_font_vertices)"
 
 [symbol.create_font_vertices]
-bytes = "48 89 5C 24 10 44 89 4C 24 20 44 89 44 24 18 55"
+sha256 = "C1D94E4FD5663428871DEA8A5F54DBE11AE3385E774633263C7D5A7C6C8477BC"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D5F20 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16BFD70 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16BFD70 }
@@ -1028,7 +1128,8 @@ memory = "code"
 note = "function hook of the original (create_font_vertices)"
 
 [symbol.release_font_vertices]
-bytes = "48 85 C9 74 5B 53 48 83 EC 20 48 8B D9 48 8B 09"
+sha256 = "76039B858F959E29AA7F7E808384E20BD60F240A3BC48FE1FD8061174F8EA6E2"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x16D65D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16C0420 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16C0420 }
@@ -1036,14 +1137,15 @@ memory = "code"
 note = "function hook of the original (release_font_vertices)"
 
 [symbol.pump_native_keyboard]
-build."eu4-1.37.5-steam-win64" = { rva = 0x173AB00, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 F8 BB 42 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1724780, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 B0 AD 42 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1724780, bytes = "48 89 5C 24 08 57 48 83 EC 60 FF 15 B0 AD 42 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x173AB00, sha256 = "4AC4464F1B81BC26C632EAC22447D462840369F27CC0D3B214D368C0CD8A5910", size = 16 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1724780, sha256 = "47C15284F3E2296F4370ACCC132A1262065291A89298B281FED3EC42D5F7643E", size = 16 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1724780, sha256 = "47C15284F3E2296F4370ACCC132A1262065291A89298B281FED3EC42D5F7643E", size = 16 }
 memory = "code"
 note = "function hook of the original (pump_native_keyboard)"
 
 [symbol.start_native_ime]
-bytes = "40 53 48 83 EC 20 48 8B D9 E8 E2 81 FE FF 48 85 C0"
+sha256 = "B611CB5BF0AC7561A4A5DE5AAD935B77C9FA1C8E9DDC45AB911A3408BD144CB7"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x1765850 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174F4D0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x174F4D0 }
@@ -1051,7 +1153,8 @@ memory = "code"
 note = "function hook of the original (start_native_ime)"
 
 [symbol.show_native_ime_candidates]
-bytes = "40 55 56 41 55 41 56 41 57 48 83 EC 20 48 8B 6C 24 70"
+sha256 = "5D6CDA0AB0D2C6917D564FBD092E07F49EADB8C8A66B0D62FFB121F6AC316E0F"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x1764940 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174E5C0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x174E5C0 }
@@ -1060,7 +1163,8 @@ signature = "int (void* window, uint32_t message, uint64_t parameter, void* flag
 note = "function hook of the original (show_native_ime_candidates)"
 
 [symbol.position_native_ime_candidates]
-bytes = "40 53 48 83 EC 40 48 8B 99 90 03 00 00 48 85 D2"
+sha256 = "03E971A4AC246039FC142BD4EF4EEA80D695EF7129278EE6A5633D9458987FEB"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x17657C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174F440 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x174F440 }
@@ -1068,7 +1172,8 @@ memory = "code"
 note = "function hook of the original (position_native_ime_candidates)"
 
 [symbol.input_block]
-bytes = "8B 45 BC 32 DB"
+sha256 = "52A7EDEB7F548F8577DB5B90FC315E747F04BBB106460CF084119367A90E5152"
+size = 5
 build."eu4-1.37.5-steam-win64" = { rva = 0x1569F91 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1560AB1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1560AB1 }
@@ -1076,7 +1181,8 @@ memory = "code"
 note = "text_hooks.asm input_hook; also continues at input_return"
 
 [symbol.editor_fit_block]
-bytes = "48 8B 07 48 8B CF FF 90 38 01 00 00"
+sha256 = "CF3623149A8A8D1CF6F37E275ECD9B607D0D2528674E0DBA49B3A8141D4F11AE"
+size = 12
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536E51 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DD51 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DD51 }
@@ -1085,7 +1191,8 @@ resume = "editor_fit_return"
 note = "text_hooks.asm editor_fit_hook"
 
 [symbol.editor_key]
-bytes = "48 89 5C 24 08 48 89 6C 24 18 48 89 74 24 20 57"
+sha256 = "629E9C3F0E9FB642C395D0383B2DC974A06C2315BC6D19262F5987F09CB2924B"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15366C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152D5C0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152D5C0 }
@@ -1094,7 +1201,8 @@ signature = "bool (void* widget, const void* event)"
 note = "function hook of the original (editor_key)"
 
 [symbol.editor_left]
-bytes = "40 57 48 83 EC 20 0F B7 41 54 48 8B F9 66 85 C0"
+sha256 = "1B182DAC2694D24C02AFB3CC8E82C63721FDEE45014D04B5555660F7A73C705C"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15384D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152F3D0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152F3D0 }
@@ -1103,7 +1211,8 @@ signature = "void (void* widget)"
 note = "function hook of the original (editor_left)"
 
 [symbol.editor_right]
-bytes = "48 89 5C 24 08 57 48 83 EC 40 44 0F B7 41 56 48 8D 54 24 20"
+sha256 = "8C11E22FFEFC2D45E51F55994DB10929864E40CEC250042053480FAACE659AE1"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x15385A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152F4A0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152F4A0 }
@@ -1112,7 +1221,8 @@ signature = "void (void* widget)"
 note = "function hook of the original (editor_right)"
 
 [symbol.editor_selection]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
+sha256 = "442A19659FE9096DE3A84E01A789D0005AB6710232EAA0A6A807AB732A813780"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x153B170 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1532070 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1532070 }
@@ -1121,7 +1231,8 @@ signature = "void (void* widget)"
 note = "function hook of the original (editor_selection)"
 
 [symbol.editor_point]
-bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 20 4C 89 44 24 18"
+sha256 = "A451FBAAE63CD5989D6D47F905A325F94E6EFD35C3F0ED5CB1800A4C16AB51FA"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x15361F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152D0F0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152D0F0 }
@@ -1130,7 +1241,8 @@ signature = "void (void* widget, const void* row, const void* point)"
 note = "function hook of the original (editor_point)"
 
 [symbol.editor_caret_position]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536060 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152CF60 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152CF60 }
@@ -1139,7 +1251,8 @@ signature = "void* (void* widget, void* result)"
 note = "function hook of the original (editor_caret_position)"
 
 [symbol.editor_anchor_position]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x1535EB0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152CDB0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152CDB0 }
@@ -1147,7 +1260,8 @@ memory = "code"
 note = "function hook of the original (editor_anchor_position)"
 
 [symbol.editor_width_fit]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x1537210 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152E110 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152E110 }
@@ -1156,7 +1270,8 @@ signature = "int (void* widget, const void* text)"
 note = "function hook of the original (editor_width_fit)"
 
 [symbol.editor_word_break]
-bytes = "48 89 5C 24 18 48 89 6C 24 20 57 41 54 41 57 48 83 EC 20"
+sha256 = "BC9C4C11B3936707B8FB7FC2561C9F74CCF7320039247CCA9CC9C7A392C46158"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539820 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530720 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530720 }
@@ -1165,7 +1280,8 @@ signature = "int (void* widget, const void* text, int fit)"
 note = "function hook of the original (editor_word_break)"
 
 [symbol.construct_editor_space_row]
-bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 55"
+sha256 = "46F1E3ED0F8794D2B9F2468FF6428B7B97974C96BB117F0794077F8C59726442"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539620 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530520 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530520 }
@@ -1174,7 +1290,8 @@ signature = "void* (void* row, const void* source)"
 note = "function hook of the original (construct_editor_space_row)"
 
 [symbol.paste_editor_clipboard]
-bytes = "40 53 48 83 EC 40 48 8B D9 C6 81 90 00 00 00 00"
+sha256 = "4F66B796AC3A368EB1F696EBE6A5A4160B2FC6483F43CD26273E02DEE93CDF49"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1539240 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1530140 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1530140 }
@@ -1183,7 +1300,8 @@ signature = "void (void* widget)"
 note = "function hook of the original that does not call the game function (paste_editor_clipboard)"
 
 [symbol.paint_editor_ime_rect]
-bytes = "48 89 5C 24 20 55 56 57 41 56 41 57 48 8B EC 48 83 EC 40"
+sha256 = "3C77224AC9A038DB5D4C6FB9385802E03E4083E811446D507D0AB53D99FDEF22"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534250 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152B150 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152B150 }
@@ -1191,7 +1309,8 @@ memory = "code"
 note = "function hook of the original (paint_editor_ime_rect)"
 
 [symbol.draw_editor_text]
-bytes = "48 89 5C 24 18 48 89 74 24 20 55 57 41 54 41 56"
+sha256 = "9D5A9B98E0682E7758F3EECDE3B9D52733C04934A2215E4D499D6F0463E247DA"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534BB0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152BAB0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152BAB0 }
@@ -1199,7 +1318,8 @@ memory = "code"
 note = "function hook of the original (draw_editor_text)"
 
 [symbol.draw_editor_lines]
-bytes = "48 89 5C 24 18 89 54 24 10 55 56 57 41 54 41 55"
+sha256 = "735CAFA117E936D0024F9077684CB01307A8EC1D866D686F5355D6A4C875453C"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534F90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152BE90 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152BE90 }
@@ -1207,7 +1327,8 @@ memory = "code"
 note = "function hook of the original (draw_editor_lines)"
 
 [symbol.focus_editor_ime_rect]
-bytes = "40 57 48 83 EC 30 80 B9 61 02 00 00 00 48 8B F9"
+sha256 = "F1B672FFCF82B7B8D487CBE1016FDA645871D64D5CE32BAC23034CBB7E5135A6"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1535250 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C150 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C150 }
@@ -1216,7 +1337,8 @@ signature = "void (void* outer)"
 note = "function hook of the original (focus_editor_ime_rect)"
 
 [symbol.blur_editor_ime_rect]
-bytes = "48 89 5C 24 10 57 48 83 EC 20 80 B9 70 02 00 00 00"
+sha256 = "C9BF41089018AC223FAF8B979C17861BC03BE99DE6A00876C5F423C20B1CEE7E"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x15353F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C2F0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C2F0 }
@@ -1225,7 +1347,8 @@ signature = "void (void* outer)"
 note = "function hook of the original (blur_editor_ime_rect)"
 
 [symbol.create_editor_sprite]
-bytes = "48 89 5C 24 10 44 88 4C 24 20 55 56 57 41 56 41 57"
+sha256 = "E7B3384DBB665562C3D91C7022F60B5643D95AACE4A06D6F3CD3F582284880E9"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x14DB940 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14D54B0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14D54B0 }
@@ -1233,7 +1356,8 @@ memory = "code"
 note = "function hook of the original (create_editor_sprite)"
 
 [symbol.destroy_editor]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57"
+sha256 = "442A19659FE9096DE3A84E01A789D0005AB6710232EAA0A6A807AB732A813780"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x1533D90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AC90 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152AC90 }
@@ -1242,7 +1366,8 @@ signature = "void (void* outer)"
 note = "function hook of the original (destroy_editor)"
 
 [symbol.hide_editor]
-bytes = "40 53 48 83 EC 20 C6 81 C5 00 00 00 00 48 8B D9"
+sha256 = "C3B1106D920B89BCE9864D50E820E621FD2381DD8499550FB8F4B658DF8C191A"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15340A0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152AFA0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152AFA0 }
@@ -1251,7 +1376,8 @@ signature = "void (void* outer)"
 note = "function hook of the original (hide_editor)"
 
 [symbol.setup_editor]
-bytes = "48 89 5C 24 08 57 48 83 EC 20 48 89 91 98 02 00 00"
+sha256 = "F6D3BF44051524BD9435B562DFAB3D8B0960459F033F2D8041E0552E2E694A2F"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x1534100 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152B000 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152B000 }
@@ -1259,7 +1385,8 @@ memory = "code"
 note = "function hook of the original (setup_editor)"
 
 [symbol.assign_editor_prefix]
-bytes = "48 89 5C 24 10 48 89 6C 24 18 56 57 41 57 48 83 EC 20"
+sha256 = "88B548A965E6C780FD70F068F67D00D9060AF479198C55FF6F34B0B0093BBAD4"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0x95110 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x95140 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x95140 }
@@ -1268,7 +1395,8 @@ signature = "void* (void* target, const char* text, uint64_t size)"
 note = "function hook of the original (assign_editor_prefix)"
 
 [symbol.filter_editor_text]
-bytes = "40 53 56 57 41 54 48 83 EC 48 48 83 7A 18 10 4C 8B E1"
+sha256 = "50511FA567B5C74F143A200181DC89C173B121E964135120F6A83535FD9DF28A"
+size = 18
 build."eu4-1.37.5-steam-win64" = { rva = 0xB19590 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xB17FB0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xB17FB0 }
@@ -1277,7 +1405,8 @@ signature = "void (void* text, const void* blacklist)"
 note = "function hook of the original (filter_editor_text)"
 
 [symbol.consume_editor_commit]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x15354E0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C3E0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C3E0 }
@@ -1286,7 +1415,8 @@ signature = "bool (void* callback, const char* character)"
 note = "function hook of the original (consume_editor_commit)"
 
 [symbol.insert_editor_commit]
-bytes = "48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 4C 89 60 20"
+sha256 = "7A5F30E8CF08FFB8B445CEB4C27FFF3F525A1E4AEC8BCE4C5E19DF571AC97A33"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536B80 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DA80 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DA80 }
@@ -1295,7 +1425,8 @@ signature = "void (void* widget, const void* text)"
 note = "function hook of the original (insert_editor_commit)"
 
 [symbol.register_imported_text]
-bytes = "44 89 4C 24 20 4C 89 44 24 18 53 57 41 55 41 56"
+sha256 = "921461BEB85780E10BFFABE1D681E61AE9677B14DE278422F9815088145DD7AC"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x16FA8D0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16E4720 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16E4720 }
@@ -1304,7 +1435,8 @@ signature = "void (void* collection, const char* key, const char* value, int lin
 note = "the game's registration of one localisation value, which import_legacy_localization calls"
 
 [symbol.repeat_text]
-bytes = "48 89 5C 24 18 55 56 57 41 54 41 56 48 83 EC 20"
+sha256 = "6BCFE93239D5D8AB97072298591730A02467DE37166565F1B6CC4C3DCFEAA3C0"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x90320 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x90350 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x90350 }
@@ -1313,7 +1445,8 @@ signature = "char* (void* target, uint64_t count, uint8_t character)"
 note = "the game's std::string assign of count copies of a character, which the copy blocks call"
 
 [symbol.append_text]
-bytes = "48 89 5C 24 18 55 56 57 41 55 41 56 48 83 EC 20"
+sha256 = "479E70C7BB24AA415712DC624727C7792E3DD93A18315744C74A8DCB2F2BA2E8"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x932F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x93320 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x93320 }
@@ -1322,7 +1455,8 @@ signature = "void* (void* target, const char* text, uint64_t size)"
 note = "the game's std::string append, which button_icon_copy_block calls"
 
 [symbol.find_element]
-bytes = "48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55"
+sha256 = "910387D611F5F9C79F433B80B3E779542995D6B5CC399DA69B3B45F860BCE871"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x14DB3C0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14D4F30 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14D4F30 }
@@ -1331,7 +1465,8 @@ signature = "void* (void* set, const void* key)"
 note = "the game's set lookup that consume_editor_commit calls for its seven-character restriction"
 
 [symbol.string_destroy]
-bytes = "40 53 48 83 EC 20 48 8B 51 18 48 8B D9 48 83 FA 10"
+sha256 = "85EC3486A8F0D0905CA0D7D80A99A9FB2F9428F145B3B35CAE018404D3A952C2"
+size = 17
 build."eu4-1.37.5-steam-win64" = { rva = 0x95660 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x95690 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x95690 }
@@ -1340,7 +1475,8 @@ signature = "void (void* target)"
 note = "the game's std::string destructor (native_editor_text.cpp)"
 
 [symbol.editor_move_caret]
-bytes = "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 64 24 20"
+sha256 = "1CB39DE400D480095FBAB790374C8F8CFEB4310AF405941C2E8B143D6EB9DE26"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536F50 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DE50 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DE50 }
@@ -1349,7 +1485,8 @@ signature = "void (void* widget, uint32_t offset)"
 note = "the text field's caret move to a byte offset (native_editor_text.cpp)"
 
 [symbol.resolve_resource]
-bytes = "40 55 48 83 EC 60 48 8D 6C 24 20 48 89 5D 58 48 89 75 60"
+sha256 = "3DF7B83C10DCD8DC93D3425DFB33B01875C9441F773CF012C3CF41A4BACFE333"
+size = 19
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FAD70 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E49F0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E49F0 }
@@ -1358,23 +1495,24 @@ signature = "const void* (const char* path)"
 note = "the game's resource resolver: the first mounted source of a path (the original's native_font_source)"
 
 [symbol.clipboard_text]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1734490, bytes = "48 FF 25 59 BD 87 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x171E110, bytes = "48 FF 25 D9 60 87 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x171E110, bytes = "48 FF 25 D9 60 87 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1734490, sha256 = "186405F5DC8D4FA0FD33AAE2852F42BA67D27DC7C4DD00BA69106BF86D04710F", size = 7 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x171E110, sha256 = "CDC501A5EDE70F5558605FAE2A9928217746691502383782CBD6D3477CEA4984", size = 7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x171E110, sha256 = "CDC501A5EDE70F5558605FAE2A9928217746691502383782CBD6D3477CEA4984", size = 7 }
 memory = "code"
 signature = "char* ()"
 note = "SDL_GetClipboardText, which the original's paste calls"
 
 [symbol.clipboard_free]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1735E00, bytes = "48 FF 25 99 AC 87 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x171FA80, bytes = "48 FF 25 19 50 87 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x171FA80, bytes = "48 FF 25 19 50 87 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1735E00, sha256 = "FC1609B438F1FC21E932E6B9B49A65B9F8D865CEC1406638FEFC25DC21AE5F1E", size = 7 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x171FA80, sha256 = "45A5C3C162576A538054A85D15C6A16532733B6205DFBFA7A3EAA428B5A0B7B6", size = 7 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x171FA80, sha256 = "45A5C3C162576A538054A85D15C6A16532733B6205DFBFA7A3EAA428B5A0B7B6", size = 7 }
 memory = "code"
 signature = "void (void* text)"
 note = "SDL_free, which the original's paste calls"
 
 [symbol.editor_row_offset]
-bytes = "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20"
+sha256 = "36F250054F3AA2353AF32B7587322F291D8929DFBD9A8F7ECEA508C315ED84FC"
+size = 20
 build."eu4-1.37.5-steam-win64" = { rva = 0x153AA90 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531990 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531990 }
@@ -1391,7 +1529,8 @@ type = "char"
 note = "the seven characters a restricted text field refuses (consume_editor_commit)"
 
 [symbol.lower_ascii_text]
-bytes = "48 83 FA 01 72 5C 48 89 6C 24 18 56 48 83 EC 20"
+sha256 = "C4D43C27D1D1338CDADD645D1D8826E3E2C181B72469737625993E0871097D9C"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x15503F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547310 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547310 }
@@ -1400,7 +1539,8 @@ signature = "void (char* text, uint64_t size)"
 note = "lowers a text in place with the C runtime's tolower up to its first zero or size bytes (map_lower_block is its loop body); the plugin replaces it whole and lowers ASCII only"
 
 [symbol.upper_ascii_text]
-bytes = "48 83 FA 01 72 5C 48 89 6C 24 18 56 48 83 EC 20"
+sha256 = "C4D43C27D1D1338CDADD645D1D8826E3E2C181B72469737625993E0871097D9C"
+size = 16
 build."eu4-1.37.5-steam-win64" = { rva = 0x14BA7F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4650 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4650 }
@@ -1409,42 +1549,43 @@ signature = "void (char* text, uint64_t size)"
 note = "uppers a text in place with the C runtime's toupper up to its first zero or size bytes (map_upper_block is its loop body); the plugin replaces it whole and uppers ASCII only"
 
 [symbol.country_find_call_efc38f]
-build."eu4-1.37.5-steam-win64" = { rva = 0xEFC38F, bytes = "E8 0C 9E 80 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAB3F, bytes = "E8 7C 52 7F 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAB3F, bytes = "E8 7C 52 7F 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xEFC38F, sha256 = "F40CFEEC99BBE45204609F0B9E5362BCB178BB0AFC50057B1A5414594D6B7EC4", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAB3F, sha256 = "A6BE6CEED5945A053895B082436964CE494D218CE034335C19734E1232F90065", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAB3F, sha256 = "A6BE6CEED5945A053895B082436964CE494D218CE034335C19734E1232F90065", size = 5 }
 memory = "code"
 note = "lobby search: find_country_name on a country's name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.country_find_call_1141fe6]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141FE6, bytes = "E8 B5 41 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C356, bytes = "E8 65 3A 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C356, bytes = "E8 65 3A 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141FE6, sha256 = "F0B72BABAEF5176746CA260F478CE3F469CCE10E84DE20360E5DD4CF955AA38A", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C356, sha256 = "0691F055E2329D5AAEE49DFA9136FF829AF5C829A65FFD6CD189801A4324EF05", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C356, sha256 = "0691F055E2329D5AAEE49DFA9136FF829AF5C829A65FFD6CD189801A4324EF05", size = 5 }
 memory = "code"
 note = "goto box: find_country_name on a name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.country_find_call_11420dd]
-build."eu4-1.37.5-steam-win64" = { rva = 0x11420DD, bytes = "E8 BE 40 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C44D, bytes = "E8 6E 39 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C44D, bytes = "E8 6E 39 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x11420DD, sha256 = "2C92705A3ABF7F69EED4C892EA5B2285502A76F298C9A4A289443A74FBFEB2B9", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C44D, sha256 = "ECE7EF999D246005C20F122F32400CF2A11DACBA685D66C6D450BB66AB00FBED", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C44D, sha256 = "ECE7EF999D246005C20F122F32400CF2A11DACBA685D66C6D450BB66AB00FBED", size = 5 }
 memory = "code"
 note = "goto box: find_country_name on a second name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.province_distance_call_114218d]
-build."eu4-1.37.5-steam-win64" = { rva = 0x114218D, bytes = "E8 EE D6 5D 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C4FD, bytes = "E8 FE CF 5C 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C4FD, bytes = "E8 FE CF 5C 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x114218D, sha256 = "26191D66228F1B51EF66468907066B8B3A7691EFB73FCA72DA4D76E2036AE4B8", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C4FD, sha256 = "B9F1715F3AF11D7112C0D1D96291F5D97ECCADAC3B8B1ACF366676129F4CE731", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C4FD, sha256 = "B9F1715F3AF11D7112C0D1D96291F5D97ECCADAC3B8B1ACF366676129F4CE731", size = 5 }
 memory = "code"
 note = "goto box: find_province_distance on a name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.province_distance_call_11421ad]
-build."eu4-1.37.5-steam-win64" = { rva = 0x11421AD, bytes = "E8 CE D6 5D 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C51D, bytes = "E8 DE CF 5C 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C51D, bytes = "E8 DE CF 5C 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x11421AD, sha256 = "9320F1A45611B18F64158B6E77C3E7BD4A26CCE1F4AE70407E129C427E7A0F88", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C51D, sha256 = "360C55896D8AF878ECB41ED1886C238781976E39FE3E4846B6D2940664410744", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C51D, sha256 = "360C55896D8AF878ECB41ED1886C238781976E39FE3E4846B6D2940664410744", size = 5 }
 memory = "code"
 note = "goto box: find_province_distance on a second name; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.queued_character_call_14e9cb3]
-bytes = "FF 50 08"
+sha256 = "3BF4B917424B527784120E40E040CC1709AC317C24237F69F8DAD8BEE50A4FDE"
+size = 3
 build."eu4-1.37.5-steam-win64" = { rva = 0x14E9CB3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14E3823 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14E3823 }
@@ -1452,7 +1593,8 @@ memory = "code"
 note = "the input queue's type-2 consumer: consume_editor_commit through the callback; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.commit_insert_call_153560f]
-bytes = "FF 90 A0 00 00 00"
+sha256 = "B73938496372B7499BCAD9D25697D5D2AA5D502DC77F28458C0504DDF0D58142"
+size = 6
 build."eu4-1.37.5-steam-win64" = { rva = 0x153560F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152C50F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152C50F }
@@ -1460,112 +1602,114 @@ memory = "code"
 note = "consume_editor_commit's insertion: insert_editor_commit through the widget; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.write_filter_call_1536c32]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1536C32, bytes = "E8 59 29 5E FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DB32, bytes = "E8 79 A4 5E FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DB32, bytes = "E8 79 A4 5E FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1536C32, sha256 = "0140F327C3806839F0B878E1049B67155265CA911E07418313FA2E4A74FE89D6", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DB32, sha256 = "D6FAC211E2B5775C9E8E675617611C7C099E2C371B5E9B3E3D31E39C9C2A7E68", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DB32, sha256 = "D6FAC211E2B5775C9E8E675617611C7C099E2C371B5E9B3E3D31E39C9C2A7E68", size = 5 }
 memory = "code"
 note = "the field's refused characters in insert_editor_commit: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.font_filter_call_15a05a8]
-build."eu4-1.37.5-steam-win64" = { rva = 0x15A05A8, bytes = "E8 E3 8F 57 FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x15970C8, bytes = "E8 E3 0E 58 FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x15970C8, bytes = "E8 E3 0E 58 FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x15A05A8, sha256 = "0244E2B4CFDD460BC3274FF9E2FB1E32E73D6A8AB1F9712F60ACC1DBE1BC6333", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15970C8, sha256 = "90C05454A3AC1AC8B69B4A9B0B1E5AA2EC03AA4CF32DAC4E495086F8011B911B", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15970C8, sha256 = "90C05454A3AC1AC8B69B4A9B0B1E5AA2EC03AA4CF32DAC4E495086F8011B911B", size = 5 }
 memory = "code"
 note = "the font's refused characters: filter_editor_text; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.tooltip_insert_call_1415f33]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1415F33, bytes = "E8 48 0C 12 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x140FED3, bytes = "E8 A8 DB 11 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x140FED3, bytes = "E8 A8 DB 11 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1415F33, sha256 = "95F4651E458D1941A6320B326EA40B1463C69BED99FECEA53ADDD45DB7504D3F", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x140FED3, sha256 = "71CBF731970FD315ACF636F33A8FDB4BD76DED962E1B11AD463E0579D7228068", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x140FED3, sha256 = "71CBF731970FD315ACF636F33A8FDB4BD76DED962E1B11AD463E0579D7228068", size = 5 }
 memory = "code"
 note = "a tooltip's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.lobby_chat_insert_call_83eadb]
-build."eu4-1.37.5-steam-win64" = { rva = 0x83EADB, bytes = "E8 A0 80 CF 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, bytes = "E8 40 FC CE 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x83EADB, sha256 = "7EB7F5C2605943C626D33857C7A1A504DE05C1A092321827EED481A61E6F5C38", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x83DE3B, sha256 = "71065DB59585B2DF5A6F193CE6BE9CCA669AD34A7E089901EFD9700C32CADBBA", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x83DE3B, sha256 = "71065DB59585B2DF5A6F193CE6BE9CCA669AD34A7E089901EFD9700C32CADBBA", size = 5 }
 memory = "code"
 note = "a lobby chat message's temporary editor: insert_editor_commit; the plugin maps where it returns to the Steam address the original checks"
 
 [symbol.topbar_date_call_1432256]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1432256, bytes = "E8 35 56 09 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x142C1F6, bytes = "E8 05 52 09 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x142C1F6, bytes = "E8 05 52 09 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1432256, sha256 = "59964C4A3FDAF60A732F8063AD933CF176F709C43E242EA80CC0BB1C79C9EB8F", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x142C1F6, sha256 = "3CD5FD66DDAD1011490ABC18E112DD05661B3E22CF6658573AFC2F46ECB624A3", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x142C1F6, sha256 = "3CD5FD66DDAD1011490ABC18E112DD05661B3E22CF6658573AFC2F46ECB624A3", size = 5 }
 memory = "code"
-note = "CTopbarGui::RefreshSpeedControlsWindow: format_localized_date on the top bar's date, which the original picks by its return 0x143225B; the plugin redirects it"
+note = "the top bar's refresh of its speed controls: format_localized_date on the top bar's date, which the original picks by its return 0x143225B; the plugin redirects it"
 
 [symbol.end_of_month_date_call_6e5cef]
-build."eu4-1.37.5-steam-win64" = { rva = 0x6E5CEF, bytes = "E8 4C E0 9F FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E57BF, bytes = "E8 AC E5 9F FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E57BF, bytes = "E8 AC E5 9F FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x6E5CEF, sha256 = "A76EF3CEDE8C2085E2ECDEE2423D733DBAD2475710629E9A8794E2FE789D8E5A", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E57BF, sha256 = "F9CD3579D2C23D0E96BE00606293133FEF307D142572900D79F9D33CCC7ED53F", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E57BF, sha256 = "F9CD3579D2C23D0E96BE00606293133FEF307D142572900D79F9D33CCC7ED53F", size = 5 }
 memory = "code"
-note = "CEU3Date::GetEndOfMonthString: concat_localized_date of a month and a year, which the original picks by its return 0x6E5CF4; the plugin redirects it"
+note = "the date's end-of-month text: concat_localized_date of a month and a year, which the original picks by its return 0x6E5CF4; the plugin redirects it"
 
 [symbol.month_year_date_call_6e61b9]
-build."eu4-1.37.5-steam-win64" = { rva = 0x6E61B9, bytes = "E8 82 DB 9F FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E5C89, bytes = "E8 E2 E0 9F FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E5C89, bytes = "E8 E2 E0 9F FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x6E61B9, sha256 = "7E7A3546A9B0963873165F6A1577028CA9F512293D76F3C992BF11D289788BB7", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x6E5C89, sha256 = "63DCE1B627BB0542836D1C85A40998736E93CE1EECE77E480297B5893BFF1B4B", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x6E5C89, sha256 = "63DCE1B627BB0542836D1C85A40998736E93CE1EECE77E480297B5893BFF1B4B", size = 5 }
 memory = "code"
-note = "CEU3Date::GetLongStringMonthYear: concat_localized_date of a month and a year, which the original picks by its return 0x6E61BE; the plugin redirects it"
+note = "the date's long month-and-year text: concat_localized_date of a month and a year, which the original picks by its return 0x6E61BE; the plugin redirects it"
 
 [symbol.claim_strength_date_call_a52956]
-build."eu4-1.37.5-steam-win64" = { rva = 0xA52956, bytes = "E8 E5 13 69 FF" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xA51916, bytes = "E8 55 24 69 FF" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xA51916, bytes = "E8 55 24 69 FF" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xA52956, sha256 = "0F0E103DD17F5C97B3CD8B29C5C5AE175434A778896E7331A5FDCC356BC7D780", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xA51916, sha256 = "37FF047FC99C3A7260801E15A0756DC73165D4622ECF3B4A87DB0C043CBABDC4", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xA51916, sha256 = "37FF047FC99C3A7260801E15A0756DC73165D4622ECF3B4A87DB0C043CBABDC4", size = 5 }
 memory = "code"
-note = "CMonarchInWaiting::GetClaimStrengthString: concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
+note = "an heir's claim strength text: concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
 
 [symbol.rebel_date_call_12ba0e6]
-build."eu4-1.37.5-steam-win64" = { rva = 0x12BA0E6, bytes = "E8 55 9C E2 FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x12B4246, bytes = "E8 25 FB E2 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x12B4246, bytes = "E8 25 FB E2 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x12BA0E6, sha256 = "A53D4DF2357ECDD97414BF77C1C109036736780B33976B7982885C5C056A472E", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x12B4246, sha256 = "96F4938F3CA2477B40F52B53390A283B2B480DAB1B283BA10BB93566CA4A633B", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x12B4246, sha256 = "96F4938F3CA2477B40F52B53390A283B2B480DAB1B283BA10BB93566CA4A633B", size = 5 }
 memory = "code"
-note = "CRebelFactionMember::Update: concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
+note = "a rebel faction's update (the rebels' outliner entry): concat_localized_date of a month and a year (EU4DLL's M, Y); the plugin redirects it"
 
 [symbol.game_setup_date_call_1133a58]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1133A58, bytes = "E8 E3 02 FB FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x112DDC8, bytes = "E8 A3 5F FB FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x112DDC8, bytes = "E8 A3 5F FB FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1133A58, sha256 = "1BAFCFDDA3CCDDD3E06D622353F8AE5FB1B900141BDCD53F87054AC012879D6E", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x112DDC8, sha256 = "839DEE31BD9CFBB9CD8C81B5510DE7C3FEFC8873FDF5E84E918521FD2CDA50A2", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x112DDC8, sha256 = "839DEE31BD9CFBB9CD8C81B5510DE7C3FEFC8873FDF5E84E918521FD2CDA50A2", size = 5 }
 memory = "code"
 note = "the game set-up's date: concat_localized_date of a month and a year (EU4DLL's M Y); the plugin redirects it"
 
 [symbol.save_path_transliterate_call_5ca246]
-build."eu4-1.37.5-steam-win64" = { rva = 0x5CA246, bytes = "E8 35 AF 13 01" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x5C9D16, bytes = "E8 15 52 12 01" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x5C9D16, bytes = "E8 15 52 12 01" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x5CA246, sha256 = "B7A5D4F14EEB18D1195C1B5D531CB3DA7B1D4407DB8C8D97715551A2EC357261", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x5C9D16, sha256 = "B87EE362658108DC9E8238F285F39CB495BFD1FB5CA724171CEF4C7CBEDCA7AD", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x5C9D16, sha256 = "B87EE362658108DC9E8238F285F39CB495BFD1FB5CA724171CEF4C7CBEDCA7AD", size = 5 }
 memory = "code"
-note = "EU4SaveGameHelper::BuildFullSavePath: transliterate_save_path on the save's path, which the original picks by its return 0x5CA24B; the plugin redirects it"
+note = "the save's full path: transliterate_save_path on the save's path, which the original picks by its return 0x5CA24B; the plugin redirects it"
 
 [symbol.presence_conversion_call_a901fe]
 rva = 0xA901FE
-bytes = "E8 0D 5E C7 00"
+sha256 = "E0A0C8D9A9884A19FD8649A15718218423D41042552DC355E1D92BDA6C0EFFEC"
+size = 5
 absent = ["eu4-1.37.5.2-gog-win64", "eu4-1.37.5.0-gog-win64"]
 memory = "code"
 note = "the Steam Rich Presence text: convert_steam_presence, which the original picks by its return 0xA90203; the plugin redirects it"
 
 [symbol.prefix_assign_block_153a306]
-build."eu4-1.37.5-steam-win64" = { rva = 0x153A306, bytes = "E8 05 AE B5 FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531206, bytes = "E8 35 3F B6 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A306, sha256 = "017DE454C1B3C36556F17EA9B51694908EB67E570525EAECFE6C0CBBEF7EA551", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531206, sha256 = "C4C6C7552E774694F494860A272D95C17266461FA6CE5C68616252C595CA881C", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531206, sha256 = "C4C6C7552E774694F494860A272D95C17266461FA6CE5C68616252C595CA881C", size = 5 }
 memory = "code"
-note = "CTextBuffer::TryToAppendStringToText: call of assign_editor_prefix with a byte-limited prefix"
+note = "the text buffer's append of a text that may not fit: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.prefix_assign_block_153a717]
-build."eu4-1.37.5-steam-win64" = { rva = 0x153A717, bytes = "E8 F4 A9 B5 FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531617, bytes = "E8 24 3B B6 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531617, bytes = "E8 24 3B B6 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A717, sha256 = "477192C87381F0C7C311EDAF87170A9CB89482FF2DE580991EB2DED1D376B30A", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1531617, sha256 = "1132AB69BAD015929C0B5D638153124D3614217AB1802E4CDC36C31B0FF343C9", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1531617, sha256 = "1132AB69BAD015929C0B5D638153124D3614217AB1802E4CDC36C31B0FF343C9", size = 5 }
 memory = "code"
-note = "CTextBuffer::AppendTextToString: call of assign_editor_prefix with a byte-limited prefix"
+note = "the text buffer's append of a text to its string: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.prefix_assign_block_153a99b]
-build."eu4-1.37.5-steam-win64" = { rva = 0x153A99B, bytes = "E8 70 A7 B5 FE" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x153189B, bytes = "E8 A0 38 B6 FE" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x153189B, bytes = "E8 A0 38 B6 FE" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x153A99B, sha256 = "BD4C3AFCCA4BB2D1A25485EE2A934294B9B3EE6C5B622BBD2363F92AD0348A6B", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x153189B, sha256 = "B284EEA4EEC50982FF1247C780F15FD83E5638055E28E9C86ECF4E5414AA7E2E", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x153189B, sha256 = "B284EEA4EEC50982FF1247C780F15FD83E5638055E28E9C86ECF4E5414AA7E2E", size = 5 }
 memory = "code"
-note = "CTextBuffer::InsertStringInToText: call of assign_editor_prefix with a byte-limited prefix"
+note = "the text buffer's insertion of a text: call of assign_editor_prefix with a byte-limited prefix"
 
 [symbol.generated_name_return]
-bytes = "0F 11 07 0F"
+sha256 = "AAD85816403999ACBED90C2279C439ABF40BFCC09FF87CAEE22282B13690EE74"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x314301 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x314291 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x314291 }
@@ -1573,7 +1717,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.speed_increase_return]
-bytes = "74 26 48 8B"
+sha256 = "7DBD024864ACCCBCA8F09FFAF2DB0E4D8E08571B53C99E32BFA2DAD625C12841"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x816DE0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x816140 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x816140 }
@@ -1581,7 +1726,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.speed_other_return]
-bytes = "3C 2D 75 3E"
+sha256 = "D5B1A48C8A3534474D5501D2111891D623A859587E4AF8AF6124304C193D5646"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x816E12 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x816172 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x816172 }
@@ -1589,7 +1735,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.person_name_return]
-bytes = "C7 45 B0 01"
+sha256 = "DFDAAD15529E44DAB04E5A57DE6CE4CD4E957841B913A58C307CD845402808AC"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xA4B4A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xA4A466 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xA4A466 }
@@ -1597,7 +1744,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_count_return]
-bytes = "85 C0 41 0F"
+sha256 = "3870E15AF06E7DE573C24FD5BA4D962CBF105C41056C4F83D8EE2226B9FF2E8E"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3EF8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2708 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2708 }
@@ -1605,7 +1753,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_draw_return]
-bytes = "0F 84 64 14"
+sha256 = "6331DB52F12592BDC220E5B7BE1AED161921131F888E302D939527264072A87D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD3F5A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD276A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD276A }
@@ -1613,7 +1762,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_measure_return]
-bytes = "0F 5B C9 F3"
+sha256 = "0F73C69584F5F6D4E924399FB46433172B63A9932167EE607B195AB6D2B7182D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD4158 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD2968 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD2968 }
@@ -1621,7 +1771,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_single_return]
-bytes = "F2 0F 10 85"
+sha256 = "FEDF23B11AA10C2271BA513805C0079EBC9ADA36E0E11080AD8CC60AEFEC5354"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD415F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD296F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD296F }
@@ -1629,7 +1780,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_page_tag_return]
-bytes = "8B B5 E8 07"
+sha256 = "97AB2F1451FBCE40B4E2D73EF620774B7503936EC9F7169636B0576C7BDB1CC3"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53B7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BC7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BC7 }
@@ -1637,7 +1789,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_justify_advance_return]
-bytes = "48 3B 8D 60"
+sha256 = "D8DB01973EE97640B4D7C0D75787C194E6B31AE0C32CDE25C030744EE1F90218"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD53D6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD3BE6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD3BE6 }
@@ -1645,7 +1798,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.country_shape_return]
-bytes = "4C 8B A5 40"
+sha256 = "2394B34F80828E0E5E9D0AA9C4B8912DA0338D3DB5F322C79588D35DB26EB4DB"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD64DD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4CED }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4CED }
@@ -1653,7 +1807,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.country_gap_return]
-bytes = "44 0F 28 E1"
+sha256 = "596321DEB12A4C9AE78F7EEADB4E288DF3BB9CA32BCFCF9BC3CA6AA60B89AEE2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD65F2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E02 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E02 }
@@ -1661,7 +1816,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_adjust_gap_end_return]
-bytes = "0F 1F 44 00"
+sha256 = "B80EB49357A0D9BB420DED796CD1AAAA4B9F97A88BF2B041CC6B39BBA8FC0AF6"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD660B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4E1B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4E1B }
@@ -1669,7 +1825,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_adjust_copy_return]
-bytes = "48 8D 55 00"
+sha256 = "0C3C9EB952C445AB3999A3BD3C7EAE8AC13EADBF9652D746ED60BE1E7B270240"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD66AB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4EBB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4EBB }
@@ -1677,7 +1834,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_adjust_last_return]
-bytes = "48 8D 55 00"
+sha256 = "0C3C9EB952C445AB3999A3BD3C7EAE8AC13EADBF9652D746ED60BE1E7B270240"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD671A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD4F2A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD4F2A }
@@ -1685,7 +1843,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.country_gap_skip]
-bytes = "41 8B 54 24"
+sha256 = "FF336571335FCBC9BF8D8379A35660AAAF17274657C887743E4F19FAE0CB1EBA"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD68C3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD50D3 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD50D3 }
@@ -1693,7 +1852,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_adjust_glyph_return]
-bytes = "48 85 D2 74"
+sha256 = "BB2C69A8301A96B35BF57A08310B606A37068D6EC814C6485327DFA964ADBAC4"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD6BD7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD53E7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD53E7 }
@@ -1701,7 +1861,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.province_shape_return]
-bytes = "4D 85 C0 7E"
+sha256 = "B4046BE43F7B6CFEA3D162CF627651E02C386907AFB9F1F63F3862BB05CACC6D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD731C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B2C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B2C }
@@ -1709,7 +1870,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_vertex_count_return]
-bytes = "48 85 D2 74"
+sha256 = "BB2C69A8301A96B35BF57A08310B606A37068D6EC814C6485327DFA964ADBAC4"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0xFD734A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0xFD5B5A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0xFD5B5A }
@@ -1717,7 +1879,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_upper_return]
-bytes = "80 3C 2F 00"
+sha256 = "884A3D73632F99AEE0D8A0C4A9CB7608B751FD56364AC2BB5BDA95D397965AE6"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x14BA838 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x14B4698 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x14B4698 }
@@ -1725,7 +1888,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.editor_fit_return]
-bytes = "EB A1 48 8B"
+sha256 = "CCF7D5B71F6C48766FA4F991B9EA0E68103ED58B7E834CF8DF3E4947488C477B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1536E5D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x152DD5D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x152DD5D }
@@ -1733,7 +1897,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_lower_return]
-bytes = "80 3C 2F 00"
+sha256 = "884A3D73632F99AEE0D8A0C4A9CB7608B751FD56364AC2BB5BDA95D397965AE6"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1550438 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1547358 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1547358 }
@@ -1741,14 +1906,15 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.input_return]
-build."eu4-1.37.5-steam-win64" = { rva = 0x156A22A, bytes = "48 8D 1D 27" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x1560D4A, bytes = "48 8D 1D C7" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x1560D4A, bytes = "48 8D 1D C7" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x156A22A, sha256 = "4A08229D42D9EB9C405CA0AD84C17F5B93C93D6FD8253FAEF8BF8CDC04062111", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x1560D4A, sha256 = "87BF27BA3F8183C25D0F753C069253B809255829C46972C1DBA8CECE861EB1FD", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x1560D4A, sha256 = "87BF27BA3F8183C25D0F753C069253B809255829C46972C1DBA8CECE861EB1FD", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_allocate]
-bytes = "B9 10 00 00"
+sha256 = "4BF209F3D0EA8B14B8189DC8BA6AEFE74246B31F6A2ADEACC5FA78C701136AA0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CAD }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7CD }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7CD }
@@ -1756,7 +1922,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_initialize]
-bytes = "48 89 85 B0"
+sha256 = "DF35D85A8F9BD308A98767E47D58FCB850C8DF507A2280E90DCD36A5ED486DB9"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CB7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7D7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7D7 }
@@ -1764,7 +1931,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_store_return]
-bytes = "4C 8B 74 24"
+sha256 = "0732A972FF9048A52A264A673CF9032BF165B94E9E43259CAD21FA309F028E56"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595CFA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C81A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C81A }
@@ -1772,21 +1940,22 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_duplicate]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1595D07, bytes = "E8 34 C0 17" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C827, bytes = "E8 94 F1 16" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C827, bytes = "E8 94 F1 16" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1595D07, sha256 = "B8C8D3AD5E3FB6D831F10B04A6D2EC3D2E3EAE6CA33D0847808DDC0AF1F39CB5", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C827, sha256 = "0C0098CE085831CC3B77C8CBBEDA3DFA9B71F5603DB708C34C37EBB7398851BE", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C827, sha256 = "0C0098CE085831CC3B77C8CBBEDA3DFA9B71F5603DB708C34C37EBB7398851BE", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_skip]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1595F01, bytes = "E8 3A BE 17" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158CA21, bytes = "E8 9A EF 16" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158CA21, bytes = "E8 9A EF 16" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1595F01, sha256 = "188283B27173B065F1650DC42A03708D3A262ECDA7FCFA981103F55E01651631", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158CA21, sha256 = "1B40B139BA0508ED529347EC9FDC4E45B5FC95085353FDC3C4A7DCF808ECBA9C", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158CA21, sha256 = "1B40B139BA0508ED529347EC9FDC4E45B5FC95085353FDC3C4A7DCF808ECBA9C", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_geometry_entry_return]
-bytes = "48 8B 95 C8"
+sha256 = "83B4E9BC1F4B6C5BEA2B99A1BBEA060CB9B28BBB161971B896B4041F47C2E14B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15966F2 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D212 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D212 }
@@ -1794,7 +1963,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_loop]
-bytes = "48 8D 45 C8"
+sha256 = "F54ED67584C619A4CA30748EED809CEFF3B0F24688D4F399E5C627D6F50CFBC9"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596831 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D351 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D351 }
@@ -1802,7 +1972,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_copy_return]
-bytes = "90 48 8D 54"
+sha256 = "9C46CACAA7028ED30930E2D4BEB5FE9648DC38E47EF7267B06BC1338A54E179B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159686C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D38C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D38C }
@@ -1810,7 +1981,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_format_return]
-bytes = "0F 85 A1 00"
+sha256 = "77D9CC8CF669ADB12B73F0492C00F19379306650914275F7D7B3C57CE1EC0774"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15968F1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D411 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D411 }
@@ -1818,7 +1990,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_icon_copy_return]
-bytes = "48 8B 07 48"
+sha256 = "A7B9685ED7087051A6DFAF47207C67725A6FF0D0247351EF0AA60C99CE3B3782"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1596E8B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158D9AB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158D9AB }
@@ -1826,7 +1999,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_plain_entry]
-bytes = "48 8B 5C 24"
+sha256 = "11CAE15E6919839664B43612941804E0412B3D00B123B36505C96C2798B0BA90"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597059 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DB79 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DB79 }
@@ -1834,7 +2008,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_measure_return]
-bytes = "0F 84 E2 01"
+sha256 = "660BFF97B5CAD163101C8D2560CDC29E3CC2EF1BF3A622DD2F2EECB7CF28031D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597080 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DBA0 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DBA0 }
@@ -1842,7 +2017,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_wrap_return]
-bytes = "83 7D B0 00"
+sha256 = "C6851CBE804696E92DBDBC6037E7C124018A8C0992454D04A292B3CB6E1D7615"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15970EB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DC0B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DC0B }
@@ -1850,7 +2026,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_wrap_branch]
-bytes = "41 FF C6 44"
+sha256 = "96DD7F9EF76D504FD7F2B3A51EBC0FD8BF7D6128F82754DD18DEEE562C09C6D3"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15974CB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFEB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFEB }
@@ -1858,14 +2035,15 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_end]
-build."eu4-1.37.5-steam-win64" = { rva = 0x15974DF, bytes = "48 8D 0D 12" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFFF, bytes = "48 8D 0D D2" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFFF, bytes = "48 8D 0D D2" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x15974DF, sha256 = "C94439B9743087C4CEEB38C61F52DCE745A8D41B6518F482AD3079DBB7A8A256", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158DFFF, sha256 = "286034CF0FE5B51D462AEB03B1261F465A23612BE9C326EDC814E8B0227E16BF", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158DFFF, sha256 = "286034CF0FE5B51D462AEB03B1261F465A23612BE9C326EDC814E8B0227E16BF", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_draw_format_return]
-bytes = "0F 85 04 02"
+sha256 = "D8E70A0D011AB5531665841DA9B0AD21ECDD283CEDBD8198AB40BE24FE65BA96"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1597D94 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158E8B4 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158E8B4 }
@@ -1873,7 +2051,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_icon_draw_return]
-bytes = "48 8B 07 48"
+sha256 = "A7B9685ED7087051A6DFAF47207C67725A6FF0D0247351EF0AA60C99CE3B3782"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598118 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EC38 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EC38 }
@@ -1881,7 +2060,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_draw_plain_entry]
-bytes = "48 8D 97 20"
+sha256 = "D8C553C2D2E07AF8E58DFE787B648DE1AD021A24E33ED97D8959A6CCDFD7FB4C"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159838A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EEAA }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EEAA }
@@ -1889,7 +2069,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_draw_return]
-bytes = "4D 85 C0 0F"
+sha256 = "49E477A4026CF19DFA0987F6D0759F1C968837BEC74B266A9970DC546AA27692"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15983B9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158EED9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158EED9 }
@@ -1897,7 +2078,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_page_return]
-bytes = "FF C2 89 95"
+sha256 = "B3DF622F35865AC478D33AA48BC8CC35522DA7850733CD68EFFFB1B9DB2D35F8"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15986FC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F21C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F21C }
@@ -1905,7 +2087,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.button_geometry_end_return]
-bytes = "49 8B 5B 48"
+sha256 = "FB70247108CDCAE581DD38C33631D7B3C9B327BB392DDF3A79BA8E6BFDF88376"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1598849 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F369 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F369 }
@@ -1913,14 +2096,15 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_geometry_entry_return]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1598969, bytes = "48 8B 0D 38" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F489, bytes = "48 8B 0D 98" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F489, bytes = "48 8B 0D 98" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1598969, sha256 = "043CFBC94DCBEE2967E6B968823782FCA044C87606C93D65E0FB69551F33CBC1", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F489, sha256 = "2D2B7415A8509BAA08C1741162E837BB98F8527929CAD90B193AEB06DE8E06C7", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F489, sha256 = "2D2B7415A8509BAA08C1741162E837BB98F8527929CAD90B193AEB06DE8E06C7", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.text_limit_return]
-bytes = "4C 89 7C 24"
+sha256 = "72387CA0CBEF518FC0E7C8A6B86FCA61261402112524D595025BEEE3043A6FE0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15989E4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158F504 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158F504 }
@@ -1928,7 +2112,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_copy_return]
-bytes = "80 BD A0 23"
+sha256 = "C56B09A8AB35F1728B74FB575524C7CF7AAC1A1609C4B3A7FA3420BD25FEFC8C"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15995CE }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15900EE }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15900EE }
@@ -1936,7 +2121,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_icon_copy_return]
-bytes = "49 8B 06 48"
+sha256 = "8437BF27B985F1C7D0852F0DEA6F6AC96B171CC210DB9CD9FBA6D9CFD449AC8F"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15996B9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15901D9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15901D9 }
@@ -1944,7 +2130,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_measure_entry]
-bytes = "41 0F B6 01"
+sha256 = "C40BE3BAAF33463E53EF0B4E07E10EC4EC6906DE31BE40E0B9E583314D0DFEE5"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1599728 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590248 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590248 }
@@ -1952,7 +2139,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_measure_return]
-bytes = "0F 84 3B 02"
+sha256 = "7C3F7E77356A99ED4B12DDFC365E352AE662E058E3DA53184FC175892FDEEA67"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159973B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159025B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159025B }
@@ -1960,7 +2148,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.wrap_return]
-bytes = "0F 5B C9 F3"
+sha256 = "0F73C69584F5F6D4E924399FB46433172B63A9932167EE607B195AB6D2B7182D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x15997BB }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15902DB }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15902DB }
@@ -1968,14 +2157,15 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.wrap_branch]
-build."eu4-1.37.5-steam-win64" = { rva = 0x15998C7, bytes = "80 3D C2 26" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x15903E7, bytes = "80 3D 22 FA" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x15903E7, bytes = "80 3D 22 FA" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x15998C7, sha256 = "6FCEF1C230A50B6BEB7F7BFACC03D67E7D16EBB89E96AD8F03CBE3F1A4552DA7", size = 4 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x15903E7, sha256 = "3817406F083D64756D8C1E61230696008AAD5DF08988BD1AC26230D63868D6C3", size = 4 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x15903E7, sha256 = "3817406F083D64756D8C1E61230696008AAD5DF08988BD1AC26230D63868D6C3", size = 4 }
 memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_format_return]
-bytes = "75 73 41 FF"
+sha256 = "C6E2D68C900E0C6434A912F90E1A062F50C46AAC57C3EF0F3A7A2FF3BCF7B658"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A24A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590D6A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590D6A }
@@ -1983,7 +2173,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_icon_draw_return]
-bytes = "49 8B 06 48"
+sha256 = "8437BF27B985F1C7D0852F0DEA6F6AC96B171CC210DB9CD9FBA6D9CFD449AC8F"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A467 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1590F87 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1590F87 }
@@ -1991,7 +2182,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_plain_entry]
-bytes = "48 8B 44 24"
+sha256 = "E151240B1F57B00D356A87B62117A96BE552A09CC220929365EAE8B15AE0F190"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A791 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912B1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912B1 }
@@ -1999,7 +2191,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_draw_return]
-bytes = "48 89 55 38"
+sha256 = "4EC05AA6965DA9AFBFF387A4DB09B4EF3475B448D92C0BA768C780A5F6894EA6"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159A7AC }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15912CC }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15912CC }
@@ -2007,7 +2200,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_page_return]
-bytes = "89 5C 24 48"
+sha256 = "337DD507EF08160FB3A6DA97695E08B9558FC779E1FFF8EB283253AE283E435E"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159AF8E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591AAE }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591AAE }
@@ -2015,7 +2209,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.main_geometry_end_return]
-bytes = "41 0F 28 73"
+sha256 = "A884915729E4E5238C00C7B0D5260FEA7BC2F954BF6A1EA968A10229AE4A1ED2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B3B8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1591ED8 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1591ED8 }
@@ -2023,7 +2218,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_format_return]
-bytes = "75 07 FF C7"
+sha256 = "ACF50A8C3C30CAA05308214126850D77DA357A83412D718E0F9FCE043C49B620"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B54D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159206D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159206D }
@@ -2031,7 +2227,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_icon_end_return]
-bytes = "49 8B CE FF"
+sha256 = "3B66CE60225F9A58344C65E0730B6B5AF52CE1571245BF0605EC100A2F2AF0D8"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B62B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159214B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159214B }
@@ -2039,7 +2236,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_plain_entry]
-bytes = "4C 8B 5B 18"
+sha256 = "55C893D0866E4012BACE15BABD1FF015B1E1195C480A378AF53F71FE56C160CF"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B677 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592197 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592197 }
@@ -2047,7 +2245,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_measure_return]
-bytes = "74 72 80 79"
+sha256 = "B80FB246D219DCBEA793B1EE26E916C66BECD3260501C1D2376E335239363B88"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B696 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15921B6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15921B6 }
@@ -2055,7 +2254,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_format_return]
-bytes = "75 0A FF C7"
+sha256 = "3B67618A92412F52DB557566612A0861BAA42162F7B8B9BCA8B473925AF03E71"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B862 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592382 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592382 }
@@ -2063,7 +2263,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_plain_entry]
-bytes = "0F B6 14 2B"
+sha256 = "8993ED3BFFDB7CA73FD9E8B79781F1EAA572F13671A30001D4370BD22EA00DB0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B91A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159243A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159243A }
@@ -2071,7 +2272,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_measure_return]
-bytes = "74 51 41 80"
+sha256 = "022CF027FC4D38BFA96C10898C719C6D14A6BCD1086E64DB8683326235F511F0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B92C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159244C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159244C }
@@ -2079,7 +2281,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_kern_return]
-bytes = "66 41 83 7B"
+sha256 = "59F2850CEEE2F69702CD8694B6647FBC507C13217B6BE5FC2D6432669030DF86"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B963 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1592483 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1592483 }
@@ -2087,7 +2290,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_advance_return]
-bytes = "49 B8 FF FF"
+sha256 = "6917B14B49C0033DF693BCB4A87E41C197FE66857ABAF3994B8D33D573579AD2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B99E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924BE }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924BE }
@@ -2095,7 +2299,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.alternate_end]
-bytes = "44 0F 28 84"
+sha256 = "B1110D9BC217B1044C8AA3D30BF0CB8AFDDC3C7C6203F30A98B7D3C52A54C191"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159B9B1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15924D1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15924D1 }
@@ -2103,7 +2308,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_entry_return]
-bytes = "80 38 00 0F"
+sha256 = "DFB5EF0A215BD99488B543FDA87C14B357976A6915D9A26E21B14354669C6677"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C67F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159319F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159319F }
@@ -2111,7 +2317,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_copy_return]
-bytes = "90 48 8D 55"
+sha256 = "65F2557CD3D4DCBA1E4CF894CCE5866A77620A7A11889DD6CC0E1F8AEC08E694"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C6F8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593218 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593218 }
@@ -2119,7 +2326,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_format_return]
-bytes = "75 47 FF C7"
+sha256 = "7CD1DF058CBD3A5513B320747690CFDABF420980D23B08EEB828CB4112F9A0D3"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C722 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593242 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593242 }
@@ -2127,7 +2335,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_color_copy_return]
-bytes = "90 48 8D 55"
+sha256 = "65F2557CD3D4DCBA1E4CF894CCE5866A77620A7A11889DD6CC0E1F8AEC08E694"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C74B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159326B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159326B }
@@ -2135,7 +2344,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_icon_copy_return]
-bytes = "90 48 8D 55"
+sha256 = "65F2557CD3D4DCBA1E4CF894CCE5866A77620A7A11889DD6CC0E1F8AEC08E694"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C7BA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15932DA }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15932DA }
@@ -2143,7 +2353,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_plain_entry]
-bytes = "48 8B CE E8"
+sha256 = "44239C2860ACDD5A296D5191342745C609409BABFA51C27621867E39D19A8D3D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C82B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159334B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159334B }
@@ -2151,7 +2362,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_measure_return]
-bytes = "0F 84 F0 00"
+sha256 = "DDF6D0DFFD20F2940113E2846A40182534EBB0A4093F2807233C70D70316F789"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C842 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593362 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593362 }
@@ -2159,7 +2371,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_measure_kern_return]
-bytes = "66 41 83 7C"
+sha256 = "3A9C48010C76831900EBBF5C1B227C2A514DB8904D57C43554DA17E2B8CC4954"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933C6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933C6 }
@@ -2167,7 +2380,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_wrap_return]
-bytes = "44 8B A5 98"
+sha256 = "A1C233C9B2308E1792A843D42D079A2635243DBC05E48B7DF60E5E3A9D06B216"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C8B3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15933D3 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15933D3 }
@@ -2175,7 +2389,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_advance_entry]
-bytes = "FF C7 3B 7E"
+sha256 = "28E926FF9FE48C7CACAD77ADB5779D19BDD6745FA8A412E8F8C7EDD3325238FE"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C1 }
@@ -2183,7 +2398,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_advance_return]
-bytes = "0F 8C 24 FD"
+sha256 = "DB2932AA0395754A04D1CB00F1450D48B8C0AC6FD1A8AF12558D089BD717F626"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159C9A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15934C6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15934C6 }
@@ -2191,7 +2407,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_draw_format_return]
-bytes = "0F 85 F9 01"
+sha256 = "6AA02FBCC329656697B5D774744AD41A7B2D07BE74C976BCCAED268997FDD71B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CBC9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15936E9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15936E9 }
@@ -2199,7 +2416,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_end_return]
-bytes = "41 0F 28 73"
+sha256 = "A884915729E4E5238C00C7B0D5260FEA7BC2F954BF6A1EA968A10229AE4A1ED2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CD7D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159389D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159389D }
@@ -2207,7 +2425,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_icon_end_return]
-bytes = "49 8B 07 4C"
+sha256 = "A7876CEF3799747E06575D6DA4A93596C86A6A9705D2DF3D623C60B6AF32D4E7"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CE36 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1593956 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1593956 }
@@ -2215,7 +2434,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_draw_plain_entry]
-bytes = "48 8D 44 24"
+sha256 = "D2ED992B24DF065ED56B5D642204D1BB95DC68703A77A6221B9E14714BA2CD52"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CEAF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939CF }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939CF }
@@ -2223,7 +2443,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_draw_return]
-bytes = "75 54 48 8D"
+sha256 = "5D5A47972A3B582098E017063D00EEE40FE3A2C56BE5A1F8A327CA1E4755B41D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159CED4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15939F4 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15939F4 }
@@ -2231,7 +2452,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_page_return]
-bytes = "89 8D 88 03"
+sha256 = "200934D28081D96C66F4A29572C4CC6C7DA267BAE3D29390B0CB0F38C0CA39A2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159D9A9 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15944C9 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15944C9 }
@@ -2239,7 +2461,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.popup_draw_kern_return]
-bytes = "F3 44 0F 10"
+sha256 = "0D3238FB092CC20C44044A83D302F3F8A9FC934F050CDD3F0449DC33413A408C"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DA1B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159453B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159453B }
@@ -2247,7 +2470,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_copy_return]
-bytes = "90 48 8D 54"
+sha256 = "9C46CACAA7028ED30930E2D4BEB5FE9648DC38E47EF7267B06BC1338A54E179B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DB8D }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15946AD }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15946AD }
@@ -2255,7 +2479,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_measure_return]
-bytes = "0F 84 C9 01"
+sha256 = "4D37082A462D6C4799F7A4832820194249B8F4CCE559148ADFA98680232D6A1B"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DC13 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594733 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594733 }
@@ -2263,7 +2488,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_draw_return]
-bytes = "75 73 48 8D"
+sha256 = "42F95B34AC43F11F5283EE72CC556D10139532DD62B4521E58C867734807FE90"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159DF9A }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594ABA }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594ABA }
@@ -2271,7 +2497,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_page_tag_return]
-bytes = "F3 0F 59 45"
+sha256 = "891DB2B586C246F7BBA4FE7326C27B3141E87FCC2E3938984115762232A3FBE0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E40E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F2E }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F2E }
@@ -2279,7 +2506,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_kern_return]
-bytes = "F3 0F 58 D0"
+sha256 = "8028CE4A570B5C8B6FDA059F453939449D54A9DAF237EF8CDBB8A70BC32317C0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E45E }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1594F7E }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1594F7E }
@@ -2287,7 +2515,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_begin_return]
-bytes = "45 85 C9 0F"
+sha256 = "354E5FE52DBC7C90C9908D836E3A8D6BC5B9DDD204B4FC487FFEA44C6F05B4BE"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E5D1 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15950F1 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15950F1 }
@@ -2295,7 +2524,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_format_return]
-bytes = "80 3C 10 A7"
+sha256 = "08D0B5E6746F26B412C517EAD668297E690FFC6172B5FEDAC5D661145762EC30"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E61F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159513F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159513F }
@@ -2303,7 +2533,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_icon_end_return]
-bytes = "FF 90 E8 00"
+sha256 = "B071E70602F61B0774C5E5F0DB92929C3DC83293D36E69E8AAADF1A437B79CB4"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E702 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595222 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595222 }
@@ -2311,7 +2542,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_plain_entry]
-bytes = "48 8B C3 49"
+sha256 = "7B2C3EA87F1A574991D9698F92D17283F7A3E28AD107F52B33D09842706B2AFD"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E751 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595271 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595271 }
@@ -2319,7 +2551,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_measure_return]
-bytes = "0F 84 19 01"
+sha256 = "5294AE4C7E871ACEAA2A5E3AA027037BFCA3D76E05A0CCF51208B286BE391750"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E775 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595295 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595295 }
@@ -2327,7 +2560,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_kern_return]
-bytes = "41 0F BF 43"
+sha256 = "B7D474F0A13A369C2F280344CE7F35F8B564B8B4B8C42EAF9E0190A604CF5F5D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7D8 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15952F8 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15952F8 }
@@ -2335,7 +2569,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_wrap_allow]
-bytes = "66 0F 6E 85"
+sha256 = "9FF131B8093B38E0DD589F4A762248B245254D8CDCC0047D5084C66A180C5EF5"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E7F0 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595310 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595310 }
@@ -2343,7 +2578,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.map_fit_wrap_skip]
-bytes = "48 8B 85 90"
+sha256 = "CD03B6F0AE3127A56C383FCDF73DDC9AB83E7D84EC5030301A2A1D0DB351B7B9"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159E841 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595361 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595361 }
@@ -2351,7 +2587,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.split_format_return]
-bytes = "80 3C 0A A7"
+sha256 = "DAC908A2FAD4713D594E7C1156B39705C832B0D6E3DD8EB508DA8B4424D4B387"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EDED }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159590D }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159590D }
@@ -2359,7 +2596,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.split_plain_entry]
-bytes = "48 8B C3 48"
+sha256 = "829370BD676E4AE4F1A52FCFC881B5B483B893DD1B6B77303AC6B5897E4C2EF0"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF38 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A58 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A58 }
@@ -2367,7 +2605,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_split_return]
-bytes = "0F 84 74 01"
+sha256 = "F479070A11FC52234848F73F7FE3725F13324D54A8CBF09287CDCC19D195192C"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159EF5C }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595A7C }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595A7C }
@@ -2375,7 +2614,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.split_kern_return]
-bytes = "EB 07 4D 8D"
+sha256 = "ED8691DF6634EEAFC808494D9EB8B3AE3BB22525ECEC4B065B5DB989B3F93FA7"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F07B }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595B9B }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595B9B }
@@ -2383,7 +2623,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.bitmap_advance_return]
-bytes = "0F 8D 17 02"
+sha256 = "4C77073138192DF049BBC55B1E801161134258B515589A79D54F98929CC58AA2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F1E6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1595D06 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1595D06 }
@@ -2391,7 +2632,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.list_format_return]
-bytes = "8B C6 80 3C"
+sha256 = "E669BE14C3E58FD8F41313CB6EBB86B12AEBC1E65EC3712E7C2894D79217E4F3"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F6FF }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x159621F }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x159621F }
@@ -2399,7 +2641,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.list_plain_entry]
-bytes = "48 8B C7 48"
+sha256 = "F6D21FDED0767CDA9179FC8DD9FF12F1CAECE8129978B38804807F788CE0779A"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F849 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596369 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596369 }
@@ -2407,7 +2650,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.list_measure_return]
-bytes = "0F 84 40 03"
+sha256 = "170B99D3BEA04BC081E3C8D9EE2A669A9A533478201BEEF29A9186D79896DF84"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F895 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15963B5 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15963B5 }
@@ -2415,7 +2659,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.list_kern_return]
-bytes = "45 8B F7 66"
+sha256 = "0BCAB4AF1234011C3AC6A85A71AB221F63119FC98A9C364718F85F6EC648C5A7"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159F9B7 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x15964D7 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x15964D7 }
@@ -2423,7 +2668,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.list_advance_return]
-bytes = "45 33 D2 3B"
+sha256 = "36D17716AAFCBB4671D67B5A7EEAC8C814C3EBA305F5413A0DAA648719A40526"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x159FDF4 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1596914 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1596914 }
@@ -2431,7 +2677,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.wide_compare_left_return]
-bytes = "4C 8B FA 48"
+sha256 = "2C31AC4B898EE3D783432F64223C4B0EEE3BAC0DB1674F8E08596503CF2218C2"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBC2F }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E58AF }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E58AF }
@@ -2439,7 +2686,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.wide_compare_right_return]
-bytes = "4C 8B EA 48"
+sha256 = "FC01CD2B654EFE8DDD6A3370857F97301D445EE4C44F2DE96DB71761A289FAEB"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FBCAE }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E592E }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E592E }
@@ -2447,7 +2695,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.path_pair_return]
-bytes = "4C 8D 44 24"
+sha256 = "C6974744749858D71287917C75E45599A9B6C5A83D09DB83244A6D0AD8A1A835"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x19FC0A6 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x19E5D26 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x19E5D26 }
@@ -2455,7 +2704,8 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.heap_return]
-bytes = "74 D4 EB 0D"
+sha256 = "740F88F9B3158AA2FD23074637CA4E4CED97792734D0E38CF2C972BFA993D158"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1A683C3 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x1A52013 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x1A52013 }
@@ -2463,207 +2713,210 @@ memory = "code"
 note = "where a replaced block continues"
 
 [symbol.font_codepoint_limit]
-bytes = "FF 00 00 00"
+sha256 = "81FF65EFC4487853BDB4625559E69AB44F19E0F5EFBD6D5B2AF5E3AB267C8E06"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x1595C88 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x158C7A8 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x158C7A8 }
 memory = "code"
-note = "imm32 of cmp edi, 0xFF in the font loader; the original makes it 0x10FFFF"
+note = "the font loader's highest code point, 0xFF, as a 32-bit immediate; the original makes it 0x10FFFF"
 
 [symbol.texture_file_limit]
-bytes = "00 00 00 01"
+sha256 = "B40711A88C7039756FB8A73827EABE2C0FE5A0346CA7E0A104ADC0FC764F528D"
+size = 4
 build."eu4-1.37.5-steam-win64" = { rva = 0x16C2CBA }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x16ACB0A }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x16ACB0A }
 memory = "code"
-note = "imm32 of cmp r14d, 0x1000000 before PHYSFS_read; the original makes it 0x4000000"
+note = "the largest texture file read through PHYSFS_read, 0x1000000, as a 32-bit immediate; the original makes it 0x4000000"
 
 [symbol.sdl_ime_ui_less]
-bytes = "4C 8D B3 68 15 00 00"
+sha256 = "B67F253502F31E9E3151F7F6A9506D4C77F641677E43B83216AF87DC2120EBFB"
+size = 7
 build."eu4-1.37.5-steam-win64" = { rva = 0x1764E56 }
 build."eu4-1.37.5.2-gog-win64" = { rva = 0x174EAD6 }
 build."eu4-1.37.5.0-gog-win64" = { rva = 0x174EAD6 }
 memory = "code"
-note = "lea r14,[rbx+1568h] in the SDL IME set-up; the original jumps past the UI-less TSF manager"
+note = "an address computation in the SDL IME set-up; the original jumps past the UI-less TSF manager"
 
 [symbol.save_transliterate_call_1174a99]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1174A99, bytes = "E8 E2 06 59 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x116EDF9, bytes = "E8 32 01 58 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x116EDF9, bytes = "E8 32 01 58 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1174A99, sha256 = "700D8ABDD89F3D9A312BC4A12A6FCE7DA72D9536A2A349AC3DC1997895404875", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x116EDF9, sha256 = "284FA005DC11C9111A507CB7A637CF860784473544E1BC9337A0984A1FE1ECC9", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116EDF9, sha256 = "284FA005DC11C9111A507CB7A637CF860784473544E1BC9337A0984A1FE1ECC9", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_1174e95]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1174E95, bytes = "E8 E6 02 59 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F1F5, bytes = "E8 36 FD 57 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1174E95, sha256 = "A8A61A7BEAD5522F6C3F5DC17C7A64BFBDD346A1E4369E1FEDF1DDF4A370C7E3", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F1F5, sha256 = "2C801498620EA2B82C244CF2CCF4D32C1786F05546E6487952F1EA2C599954BE", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F1F5, sha256 = "2C801498620EA2B82C244CF2CCF4D32C1786F05546E6487952F1EA2C599954BE", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_13b8de1]
-build."eu4-1.37.5-steam-win64" = { rva = 0x13B8DE1, bytes = "E8 9A C3 34 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B2F41, bytes = "E8 EA BF 33 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B2F41, bytes = "E8 EA BF 33 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x13B8DE1, sha256 = "4E59419F2C2B194CAE5FCC4CDC6CDCDF1AE265D7BF38EF9EF16C2532CC8C9F03", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B2F41, sha256 = "B8176EC67E0B9A1C5981BB3F62C946B5C8CFC95A63A2CAF8FCFEA69AE007720A", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B2F41, sha256 = "B8176EC67E0B9A1C5981BB3F62C946B5C8CFC95A63A2CAF8FCFEA69AE007720A", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_13b8f6c]
-build."eu4-1.37.5-steam-win64" = { rva = 0x13B8F6C, bytes = "E8 0F C2 34 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B30CC, bytes = "E8 5F BE 33 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B30CC, bytes = "E8 5F BE 33 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x13B8F6C, sha256 = "9D9F40D3CD63C7421DF0809CF0A37EC4D107E77B25F7F283A350F60BC1B57B0A", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B30CC, sha256 = "075572BD63C2CA4A28828DC80DC9E218EEC222FEDC69DD6E11DF307A8B95B312", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B30CC, sha256 = "075572BD63C2CA4A28828DC80DC9E218EEC222FEDC69DD6E11DF307A8B95B312", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_13b9567]
-build."eu4-1.37.5-steam-win64" = { rva = 0x13B9567, bytes = "E8 14 BC 34 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B36C7, bytes = "E8 64 B8 33 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B36C7, bytes = "E8 64 B8 33 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x13B9567, sha256 = "35B5D2B7F5551A1B66390266031E1728BDB8760288044BC756CABA754976C789", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x13B36C7, sha256 = "7528BD7027159F6211FA4C91B14C886019EF62DBECD1ECA0C2B18D660FDA6B73", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x13B36C7, sha256 = "7528BD7027159F6211FA4C91B14C886019EF62DBECD1ECA0C2B18D660FDA6B73", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_117519e]
-build."eu4-1.37.5-steam-win64" = { rva = 0x117519E, bytes = "E8 DD FF 58 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F4FE, bytes = "E8 2D FA 57 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F4FE, bytes = "E8 2D FA 57 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x117519E, sha256 = "8C130E5B284D76E09CCBBB27BAD4569C18149C16A480177D85097C9A632CDDA4", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x116F4FE, sha256 = "DCD9310F7742796BF2459BC69BE20A1983AD89F432B06E42EC5AB907BBF0F1AB", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116F4FE, sha256 = "DCD9310F7742796BF2459BC69BE20A1983AD89F432B06E42EC5AB907BBF0F1AB", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.save_transliterate_call_1175c2c]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1175C2C, bytes = "E8 4F F5 58 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x116FF8C, bytes = "E8 9F EF 57 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x116FF8C, bytes = "E8 9F EF 57 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1175C2C, sha256 = "F2F4842DB665F5C71554A5A5BDD3475459E983385272C788FB31EF7A0BF11188", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x116FF8C, sha256 = "386FF9EEDBB791A08E46FA486ABB1E2BA1C29DE7588933C47AEB8357947BAF07", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x116FF8C, sha256 = "386FF9EEDBB791A08E46FA486ABB1E2BA1C29DE7588933C47AEB8357947BAF07", size = 5 }
 memory = "code"
 note = "call 0x1705180, CP1252 transliteration of a save name; the original NOPs it"
 
 [symbol.search_lower_call_efc33b]
-build."eu4-1.37.5-steam-win64" = { rva = 0xEFC33B, bytes = "E8 B0 40 65 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAEB, bytes = "E8 20 C8 64 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAEB, bytes = "E8 20 C8 64 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xEFC33B, sha256 = "154AB814B6300181071259C62C56E82F4F7C8D076A3079D3DF7258C9E3CA6E4E", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAEB, sha256 = "F865BE95B259C748433241342DCAA227CF75EEF6893FBFF4402AE7DD8C0D6FC5", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAEB, sha256 = "F865BE95B259C748433241342DCAA227CF75EEF6893FBFF4402AE7DD8C0D6FC5", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_efc344]
-build."eu4-1.37.5-steam-win64" = { rva = 0xEFC344, bytes = "E8 27 8A 80 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAF4, bytes = "E8 27 40 7F 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAF4, bytes = "E8 27 40 7F 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xEFC344, sha256 = "7FDD914491E5A6ECE1568D5B814CD47C636FD7F640A8A2297B4736427B18DCD0", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xEFAAF4, sha256 = "9935BA084FC15243BA56694CC03C7EB717E0894AEE8D63AAB6EA518396F43E43", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xEFAAF4, sha256 = "9935BA084FC15243BA56694CC03C7EB717E0894AEE8D63AAB6EA518396F43E43", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_f16156]
-build."eu4-1.37.5-steam-win64" = { rva = 0xF16156, bytes = "E8 95 A2 63 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xF14906, bytes = "E8 05 2A 63 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xF14906, bytes = "E8 05 2A 63 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xF16156, sha256 = "18BED003A9981CA9C223CC2990681F5B3CAA0ACA9A7C3ED64103C1FA964B6A50", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xF14906, sha256 = "E6C4D3473A6B694D9BB2A00B9A5DA21703982F9BE34A8A7FB55D4818CE304DA3", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xF14906, sha256 = "E6C4D3473A6B694D9BB2A00B9A5DA21703982F9BE34A8A7FB55D4818CE304DA3", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_f1615e]
-build."eu4-1.37.5-steam-win64" = { rva = 0xF1615E, bytes = "E8 0D EC 7E 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0xF1490E, bytes = "E8 0D A2 7D 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0xF1490E, bytes = "E8 0D A2 7D 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0xF1615E, sha256 = "57C930C17007697DBD7E52B01044F11E8BCB083EBFF4AEA0D879F0A38B4C2EDA", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0xF1490E, sha256 = "6929F5209F15C960CF82A5F6180576F467075071A3F95B0CF3673A493BD82DAD", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0xF1490E, sha256 = "6929F5209F15C960CF82A5F6180576F467075071A3F95B0CF3673A493BD82DAD", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141475]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141475, bytes = "E8 76 EF 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7E5, bytes = "E8 26 BB 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7E5, bytes = "E8 26 BB 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141475, sha256 = "909C4087BA14E69E484DC1D256FDB9FAEE0B4F708896AA4C8784203C7FC0FF21", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7E5, sha256 = "6D141B9554E2BF2D14DE50038E478666E7635960C12270AE5AF58C1F78A55B1F", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7E5, sha256 = "6D141B9554E2BF2D14DE50038E478666E7635960C12270AE5AF58C1F78A55B1F", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_114147e]
-build."eu4-1.37.5-steam-win64" = { rva = 0x114147E, bytes = "E8 ED 38 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7EE, bytes = "E8 2D 33 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7EE, bytes = "E8 2D 33 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x114147E, sha256 = "BBDFC47A8EDA9277E19009B1876999C1AD01CC32B0AB445313883CD1E8ECFE1B", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B7EE, sha256 = "36B8FE4EEA9B78E681BD5766D876973F1711773CBFD19F6405664A550A1BEC49", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B7EE, sha256 = "36B8FE4EEA9B78E681BD5766D876973F1711773CBFD19F6405664A550A1BEC49", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_11414be]
-build."eu4-1.37.5-steam-win64" = { rva = 0x11414BE, bytes = "E8 2D EF 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B82E, bytes = "E8 DD BA 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B82E, bytes = "E8 DD BA 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x11414BE, sha256 = "20CE4765F6A597A4C8B9D3176949E911DB777A9FBB682662CEFB0F1E30FCC015", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B82E, sha256 = "13869A4E297232B6B06B1566F755C0657996322DAE7FF706CD95ED34665DC467", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B82E, sha256 = "13869A4E297232B6B06B1566F755C0657996322DAE7FF706CD95ED34665DC467", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_11414c7]
-build."eu4-1.37.5-steam-win64" = { rva = 0x11414C7, bytes = "E8 A4 38 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B837, bytes = "E8 E4 32 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B837, bytes = "E8 E4 32 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x11414C7, sha256 = "56B29EA8E1CC6DF93F4A93ED2BBF10F4253780CD73CAD884AE0E0F4F2F8FAAD3", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113B837, sha256 = "6499B333A55189DAC93123184D7993E7F97BE134DC9EBBB9294DD29ACBFA6736", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113B837, sha256 = "6499B333A55189DAC93123184D7993E7F97BE134DC9EBBB9294DD29ACBFA6736", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_114187b]
-build."eu4-1.37.5-steam-win64" = { rva = 0x114187B, bytes = "E8 70 EB 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBEB, bytes = "E8 20 B7 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBEB, bytes = "E8 20 B7 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x114187B, sha256 = "54151EB554AE8AB2F906351EC60D24B6191441A678BA1AFAA361C128CB06E585", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBEB, sha256 = "E5EFAFBE8567A78F10F65A5BA3577647DD70588A420B0A6DDC07FB838C050D36", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBEB, sha256 = "E5EFAFBE8567A78F10F65A5BA3577647DD70588A420B0A6DDC07FB838C050D36", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141884]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141884, bytes = "E8 E7 34 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBF4, bytes = "E8 27 2F 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBF4, bytes = "E8 27 2F 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141884, sha256 = "66A22F61E2B93BE1B4569BA12B67C713043A19A07153F44D7F3AD998AEE07BDE", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BBF4, sha256 = "6D09083370DF017ECF87B25EF26F208800E7792B20325FDD7CE46310E71DBDFF", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BBF4, sha256 = "6D09083370DF017ECF87B25EF26F208800E7792B20325FDD7CE46310E71DBDFF", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141b98]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141B98, bytes = "E8 53 E8 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF08, bytes = "E8 03 B4 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF08, bytes = "E8 03 B4 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141B98, sha256 = "C5206D31578EA5DB8E1DD779302E4A293108DA1F4786A0DF4EEB5C24D9A41D37", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF08, sha256 = "E33C94FBB3074482215B53C305841390C0A8B9DAE773C63028F732F6B0C5D1B6", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF08, sha256 = "E33C94FBB3074482215B53C305841390C0A8B9DAE773C63028F732F6B0C5D1B6", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141ba1]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141BA1, bytes = "E8 CA 31 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF11, bytes = "E8 0A 2C 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF11, bytes = "E8 0A 2C 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141BA1, sha256 = "52998783D83474CD80AB2C3F92B3638528D3251B1CB9B4CE4B1C15366707E386", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113BF11, sha256 = "6E3B6FBEE268F0DB0C1530C34711168C370956453E7FB19F0B69A361EE9369D9", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113BF11, sha256 = "6E3B6FBEE268F0DB0C1530C34711168C370956453E7FB19F0B69A361EE9369D9", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1141e9c]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141E9C, bytes = "E8 4F E5 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C20C, bytes = "E8 FF B0 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C20C, bytes = "E8 FF B0 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141E9C, sha256 = "5C10159A99CD6FE668C9C4CDA148F9B26270FA5DC86384E5D6C8929DBDFC901E", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C20C, sha256 = "D3EF616C79C3EBE3A720330B66013B776B61C9994FED3B72330355A60EACD9DF", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C20C, sha256 = "D3EF616C79C3EBE3A720330B66013B776B61C9994FED3B72330355A60EACD9DF", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1141ea6]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1141EA6, bytes = "E8 C5 2E 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C216, bytes = "E8 05 29 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C216, bytes = "E8 05 29 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1141EA6, sha256 = "18712344EF0D27446A4F9B5B6592A0CED35C94369B10775DD266EB239A2133F6", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113C216, sha256 = "77CCB1621166F2CB70F25C5D5009BA54DA5DF123B9E58B926C9B6F9CCBE0C5E6", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113C216, sha256 = "77CCB1621166F2CB70F25C5D5009BA54DA5DF123B9E58B926C9B6F9CCBE0C5E6", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_11434c8]
-build."eu4-1.37.5-steam-win64" = { rva = 0x11434C8, bytes = "E8 23 CF 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113D838, bytes = "E8 D3 9A 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113D838, bytes = "E8 D3 9A 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x11434C8, sha256 = "774FDADE5556E21A0100D3A41D08E1F8DC4EFD383CCC8AA191B329D33B8B8B96", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113D838, sha256 = "0A722F4A3CCEABABD463304E0222B7FF70236E5F98E75345D3494C55025E22B2", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113D838, sha256 = "0A722F4A3CCEABABD463304E0222B7FF70236E5F98E75345D3494C55025E22B2", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1143a7c]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1143A7C, bytes = "E8 6F C9 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDEC, bytes = "E8 1F 95 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDEC, bytes = "E8 1F 95 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1143A7C, sha256 = "F766BC8941F529F3343660AE410990566410943FC64F5545D188BB574902E42D", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDEC, sha256 = "83337ABE60B2C3DF20A1626A5189571F4B626E1EDB4B6BD8F3C56D51167DE593", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDEC, sha256 = "83337ABE60B2C3DF20A1626A5189571F4B626E1EDB4B6BD8F3C56D51167DE593", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1143a86]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1143A86, bytes = "E8 E5 12 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDF6, bytes = "E8 25 0D 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDF6, bytes = "E8 25 0D 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1143A86, sha256 = "2C3C72A539E8BC5DF7B77F17D222738ECD334C3D2B66FC59D1F3B9966462707D", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113DDF6, sha256 = "75895799145A3528A2A53AC43BFCD2362E1C7BCCAE36AA409456BB893B2668EC", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113DDF6, sha256 = "75895799145A3528A2A53AC43BFCD2362E1C7BCCAE36AA409456BB893B2668EC", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"
 
 [symbol.search_lower_call_1144338]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1144338, bytes = "E8 B3 C0 40 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6A8, bytes = "E8 63 8C 40 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6A8, bytes = "E8 63 8C 40 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1144338, sha256 = "D2B899390BC02E8A8DF93EE95DD4CE9C8B36E505BBF867B0218E310BA8C51314", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6A8, sha256 = "324110EB49D677091D0A8105DC0A10675818C7261D8A5097D9D0041D3FF79EC0", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6A8, sha256 = "324110EB49D677091D0A8105DC0A10675818C7261D8A5097D9D0041D3FF79EC0", size = 5 }
 memory = "code"
 note = "call 0x15503F0, per-byte tolower of a search key; the original NOPs it"
 
 [symbol.search_unaccent_call_1144341]
-build."eu4-1.37.5-steam-win64" = { rva = 0x1144341, bytes = "E8 2A 0A 5C 00" }
-build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6B1, bytes = "E8 6A 04 5B 00" }
-build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6B1, bytes = "E8 6A 04 5B 00" }
+build."eu4-1.37.5-steam-win64" = { rva = 0x1144341, sha256 = "5141D837A0096D8062063E524535A6DB5B9F93085C377FC4A61F7560D3CC168C", size = 5 }
+build."eu4-1.37.5.2-gog-win64" = { rva = 0x113E6B1, sha256 = "6B77873836AED63C3EDE69506FC4ACC62C6D762F97384CD425FE945B5F86E8E1", size = 5 }
+build."eu4-1.37.5.0-gog-win64" = { rva = 0x113E6B1, sha256 = "6B77873836AED63C3EDE69506FC4ACC62C6D762F97384CD425FE945B5F86E8E1", size = 5 }
 memory = "code"
 note = "call 0x1704D70, Latin-1 accent stripping of a search key; the original NOPs it"

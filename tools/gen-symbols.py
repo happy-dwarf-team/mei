@@ -4,17 +4,20 @@ Usage: python -I tools/gen-symbols.py <eu4.exe> [upstream] [--build <eu4.exe> <m
 
 It reads the original (the `upstream` submodule): the MinHook table and calls in src/plugin.cpp,
 the stubs in src/*_hooks.asm and the continuation addresses they jump to, and the byte patches.
-The bytes come from <eu4.exe> (EU4 1.37.5 Steam, SHA-256 9AD3EFE1...D771A); `anvil check . --exe`
-then verifies them and the instruction boundaries.
+The bytes are read from <eu4.exe> (EU4 1.37.5 Steam, SHA-256 9AD3EFE1...D771A) and written only
+as their digest, `sha256` and `size` (Anvil ADR 0003, Anvil 1.10), never as the bytes themselves;
+a value that is the same on every build gets its `is`. `anvil check . --exe` then verifies them
+and the instruction boundaries.
 
 Each --build adds a game build (Anvil design 5.2), GOG 1.37.5.2 first: tools/gog-1.37.5.2.json with
-the GOG eu4.exe (SHA-256 D29CF745...155319). A symbol's address comes from the map, its bytes from
-that eu4.exe, shared when they equal every other build's. A symbol the map gives null is `absent`
-on that build (Anvil 1.9).
+the GOG eu4.exe (SHA-256 D29CF745...155319). A symbol's address comes from the map, its digest from
+that eu4.exe, shared when its bytes equal every other build's. A symbol the map gives null is
+`absent` on that build (Anvil 1.9).
 
 A map is the report of `anvil port symbols.toml ... --format json`: `build` and `symbols`. Its
 `symbols` holds only what the port placed, so add what it left by hand: the address, or null.
 """
+import hashlib
 import json
 import re
 import struct
@@ -54,9 +57,13 @@ def at(rva, n, image=None, secs=None):
     raise ValueError(hex(rva))
 
 
+placements = {}  # symbol -> [(build, rva, bytes)], for the values' `is`
+
+
 def where(name, rva, n):
-    """The keys that place a symbol: rva and, with n, its n bytes; in every build with --build."""
+    """The keys that place a symbol: rva and, with n, the digest of its n bytes; in every build with --build."""
     placed, absent = [(STEAM, rva, at(rva, n) if n else None)], []
+    placements[name] = placed
     for build, map_path, image, addresses in further:
         if name not in addresses:
             raise SystemExit(f"{name}: not in {map_path}: add its address for {build}, or null if the build has no such code")
@@ -67,16 +74,33 @@ def where(name, rva, n):
             placed.append((build, other, at(other, n, image, sections_by_build[build]) if n else None))
     missing = ['absent = [' + ", ".join(f'"{build}"' for build in absent) + "]"] if absent else []
     if len(placed) == 1:
-        return [f"rva = 0x{rva:X}"] + ([f'bytes = "{hexbytes(placed[0][2])}"'] if n else []) + missing
+        return [f"rva = 0x{rva:X}"] + (digest(placed[0][2]) if n else []) + missing
     if not n:
         return [f'build."{build}" = {{ rva = 0x{place:X} }}' for build, place, _ in placed] + missing
     if len({code for _, _, code in placed}) == 1:
-        return [f'bytes = "{hexbytes(placed[0][2])}"'] + [f'build."{build}" = {{ rva = 0x{place:X} }}' for build, place, _ in placed] + missing
-    return [f'build."{build}" = {{ rva = 0x{place:X}, bytes = "{hexbytes(code)}" }}' for build, place, code in placed] + missing
+        return digest(placed[0][2]) + [f'build."{build}" = {{ rva = 0x{place:X} }}' for build, place, _ in placed] + missing
+    return [f'build."{build}" = {{ rva = 0x{place:X}, {", ".join(digest(code))} }}' for build, place, code in placed] + missing
 
 
-def hexbytes(b):
-    return " ".join(f"{x:02X}" for x in b)
+def digest(code):
+    """The keys that verify bytes without stating them (Anvil ADR 0003): SHA-256 of the bytes and their count."""
+    return [f'sha256 = "{hashlib.sha256(code).hexdigest().upper()}"', f"size = {len(code)}"]
+
+
+def value_line(symbol, name, fields):
+    """A `values` entry; with `is` when the value its bytes give is the same on every build (as Anvil's
+    tools/symbols-to-digest.py writes it), so that `anvil gen` keeps it a constant."""
+    found = set()
+    for _, rva, code in placements[symbol]:
+        raw = int.from_bytes(code[fields["at"]: fields["at"] + (4 if "rip_relative" in fields else fields["size"])], "little")
+        if "rip_relative" in fields:
+            raw = rva + fields["rip_relative"] + (raw - (1 << 32) if raw >= 1 << 31 else raw)
+        found.add(raw)
+    keys = [f'{key} = "{value}"' if isinstance(value, str) else f"{key} = {value}" for key, value in fields.items()]
+    if len(found) == 1:
+        number = found.pop()
+        keys.append(f"is = 0x{number:X}" if number < 1 << 63 else f'is = "0x{number:X}"')
+    return f"values.{name} = {{ {', '.join(keys)} }}"
 
 
 # Function hooks are declared up to the first instruction boundary at or after 16 bytes
@@ -178,47 +202,47 @@ CALL_SITES = {
 # Where the text field cuts a text to a byte limit (the original hooks std::string assign, which has
 # 17,000 call sites, and picks these by their return addresses; these blocks replace the three calls).
 PREFIX_BLOCKS = {
-    0x153A306: ("prefix_assign_block_153a306", "CTextBuffer::TryToAppendStringToText"),
-    0x153A717: ("prefix_assign_block_153a717", "CTextBuffer::AppendTextToString"),
-    0x153A99B: ("prefix_assign_block_153a99b", "CTextBuffer::InsertStringInToText"),
+    0x153A306: ("prefix_assign_block_153a306", "the text buffer's append of a text that may not fit"),
+    0x153A717: ("prefix_assign_block_153a717", "the text buffer's append of a text to its string"),
+    0x153A99B: ("prefix_assign_block_153a99b", "the text buffer's insertion of a text"),
 }
 # Calls the original picks by where they return on Steam and the plugin redirects instead, so its
 # target sees only that caller (Anvil's redirect_call); a map gives null where a build has no such call.
 REDIRECTS = {
     0x1432256: ("topbar_date_call_1432256",
-                "CTopbarGui::RefreshSpeedControlsWindow: format_localized_date on the top bar's date, which the "
+                "the top bar's refresh of its speed controls: format_localized_date on the top bar's date, which the "
                 "original picks by its return 0x143225B"),
     0x6E5CEF: ("end_of_month_date_call_6e5cef",
-               "CEU3Date::GetEndOfMonthString: concat_localized_date of a month and a year, which the original "
+               "the date's end-of-month text: concat_localized_date of a month and a year, which the original "
                "picks by its return 0x6E5CF4"),
     0x6E61B9: ("month_year_date_call_6e61b9",
-               "CEU3Date::GetLongStringMonthYear: concat_localized_date of a month and a year, which the original "
+               "the date's long month-and-year text: concat_localized_date of a month and a year, which the original "
                "picks by its return 0x6E61BE"),
     0xA52956: ("claim_strength_date_call_a52956",
-               "CMonarchInWaiting::GetClaimStrengthString: concat_localized_date of a month and a year (EU4DLL's M, Y)"),
+               "an heir's claim strength text: concat_localized_date of a month and a year (EU4DLL's M, Y)"),
     0x12BA0E6: ("rebel_date_call_12ba0e6",
-                "CRebelFactionMember::Update: concat_localized_date of a month and a year (EU4DLL's M, Y)"),
+                "a rebel faction's update (the rebels' outliner entry): concat_localized_date of a month and a year (EU4DLL's M, Y)"),
     0x1133A58: ("game_setup_date_call_1133a58",
                 "the game set-up's date: concat_localized_date of a month and a year (EU4DLL's M Y)"),
     0x5CA246: ("save_path_transliterate_call_5ca246",
-               "EU4SaveGameHelper::BuildFullSavePath: transliterate_save_path on the save's path, which the original "
+               "the save's full path: transliterate_save_path on the save's path, which the original "
                "picks by its return 0x5CA24B"),
     0xA901FE: ("presence_conversion_call_a901fe",
                "the Steam Rich Presence text: convert_steam_presence, which the original picks by its return 0xA90203"),
 }
 # Values of blocks, taken from their verified bytes: the original's address(0x...) for the same data.
 VALUES = {
-    "main_copy_block": ['values.copy_buffer = { at = 20, rip_relative = 24, type = "uint8_t" }'],
-    # call rel32 to the game's operator new (the original's g_engine_new)
-    "font_allocate_block": ['values.engine_new = { at = 6, rip_relative = 10 }'],
+    "main_copy_block": [("copy_buffer", {"at": 20, "rip_relative": 24, "type": "uint8_t"})],
+    # the relative call to the game's operator new (the original's g_engine_new)
+    "font_allocate_block": [("engine_new", {"at": 6, "rip_relative": 10})],
 }
 # What the 26 byte patches change (Ghidra, EU4 engine lab docs/anvil-unicode-patch-research.md).
 CALL_TARGETS = {0x1705180: ("save_transliterate", "CP1252 transliteration of a save name"),
                 0x15503F0: ("search_lower", "per-byte tolower of a search key"),
                 0x1704D70: ("search_unaccent", "Latin-1 accent stripping of a search key")}
-CONSTANTS = {0x1595C88: ("font_codepoint_limit", "imm32 of cmp edi, 0xFF in the font loader; the original makes it 0x10FFFF"),
-             0x16C2CBA: ("texture_file_limit", "imm32 of cmp r14d, 0x1000000 before PHYSFS_read; the original makes it 0x4000000"),
-             0x1764E56: ("sdl_ime_ui_less", "lea r14,[rbx+1568h] in the SDL IME set-up; the original jumps past the UI-less TSF manager")}
+CONSTANTS = {0x1595C88: ("font_codepoint_limit", "the font loader's highest code point, 0xFF, as a 32-bit immediate; the original makes it 0x10FFFF"),
+             0x16C2CBA: ("texture_file_limit", "the largest texture file read through PHYSFS_read, 0x1000000, as a 32-bit immediate; the original makes it 0x4000000"),
+             0x1764E56: ("sdl_ime_ui_less", "an address computation in the SDL IME set-up; the original jumps past the UI-less TSF manager")}
 
 asm = {}
 for f in sorted(src.glob("src/*_hooks.asm")):
@@ -260,7 +284,7 @@ for rva, callback, trampoline in hooks:
         out += [f"[symbol.{name}]", *where(name, rva, (end - rva) if end else 5), 'memory = "code"']
         if end:
             out.append(f'resume = "{later[0][1].removeprefix("g_")}"')
-        out += VALUES.get(name, [])
+        out += [value_line(name, value, fields) for value, fields in VALUES.get(name, [])]
         others = [g.removeprefix("g_") for c, g in conts if c != end]
         note = f"{stub}.asm {callback}" + (f"; also continues at {', '.join(others)}" if others else "")
         out += [f'note = "{note}"', ""]
