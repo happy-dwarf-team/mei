@@ -125,7 +125,7 @@ Security problems: report them privately, as [SECURITY.md](SECURITY.md) says.
 | Step (plan in the EU4 engine lab, `docs/anvil-unicode-patch-research.md`) | State |
 | --- | --- |
 | Repository, licence, `plugin.toml`, `settings.toml`, CI workflow | written |
-| `symbols.toml` with the original's 315 symbols and 8 call sites | `anvil check --exe` OK |
+| `symbols.toml` with the original's 315 symbols but the 3 of its `=` speed-key alias, and 8 call sites | `anvil check --exe` OK |
 | Search: 2 hooks, 19 byte patches | on (`search`) |
 | Localisation import: 2 hooks, 1 call | on (`utf8_localization`) |
 | Script and save lexer: 5 hooks | on with `utf8_localization` (`utf8_scripts`) |
