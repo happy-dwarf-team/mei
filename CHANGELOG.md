@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.1](https://github.com/happy-dwarf-team/mei/compare/v0.9.0...v0.9.1) (2026-11-26)
+
+
+### Bug Fixes
+
+* ask whether the Rich Presence call exists before redirecting it ([#96](https://github.com/happy-dwarf-team/mei/issues/96)) ([cf65c7a](https://github.com/happy-dwarf-team/mei/commit/cf65c7a8c23ef16f317040b940ac3ac5972a1369))
+* symbols.toml no longer lists the original's speed-key hook, which Mei does not use and which current Anvil's `anvil check --exe` rejects; nothing changes in the game ([384bc2a](https://github.com/happy-dwarf-team/mei/commit/384bc2abd14ef647da184ccd508a693ace1243f5))
+
+
+### Build
+
+* Mei now needs Anvil 1.10 or newer (was 1.9), because it checks the game's code by its digest instead of a copy of its bytes; nothing else changes for players ([#91](https://github.com/happy-dwarf-team/mei/issues/91)) ([3399c29](https://github.com/happy-dwarf-team/mei/commit/3399c295e19ed98c30dac526dfb6541f6675530b))
+
 ## [0.9.0](https://github.com/happy-dwarf-team/mei/compare/v0.8.1...v0.9.0) (2026-11-18)
 
 
