@@ -234,16 +234,16 @@ struct UnicodePatch : anvil::Plugin {
     }
 
     // The UTF-8 text reaches Steam's Rich Presence as it is. Only the Steam build has
-    // the call (symbols.toml declares it absent on the GOG builds).
+    // the call (symbols.toml declares it absent on the GOG builds). Asking first keeps
+    // Anvil's log free of a refused redirect, which it writes as a warning.
     void load_rich_presence(anvil::Host& host) {
-        try {
-            g_assign_text = host.function(sym::assign_editor_prefix);
-            host.redirect(g_presence, sym::presence_conversion_call_a901fe, on_presence_conversion);
-            host.info("Steam Rich Presence in UTF-8: 1 call");
-        } catch (const anvil::Error& e) {
-            if (e.result() != ANVIL_ERROR_NOT_DECLARED) throw;
+        if (!host.present(sym::presence_conversion_call_a901fe)) {
             host.info("Steam Rich Presence: no such call on this build");
+            return;
         }
+        g_assign_text = host.function(sym::assign_editor_prefix);
+        host.redirect(g_presence, sym::presence_conversion_call_a901fe, on_presence_conversion);
+        host.info("Steam Rich Presence in UTF-8: 1 call");
     }
 
     // Where the calls the original recognises return in this build: their call
